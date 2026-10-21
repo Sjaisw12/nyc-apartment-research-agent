@@ -65,7 +65,7 @@ Unchanged: the Task 1 violations cassette, all Task 1 and Phase 1 tests, and `da
 | `ruff format` / `ruff check` | clean |
 | Resolver benchmark replay | unchanged (see section 1) |
 
-CI on the pushed commit is listed in the PR/commit checks. Section 10 records the run.
+GitHub Actions CI on `94347a4`: green (run 39692222752).
 
 ## 4. Counts: problems and complaints, separately
 
@@ -175,4 +175,4 @@ Rules are phrase matches on HPD's own template text, applied most specific first
 2. **Task 1 closure** still needs his three HPD Online checks ([`data/eval/hpd_validation.md`](../data/eval/hpd_validation.md)). When the results arrive, they are reconciled there, the affected tests are rerun, and the Task 1 closure report follows.
 3. Optional: add a short complaints section to the HPD Online checklist (problem and complaint counts for the test building), so Task 2 also gets an independent check.
 
-CI for the pushed commit: _recorded after push._
+CI for commit `94347a4`: run [39692222752](https://github.com/Sjaisw12/nyc-apartment-research-agent/actions/runs/39692222752) green (lint, format, offline suite, 24-address benchmark replay).

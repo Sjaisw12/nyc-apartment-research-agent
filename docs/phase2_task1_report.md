@@ -44,6 +44,8 @@ Modified:
 | `RUN_LIVE_TESTS=1 uv run pytest -q tests/live` | **9 passed** (5 Phase 1 + 4 new), against the live APIs on 2026-10-21 |
 | `uv run ruff check .` / `ruff format --check .` | clean |
 | `uv run python scripts/evaluate_resolver.py` | unchanged from Phase 1 (numbers above) |
+| GitHub Actions CI on commit 06c1d28 | **success**: https://github.com/Sjaisw12/nyc-apartment-research-agent/actions/runs/39679527838 |
+| Clean clone + `uv sync --locked` + full suite | 245 passed, 9 skipped |
 
 What the tests show, against the approval conditions:
 

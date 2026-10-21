@@ -1,0 +1,181 @@
+# Address resolver: design v2 (for final approval)
+
+**Status:** design only, no resolver code written. v2 adds your six requirements from 2026-10-21 06:30.
+
+## 1. Three outcomes
+
+| Outcome | When | What the user sees |
+|---|---|---|
+| `verified` | Exactly one building passes every check, including a confirmed borough | The building, why it was accepted, and a confirm button |
+| `ambiguous` | More than one building fits, or the only fit needed a correction (typo, missing hyphen, wrong borough), or official sources disagree | The options, what is uncertain about each, and a request to choose |
+| `no_reliable_match` | Nothing passes, the house number is missing, or the input is outside NYC | Why it was rejected and what to add; no report is generated |
+
+A source failure (timeout, 5xx, 429 after retries) is a fourth, separate **error** state, `source_unavailable`. It is never reported as "no match".
+
+GeoSearch's `confidence` and `match_type` are recorded for audit but **never used in decisions**. Measured on 2026-10-21, "99999 Broadway" returned real Broadway buildings with the same 0.8 confidence as a correct match.
+
+## 2. Pipeline
+
+### Step 1: parse the input (pure code, no network)
+
+- **House number.** Keeps Queens hyphens and letter suffixes like `1A`. The house number is never fuzzy-matched.
+- **Street.** Normalized deterministically:
+  - case and whitespace
+  - suffixes (`ST` to `STREET`)
+  - directions (`E` to `EAST`)
+  - ordinals (`2nd`, `Second` and `2` all become `2`)
+- **Borough, if stated.** Recognized names: Manhattan / New York / NY, Bronx, Brooklyn / Kings, Queens, Staten Island / Richmond.
+- **ZIP**, if present.
+- If there is no house number, the result is `no_reliable_match` before any API call.
+
+### Step 2: fetch candidates
+
+GeoSearch `/v2/search` through the existing bounded client.
+
+### Step 3: collapse aliases
+
+Candidates with the same (BBL, BIN) become one building. All spellings are kept as aliases, so "100 B'WAY" and "100 BROADWAY" count once.
+
+### Step 4: check each candidate independently
+
+| Check | Values |
+|---|---|
+| House number | `exact` · `hyphen_only` (3343 vs 33-43) · `mismatch` |
+| Street | `exact` · `alias` (another PAD spelling of the same building) · `near` (edit distance ≤ 2 on the street name only) · `mismatch` |
+| Borough | `stated_match` · `inferred` (see step 5) · `stated_conflict` · `unknown` |
+| BBL | `valid` · `invalid` |
+| BIN | `confirmed` · `unresolved_placeholder` · `unresolved_missing` · `unresolved_conflict` (see step 6) |
+
+### Step 5: borough, confirmed or inferred (requirement 1)
+
+- **If the user stated a borough,** a candidate's borough must equal it.
+- **If the user did not state one,** the resolver may infer it, but only from authoritative data. It sends one GeoSearch query per borough, five in total, each text plus borough name, and checks for a candidate with an `exact` house number, an `exact` or `alias` street, and that borough.
+  - If exactly one borough has such a match, the borough is `inferred` and counts as confirmed. The explanation says so: "No borough given; this address exists only in Brooklyn among PAD records returned for all five boroughs."
+  - If two or more boroughs match, the result is `ambiguous`.
+  - If none match, the result is `no_reliable_match`.
+- A ZIP is a supporting hint only (some ZIPs cross boroughs). If a ZIP was given and it differs from the candidate's PAD postal code, the result is downgraded to `ambiguous`.
+
+Feasibility was checked live on 2026-10-21 with a throwaway script:
+
+| Input (no borough) | Boroughs with an exact match | Result |
+|---|---|---|
+| 100 Broadway | Manhattan, Brooklyn | ambiguous |
+| 1 Center St | Manhattan, Bronx | ambiguous |
+| 530 2nd Street | Brooklyn | inferred |
+| 1134 West Farms Rd | Bronx | inferred |
+| 1279 First Avenue | Manhattan | inferred |
+| 33-43 14th Street | Queens | inferred |
+| 99999 Broadway | none | no reliable match |
+
+*Residual risk:* inference depends on GeoSearch returning an address that exists when the borough is named. If PAD is missing an address in one borough, the resolver could infer the wrong borough. That is why the inferred borough is shown to the user, and the benchmark will include inferred-borough rows.
+
+### Step 6: cross-check identifiers with Building Footprints (requirement 3)
+
+For the selected candidate, one Socrata request asks Footprints which lot the PAD BIN stands on, and which BINs stand on the PAD lot.
+
+| Situation | Resulting BIN status | Effect on the outcome |
+|---|---|---|
+| BIN is on the same lot (base or billing lot, which covers condos like 55 Austin Pl) | `confirmed` | none |
+| PAD BIN is a placeholder (`n000000`) | `unresolved_placeholder` | stays `verified` for the lot; BIN stored as `null` |
+| PAD gave no BIN | `unresolved_missing` | same as above |
+| Footprints puts the BIN on a different lot (as with 1A Centre St) | `unresolved_conflict` | downgraded to `ambiguous`; both lots are shown with the source of each |
+| Footprints has no record of the BIN | `confirmed_pad_only` | allowed, flagged in the explanation |
+
+Two rules hold throughout:
+
+- **Never invent, never overwrite.** The resolver never replaces PAD's BIN with a Footprints BIN, and never fills a missing BIN from Footprints, even when the lot has exactly one footprint. That candidate BIN may appear in the explanation as context ("Footprints shows one building on this lot, BIN 2128717; not confirmed for this address"), but it is not stored as the building's identifier.
+- **No joins on placeholders.** Building-level sources keyed by BIN are then reported as "unavailable: building number unresolved".
+
+### Step 7: decide
+
+1. **Strict match** means all of these hold:
+   - house number `exact`
+   - street `exact` or `alias`
+   - borough `stated_match` or `inferred`
+   - BBL `valid`
+   - BIN not `unresolved_conflict`
+2. Exactly 1 distinct building with a strict match gives `verified`.
+3. 2 or more give `ambiguous`.
+4. 0 strict but at least one **weak** match gives `ambiguous`. A weak match is one of:
+   - house number `hyphen_only`
+   - street `near` (typo, requirement 2)
+   - borough `stated_conflict`
+   - BIN `unresolved_conflict`
+
+   Weak matches are never auto-selected.
+5. Otherwise the result is `no_reliable_match`.
+
+## 3. Explanations (requirement 6)
+
+Every result carries:
+
+- **`explanation`**: one plain-English sentence for the UI. For example: "Rejected: no building numbered 99999 on BROADWAY in Manhattan; GeoSearch's nearest results (1, 5, 23, 98 Broadway) have different house numbers."
+- **`reasons`**: machine-readable codes such as `HOUSE_NUMBER_MISMATCH`, `BOROUGH_INFERRED`, `STREET_TYPO`, `BIN_PLACEHOLDER` and `BIN_LOT_CONFLICT`.
+- **`checks`**: the full per-candidate check table from step 4, for audit and the evidence panel.
+- **`provenance`**: GeoSearch URLs, PAD version, Footprints URL, and the fetch time.
+
+## 4. Output model (sketch)
+
+```
+ResolutionResult
+  outcome: verified | ambiguous | no_reliable_match
+  explanation: str
+  reasons: [ReasonCode]
+  input: {raw, house_number, street, borough, borough_source: stated|inferred|unknown, zip}
+  building: {bbl, bin | null, bin_status, label, aliases, borough}   # verified only
+  options: [{building..., checks..., why_uncertain}]                  # ambiguous only
+  checks: [per-candidate check table]
+  provenance: {...}
+```
+
+## 5. Files (when approved)
+
+- `backend/src/nyc_apartment_agent/resolver/`:
+  - `normalize.py`: parsing and normalization
+  - `models.py`: the result model
+  - `checks.py`: per-candidate checks
+  - `resolve.py`: the pipeline and decision rules
+- `backend/src/nyc_apartment_agent/sources/footprints.py`: the Footprints adapter
+- Tests: `backend/tests/unit/test_normalize.py`, `test_checks.py`, `test_resolver.py`, all run offline on saved real responses
+- `backend/scripts/evaluate_resolver.py`: runs the benchmark and prints the metrics in section 7
+- Saved GeoSearch and Footprints responses for every benchmark input
+
+## 6. Regression tests
+
+- **False match:** "99999 Broadway, New York" gives `no_reliable_match` with `HOUSE_NUMBER_MISMATCH`, even though GeoSearch returned 5 candidates.
+- **Unknown BINs:**
+  - "1217 West Farms Rd, Bronx" gives `verified` for lot 2029930031, with `bin: null` and `unresolved_placeholder`. 2128717 is never stored as its BIN.
+  - At 873 E 228 St, the GARAGE placeholder record is never chosen over BIN 2130638.
+  - 1A Centre St gives `ambiguous` with `unresolved_conflict`.
+  - A test asserts that no BIN-keyed query is ever built from a placeholder or unresolved BIN.
+- **Ambiguous:**
+  - 100 Broadway and 1 Center St (two boroughs)
+  - 3343 14th St, Queens (hyphen)
+  - 530 2nd Stret, Brooklyn (typo)
+  - 1134 West Farms Rd, Brooklyn (borough conflict)
+- **No reliable match:** "Broadway, Manhattan" (no number), a Washington DC address, nonsense text, empty input, oversized input.
+- **Valid:** N01 to N06, E12, E15 and E20 give `verified` with the approved BBL/BIN. Alias spellings collapse to one building.
+- **Borough inference:** "530 2nd Street" (no borough) gives `verified` with `borough_source: inferred`. A ZIP that conflicts with the candidate gives `ambiguous`.
+- **Failures:** a GeoSearch or Footprints timeout or 5xx gives `source_unavailable`, never `no_reliable_match` and never `verified`.
+
+## 7. Benchmark reporting (requirement 5)
+
+Each metric is reported separately with counts, not one blended accuracy number.
+
+| Metric | Definition | Goal |
+|---|---|---|
+| **Incorrect automatic matches** | `verified` on the wrong BBL or BIN, **or** `verified` on a row whose expected outcome is `ambiguous` or `no_reliable_match` | **0** |
+| Correct automatic matches | `verified` with the correct BBL (and BIN where labelled) ÷ rows expected `verified` | Report as-is |
+| Ambiguity handled | `ambiguous` with the correct building among the options ÷ rows expected `ambiguous` | Report as-is |
+| Correct abstentions | `no_reliable_match` ÷ rows expected `no_reliable_match` | Report as-is |
+| Over-cautious | Expected `verified` but returned `ambiguous` | Report as-is (safe, but costs the user a click) |
+| BIN preserved as unresolved | Rows where a placeholder or conflicting BIN stayed `null` | Must equal all such rows |
+
+**Caveat, stated wherever results appear:** 20 (or 24) hand-picked addresses are a small acceptance test. Zero incorrect auto-matches here does not prove citywide accuracy. A random sample (for example, drawn from PLUTO) would be the next step for a stronger claim.
+
+## 8. Costs and trade-offs
+
+- **Requests per lookup:** 1 GeoSearch call plus 1 Footprints call. Add 5 GeoSearch calls only when no borough is given. GeoSearch answered in roughly 0.05 to 0.5 s per call in testing.
+- **Strictness:** typos, missing hyphens and borough conflicts always ask the user. That adds clicks but keeps incorrect auto-matches at zero.
+- **Edit distance:** limited to 2, on the street name only. A typo bigger than that gives `no_reliable_match` with a suggestion to check the spelling.
+- **No Geoclient API:** it needs a key and is not in the roadmap.

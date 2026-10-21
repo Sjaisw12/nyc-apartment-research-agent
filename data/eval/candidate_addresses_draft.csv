@@ -1,21 +1,21 @@
 id,query,category,expected_behavior,pluto_lookups,hpd_lookup,notes,proposed_bbl,proposed_bin,label_status
-N01,"1134 West Farms Rd, Bronx, NY 10459",normal,select,BX|1134 WEST FARMS ROAD,2|1134|WEST FARMS ROAD,Project test building; residential rental with HPD records,2027540005,2006185,proposed
-N02,"350 5th Avenue, New York, NY 10118",normal,select,MN|338 5 AVENUE,1|338|5 AVENUE,Empire State Building; non-residential; PLUTO and HPD list the lot as 338 5 Avenue,1008350041,1015862,proposed
-N03,"530 2nd Street, Brooklyn, NY 11215",normal,select,BK|530 2 STREET,3|530|2 STREET,Park Slope walk-up rental under HPD jurisdiction,3010780016,3025292,proposed
-N04,"33-43 14th Street, Astoria, NY 11106",normal,select,QN|33-43 14 STREET,4|33-43|14 STREET,Queens hyphenated house number; neighborhood name instead of borough,4005280050,4430813,proposed
-N05,"100 Belmont Place, Staten Island, NY 10301",normal,select,SI|100 BELMONT PLACE,5|100|BELMONT PLACE,Staten Island rental under HPD jurisdiction,5000200008,5112989,proposed
-N06,"1279 First Avenue, Manhattan",normal,select,MN|1279 1 AVENUE,1|1279|1 AVENUE,Spelled-out ordinal street name; no ZIP,1014430030,1044761,proposed
-A07,100 Broadway,ambiguous,clarify,MN|100 BROADWAY;BK|100 BROADWAY,,No borough; exists in Manhattan and Brooklyn,1000460003|3021310001,1001024|3324734,proposed_options
-A08,1 Center St,ambiguous,clarify,MN|1 CENTRE STREET,,No borough; CENTER/CENTRE alias; GeoSearch also returns a Bronx 1 Center St,1001210001|2056270046,1001394|2103477,proposed_options
-A09,"3343 14th St, Queens",ambiguous,select_or_clarify,QN|33-43 14 STREET,4|33-43|14 STREET,Queens hyphen omitted; should map to N04 or ask,4005280050,4430813,proposed
-A10,"Broadway, Manhattan",ambiguous,clarify,,,No house number,,,no_label
-A11,"1134 West Farms Rd, Brooklyn",ambiguous,clarify,BX|1134 WEST FARMS ROAD,,Wrong borough; street only exists in the Bronx,2027540005,2006185,proposed_options
-E12,"873 East 228th Street, Bronx",edge,select,BX|873 EAST 228 STREET,2|873|EAST 228 STREET,Same lot has a GARAGE record with placeholder BIN 2000000,2048530011,2130638,proposed
-E13,"1217 West Farms Road, Bronx",edge,select_bbl_flag_bin,,,GeoSearch returns placeholder BIN 2000000; lot's PLUTO address differs,2029930031,,bin_unresolved
-E14,"1A Centre Street, Manhattan",edge,select_or_clarify,MN|1 CENTRE STREET,,Same tax lot as 1 Centre St but a different BIN in PAD,1001210001,1091024,sources_disagree
-E15,"55 Austin Place, Staten Island, NY 10304",edge,select,SI|55 AUSTIN PLACE,5|55|AUSTIN PLACE,Condominium billing lot (lot 75xx),5005797501,5112220,proposed
-E16,"530 2nd Stret, Brooklyn",edge,select_or_clarify,BK|530 2 STREET,3|530|2 STREET,Typo in street type; same building as N03,3010780016,3025292,proposed
-E17,"99999 Broadway, New York, NY",edge,abstain,,,House number that should not exist,,,no_label
-E18,"1600 Pennsylvania Avenue NW, Washington, DC 20500",edge,abstain,,,Outside NYC; Brooklyn also has a Pennsylvania Avenue,,,no_label
-E19,zzqx qqzz nowhere,edge,abstain,,,Nonsense input,,,no_label
-E20,"1310 Pennsylvania Avenue, Brooklyn, NY 11239",edge,select_or_clarify,BK|1310 PENNSYLVANIA AVENUE,,Large multi-building complex; one lot may hold many BINs,3044520001,3342903,proposed
+N01,"1134 West Farms Rd, Bronx, NY 10459",normal,verified,BX|1134 WEST FARMS ROAD,2|1134|WEST FARMS ROAD,Project test building; residential rental with HPD records,2027540005,2006185,proposed
+N02,"350 5th Avenue, New York, NY 10118",normal,verified,MN|338 5 AVENUE,1|338|5 AVENUE,Empire State Building; non-residential; PLUTO and HPD list the lot as 338 5 Avenue,1008350041,1015862,proposed
+N03,"530 2nd Street, Brooklyn, NY 11215",normal,verified,BK|530 2 STREET,3|530|2 STREET,Park Slope walk-up rental under HPD jurisdiction,3010780016,3025292,proposed
+N04,"33-43 14th Street, Astoria, NY 11106",normal,verified,QN|33-43 14 STREET,4|33-43|14 STREET,Queens hyphenated house number; neighborhood name instead of borough,4005280050,4430813,proposed
+N05,"100 Belmont Place, Staten Island, NY 10301",normal,verified,SI|100 BELMONT PLACE,5|100|BELMONT PLACE,Staten Island rental under HPD jurisdiction,5000200008,5112989,proposed
+N06,"1279 First Avenue, Manhattan",normal,verified,MN|1279 1 AVENUE,1|1279|1 AVENUE,Spelled-out ordinal street name; no ZIP,1014430030,1044761,proposed
+A07,100 Broadway,ambiguous,ambiguous,MN|100 BROADWAY;BK|100 BROADWAY,,No borough; exists in Manhattan and Brooklyn,1000460003|3021310001,1001024|3324734,proposed_options
+A08,1 Center St,ambiguous,ambiguous,MN|1 CENTRE STREET,,No borough; CENTER/CENTRE alias; GeoSearch also returns a Bronx 1 Center St,1001210001|2056270046,1001394|2103477,proposed_options
+A09,"3343 14th St, Queens",ambiguous,ambiguous,QN|33-43 14 STREET,4|33-43|14 STREET,Queens hyphen omitted; should map to N04 or ask,4005280050,4430813,proposed
+A10,"Broadway, Manhattan",ambiguous,no_reliable_match,,,No house number,,,no_label
+A11,"1134 West Farms Rd, Brooklyn",ambiguous,ambiguous,BX|1134 WEST FARMS ROAD,,Wrong borough; street only exists in the Bronx,2027540005,2006185,proposed_options
+E12,"873 East 228th Street, Bronx",edge,verified,BX|873 EAST 228 STREET,2|873|EAST 228 STREET,Same lot has a GARAGE record with placeholder BIN 2000000,2048530011,2130638,proposed
+E13,"1217 West Farms Road, Bronx",edge,verified,,,GeoSearch returns placeholder BIN 2000000; lot's PLUTO address differs; only footprint on lot is 2128717 (not used as label),2029930031,,bin_unresolved
+E14,"1A Centre Street, Manhattan",edge,ambiguous,MN|1 CENTRE STREET,,"Same tax lot as 1 Centre St but a different BIN in PAD; PAD BIN 1091024 conflicts with Footprints lot, kept unresolved",1001210001,,sources_disagree
+E15,"55 Austin Place, Staten Island, NY 10304",edge,verified,SI|55 AUSTIN PLACE,5|55|AUSTIN PLACE,Condominium billing lot (lot 75xx),5005797501,5112220,proposed
+E16,"530 2nd Stret, Brooklyn",edge,ambiguous,BK|530 2 STREET,3|530|2 STREET,Typo in street type; same building as N03,3010780016,3025292,proposed
+E17,"99999 Broadway, New York, NY",edge,no_reliable_match,,,House number that should not exist,,,no_label
+E18,"1600 Pennsylvania Avenue NW, Washington, DC 20500",edge,no_reliable_match,,,Outside NYC; Brooklyn also has a Pennsylvania Avenue,,,no_label
+E19,zzqx qqzz nowhere,edge,no_reliable_match,,,Nonsense input,,,no_label
+E20,"1310 Pennsylvania Avenue, Brooklyn, NY 11239",edge,verified,BK|1310 PENNSYLVANIA AVENUE,,Large multi-building complex; one lot may hold many BINs,3044520001,3342903,proposed

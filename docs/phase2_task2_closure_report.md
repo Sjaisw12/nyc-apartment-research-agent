@@ -93,7 +93,7 @@ It explains that complaints and problems differ, and that HPD Online may present
 | Live suite (`RUN_LIVE_TESTS=1`) | **16 passed** (was 15; +1 live evidence test) |
 | `ruff format --check`, `ruff check` | clean |
 | Phase 1 benchmark replay | unchanged: 14/14 correct, 0 wrong-building matches, 6/6 ambiguous handled, 4/4 abstentions, 2/2 unresolved BINs preserved |
-| GitHub Actions CI | see section 9 |
+| GitHub Actions CI | green on `a327080` (run 39694295593) |
 
 **Count changes:** none. All Task 1 and Task 2 counts, buckets, flags and coverage figures are as in the first reports.
 
@@ -120,4 +120,4 @@ It explains that complaints and problems differ, and that HPD Online may present
 
 ## 9. CI
 
-_Recorded after push._
+GitHub Actions CI on `a327080`: run [39694295593](https://github.com/Sjaisw12/nyc-apartment-research-agent/actions/runs/39694295593) **green** (lint, format, offline suite, 24-address benchmark replay).

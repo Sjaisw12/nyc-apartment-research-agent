@@ -1,0 +1,13 @@
+{
+  "attempts": 1,
+  "body_sha256": "6132c89295940648ee88289fb08fb982306945cf63b15a1bd7bb9a4ace161796",
+  "elapsed_seconds": 0.483,
+  "fetched_at": "2026-10-21T06:05:40.305123+00:00",
+  "headers": {
+    "date": "Wed, 21 Oct 2026 06:05:40 GMT",
+    "etag": "W/\"158f-fg4fk9kHNx1Orw0LciYJTfR0NDk\""
+  },
+  "source": "geosearch",
+  "status_code": 200,
+  "url": "https://geosearch.planninglabs.nyc/v2/search?text=1134+West+Farms+Rd+Bronx&size=5"
+}

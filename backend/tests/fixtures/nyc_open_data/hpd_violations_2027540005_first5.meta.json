@@ -1,0 +1,19 @@
+{
+  "attempts": 1,
+  "body_sha256": "6b7ab9628dbd04eff80e2dc28572896d6b122a408e9257c23def4e0e0e5cbbf2",
+  "elapsed_seconds": 0.475,
+  "fetched_at": "2026-10-21T06:05:48.803413+00:00",
+  "headers": {
+    "date": "Wed, 21 Oct 2026 06:05:48 GMT",
+    "etag": "\"Zm94dHJvdC4xNTY5MF80XzM0MjVsVzI4bEdDLUo3djlkQ2tDamkzdW55RFR1Vm8---gziqkxJLE9OkgBj48-TvqVqB_1qSW6A--gzip--gzip\"",
+    "last-modified": "Tue, 20 Oct 2026 14:55:26 GMT",
+    "x-socrata-requestid": "7532fccf0c4d6e5069ed303f17799f80",
+    "x-soda2-data-out-of-date": "false",
+    "x-soda2-fields": "[\"violationid\",\"buildingid\",\"registrationid\",\"boroid\",\"boro\",\"housenumber\",\"lowhousenumber\",\"highhousenumber\",\"streetname\",\"streetcode\",\"zip\",\"apartment\",\"story\",\"block\",\"lot\",\"class\",\"inspectiondate\",\"approveddate\",\"originalcertifybydate\",\"originalcorrectbydate\",\"newcertifybydate\",\"newcorrectbydate\",\"certifieddate\",\"ordernumber\",\"novid\",\"novdescription\",\"novissueddate\",\"currentstatusid\",\"currentstatus\",\"currentstatusdate\",\"novtype\",\"violationstatus\",\"rentimpairing\",\"latitude\",\"longitude\",\"communityboard\",\"councildistrict\",\"censustract\",\"bin\",\"bbl\",\"nta\"]",
+    "x-soda2-truth-last-modified": "Tue, 20 Oct 2026 14:55:26 GMT",
+    "x-soda2-types": "[\"number\",\"number\",\"number\",\"number\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"number\",\"number\",\"text\",\"floating_timestamp\",\"floating_timestamp\",\"floating_timestamp\",\"floating_timestamp\",\"floating_timestamp\",\"floating_timestamp\",\"floating_timestamp\",\"text\",\"number\",\"text\",\"floating_timestamp\",\"number\",\"text\",\"floating_timestamp\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\"]"
+  },
+  "source": "nyc_open_data",
+  "status_code": 200,
+  "url": "https://data.cityofnewyork.us/resource/wvxf-dwi5.json?%24where=bbl%3D%272027540005%27&%24order=violationid&%24limit=5&%24offset=0"
+}

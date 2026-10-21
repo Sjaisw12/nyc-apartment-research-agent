@@ -1,0 +1,19 @@
+{
+  "attempts": 1,
+  "body_sha256": "bd71141a65ef906aa497a1259e07c563e0fe64f86a7234f90066a50c8f3671f9",
+  "elapsed_seconds": 1.298,
+  "fetched_at": "2026-10-21T06:05:50.580285+00:00",
+  "headers": {
+    "date": "Wed, 21 Oct 2026 06:05:50 GMT",
+    "etag": "\"aW5kaWEuMTQzMDFfM18xMjY0LW9haGF6V0RFZm9iSzlScWxiX21hVEk3U2dZ---gzipSWcI8HsEKfDljP9tCW5WN4iCLY0--gzip--gzip\"",
+    "last-modified": "Tue, 20 Oct 2026 14:10:50 GMT",
+    "x-socrata-requestid": "bebe79aebccf77d0d646d37b3bea0d64",
+    "x-soda2-data-out-of-date": "false",
+    "x-soda2-fields": "[\"received_date\",\"problem_id\",\"complaint_id\",\"building_id\",\"borough\",\"house_number\",\"street_name\",\"post_code\",\"block\",\"lot\",\"apartment\",\"community_board\",\"unit_type\",\"space_type\",\"type\",\"major_category\",\"minor_category\",\"problem_code\",\"complaint_status\",\"complaint_status_date\",\"problem_status\",\"problem_status_date\",\"status_description\",\"problem_duplicate_flag\",\"complaint_anonymous_flag\",\"unique_key\",\"latitude\",\"longitude\",\"council_district\",\"census_tract\",\"bin\",\"bbl\",\"nta\"]",
+    "x-soda2-truth-last-modified": "Tue, 20 Oct 2026 14:10:50 GMT",
+    "x-soda2-types": "[\"floating_timestamp\",\"number\",\"number\",\"number\",\"text\",\"text\",\"text\",\"text\",\"number\",\"number\",\"text\",\"number\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"floating_timestamp\",\"text\",\"floating_timestamp\",\"text\",\"text\",\"text\",\"text\",\"number\",\"number\",\"number\",\"number\",\"number\",\"number\",\"text\"]"
+  },
+  "source": "nyc_open_data",
+  "status_code": 200,
+  "url": "https://data.cityofnewyork.us/resource/ygpa-z7cr.json?%24where=bbl%3D%272027540005%27&%24order=problem_id&%24limit=5&%24offset=0"
+}

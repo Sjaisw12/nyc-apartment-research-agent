@@ -1,0 +1,13 @@
+{
+  "attempts": 1,
+  "body_sha256": "14b8c5026b4c80c6cf042b6bbd0f852cec08a37905f488f61600dc23990f102e",
+  "elapsed_seconds": 0.111,
+  "fetched_at": "2026-10-21T06:05:40.519591+00:00",
+  "headers": {
+    "date": "Wed, 21 Oct 2026 06:05:40 GMT",
+    "etag": "W/\"1516-JeUyfoOkGH8eB3VPWnvlw11dRQw\""
+  },
+  "source": "geosearch",
+  "status_code": 200,
+  "url": "https://geosearch.planninglabs.nyc/v2/search?text=1+Centre+St+Manhattan&size=5"
+}

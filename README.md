@@ -12,6 +12,46 @@ Enter an NYC address and the system will:
 
 This is not legal advice or an automated lease approval tool.
 
+## Status
+
+**Phase 1, task 1 done (pending review):** repository skeleton, a shared HTTP client with
+timeouts and bounded retries, GeoSearch and HPD adapters, offline and live smoke tests, and a
+draft set of 20 test addresses. The address resolver is the next task.
+
+## Repository layout
+
+```
+backend/                     Python package (FastAPI service arrives in a later task)
+  src/nyc_apartment_agent/
+    config.py                settings from environment variables / .env
+    errors.py                typed errors for every way a source can fail
+    http_client.py           timeouts, bounded retries for 429/5xx, provenance headers
+    identifiers.py           BBL/BIN validation, placeholder-BIN detection
+    sources/                 one adapter per external source (GeoSearch, HPD)
+  scripts/
+    smoke_sources.py         live check; saves hashed, timestamped fixtures
+    collect_address_evidence.py  evidence for the test-address set
+  tests/
+    unit/                    offline tests (default)
+    live/                    real-API tests (opt in)
+    fixtures/                real responses captured by smoke_sources.py
+data/eval/                   draft test addresses, evidence, review notes
+docs/                        source registry and investigations
+```
+
+## Quick start
+
+Requires Python 3.12+ and [uv](https://docs.astral.sh/uv/).
+
+```bash
+cp .env.example .env            # optional: add SOCRATA_APP_TOKEN
+cd backend
+uv sync                         # installs locked dependencies
+uv run pytest                   # offline tests, no network needed
+RUN_LIVE_TESTS=1 uv run pytest tests/live -v   # hits the real NYC APIs
+uv run python scripts/smoke_sources.py         # refresh fixtures + smoke report
+```
+
 ## Planned stack
 
 - **Agent:** LangGraph
@@ -20,6 +60,7 @@ This is not legal advice or an automated lease approval tool.
 - **Hosting:** Vercel (frontend), Render or Railway (backend)
 - **Quality:** pytest, Playwright, Docker, GitHub Actions
 
-## Status
+## License
 
-Phase 1 (data source verification and building resolution) is in progress. Development follows a seven-phase roadmap, and each phase is implemented, tested, and verified before the next one starts.
+Source code: MIT, see [LICENSE](LICENSE). Data and dependencies keep their own terms, see
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

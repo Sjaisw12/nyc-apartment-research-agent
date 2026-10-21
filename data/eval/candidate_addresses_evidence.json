@@ -1,0 +1,2220 @@
+{
+  "collected_at": "2026-10-21T06:12:25.374622+00:00",
+  "rows": [
+    {
+      "id": "N01",
+      "query": "1134 West Farms Rd, Bronx, NY 10459",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "1134 WEST FARMS ROAD, Bronx, NY, USA",
+          "bbl": "2027540005",
+          "bin": "2006185",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1217 WEST FARMS ROAD, Bronx, NY, USA",
+          "bbl": "2029930031",
+          "bin": "2000000",
+          "bin_status": "unassigned_placeholder",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1223 WEST FARMS ROAD, Bronx, NY, USA",
+          "bbl": "2029930031",
+          "bin": "2000000",
+          "bin_status": "unassigned_placeholder",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1235 WEST FARMS ROAD, Bronx, NY, USA",
+          "bbl": "2029930031",
+          "bin": "2000000",
+          "bin_status": "unassigned_placeholder",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1243 WEST FARMS ROAD, Bronx, NY, USA",
+          "bbl": "2029930031",
+          "bin": "2000000",
+          "bin_status": "unassigned_placeholder",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [
+        {
+          "lookup": "BX|1134 WEST FARMS ROAD",
+          "bbl": "2027540005",
+          "borough": "BX",
+          "address": "1134 WEST FARMS ROAD",
+          "bldgclass": "C1",
+          "numbldgs": "2",
+          "unitsres": "43",
+          "version": "26v2",
+          "footprint_bins": [
+            {
+              "bin": "2006185",
+              "base_bbl": "2027540005",
+              "mappluto_bbl": "2027540005",
+              "construction_year": "1926",
+              "last_status_type": "Constructed"
+            },
+            {
+              "bin": "2117584",
+              "base_bbl": "2027540005",
+              "mappluto_bbl": "2027540005",
+              "construction_year": "1926",
+              "last_status_type": "Constructed"
+            }
+          ]
+        }
+      ],
+      "hpd_buildings": [
+        {
+          "buildingid": "122027",
+          "boroid": "2",
+          "housenumber": "1134",
+          "streetname": "WEST FARMS ROAD",
+          "zip": "10459",
+          "block": "2754",
+          "lot": "5",
+          "bin": "2006185",
+          "recordstatus": "Active",
+          "lifecycle": "Building",
+          "legalclassa": "44",
+          "bbl": "2027540005"
+        }
+      ],
+      "top_candidate_cross_check": {
+        "bbl": "2027540005",
+        "bin": "2006185",
+        "pluto_lot": [
+          {
+            "bbl": "2027540005",
+            "borough": "BX",
+            "address": "1134 WEST FARMS ROAD",
+            "bldgclass": "C1",
+            "numbldgs": "2",
+            "unitsres": "43",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "2006185",
+          "2117584"
+        ],
+        "footprint_of_bin": [
+          {
+            "bin": "2006185",
+            "base_bbl": "2027540005",
+            "mappluto_bbl": "2027540005",
+            "last_status_type": "Constructed"
+          }
+        ],
+        "hpd_by_bin": [
+          {
+            "buildingid": "122027",
+            "boroid": "2",
+            "housenumber": "1134",
+            "streetname": "WEST FARMS ROAD",
+            "block": "2754",
+            "lot": "5",
+            "bin": "2006185",
+            "recordstatus": "Active",
+            "bbl": "2027540005"
+          }
+        ]
+      }
+    },
+    {
+      "id": "N02",
+      "query": "350 5th Avenue, New York, NY 10118",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "350 5 AVENUE, New York, NY, USA",
+          "bbl": "1008350041",
+          "bin": "1015862",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "350A 5 AVENUE, New York, NY, USA",
+          "bbl": "1008350041",
+          "bin": "1015862",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "350B 5 AVENUE, New York, NY, USA",
+          "bbl": "1008350041",
+          "bin": "1015862",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "342 5 AVENUE, New York, NY, USA",
+          "bbl": "1008350041",
+          "bin": "1015862",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "352 5 AVENUE, New York, NY, USA",
+          "bbl": "1008360035",
+          "bin": "1015877",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [
+        {
+          "lookup": "MN|338 5 AVENUE",
+          "bbl": "1008350041",
+          "borough": "MN",
+          "address": "338 5 AVENUE",
+          "bldgclass": "O4",
+          "numbldgs": "1",
+          "unitsres": "0",
+          "version": "26v2",
+          "footprint_bins": [
+            {
+              "bin": "1015862",
+              "base_bbl": "1008350041",
+              "mappluto_bbl": "1008350041",
+              "construction_year": "1931",
+              "last_status_type": "Constructed"
+            }
+          ]
+        }
+      ],
+      "hpd_buildings": [
+        {
+          "buildingid": "2780",
+          "boroid": "1",
+          "housenumber": "338",
+          "streetname": "5 AVENUE",
+          "zip": "10118",
+          "block": "835",
+          "lot": "41",
+          "bin": "1015862",
+          "recordstatus": "Active",
+          "lifecycle": "Building",
+          "legalclassa": "0",
+          "bbl": "1008350041"
+        }
+      ],
+      "top_candidate_cross_check": {
+        "bbl": "1008350041",
+        "bin": "1015862",
+        "pluto_lot": [
+          {
+            "bbl": "1008350041",
+            "borough": "MN",
+            "address": "338 5 AVENUE",
+            "bldgclass": "O4",
+            "numbldgs": "1",
+            "unitsres": "0",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "1015862"
+        ],
+        "footprint_of_bin": [
+          {
+            "bin": "1015862",
+            "base_bbl": "1008350041",
+            "mappluto_bbl": "1008350041",
+            "last_status_type": "Constructed"
+          }
+        ],
+        "hpd_by_bin": [
+          {
+            "buildingid": "2780",
+            "boroid": "1",
+            "housenumber": "338",
+            "streetname": "5 AVENUE",
+            "block": "835",
+            "lot": "41",
+            "bin": "1015862",
+            "recordstatus": "Active",
+            "bbl": "1008350041"
+          }
+        ]
+      }
+    },
+    {
+      "id": "N03",
+      "query": "530 2nd Street, Brooklyn, NY 11215",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "530 2 STREET, Brooklyn, NY, USA",
+          "bbl": "3010780016",
+          "bin": "3025292",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "341 2 STREET, Brooklyn, NY, USA",
+          "bbl": "3009690045",
+          "bin": "3020782",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "343 2 STREET, Brooklyn, NY, USA",
+          "bbl": "3009690045",
+          "bin": "3020782",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "339 2 STREET, Brooklyn, NY, USA",
+          "bbl": "3009690048",
+          "bin": "3020784",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "337 2 STREET, Brooklyn, NY, USA",
+          "bbl": "3009690050",
+          "bin": "3020785",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [
+        {
+          "lookup": "BK|530 2 STREET",
+          "bbl": "3010780016",
+          "borough": "BK",
+          "address": "530 2 STREET",
+          "bldgclass": "D1",
+          "numbldgs": "1",
+          "unitsres": "47",
+          "version": "26v2",
+          "footprint_bins": [
+            {
+              "bin": "3025292",
+              "base_bbl": "3010780016",
+              "mappluto_bbl": "3010780016",
+              "construction_year": "1928",
+              "last_status_type": "Constructed"
+            }
+          ]
+        }
+      ],
+      "hpd_buildings": [
+        {
+          "buildingid": "127367",
+          "boroid": "3",
+          "housenumber": "530",
+          "streetname": "2 STREET",
+          "zip": "11215",
+          "block": "1078",
+          "lot": "16",
+          "bin": "3025292",
+          "recordstatus": "Active",
+          "lifecycle": "Building",
+          "legalclassa": "48",
+          "bbl": "3010780016"
+        }
+      ],
+      "top_candidate_cross_check": {
+        "bbl": "3010780016",
+        "bin": "3025292",
+        "pluto_lot": [
+          {
+            "bbl": "3010780016",
+            "borough": "BK",
+            "address": "530 2 STREET",
+            "bldgclass": "D1",
+            "numbldgs": "1",
+            "unitsres": "47",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "3025292"
+        ],
+        "footprint_of_bin": [
+          {
+            "bin": "3025292",
+            "base_bbl": "3010780016",
+            "mappluto_bbl": "3010780016",
+            "last_status_type": "Constructed"
+          }
+        ],
+        "hpd_by_bin": [
+          {
+            "buildingid": "127367",
+            "boroid": "3",
+            "housenumber": "530",
+            "streetname": "2 STREET",
+            "block": "1078",
+            "lot": "16",
+            "bin": "3025292",
+            "recordstatus": "Active",
+            "bbl": "3010780016"
+          }
+        ]
+      }
+    },
+    {
+      "id": "N04",
+      "query": "33-43 14th Street, Astoria, NY 11106",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "33-43 14 STREET, Long Island City, NY, USA",
+          "bbl": "4005280050",
+          "bin": "4430813",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "33-14 14 STREET, Long Island City, NY, USA",
+          "bbl": "4005210113",
+          "bin": "4535374",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "33-20 14 STREET, Long Island City, NY, USA",
+          "bbl": "4005210119",
+          "bin": "4458138",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "33-24 14 STREET, Long Island City, NY, USA",
+          "bbl": "4005210123",
+          "bin": "4447781",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "33-58 14 STREET, Long Island City, NY, USA",
+          "bbl": "4005210155",
+          "bin": "4447756",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [
+        {
+          "lookup": "QN|33-43 14 STREET",
+          "bbl": "4005280050",
+          "borough": "QN",
+          "address": "33-43 14 STREET",
+          "bldgclass": "D4",
+          "numbldgs": "7",
+          "unitsres": "364",
+          "version": "26v2",
+          "footprint_bins": [
+            {
+              "bin": "4430811",
+              "base_bbl": "4005280050",
+              "mappluto_bbl": "4005280050",
+              "construction_year": "1958",
+              "last_status_type": "Constructed"
+            },
+            {
+              "bin": "4430812",
+              "base_bbl": "4005280050",
+              "mappluto_bbl": "4005280050",
+              "construction_year": "1958",
+              "last_status_type": "Constructed"
+            },
+            {
+              "bin": "4430813",
+              "base_bbl": "4005280050",
+              "mappluto_bbl": "4005280050",
+              "construction_year": "1958",
+              "last_status_type": "Constructed"
+            },
+            {
+              "bin": "4430814",
+              "base_bbl": "4005280050",
+              "mappluto_bbl": "4005280050",
+              "construction_year": "1958",
+              "last_status_type": "Constructed"
+            },
+            {
+              "bin": "4430815",
+              "base_bbl": "4005280050",
+              "mappluto_bbl": "4005280050",
+              "construction_year": "1958",
+              "last_status_type": "Constructed"
+            },
+            {
+              "bin": "4430816",
+              "base_bbl": "4005280050",
+              "mappluto_bbl": "4005280050",
+              "construction_year": "1958",
+              "last_status_type": "Constructed"
+            },
+            {
+              "bin": "4430817",
+              "base_bbl": "4005280050",
+              "mappluto_bbl": "4005280050",
+              "construction_year": "1958",
+              "last_status_type": "Constructed"
+            }
+          ]
+        }
+      ],
+      "hpd_buildings": [
+        {
+          "buildingid": "403317",
+          "boroid": "4",
+          "housenumber": "33-43",
+          "streetname": "14 STREET",
+          "zip": "11106",
+          "block": "528",
+          "lot": "50",
+          "bin": "4430813",
+          "recordstatus": "Active",
+          "lifecycle": "Building",
+          "legalclassa": "52",
+          "bbl": "4005280050"
+        }
+      ],
+      "top_candidate_cross_check": {
+        "bbl": "4005280050",
+        "bin": "4430813",
+        "pluto_lot": [
+          {
+            "bbl": "4005280050",
+            "borough": "QN",
+            "address": "33-43 14 STREET",
+            "bldgclass": "D4",
+            "numbldgs": "7",
+            "unitsres": "364",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "4430811",
+          "4430812",
+          "4430813",
+          "4430814",
+          "4430815",
+          "4430816",
+          "4430817"
+        ],
+        "footprint_of_bin": [
+          {
+            "bin": "4430813",
+            "base_bbl": "4005280050",
+            "mappluto_bbl": "4005280050",
+            "last_status_type": "Constructed"
+          }
+        ],
+        "hpd_by_bin": [
+          {
+            "buildingid": "403317",
+            "boroid": "4",
+            "housenumber": "33-43",
+            "streetname": "14 STREET",
+            "block": "528",
+            "lot": "50",
+            "bin": "4430813",
+            "recordstatus": "Active",
+            "bbl": "4005280050"
+          }
+        ]
+      }
+    },
+    {
+      "id": "N05",
+      "query": "100 Belmont Place, Staten Island, NY 10301",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "100 BELMONT PLACE, Staten Island, NY, USA",
+          "bbl": "5000200008",
+          "bin": "5112989",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "48 BELMONT PLACE, Staten Island, NY, USA",
+          "bbl": "5000200041",
+          "bin": "5131382",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "50 BELMONT PLACE, Staten Island, NY, USA",
+          "bbl": "5000200042",
+          "bin": "5131383",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "106 BELMONT PLACE, Staten Island, NY, USA",
+          "bbl": "5000200064",
+          "bin": "5000000",
+          "bin_status": "unassigned_placeholder",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "114 BELMONT PLACE, Staten Island, NY, USA",
+          "bbl": "5000200070",
+          "bin": "5135027",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [],
+      "hpd_buildings": [
+        {
+          "buildingid": "714902",
+          "boroid": "5",
+          "housenumber": "100",
+          "streetname": "BELMONT PLACE",
+          "zip": "10301",
+          "block": "20",
+          "lot": "8",
+          "bin": "5112989",
+          "recordstatus": "Active",
+          "lifecycle": "Building",
+          "legalclassa": "59",
+          "bbl": "5000200008"
+        }
+      ],
+      "top_candidate_cross_check": {
+        "bbl": "5000200008",
+        "bin": "5112989",
+        "pluto_lot": [
+          {
+            "bbl": "5000200008",
+            "borough": "SI",
+            "address": "100 DANIEL LOW TERRACE",
+            "bldgclass": "D1",
+            "numbldgs": "2",
+            "unitsres": "105",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "5108464",
+          "5112989"
+        ],
+        "footprint_of_bin": [
+          {
+            "bin": "5112989",
+            "base_bbl": "5000200008",
+            "mappluto_bbl": "5000200008",
+            "last_status_type": "Constructed"
+          }
+        ],
+        "hpd_by_bin": [
+          {
+            "buildingid": "714902",
+            "boroid": "5",
+            "housenumber": "100",
+            "streetname": "BELMONT PLACE",
+            "block": "20",
+            "lot": "8",
+            "bin": "5112989",
+            "recordstatus": "Active",
+            "bbl": "5000200008"
+          }
+        ]
+      }
+    },
+    {
+      "id": "N06",
+      "query": "1279 First Avenue, Manhattan",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "1279 FIRST AVENUE, New York, NY, USA",
+          "bbl": "1014430030",
+          "bin": "1044761",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "22 FIRST AVENUE, New York, NY, USA",
+          "bbl": "1004290007",
+          "bin": "1005733",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "80 FIRST AVENUE, New York, NY, USA",
+          "bbl": "1004320001",
+          "bin": "1077561",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "116 FIRST AVENUE, New York, NY, USA",
+          "bbl": "1004340009",
+          "bin": "1005776",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "128 FIRST AVENUE, New York, NY, USA",
+          "bbl": "1004350007",
+          "bin": "1005818",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [
+        {
+          "lookup": "MN|1279 1 AVENUE",
+          "bbl": "1014430030",
+          "borough": "MN",
+          "address": "1279 1 AVENUE",
+          "bldgclass": "D6",
+          "numbldgs": "1",
+          "unitsres": "52",
+          "version": "26v2",
+          "footprint_bins": [
+            {
+              "bin": "1044761",
+              "base_bbl": "1014430030",
+              "mappluto_bbl": "1014430030",
+              "construction_year": "1920",
+              "last_status_type": "Constructed"
+            }
+          ]
+        }
+      ],
+      "hpd_buildings": [
+        {
+          "buildingid": "113",
+          "boroid": "1",
+          "housenumber": "1279",
+          "streetname": "1 AVENUE",
+          "zip": "10065",
+          "block": "1443",
+          "lot": "30",
+          "bin": "1044761",
+          "recordstatus": "Active",
+          "lifecycle": "Building",
+          "legalclassa": "52",
+          "bbl": "1014430030"
+        }
+      ],
+      "top_candidate_cross_check": {
+        "bbl": "1014430030",
+        "bin": "1044761",
+        "pluto_lot": [
+          {
+            "bbl": "1014430030",
+            "borough": "MN",
+            "address": "1279 1 AVENUE",
+            "bldgclass": "D6",
+            "numbldgs": "1",
+            "unitsres": "52",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "1044761"
+        ],
+        "footprint_of_bin": [
+          {
+            "bin": "1044761",
+            "base_bbl": "1014430030",
+            "mappluto_bbl": "1014430030",
+            "last_status_type": "Constructed"
+          }
+        ],
+        "hpd_by_bin": [
+          {
+            "buildingid": "113",
+            "boroid": "1",
+            "housenumber": "1279",
+            "streetname": "1 AVENUE",
+            "block": "1443",
+            "lot": "30",
+            "bin": "1044761",
+            "recordstatus": "Active",
+            "bbl": "1014430030"
+          }
+        ]
+      }
+    },
+    {
+      "id": "A07",
+      "query": "100 Broadway",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "100 B'WAY, Brooklyn, NY, USA",
+          "bbl": "3021310001",
+          "bin": "3324734",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "100 BROADWAY, Brooklyn, NY, USA",
+          "bbl": "3021310001",
+          "bin": "3324734",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "100 B'WAY, New York, NY, USA",
+          "bbl": "1000460003",
+          "bin": "1001024",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "100 BROADWAY, New York, NY, USA",
+          "bbl": "1000460003",
+          "bin": "1001024",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "100 BWAY EAST, Brooklyn, NY, USA",
+          "bbl": "3021310001",
+          "bin": "3324734",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [
+        {
+          "lookup": "MN|100 BROADWAY",
+          "bbl": "1000460003",
+          "borough": "MN",
+          "address": "100 BROADWAY",
+          "bldgclass": "O4",
+          "numbldgs": "1",
+          "unitsres": "0",
+          "version": "26v2",
+          "footprint_bins": [
+            {
+              "bin": "1001024",
+              "base_bbl": "1000460003",
+              "mappluto_bbl": "1000460003",
+              "construction_year": "1896",
+              "last_status_type": "Constructed"
+            }
+          ]
+        },
+        {
+          "lookup": "BK|100 BROADWAY",
+          "bbl": "3021310001",
+          "borough": "BK",
+          "address": "100 BROADWAY",
+          "bldgclass": "D7",
+          "numbldgs": "2",
+          "unitsres": "47",
+          "version": "26v2",
+          "footprint_bins": [
+            {
+              "bin": "3324734",
+              "base_bbl": "3021310001",
+              "mappluto_bbl": "3021310001",
+              "construction_year": "1920",
+              "last_status_type": "Constructed"
+            },
+            {
+              "bin": "3324735",
+              "base_bbl": "3021310001",
+              "mappluto_bbl": "3021310001",
+              "construction_year": "1920",
+              "last_status_type": "Constructed"
+            }
+          ]
+        }
+      ],
+      "hpd_buildings": [],
+      "top_candidate_cross_check": {
+        "bbl": "3021310001",
+        "bin": "3324734",
+        "pluto_lot": [
+          {
+            "bbl": "3021310001",
+            "borough": "BK",
+            "address": "100 BROADWAY",
+            "bldgclass": "D7",
+            "numbldgs": "2",
+            "unitsres": "47",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "3324734",
+          "3324735"
+        ],
+        "footprint_of_bin": [
+          {
+            "bin": "3324734",
+            "base_bbl": "3021310001",
+            "mappluto_bbl": "3021310001",
+            "last_status_type": "Constructed"
+          }
+        ],
+        "hpd_by_bin": [
+          {
+            "buildingid": "213607",
+            "boroid": "3",
+            "housenumber": "100",
+            "streetname": "BROADWAY",
+            "block": "2131",
+            "lot": "1",
+            "bin": "3324734",
+            "recordstatus": "Active",
+            "bbl": "3021310001"
+          }
+        ]
+      }
+    },
+    {
+      "id": "A08",
+      "query": "1 Center St",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "JAMAICA 1 PREK CENTER, Jamaica, NY, USA",
+          "bbl": "4102100022",
+          "bin": "4542034",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "SPRINGFIELD 1 PREK CENTER, Queens Village, NY, USA",
+          "bbl": "4107730010",
+          "bin": "4230907",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1 CENTER STREET, Bronx, NY, USA",
+          "bbl": "2056270046",
+          "bin": "2103477",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1 CENTRE DRIVE, Whitestone, NY, USA",
+          "bbl": "4044410043",
+          "bin": "4101283",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1 CENTER STREET, New York, NY, USA",
+          "bbl": "1001210001",
+          "bin": "1001394",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [
+        {
+          "lookup": "MN|1 CENTRE STREET",
+          "bbl": "1001210001",
+          "borough": "MN",
+          "address": "1 CENTRE STREET",
+          "bldgclass": "O4",
+          "numbldgs": "6",
+          "unitsres": "0",
+          "version": "26v2",
+          "footprint_bins": [
+            {
+              "bin": "1001394",
+              "base_bbl": "1001210001",
+              "mappluto_bbl": "1001210001",
+              "construction_year": "1914",
+              "last_status_type": "Constructed"
+            },
+            {
+              "bin": "1089759",
+              "base_bbl": "1001210001",
+              "mappluto_bbl": "1001210001",
+              "construction_year": "1914",
+              "last_status_type": "Constructed"
+            }
+          ]
+        }
+      ],
+      "hpd_buildings": [],
+      "top_candidate_cross_check": {
+        "bbl": "4102100022",
+        "bin": "4542034",
+        "pluto_lot": [
+          {
+            "bbl": "4102100022",
+            "borough": "QN",
+            "address": "168-42 JAMAICA AVENUE",
+            "bldgclass": "K1",
+            "numbldgs": "1",
+            "unitsres": "0",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "4542034"
+        ],
+        "footprint_of_bin": [
+          {
+            "bin": "4542034",
+            "base_bbl": "4102100022",
+            "mappluto_bbl": "4102100022",
+            "last_status_type": "Constructed"
+          }
+        ],
+        "hpd_by_bin": []
+      }
+    },
+    {
+      "id": "A09",
+      "query": "3343 14th St, Queens",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "3343 14 STREET, Long Island City, NY, USA",
+          "bbl": "4005280050",
+          "bin": "4430813",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "28-14 14 STREET, Astoria, NY, USA",
+          "bbl": "4005120004",
+          "bin": "4005615",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "30-14 14 STREET, Astoria, NY, USA",
+          "bbl": "4005150003",
+          "bin": "4005636",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "33-14 14 STREET, Long Island City, NY, USA",
+          "bbl": "4005210113",
+          "bin": "4535374",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "36-14 14 STREET, Long Island City, NY, USA",
+          "bbl": "4003500020",
+          "bin": "4004284",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [
+        {
+          "lookup": "QN|33-43 14 STREET",
+          "bbl": "4005280050",
+          "borough": "QN",
+          "address": "33-43 14 STREET",
+          "bldgclass": "D4",
+          "numbldgs": "7",
+          "unitsres": "364",
+          "version": "26v2",
+          "footprint_bins": [
+            {
+              "bin": "4430811",
+              "base_bbl": "4005280050",
+              "mappluto_bbl": "4005280050",
+              "construction_year": "1958",
+              "last_status_type": "Constructed"
+            },
+            {
+              "bin": "4430812",
+              "base_bbl": "4005280050",
+              "mappluto_bbl": "4005280050",
+              "construction_year": "1958",
+              "last_status_type": "Constructed"
+            },
+            {
+              "bin": "4430813",
+              "base_bbl": "4005280050",
+              "mappluto_bbl": "4005280050",
+              "construction_year": "1958",
+              "last_status_type": "Constructed"
+            },
+            {
+              "bin": "4430814",
+              "base_bbl": "4005280050",
+              "mappluto_bbl": "4005280050",
+              "construction_year": "1958",
+              "last_status_type": "Constructed"
+            },
+            {
+              "bin": "4430815",
+              "base_bbl": "4005280050",
+              "mappluto_bbl": "4005280050",
+              "construction_year": "1958",
+              "last_status_type": "Constructed"
+            },
+            {
+              "bin": "4430816",
+              "base_bbl": "4005280050",
+              "mappluto_bbl": "4005280050",
+              "construction_year": "1958",
+              "last_status_type": "Constructed"
+            },
+            {
+              "bin": "4430817",
+              "base_bbl": "4005280050",
+              "mappluto_bbl": "4005280050",
+              "construction_year": "1958",
+              "last_status_type": "Constructed"
+            }
+          ]
+        }
+      ],
+      "hpd_buildings": [
+        {
+          "buildingid": "403317",
+          "boroid": "4",
+          "housenumber": "33-43",
+          "streetname": "14 STREET",
+          "zip": "11106",
+          "block": "528",
+          "lot": "50",
+          "bin": "4430813",
+          "recordstatus": "Active",
+          "lifecycle": "Building",
+          "legalclassa": "52",
+          "bbl": "4005280050"
+        }
+      ],
+      "top_candidate_cross_check": {
+        "bbl": "4005280050",
+        "bin": "4430813",
+        "pluto_lot": [
+          {
+            "bbl": "4005280050",
+            "borough": "QN",
+            "address": "33-43 14 STREET",
+            "bldgclass": "D4",
+            "numbldgs": "7",
+            "unitsres": "364",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "4430811",
+          "4430812",
+          "4430813",
+          "4430814",
+          "4430815",
+          "4430816",
+          "4430817"
+        ],
+        "footprint_of_bin": [
+          {
+            "bin": "4430813",
+            "base_bbl": "4005280050",
+            "mappluto_bbl": "4005280050",
+            "last_status_type": "Constructed"
+          }
+        ],
+        "hpd_by_bin": [
+          {
+            "buildingid": "403317",
+            "boroid": "4",
+            "housenumber": "33-43",
+            "streetname": "14 STREET",
+            "block": "528",
+            "lot": "50",
+            "bin": "4430813",
+            "recordstatus": "Active",
+            "bbl": "4005280050"
+          }
+        ]
+      }
+    },
+    {
+      "id": "A10",
+      "query": "Broadway, Manhattan",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "23 B'WAY, New York, NY, USA",
+          "bbl": "1000130027",
+          "bin": "1000045",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "23 BROADWAY, New York, NY, USA",
+          "bbl": "1000130027",
+          "bin": "1000045",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1 BROADWAY, New York, NY, USA",
+          "bbl": "1000130001",
+          "bin": "1000043",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "5 BROADWAY, New York, NY, USA",
+          "bbl": "1000130005",
+          "bin": "1000044",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "98 BROADWAY, New York, NY, USA",
+          "bbl": "1000460003",
+          "bin": "1001024",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [],
+      "hpd_buildings": [],
+      "top_candidate_cross_check": {
+        "bbl": "1000130027",
+        "bin": "1000045",
+        "pluto_lot": [
+          {
+            "bbl": "1000130027",
+            "borough": "MN",
+            "address": "25 BROADWAY",
+            "bldgclass": "O4",
+            "numbldgs": "1",
+            "unitsres": "0",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "1000045"
+        ],
+        "footprint_of_bin": [
+          {
+            "bin": "1000045",
+            "base_bbl": "1000130027",
+            "mappluto_bbl": "1000130027",
+            "last_status_type": "Constructed"
+          }
+        ],
+        "hpd_by_bin": [
+          {
+            "buildingid": "7585",
+            "boroid": "1",
+            "housenumber": "13",
+            "streetname": "BROADWAY",
+            "block": "13",
+            "lot": "27",
+            "bin": "1000045",
+            "recordstatus": "Active",
+            "bbl": "1000130027"
+          }
+        ]
+      }
+    },
+    {
+      "id": "A11",
+      "query": "1134 West Farms Rd, Brooklyn",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "1134 WEST FARMS ROAD, Bronx, NY, USA",
+          "bbl": "2027540005",
+          "bin": "2006185",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1217 WEST FARMS ROAD, Bronx, NY, USA",
+          "bbl": "2029930031",
+          "bin": "2000000",
+          "bin_status": "unassigned_placeholder",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1223 WEST FARMS ROAD, Bronx, NY, USA",
+          "bbl": "2029930031",
+          "bin": "2000000",
+          "bin_status": "unassigned_placeholder",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1235 WEST FARMS ROAD, Bronx, NY, USA",
+          "bbl": "2029930031",
+          "bin": "2000000",
+          "bin_status": "unassigned_placeholder",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1243 WEST FARMS ROAD, Bronx, NY, USA",
+          "bbl": "2029930031",
+          "bin": "2000000",
+          "bin_status": "unassigned_placeholder",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [
+        {
+          "lookup": "BX|1134 WEST FARMS ROAD",
+          "bbl": "2027540005",
+          "borough": "BX",
+          "address": "1134 WEST FARMS ROAD",
+          "bldgclass": "C1",
+          "numbldgs": "2",
+          "unitsres": "43",
+          "version": "26v2",
+          "footprint_bins": [
+            {
+              "bin": "2006185",
+              "base_bbl": "2027540005",
+              "mappluto_bbl": "2027540005",
+              "construction_year": "1926",
+              "last_status_type": "Constructed"
+            },
+            {
+              "bin": "2117584",
+              "base_bbl": "2027540005",
+              "mappluto_bbl": "2027540005",
+              "construction_year": "1926",
+              "last_status_type": "Constructed"
+            }
+          ]
+        }
+      ],
+      "hpd_buildings": [],
+      "top_candidate_cross_check": {
+        "bbl": "2027540005",
+        "bin": "2006185",
+        "pluto_lot": [
+          {
+            "bbl": "2027540005",
+            "borough": "BX",
+            "address": "1134 WEST FARMS ROAD",
+            "bldgclass": "C1",
+            "numbldgs": "2",
+            "unitsres": "43",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "2006185",
+          "2117584"
+        ],
+        "footprint_of_bin": [
+          {
+            "bin": "2006185",
+            "base_bbl": "2027540005",
+            "mappluto_bbl": "2027540005",
+            "last_status_type": "Constructed"
+          }
+        ],
+        "hpd_by_bin": [
+          {
+            "buildingid": "122027",
+            "boroid": "2",
+            "housenumber": "1134",
+            "streetname": "WEST FARMS ROAD",
+            "block": "2754",
+            "lot": "5",
+            "bin": "2006185",
+            "recordstatus": "Active",
+            "bbl": "2027540005"
+          }
+        ]
+      }
+    },
+    {
+      "id": "E12",
+      "query": "873 East 228th Street, Bronx",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "873 EAST 228 STREET, Bronx, NY, USA",
+          "bbl": "2048530011",
+          "bin": "2130638",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "873 GARAGE EAST 228 STREET, Bronx, NY, USA",
+          "bbl": "2048530011",
+          "bin": "2000000",
+          "bin_status": "unassigned_placeholder",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "702 EAST 228 STREET, Bronx, NY, USA",
+          "bbl": "2048410050",
+          "bin": "2063523",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "704 EAST 228 STREET, Bronx, NY, USA",
+          "bbl": "2048410050",
+          "bin": "2063523",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "708 EAST 228 STREET, Bronx, NY, USA",
+          "bbl": "2048410050",
+          "bin": "2063523",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [
+        {
+          "lookup": "BX|873 EAST 228 STREET",
+          "bbl": "2048530011",
+          "borough": "BX",
+          "address": "873 EAST 228 STREET",
+          "bldgclass": "C1",
+          "numbldgs": "1",
+          "unitsres": "16",
+          "version": "26v2",
+          "footprint_bins": [
+            {
+              "bin": "2130638",
+              "base_bbl": "2048530011",
+              "mappluto_bbl": "2048530011",
+              "construction_year": "2023",
+              "last_status_type": "Constructed"
+            }
+          ]
+        }
+      ],
+      "hpd_buildings": [
+        {
+          "buildingid": "71075",
+          "boroid": "2",
+          "housenumber": "873",
+          "streetname": "EAST 228 STREET",
+          "zip": "10466",
+          "block": "4853",
+          "lot": "11",
+          "bin": "2064005",
+          "recordstatus": "Inactive",
+          "lifecycle": "Demolished",
+          "legalclassa": "2",
+          "bbl": "2048530011"
+        },
+        {
+          "buildingid": "1011843",
+          "boroid": "2",
+          "housenumber": "873",
+          "streetname": "EAST 228 STREET",
+          "zip": "10466",
+          "block": "4853",
+          "lot": "11",
+          "bin": "2130638",
+          "recordstatus": "Active",
+          "lifecycle": "Building",
+          "legalclassa": "16",
+          "bbl": "2048530011"
+        }
+      ],
+      "top_candidate_cross_check": {
+        "bbl": "2048530011",
+        "bin": "2130638",
+        "pluto_lot": [
+          {
+            "bbl": "2048530011",
+            "borough": "BX",
+            "address": "873 EAST 228 STREET",
+            "bldgclass": "C1",
+            "numbldgs": "1",
+            "unitsres": "16",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "2130638"
+        ],
+        "footprint_of_bin": [
+          {
+            "bin": "2130638",
+            "base_bbl": "2048530011",
+            "mappluto_bbl": "2048530011",
+            "last_status_type": "Constructed"
+          }
+        ],
+        "hpd_by_bin": [
+          {
+            "buildingid": "1011843",
+            "boroid": "2",
+            "housenumber": "873",
+            "streetname": "EAST 228 STREET",
+            "block": "4853",
+            "lot": "11",
+            "bin": "2130638",
+            "recordstatus": "Active",
+            "bbl": "2048530011"
+          }
+        ]
+      }
+    },
+    {
+      "id": "E13",
+      "query": "1217 West Farms Road, Bronx",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "1217 WEST FARMS ROAD, Bronx, NY, USA",
+          "bbl": "2029930031",
+          "bin": "2000000",
+          "bin_status": "unassigned_placeholder",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1223 WEST FARMS ROAD, Bronx, NY, USA",
+          "bbl": "2029930031",
+          "bin": "2000000",
+          "bin_status": "unassigned_placeholder",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1235 WEST FARMS ROAD, Bronx, NY, USA",
+          "bbl": "2029930031",
+          "bin": "2000000",
+          "bin_status": "unassigned_placeholder",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1243 WEST FARMS ROAD, Bronx, NY, USA",
+          "bbl": "2029930031",
+          "bin": "2000000",
+          "bin_status": "unassigned_placeholder",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1247 WEST FARMS ROAD, Bronx, NY, USA",
+          "bbl": "2029930031",
+          "bin": "2000000",
+          "bin_status": "unassigned_placeholder",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [],
+      "hpd_buildings": [],
+      "top_candidate_cross_check": {
+        "bbl": "2029930031",
+        "bin": "2000000",
+        "pluto_lot": [
+          {
+            "bbl": "2029930031",
+            "borough": "BX",
+            "address": "1017 HOME STREET",
+            "bldgclass": "D3",
+            "numbldgs": "1",
+            "unitsres": "64",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "2128717"
+        ]
+      }
+    },
+    {
+      "id": "E14",
+      "query": "1A Centre Street, Manhattan",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "1A CENTRE STREET, New York, NY, USA",
+          "bbl": "1001210001",
+          "bin": "1091024",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1A CENTER STREET, New York, NY, USA",
+          "bbl": "1001210001",
+          "bin": "1091024",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1 CENTER STREET, New York, NY, USA",
+          "bbl": "1001210001",
+          "bin": "1001394",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1 CENTRE STREET, New York, NY, USA",
+          "bbl": "1001210001",
+          "bin": "1001394",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1B CENTER STREET, New York, NY, USA",
+          "bbl": "1001210001",
+          "bin": "1091025",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [
+        {
+          "lookup": "MN|1 CENTRE STREET",
+          "bbl": "1001210001",
+          "borough": "MN",
+          "address": "1 CENTRE STREET",
+          "bldgclass": "O4",
+          "numbldgs": "6",
+          "unitsres": "0",
+          "version": "26v2",
+          "footprint_bins": [
+            {
+              "bin": "1001394",
+              "base_bbl": "1001210001",
+              "mappluto_bbl": "1001210001",
+              "construction_year": "1914",
+              "last_status_type": "Constructed"
+            },
+            {
+              "bin": "1089759",
+              "base_bbl": "1001210001",
+              "mappluto_bbl": "1001210001",
+              "construction_year": "1914",
+              "last_status_type": "Constructed"
+            }
+          ]
+        }
+      ],
+      "hpd_buildings": [],
+      "top_candidate_cross_check": {
+        "bbl": "1001210001",
+        "bin": "1091024",
+        "pluto_lot": [
+          {
+            "bbl": "1001210001",
+            "borough": "MN",
+            "address": "1 CENTRE STREET",
+            "bldgclass": "O4",
+            "numbldgs": "6",
+            "unitsres": "0",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "1001394",
+          "1089759"
+        ],
+        "footprint_of_bin": [
+          {
+            "bin": "1091024",
+            "base_bbl": "1001210998",
+            "mappluto_bbl": "1001210998",
+            "last_status_type": "Constructed"
+          }
+        ],
+        "hpd_by_bin": []
+      }
+    },
+    {
+      "id": "E15",
+      "query": "55 Austin Place, Staten Island, NY 10304",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "55 AUSTIN PLACE, Staten Island, NY, USA",
+          "bbl": "5005797501",
+          "bin": "5112220",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "22 AUSTIN PLACE, Staten Island, NY, USA",
+          "bbl": "5005800034",
+          "bin": "5106887",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "40 AUSTIN PLACE, Staten Island, NY, USA",
+          "bbl": "5005800034",
+          "bin": "5106888",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "42 AUSTIN PLACE, Staten Island, NY, USA",
+          "bbl": "5005800034",
+          "bin": "5106889",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "44 AUSTIN PLACE, Staten Island, NY, USA",
+          "bbl": "5005800034",
+          "bin": "5106889",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [
+        {
+          "lookup": "SI|55 AUSTIN PLACE",
+          "bbl": "5005797501",
+          "borough": "SI",
+          "address": "55 AUSTIN PLACE",
+          "bldgclass": "R4",
+          "numbldgs": "1",
+          "unitsres": "147",
+          "condono": "45",
+          "version": "26v2",
+          "footprint_bins": [
+            {
+              "bin": "5112220",
+              "base_bbl": "5005790002",
+              "mappluto_bbl": "5005797501",
+              "construction_year": "1962",
+              "last_status_type": "Constructed"
+            }
+          ]
+        }
+      ],
+      "hpd_buildings": [
+        {
+          "buildingid": "711870",
+          "boroid": "5",
+          "housenumber": "55",
+          "streetname": "AUSTIN PLACE",
+          "zip": "10304",
+          "block": "579",
+          "lot": "7501",
+          "bin": "5112220",
+          "recordstatus": "Active",
+          "lifecycle": "Building",
+          "legalclassa": "147",
+          "bbl": "5005797501"
+        }
+      ],
+      "top_candidate_cross_check": {
+        "bbl": "5005797501",
+        "bin": "5112220",
+        "pluto_lot": [
+          {
+            "bbl": "5005797501",
+            "borough": "SI",
+            "address": "55 AUSTIN PLACE",
+            "bldgclass": "R4",
+            "numbldgs": "1",
+            "unitsres": "147",
+            "condono": "45",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "5112220"
+        ],
+        "footprint_of_bin": [
+          {
+            "bin": "5112220",
+            "base_bbl": "5005790002",
+            "mappluto_bbl": "5005797501",
+            "last_status_type": "Constructed"
+          }
+        ],
+        "hpd_by_bin": [
+          {
+            "buildingid": "711870",
+            "boroid": "5",
+            "housenumber": "55",
+            "streetname": "AUSTIN PLACE",
+            "block": "579",
+            "lot": "7501",
+            "bin": "5112220",
+            "recordstatus": "Active",
+            "bbl": "5005797501"
+          }
+        ]
+      }
+    },
+    {
+      "id": "E16",
+      "query": "530 2nd Stret, Brooklyn",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "530 2 STREET, Brooklyn, NY, USA",
+          "bbl": "3010780016",
+          "bin": "3025292",
+          "bin_status": "assigned",
+          "match_type": "exact",
+          "confidence": 1.0,
+          "pad_version": "26c"
+        },
+        {
+          "label": "530 EAST 2 STREET, Brooklyn, NY, USA",
+          "bbl": "3053700045",
+          "bin": "3125985",
+          "bin_status": "assigned",
+          "match_type": "exact",
+          "confidence": 1.0,
+          "pad_version": "26c"
+        },
+        {
+          "label": "530 2 AVENUE, New York, NY, USA",
+          "bbl": "1009350005",
+          "bin": "1020615",
+          "bin_status": "assigned",
+          "match_type": "exact",
+          "confidence": 1.0,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [
+        {
+          "lookup": "BK|530 2 STREET",
+          "bbl": "3010780016",
+          "borough": "BK",
+          "address": "530 2 STREET",
+          "bldgclass": "D1",
+          "numbldgs": "1",
+          "unitsres": "47",
+          "version": "26v2",
+          "footprint_bins": [
+            {
+              "bin": "3025292",
+              "base_bbl": "3010780016",
+              "mappluto_bbl": "3010780016",
+              "construction_year": "1928",
+              "last_status_type": "Constructed"
+            }
+          ]
+        }
+      ],
+      "hpd_buildings": [
+        {
+          "buildingid": "127367",
+          "boroid": "3",
+          "housenumber": "530",
+          "streetname": "2 STREET",
+          "zip": "11215",
+          "block": "1078",
+          "lot": "16",
+          "bin": "3025292",
+          "recordstatus": "Active",
+          "lifecycle": "Building",
+          "legalclassa": "48",
+          "bbl": "3010780016"
+        }
+      ],
+      "top_candidate_cross_check": {
+        "bbl": "3010780016",
+        "bin": "3025292",
+        "pluto_lot": [
+          {
+            "bbl": "3010780016",
+            "borough": "BK",
+            "address": "530 2 STREET",
+            "bldgclass": "D1",
+            "numbldgs": "1",
+            "unitsres": "47",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "3025292"
+        ],
+        "footprint_of_bin": [
+          {
+            "bin": "3025292",
+            "base_bbl": "3010780016",
+            "mappluto_bbl": "3010780016",
+            "last_status_type": "Constructed"
+          }
+        ],
+        "hpd_by_bin": [
+          {
+            "buildingid": "127367",
+            "boroid": "3",
+            "housenumber": "530",
+            "streetname": "2 STREET",
+            "block": "1078",
+            "lot": "16",
+            "bin": "3025292",
+            "recordstatus": "Active",
+            "bbl": "3010780016"
+          }
+        ]
+      }
+    },
+    {
+      "id": "E17",
+      "query": "99999 Broadway, New York, NY",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "23 B'WAY, New York, NY, USA",
+          "bbl": "1000130027",
+          "bin": "1000045",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "23 BROADWAY, New York, NY, USA",
+          "bbl": "1000130027",
+          "bin": "1000045",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1 BROADWAY, New York, NY, USA",
+          "bbl": "1000130001",
+          "bin": "1000043",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "5 BROADWAY, New York, NY, USA",
+          "bbl": "1000130005",
+          "bin": "1000044",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "98 BROADWAY, New York, NY, USA",
+          "bbl": "1000460003",
+          "bin": "1001024",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [],
+      "hpd_buildings": [],
+      "top_candidate_cross_check": {
+        "bbl": "1000130027",
+        "bin": "1000045",
+        "pluto_lot": [
+          {
+            "bbl": "1000130027",
+            "borough": "MN",
+            "address": "25 BROADWAY",
+            "bldgclass": "O4",
+            "numbldgs": "1",
+            "unitsres": "0",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "1000045"
+        ],
+        "footprint_of_bin": [
+          {
+            "bin": "1000045",
+            "base_bbl": "1000130027",
+            "mappluto_bbl": "1000130027",
+            "last_status_type": "Constructed"
+          }
+        ],
+        "hpd_by_bin": [
+          {
+            "buildingid": "7585",
+            "boroid": "1",
+            "housenumber": "13",
+            "streetname": "BROADWAY",
+            "block": "13",
+            "lot": "27",
+            "bin": "1000045",
+            "recordstatus": "Active",
+            "bbl": "1000130027"
+          }
+        ]
+      }
+    },
+    {
+      "id": "E18",
+      "query": "1600 Pennsylvania Avenue NW, Washington, DC 20500",
+      "errors": [],
+      "geosearch": [],
+      "pluto": [],
+      "hpd_buildings": []
+    },
+    {
+      "id": "E19",
+      "query": "zzqx qqzz nowhere",
+      "errors": [],
+      "geosearch": [],
+      "pluto": [],
+      "hpd_buildings": []
+    },
+    {
+      "id": "E20",
+      "query": "1310 Pennsylvania Avenue, Brooklyn, NY 11239",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "1310 PENNSYLVANIA AVENUE, Brooklyn, NY, USA",
+          "bbl": "3044520001",
+          "bin": "3342903",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1180 PENNSYLVANIA AVENUE, Brooklyn, NY, USA",
+          "bbl": "3044310070",
+          "bin": "3346034",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1160 PENNSYLVANIA AVENUE, Brooklyn, NY, USA",
+          "bbl": "3044347501",
+          "bin": "3429678",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1340 PENNSYLVANIA AVENUE, Brooklyn, NY, USA",
+          "bbl": "3044520015",
+          "bin": "3345673",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "1344 PENNSYLVANIA AVENUE, Brooklyn, NY, USA",
+          "bbl": "3044520015",
+          "bin": "3345673",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [],
+      "hpd_buildings": [],
+      "top_candidate_cross_check": {
+        "bbl": "3044520001",
+        "bin": "3342903",
+        "pluto_lot": [
+          {
+            "bbl": "3044520001",
+            "borough": "BK",
+            "address": "1260 CROTON LOOP",
+            "bldgclass": "D3",
+            "numbldgs": "8",
+            "unitsres": "1168",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "3342901",
+          "3342902",
+          "3342903",
+          "3342904",
+          "3342905",
+          "3342906",
+          "3342907",
+          "3342908"
+        ],
+        "footprint_of_bin": [
+          {
+            "bin": "3342903",
+            "base_bbl": "3044520001",
+            "mappluto_bbl": "3044520001",
+            "last_status_type": "Constructed"
+          }
+        ],
+        "hpd_by_bin": [
+          {
+            "buildingid": "809157",
+            "boroid": "3",
+            "housenumber": "1310",
+            "streetname": "PENNSYLVANIA AVENUE",
+            "block": "4452",
+            "lot": "1",
+            "bin": "3342903",
+            "recordstatus": "Active",
+            "bbl": "3044520001"
+          }
+        ]
+      }
+    }
+  ]
+}

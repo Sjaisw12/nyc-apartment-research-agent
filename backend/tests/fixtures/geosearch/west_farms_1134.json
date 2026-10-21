@@ -1,0 +1,287 @@
+{
+  "bbox": [
+    -73.889363,
+    40.827238,
+    -73.88842,
+    40.82903
+  ],
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          -73.889363,
+          40.827238
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "accuracy": "point",
+        "addendum": {
+          "pad": {
+            "bbl": "2027540005",
+            "bin": "2006185",
+            "version": "26c"
+          }
+        },
+        "borough": "Bronx",
+        "borough_gid": "whosonfirst:borough:421205773",
+        "confidence": 0.8,
+        "country": "United States",
+        "country_a": "USA",
+        "country_code": "US",
+        "country_gid": "whosonfirst:country:85633793",
+        "county": "Bronx County",
+        "county_a": "BX",
+        "county_gid": "whosonfirst:county:102083063",
+        "gid": "nycpad:venue:417259",
+        "housenumber": "1134",
+        "id": "417259",
+        "label": "1134 WEST FARMS ROAD, Bronx, NY, USA",
+        "layer": "venue",
+        "locality": "New York",
+        "locality_a": "NYC",
+        "locality_gid": "whosonfirst:locality:85977539",
+        "match_type": "fallback",
+        "name": "1134 WEST FARMS ROAD",
+        "neighbourhood": "Longwood",
+        "neighbourhood_gid": "whosonfirst:neighbourhood:85869443",
+        "postalcode": "10459",
+        "region": "New York",
+        "region_a": "NY",
+        "region_gid": "whosonfirst:region:85688543",
+        "source": "nycpad",
+        "source_id": "417259",
+        "street": "WEST FARMS ROAD"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -73.88842,
+          40.82903
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "accuracy": "point",
+        "addendum": {
+          "pad": {
+            "bbl": "2029930031",
+            "bin": "2000000",
+            "version": "26c"
+          }
+        },
+        "borough": "Bronx",
+        "borough_gid": "whosonfirst:borough:421205773",
+        "confidence": 0.8,
+        "country": "United States",
+        "country_a": "USA",
+        "country_code": "US",
+        "country_gid": "whosonfirst:country:85633793",
+        "county": "Bronx County",
+        "county_a": "BX",
+        "county_gid": "whosonfirst:county:102083063",
+        "gid": "nycpad:venue:453895",
+        "housenumber": "1217",
+        "id": "453895",
+        "label": "1217 WEST FARMS ROAD, Bronx, NY, USA",
+        "layer": "venue",
+        "locality": "New York",
+        "locality_a": "NYC",
+        "locality_gid": "whosonfirst:locality:85977539",
+        "match_type": "fallback",
+        "name": "1217 WEST FARMS ROAD",
+        "neighbourhood": "East Morrisania",
+        "neighbourhood_gid": "whosonfirst:neighbourhood:85869201",
+        "postalcode": "10459",
+        "region": "New York",
+        "region_a": "NY",
+        "region_gid": "whosonfirst:region:85688543",
+        "source": "nycpad",
+        "source_id": "453895",
+        "street": "WEST FARMS ROAD"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -73.88842,
+          40.82903
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "accuracy": "point",
+        "addendum": {
+          "pad": {
+            "bbl": "2029930031",
+            "bin": "2000000",
+            "version": "26c"
+          }
+        },
+        "borough": "Bronx",
+        "borough_gid": "whosonfirst:borough:421205773",
+        "confidence": 0.8,
+        "country": "United States",
+        "country_a": "USA",
+        "country_code": "US",
+        "country_gid": "whosonfirst:country:85633793",
+        "county": "Bronx County",
+        "county_a": "BX",
+        "county_gid": "whosonfirst:county:102083063",
+        "gid": "nycpad:venue:453904",
+        "housenumber": "1223",
+        "id": "453904",
+        "label": "1223 WEST FARMS ROAD, Bronx, NY, USA",
+        "layer": "venue",
+        "locality": "New York",
+        "locality_a": "NYC",
+        "locality_gid": "whosonfirst:locality:85977539",
+        "match_type": "fallback",
+        "name": "1223 WEST FARMS ROAD",
+        "neighbourhood": "East Morrisania",
+        "neighbourhood_gid": "whosonfirst:neighbourhood:85869201",
+        "postalcode": "10459",
+        "region": "New York",
+        "region_a": "NY",
+        "region_gid": "whosonfirst:region:85688543",
+        "source": "nycpad",
+        "source_id": "453904",
+        "street": "WEST FARMS ROAD"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -73.88842,
+          40.82903
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "accuracy": "point",
+        "addendum": {
+          "pad": {
+            "bbl": "2029930031",
+            "bin": "2000000",
+            "version": "26c"
+          }
+        },
+        "borough": "Bronx",
+        "borough_gid": "whosonfirst:borough:421205773",
+        "confidence": 0.8,
+        "country": "United States",
+        "country_a": "USA",
+        "country_code": "US",
+        "country_gid": "whosonfirst:country:85633793",
+        "county": "Bronx County",
+        "county_a": "BX",
+        "county_gid": "whosonfirst:county:102083063",
+        "gid": "nycpad:venue:453922",
+        "housenumber": "1235",
+        "id": "453922",
+        "label": "1235 WEST FARMS ROAD, Bronx, NY, USA",
+        "layer": "venue",
+        "locality": "New York",
+        "locality_a": "NYC",
+        "locality_gid": "whosonfirst:locality:85977539",
+        "match_type": "fallback",
+        "name": "1235 WEST FARMS ROAD",
+        "neighbourhood": "East Morrisania",
+        "neighbourhood_gid": "whosonfirst:neighbourhood:85869201",
+        "postalcode": "10459",
+        "region": "New York",
+        "region_a": "NY",
+        "region_gid": "whosonfirst:region:85688543",
+        "source": "nycpad",
+        "source_id": "453922",
+        "street": "WEST FARMS ROAD"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -73.88842,
+          40.82903
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "accuracy": "point",
+        "addendum": {
+          "pad": {
+            "bbl": "2029930031",
+            "bin": "2000000",
+            "version": "26c"
+          }
+        },
+        "borough": "Bronx",
+        "borough_gid": "whosonfirst:borough:421205773",
+        "confidence": 0.8,
+        "country": "United States",
+        "country_a": "USA",
+        "country_code": "US",
+        "country_gid": "whosonfirst:country:85633793",
+        "county": "Bronx County",
+        "county_a": "BX",
+        "county_gid": "whosonfirst:county:102083063",
+        "gid": "nycpad:venue:453934",
+        "housenumber": "1243",
+        "id": "453934",
+        "label": "1243 WEST FARMS ROAD, Bronx, NY, USA",
+        "layer": "venue",
+        "locality": "New York",
+        "locality_a": "NYC",
+        "locality_gid": "whosonfirst:locality:85977539",
+        "match_type": "fallback",
+        "name": "1243 WEST FARMS ROAD",
+        "neighbourhood": "East Morrisania",
+        "neighbourhood_gid": "whosonfirst:neighbourhood:85869201",
+        "postalcode": "10459",
+        "region": "New York",
+        "region_a": "NY",
+        "region_gid": "whosonfirst:region:85688543",
+        "source": "nycpad",
+        "source_id": "453934",
+        "street": "WEST FARMS ROAD"
+      },
+      "type": "Feature"
+    }
+  ],
+  "geocoding": {
+    "attribution": "http://geosearch.planninglabs.nyc/attribution",
+    "engine": {
+      "author": "Mapzen",
+      "name": "Pelias",
+      "version": "1.0"
+    },
+    "query": {
+      "lang": {
+        "defaulted": true,
+        "iso6391": "en",
+        "iso6393": "eng",
+        "name": "English",
+        "via": "default"
+      },
+      "parsed_text": {
+        "admin": "Bronx",
+        "housenumber": "1134",
+        "locality": "Bronx",
+        "street": "West Farms Rd",
+        "subject": "1134 West Farms Rd"
+      },
+      "parser": "pelias",
+      "private": false,
+      "querySize": 20,
+      "size": 5,
+      "text": "1134 West Farms Rd Bronx"
+    },
+    "timestamp": 1792562740300,
+    "version": "0.2"
+  },
+  "type": "FeatureCollection"
+}

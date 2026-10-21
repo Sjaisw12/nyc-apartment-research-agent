@@ -1,0 +1,284 @@
+{
+  "bbox": [
+    -74.00367,
+    40.71298,
+    -73.78915,
+    40.84379
+  ],
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          -74.003463,
+          40.713036
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "accuracy": "point",
+        "addendum": {
+          "pad": {
+            "bbl": "1001210001",
+            "bin": "1001394",
+            "version": "26c"
+          }
+        },
+        "borough": "Manhattan",
+        "borough_gid": "whosonfirst:borough:421205771",
+        "confidence": 0.8,
+        "country": "United States",
+        "country_a": "USA",
+        "country_code": "US",
+        "country_gid": "whosonfirst:country:85633793",
+        "county": "New York County",
+        "county_gid": "whosonfirst:county:102081863",
+        "gid": "nycpad:venue:8789",
+        "housenumber": "1",
+        "id": "8789",
+        "label": "1 CENTER STREET, New York, NY, USA",
+        "layer": "venue",
+        "locality": "New York",
+        "locality_a": "NYC",
+        "locality_gid": "whosonfirst:locality:85977539",
+        "match_type": "fallback",
+        "name": "1 CENTER STREET",
+        "neighbourhood": "City Hall Area",
+        "neighbourhood_gid": "whosonfirst:neighbourhood:85865569",
+        "postalcode": "10007",
+        "region": "New York",
+        "region_a": "NY",
+        "region_gid": "whosonfirst:region:85688543",
+        "source": "nycpad",
+        "source_id": "8789",
+        "street": "CENTER STREET"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -74.003463,
+          40.713036
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "accuracy": "point",
+        "addendum": {
+          "pad": {
+            "bbl": "1001210001",
+            "bin": "1001394",
+            "version": "26c"
+          }
+        },
+        "borough": "Manhattan",
+        "borough_gid": "whosonfirst:borough:421205771",
+        "confidence": 0.8,
+        "country": "United States",
+        "country_a": "USA",
+        "country_code": "US",
+        "country_gid": "whosonfirst:country:85633793",
+        "county": "New York County",
+        "county_gid": "whosonfirst:county:102081863",
+        "gid": "nycpad:venue:8790",
+        "housenumber": "1",
+        "id": "8790",
+        "label": "1 CENTRE STREET, New York, NY, USA",
+        "layer": "venue",
+        "locality": "New York",
+        "locality_a": "NYC",
+        "locality_gid": "whosonfirst:locality:85977539",
+        "match_type": "fallback",
+        "name": "1 CENTRE STREET",
+        "neighbourhood": "City Hall Area",
+        "neighbourhood_gid": "whosonfirst:neighbourhood:85865569",
+        "postalcode": "10007",
+        "region": "New York",
+        "region_a": "NY",
+        "region_gid": "whosonfirst:region:85688543",
+        "source": "nycpad",
+        "source_id": "8790",
+        "street": "CENTRE STREET"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -73.78915,
+          40.84379
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "accuracy": "point",
+        "addendum": {
+          "pad": {
+            "bbl": "2056270046",
+            "bin": "2103477",
+            "version": "26c"
+          }
+        },
+        "borough": "Bronx",
+        "borough_gid": "whosonfirst:borough:421205773",
+        "confidence": 0.8,
+        "country": "United States",
+        "country_a": "USA",
+        "country_code": "US",
+        "country_gid": "whosonfirst:country:85633793",
+        "county": "Bronx County",
+        "county_a": "BX",
+        "county_gid": "whosonfirst:county:102083063",
+        "gid": "nycpad:venue:694132",
+        "housenumber": "1",
+        "id": "694132",
+        "label": "1 CENTER STREET, Bronx, NY, USA",
+        "layer": "venue",
+        "locality": "New York",
+        "locality_a": "NYC",
+        "locality_gid": "whosonfirst:locality:85977539",
+        "match_type": "fallback",
+        "name": "1 CENTER STREET",
+        "neighbourhood": "City Island",
+        "neighbourhood_gid": "whosonfirst:neighbourhood:85811075",
+        "postalcode": "10464",
+        "region": "New York",
+        "region_a": "NY",
+        "region_gid": "whosonfirst:region:85688543",
+        "source": "nycpad",
+        "source_id": "694132",
+        "street": "CENTER STREET"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -73.78915,
+          40.84379
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "accuracy": "point",
+        "addendum": {
+          "pad": {
+            "bbl": "2056270046",
+            "bin": "2103477",
+            "version": "26c"
+          }
+        },
+        "borough": "Bronx",
+        "borough_gid": "whosonfirst:borough:421205773",
+        "confidence": 0.8,
+        "country": "United States",
+        "country_a": "USA",
+        "country_code": "US",
+        "country_gid": "whosonfirst:country:85633793",
+        "county": "Bronx County",
+        "county_a": "BX",
+        "county_gid": "whosonfirst:county:102083063",
+        "gid": "nycpad:venue:694133",
+        "housenumber": "1",
+        "id": "694133",
+        "label": "1 CENTRE STREET, Bronx, NY, USA",
+        "layer": "venue",
+        "locality": "New York",
+        "locality_a": "NYC",
+        "locality_gid": "whosonfirst:locality:85977539",
+        "match_type": "fallback",
+        "name": "1 CENTRE STREET",
+        "neighbourhood": "City Island",
+        "neighbourhood_gid": "whosonfirst:neighbourhood:85811075",
+        "postalcode": "10464",
+        "region": "New York",
+        "region_a": "NY",
+        "region_gid": "whosonfirst:region:85688543",
+        "source": "nycpad",
+        "source_id": "694133",
+        "street": "CENTRE STREET"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -74.00367,
+          40.71298
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "accuracy": "point",
+        "addendum": {
+          "pad": {
+            "bbl": "1001210001",
+            "bin": "1091024",
+            "version": "26c"
+          }
+        },
+        "borough": "Manhattan",
+        "borough_gid": "whosonfirst:borough:421205771",
+        "confidence": 0.8,
+        "country": "United States",
+        "country_a": "USA",
+        "country_code": "US",
+        "country_gid": "whosonfirst:country:85633793",
+        "county": "New York County",
+        "county_gid": "whosonfirst:county:102081863",
+        "gid": "nycpad:venue:8819",
+        "housenumber": "1A",
+        "id": "8819",
+        "label": "1A CENTRE STREET, New York, NY, USA",
+        "layer": "venue",
+        "locality": "New York",
+        "locality_a": "NYC",
+        "locality_gid": "whosonfirst:locality:85977539",
+        "match_type": "fallback",
+        "name": "1A CENTRE STREET",
+        "neighbourhood": "City Hall Area",
+        "neighbourhood_gid": "whosonfirst:neighbourhood:85865569",
+        "postalcode": "10007",
+        "region": "New York",
+        "region_a": "NY",
+        "region_gid": "whosonfirst:region:85688543",
+        "source": "nycpad",
+        "source_id": "8819",
+        "street": "CENTRE STREET"
+      },
+      "type": "Feature"
+    }
+  ],
+  "geocoding": {
+    "attribution": "http://geosearch.planninglabs.nyc/attribution",
+    "engine": {
+      "author": "Mapzen",
+      "name": "Pelias",
+      "version": "1.0"
+    },
+    "query": {
+      "lang": {
+        "defaulted": true,
+        "iso6391": "en",
+        "iso6393": "eng",
+        "name": "English",
+        "via": "default"
+      },
+      "parsed_text": {
+        "admin": "Manhattan",
+        "housenumber": "1",
+        "locality": "Manhattan",
+        "street": "Centre St",
+        "subject": "1 Centre St"
+      },
+      "parser": "pelias",
+      "private": false,
+      "querySize": 20,
+      "size": 5,
+      "text": "1 Centre St Manhattan"
+    },
+    "timestamp": 1792562740513,
+    "version": "0.2"
+  },
+  "type": "FeatureCollection"
+}

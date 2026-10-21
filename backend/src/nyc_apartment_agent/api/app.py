@@ -10,7 +10,6 @@ Endpoints
 Every response carries an X-Request-ID header so a result can be traced in the logs.
 """
 
-
 import logging
 import uuid
 from collections.abc import Callable, Iterator

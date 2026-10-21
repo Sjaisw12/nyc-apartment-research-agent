@@ -204,7 +204,18 @@ Each metric is reported separately with counts, not one blended accuracy number.
   - Benchmark labels were not changed. The v1 results are preserved in `data/eval/benchmark_results_v1_2026-10-21.md`.
   - *Limit:* only a two-digit right part is considered (the Queens grid convention).
 
-## 9. Costs and trade-offs
+## 9. HTTP API (Phase 1)
+
+`POST /resolve` takes `{"address": "<1-200 chars>"}`. Unknown fields are rejected. It returns the `ResolutionResult` model unchanged: outcome, explanation, reasons, candidates, provenance (including a `request_id`), `resolution_level`, `permitted_join_keys` and `building_specific_findings_allowed`.
+
+| Status | Meaning |
+|---|---|
+| 200 | `verified`, `ambiguous`, `no_reliable_match` |
+| 503 | `source_unavailable`, with `Retry-After: 30` |
+| 422 | Invalid input (values not echoed) |
+| 500 | Generic error, details only in server logs |
+
+## 10. Costs and trade-offs
 
 - **Requests per lookup:** 1 GeoSearch call plus 1 Footprints call. Add 5 GeoSearch calls only when no borough is given. GeoSearch answered in roughly 0.05 to 0.5 s per call in testing.
 - **Strictness:** typos, missing hyphens and borough conflicts always ask the user. That adds clicks but keeps incorrect auto-matches at zero.

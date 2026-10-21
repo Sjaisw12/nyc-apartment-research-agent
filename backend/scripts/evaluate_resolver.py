@@ -37,6 +37,13 @@ EXTRA_REGRESSION_INPUTS = [
     "530 2nd Street",  # no borough: must be inferred as Brooklyn
     "99999 Broadway",  # no borough, nonexistent number: all five borough checks find nothing
     "530 2nd Street, Brooklyn, NY 10001",  # ZIP contradicts the PAD record
+    # Unseen Queens cases for the hyphenation policy (not part of the labelled benchmark):
+    "7217 34th Avenue, Queens",  # official form 72-17; must ask
+    "7217 34th Avenue",  # same, no borough
+    "2705 1st Street, Queens",  # official form 27-05; must ask
+    "72-17 34th Avenue, Queens",  # correctly hyphenated: verified
+    "311 Beach 32nd Street, Queens",  # genuinely hyphenless Rockaway number: verified
+    "250 Beach 15th Street, Queens",  # genuinely hyphenless: verified
 ]
 
 
@@ -188,6 +195,19 @@ def write_reports(graded: list[dict], summary: dict, mode: str) -> None:
         f"- **{g['id']}** expected `{g['expected']}`, got `{g['got']}` ({g['category']})."
         for g in review
     ] or ["None."]
+    lines += [
+        "",
+        "## Policy history",
+        "",
+        "- **v1 (2026-10-21, before the Queens hyphenation policy):** 14/14 correct auto-matches, "
+        "0 wrong-building, **1 right-building auto-match on an expected-ambiguous row (A09)**, "
+        "5/6 ambiguity handled, 4/4 abstentions, 2/2 unresolved BINs. Preserved unchanged in "
+        "`benchmark_results_v1_2026-10-21.md` / `.json`.",
+        "- **v2 (2026-10-21):** a hyphenless Queens number that PAD lists only as an alternate "
+        "form of an official hyphenated number on the same lot now needs confirmation "
+        "(`QUEENS_NUMBER_NEEDS_HYPHEN`). Genuinely hyphenless Queens numbers are still verified. "
+        "No labels were changed.",
+    ]
     OUT_MD.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 

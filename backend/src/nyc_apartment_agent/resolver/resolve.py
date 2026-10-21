@@ -11,7 +11,14 @@ from ..errors import InvalidIdentifierError, SourceError
 from ..http_client import SourceHttpClient
 from ..identifiers import BinStatus
 from ..sources import footprints, geosearch
-from .checks import Group, borough_match, build_groups
+from .checks import (
+    Group,
+    borough_match,
+    build_groups,
+    hyphenated_member,
+    queens_canonicalization_applies,
+    queens_hyphenations,
+)
 from .models import (
     BinEvidence,
     BoroughMatch,
@@ -25,7 +32,13 @@ from .models import (
     ResolvedIdentity,
     StreetMatch,
 )
-from .normalize import BOROUGH_CODES, MAX_INPUT_CHARS, ParsedAddress, parse_address
+from .normalize import (
+    BOROUGH_CODES,
+    MAX_INPUT_CHARS,
+    ParsedAddress,
+    normalize_street,
+    parse_address,
+)
 
 MAIN_QUERY_SIZE = 10
 BOROUGH_QUERY_SIZE = 10
@@ -166,10 +179,15 @@ def resolve_address(
 
     # ---- 4. Group and check every candidate ---------------------------------------
     groups = build_groups(tagged)
+    canonical = _queens_canonical_numbers(groups, parsed, geosearch_client, provenance)
     checks: list[tuple[Group, CandidateCheck]] = []
     for g in groups:
         m = g.best_member(parsed)
         number, street = g.best_number(parsed), g.best_street(parsed)
+        if g.key in canonical:
+            # Policy (2026-10-21): a hyphenless Queens number that is only an alternate form
+            # of an official hyphenated number needs the user's confirmation.
+            number = NumberMatch.HYPHEN_ONLY
         bmatch = borough_match(m.borough, parsed.borough, inferred)
         zip_conflict = bool(parsed.zip_code and m.postalcode and parsed.zip_code != m.postalcode)
         strict = (
@@ -200,6 +218,7 @@ def resolve_address(
                     street_match=street,
                     borough_match=bmatch,
                     zip_conflict=zip_conflict,
+                    canonical_house_number=canonical.get(g.key),
                     strict=strict,
                     weak=weak,
                     found_by=sorted(g.found_by),
@@ -280,6 +299,49 @@ def resolve_address(
     # Exactly one strict match: cross-check its BIN with Building Footprints.
     g, c = strict[0]
     return _verify_single(g, c, parsed, inferred, socrata_client, common)
+
+
+def _queens_canonical_numbers(
+    groups: list[Group],
+    parsed: ParsedAddress,
+    client: SourceHttpClient,
+    provenance: dict,
+) -> dict[tuple, str]:
+    """For Queens candidates matched by a hyphenless number, find whether PAD has an
+    official hyphenated form of the same address on the same lot.
+
+    Returns {group key: hyphenated number, or "unknown" if the check failed}. Groups whose
+    hyphenless number is genuine (no hyphenated form exists) are not returned.
+    """
+    result: dict[tuple, str] = {}
+    lookups: dict[str, list] = {}
+    for g in groups:
+        if not queens_canonicalization_applies(g, parsed):
+            continue
+        member = hyphenated_member(g, parsed)
+        if member:
+            result[g.key] = member
+            continue
+        for hyphenated in queens_hyphenations(parsed.house_number):
+            if hyphenated not in lookups:
+                try:
+                    res = geosearch.search(client, f"{hyphenated} {parsed.street}, Queens", size=5)
+                    provenance["requests"].append(res.response)
+                    lookups[hyphenated] = res.candidates
+                except SourceError:
+                    lookups[hyphenated] = None
+            found = lookups[hyphenated]
+            if found is None:
+                result[g.key] = "unknown"
+            elif any(
+                c.housenumber == hyphenated
+                and c.bbl == g.first.bbl
+                and c.borough == "Queens"
+                and normalize_street(c.street) == parsed.street_normalized
+                for c in found
+            ):
+                result[g.key] = hyphenated
+    return result
 
 
 def _has_exact_in(tagged, parsed: ParsedAddress, borough: str) -> bool:
@@ -433,7 +495,17 @@ def _option(
 
 def _why_weak(c: CandidateCheck, parsed: ParsedAddress) -> str:
     bits = []
-    if c.number is NumberMatch.HYPHEN_ONLY:
+    if c.canonical_house_number == "unknown":
+        bits.append(
+            f"could not confirm whether Queens number {parsed.house_number} is official "
+            "or an alternate form of a hyphenated number"
+        )
+    elif c.canonical_house_number:
+        bits.append(
+            f"the official house number is {c.canonical_house_number}; "
+            f"{parsed.house_number} is an alternate form"
+        )
+    elif c.number is NumberMatch.HYPHEN_ONLY:
         bits.append(
             f"house number {c.house_number} differs from {parsed.house_number} only by a hyphen"
         )
@@ -451,7 +523,11 @@ def _why_weak(c: CandidateCheck, parsed: ParsedAddress) -> str:
 def _weak_reasons(cands: list[CandidateCheck]) -> list[Reason]:
     out: list[Reason] = []
     for c in cands:
-        if c.number is NumberMatch.HYPHEN_ONLY:
+        if c.canonical_house_number == "unknown":
+            out.append(Reason.QUEENS_NUMBER_CHECK_INCOMPLETE)
+        elif c.canonical_house_number:
+            out.append(Reason.QUEENS_NUMBER_NEEDS_HYPHEN)
+        elif c.number is NumberMatch.HYPHEN_ONLY:
             out.append(Reason.HOUSE_NUMBER_HYPHEN)
         if c.street_match is StreetMatch.NEAR:
             out.append(Reason.STREET_TYPO)

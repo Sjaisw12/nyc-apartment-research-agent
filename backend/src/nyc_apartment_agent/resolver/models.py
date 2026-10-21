@@ -55,6 +55,8 @@ class Reason(StrEnum):
     NO_CANDIDATES = "NO_CANDIDATES"
     HOUSE_NUMBER_MISMATCH = "HOUSE_NUMBER_MISMATCH"
     HOUSE_NUMBER_HYPHEN = "HOUSE_NUMBER_HYPHEN"
+    QUEENS_NUMBER_NEEDS_HYPHEN = "QUEENS_NUMBER_NEEDS_HYPHEN"
+    QUEENS_NUMBER_CHECK_INCOMPLETE = "QUEENS_NUMBER_CHECK_INCOMPLETE"
     STREET_TYPO = "STREET_TYPO"
     BOROUGH_STATED = "BOROUGH_STATED"
     BOROUGH_INFERRED = "BOROUGH_INFERRED"
@@ -88,6 +90,9 @@ class CandidateCheck(BaseModel):
     street_match: StreetMatch
     borough_match: BoroughMatch
     zip_conflict: bool = False
+    # Queens: the typed hyphenless number matched only an alternate PAD form; this is the
+    # official hyphenated form (or "unknown" if the check could not be completed).
+    canonical_house_number: str | None = None
     strict: bool = False
     weak: bool = False
     found_by: list[str] = Field(default_factory=list)  # which queries returned it

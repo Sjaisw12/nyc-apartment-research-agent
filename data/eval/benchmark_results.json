@@ -1,12 +1,12 @@
 {
-  "run_at": "2026-10-21T06:52:33.155905+00:00",
+  "run_at": "2026-10-21T07:04:48.659734+00:00",
   "mode": "live (recorded)",
   "summary": {
     "rows": 24,
     "correct_auto_matches": "14/14",
     "incorrect_auto_matches_wrong_building": 0,
-    "incorrect_auto_matches_right_building_but_expected_non_verified": 1,
-    "ambiguity_handled": "5/6",
+    "incorrect_auto_matches_right_building_but_expected_non_verified": 0,
+    "ambiguity_handled": "6/6",
     "ambiguous_missing_expected_option": 0,
     "correct_abstentions": "4/4",
     "over_cautious": 0,
@@ -215,24 +215,24 @@
       "id": "A09",
       "query": "3343 14th St, Queens",
       "expected": "ambiguous",
-      "got": "verified",
+      "got": "ambiguous",
       "expected_bbl": [
         "4005280050"
       ],
       "expected_bin": [
         "4430813"
       ],
-      "explanation": "Accepted: house number 3343 and street 14 STREET match exactly, in Queens (borough you gave); tax lot (BBL) 4005280050. Building number (BIN) 4430813 is confirmed by Building Footprints on the same lot.",
+      "explanation": "No record matches exactly, but close matches exist: 3343 14 STREET, Long Island City, NY, USA (the official house number is 33-43; 3343 is an alternate form). Please confirm or correct the address.",
       "reasons": [
-        "BOROUGH_STATED",
-        "BIN_CROSS_VERIFIED"
+        "QUEENS_NUMBER_NEEDS_HYPHEN"
       ],
-      "bbl": "4005280050",
-      "bin": "4430813",
-      "bin_evidence": "cross_verified",
-      "resolution_level": "building",
-      "options": [],
-      "category": "incorrect_auto_match_right_building"
+      "options": [
+        {
+          "bbl": "4005280050",
+          "bin": "4430813"
+        }
+      ],
+      "category": "ambiguity_handled"
     },
     {
       "id": "A10",

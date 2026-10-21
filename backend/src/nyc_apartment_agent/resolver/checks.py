@@ -5,6 +5,7 @@ Nothing here uses GeoSearch's confidence or match_type.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 
 from ..identifiers import BinStatus
@@ -138,3 +139,37 @@ def borough_match(
     if inferred and group_borough == inferred:
         return BoroughMatch.INFERRED
     return BoroughMatch.UNKNOWN
+
+
+_DIGITS_RE = re.compile(r"^\d{3,}$")
+
+
+def queens_hyphenations(typed: str | None) -> list[str]:
+    """Hyphenated forms a hyphenless Queens number could stand for ("7217" -> ["72-17"]).
+
+    Queens grid numbers are "<cross street>-<two digits>", so only a two-digit right part
+    is considered. Numbers shorter than 3 digits cannot be hyphenated this way.
+    """
+    if not typed or not _DIGITS_RE.match(typed):
+        return []
+    return [f"{typed[:-2]}-{typed[-2:]}"]
+
+
+def queens_canonicalization_applies(group: Group, parsed: ParsedAddress) -> bool:
+    """True when a Queens candidate matched only because PAD also lists the typed
+    hyphenless number, so we must check whether an official hyphenated form exists."""
+    first = group.first
+    return (
+        first.borough == "Queens"
+        and bool(queens_hyphenations(parsed.house_number))
+        and group.best_number(parsed) is NumberMatch.EXACT
+        and group.best_street(parsed) is StreetMatch.EXACT
+    )
+
+
+def hyphenated_member(group: Group, parsed: ParsedAddress) -> str | None:
+    for m in group.members:
+        num = normalize_house_number(m.housenumber)
+        if num and "-" in num and num.replace("-", "") == parsed.house_number:
+            return num
+    return None

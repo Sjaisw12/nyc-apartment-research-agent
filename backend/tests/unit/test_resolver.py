@@ -22,13 +22,10 @@ ROWS = {
     )
 }
 
-# Rows where the resolver's outcome differs from the approved label. Each one is reported,
-# not hidden: see data/eval/benchmark_results.md.
-KNOWN_DEVIATIONS = {
-    # PAD lists "3343 14 STREET" as an official alias of 33-43 14 Street, so the typed number
-    # matches exactly and the building is correct, but the label expected "ambiguous".
-    "A09": "verified",
-}
+# Rows where the resolver's outcome differs from the approved label. Each one must be
+# reported, not hidden (see data/eval/benchmark_results.md). Empty since the Queens
+# hyphenation policy of 2026-10-21 resolved A09 without changing its label.
+KNOWN_DEVIATIONS: dict[str, str] = {}
 
 
 @pytest.fixture(scope="module")
@@ -227,3 +224,51 @@ def test_stated_borough_follow_up_failure_is_source_unavailable(entries):
         "530 2nd Street, Brooklyn, NY 10001", entries, drop=["530+2nd+Street%2C+Brooklyn&"]
     )
     assert result.outcome is Outcome.SOURCE_UNAVAILABLE
+
+
+# ---- Queens hyphenation policy (2026-10-21) ------------------------------------------
+# Expected identifiers below come from HPD "Buildings Subject to HPD Jurisdiction"
+# (kj4p-ruqc): 72-17 34 Ave = block 1245 lot 30 BIN 4028617; 311 Beach 32 St = block
+# 15945 lot 1 BIN 4454111; 250 Beach 15 St = block 15625 lot 1 BIN 4299201.
+
+
+@pytest.mark.parametrize(
+    "text,canonical,bbl",
+    [
+        ("3343 14th St, Queens", "33-43", "4005280050"),  # A09
+        ("7217 34th Avenue, Queens", "72-17", "4012450030"),
+        ("7217 34th Avenue", "72-17", "4012450030"),  # no borough: inferred, still asks
+        ("2705 1st Street, Queens", "27-05", "4004900101"),
+    ],
+)
+def test_hyphenless_alternate_queens_number_asks(text, canonical, bbl, entries):
+    result, transport = run(text, entries)
+    assert transport.misses == []
+    assert result.outcome is Outcome.AMBIGUOUS
+    assert Reason.QUEENS_NUMBER_NEEDS_HYPHEN in result.reasons
+    assert [o.bbl for o in result.options] == [bbl]
+    assert any(c.canonical_house_number == canonical for c in result.candidates)
+    assert canonical in result.explanation
+
+
+@pytest.mark.parametrize(
+    "text,bbl,bin_value",
+    [
+        ("72-17 34th Avenue, Queens", "4012450030", "4028617"),
+        ("311 Beach 32nd Street, Queens", "4159450001", "4454111"),
+        ("250 Beach 15th Street, Queens", "4156250001", "4299201"),
+    ],
+)
+def test_official_queens_numbers_are_still_verified(text, bbl, bin_value, entries):
+    result, transport = run(text, entries)
+    assert transport.misses == []
+    assert result.outcome is Outcome.VERIFIED
+    assert (result.building.bbl, result.building.bin) == (bbl, bin_value)
+    assert all(c.canonical_house_number is None for c in result.candidates if c.strict)
+
+
+def test_failed_queens_hyphen_check_never_verifies(entries):
+    # Without the "3-11 Beach 32..." lookup we cannot prove 311 is the official form.
+    result, _ = run("311 Beach 32nd Street, Queens", entries, drop=["text=3-11+"])
+    assert result.outcome is Outcome.AMBIGUOUS
+    assert Reason.QUEENS_NUMBER_CHECK_INCOMPLETE in result.reasons

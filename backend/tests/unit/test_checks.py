@@ -3,6 +3,7 @@ from nyc_apartment_agent.resolver.checks import (
     build_groups,
     compare_number,
     compare_street,
+    queens_hyphenations,
 )
 from nyc_apartment_agent.resolver.models import NumberMatch, StreetMatch
 from nyc_apartment_agent.sources.geosearch import GeoSearchCandidate
@@ -94,3 +95,12 @@ def test_candidate_with_inconsistent_borough_is_dropped():
         [("main", cand("X", "1", "A STREET", "2027540005", "2006185", "Manhattan"))]
     )
     assert groups == []
+
+
+def test_queens_hyphenations():
+    assert queens_hyphenations("7217") == ["72-17"]
+    assert queens_hyphenations("20915") == ["209-15"]
+    assert queens_hyphenations("311") == ["3-11"]
+    assert queens_hyphenations("33-43") == []  # already hyphenated
+    assert queens_hyphenations("12") == []  # too short
+    assert queens_hyphenations("1A") == []

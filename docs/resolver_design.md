@@ -193,9 +193,16 @@ Each metric is reported separately with counts, not one blended accuracy number.
 
 **Caveat, stated wherever results appear:** 24 hand-picked addresses are a small acceptance test. Zero incorrect auto-matches here does not prove citywide accuracy. A random sample (for example, drawn from PLUTO) would be the next step for a stronger claim.
 
-## 8. Implementation findings
+## 8. Implementation findings and policy changes
 
-- **A09 "3343 14th St, Queens"** returns `verified` (correct building, BBL 4005280050 / BIN 4430813), but the approved label is `ambiguous`. The reason: PAD itself lists "3343 14 STREET" as an alias address of the building, so the typed number matches a record exactly. This is counted as an incorrect automatic match (right building, wrong outcome class) and needs a decision: accept PAD's alias, or add a rule that hyphen-less Queens numbers always ask.
+- **Stated-borough follow-up query** (step 3b), added after a wrong ZIP caused a false "no match".
+- **Queens hyphenation policy (2026-10-21, approved by Sanyam).** In v1, A09 "3343 14th St, Queens" was verified because PAD lists "3343 14 STREET" as an alternate form of 33-43 14 Street. The policy now works like this:
+  - When a candidate is in Queens, the typed number has no hyphen and at least 3 digits, and house number and street match exactly, the resolver checks whether PAD has the official hyphenated form (`<all but last two digits>-<last two digits>`, e.g. 7217 becomes 72-17) **on the same lot and street**. It uses a hyphenated alias already among the results, or one extra GeoSearch query.
+  - If the hyphenated form exists, the typed number is an alternate form, and the result is `ambiguous` with reason `QUEENS_NUMBER_NEEDS_HYPHEN`. The explanation names the official number.
+  - If it doesn't exist, the number is genuine and the normal rules apply. For example, "311 Beach 32nd Street" and "250 Beach 15th Street" in Rockaway are still verified.
+  - If the check fails, the result is `ambiguous` with `QUEENS_NUMBER_CHECK_INCOMPLETE`. It never verifies on an unchecked number.
+  - Benchmark labels were not changed. The v1 results are preserved in `data/eval/benchmark_results_v1_2026-10-21.md`.
+  - *Limit:* only a two-digit right part is considered (the Queens grid convention).
 
 ## 9. Costs and trade-offs
 

@@ -1,6 +1,6 @@
 {
   "attempts": 1,
-  "body_sha256": "bd71141a65ef906aa497a1259e07c563e0fe64f86a7234f90066a50c8f3671f9",
+  "body_sha256": "bdc98244a2bc9b2a0f3024e865e57cf71c459da5ac7820c63a4f6bc862c64108",
   "elapsed_seconds": 1.298,
   "fetched_at": "2026-10-21T06:05:50.580285+00:00",
   "headers": {
@@ -13,6 +13,8 @@
     "x-soda2-truth-last-modified": "Tue, 20 Oct 2026 14:10:50 GMT",
     "x-soda2-types": "[\"floating_timestamp\",\"number\",\"number\",\"number\",\"text\",\"text\",\"text\",\"text\",\"number\",\"number\",\"text\",\"number\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"floating_timestamp\",\"text\",\"floating_timestamp\",\"text\",\"text\",\"text\",\"text\",\"number\",\"number\",\"number\",\"number\",\"number\",\"number\",\"text\"]"
   },
+  "original_body_sha256": "bd71141a65ef906aa497a1259e07c563e0fe64f86a7234f90066a50c8f3671f9",
+  "redaction": "2026-10-21 (Phase 2 Task 1): apartment, story -> [REDACTED]; unit/floor detail in novdescription removed. original_body_sha256 is the hash of the body as captured.",
   "source": "nyc_open_data",
   "status_code": 200,
   "url": "https://data.cityofnewyork.us/resource/ygpa-z7cr.json?%24where=bbl%3D%272027540005%27&%24order=problem_id&%24limit=5&%24offset=0"

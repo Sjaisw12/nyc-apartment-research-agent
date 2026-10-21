@@ -1,8 +1,26 @@
-# Phase 2, Task 1: HPD violations integration (design for approval)
+# Phase 2, Task 1: HPD violations integration (design)
 
-Status: **design only, no implementation code yet.** Written 2026-10-21 on branch `claude/project-thread-5d0l0f`, which starts from Phase 1 head `6d76ae1`.
+Status: **approved 2026-10-21 with decisions D1 to D4 and six corrections (section 0), and implemented.** Results: `docs/phase2_task1_report.md`. Originally written 2026-10-21 on branch `claude/project-thread-5d0l0f`, which starts from Phase 1 head `6d76ae1`.
 
 Every number in this document comes from live queries against `data.cityofnewyork.us` run on 2026-10-21 between 07:19 and 07:30 UTC. The exact queries are listed in the appendix so they can be re-run.
+
+## 0. Approval record (2026-10-21)
+
+Decisions, all approved as "yes":
+
+- **D1.** boroid + block + lot is the same identifier as BBL, after validation. If a row's BBL and its boro-block-lot disagree, keep the row, flag it, and never attribute it to a building.
+- **D2.** No apartment or floor identifiers in public fixtures, logs or normalized output. Free-text descriptions are checked for unit detail too.
+- **D3.** 10,000-row cap per lot per source; above it, `incomplete_pagination`, never silent truncation.
+- **D4.** Three-building HPD Online checklist for Sanyam; validation stays pending until he supplies results.
+
+Required corrections, and where each is implemented:
+
+1. A missing apartment field is not proof of a building-wide condition. `location_scope` is `unit`, `common_area`, `building_wide` or **`unspecified`**, each set only from evidence in the record (`records/hpd_violations.py: location_scope`). This replaces the `unit`/`building` rule in 5.4 below.
+2. Class I is information/orders, not "harmless". Its description is kept, and each record gets an `order_category` (vacate, vacant premises, relocation, Alternative Enforcement Program, underlying conditions, registration non-compliance, other) and a `potentially_consequential` flag. This replaces finding 8's wording below.
+3. Unit detail is redacted from fixtures and logs, including inside `novdescription`. The unredacted row goes to the evidence store only (`records/evidence.py`, `.evidence/` is git-ignored). Each record carries `original_sha256` and `redacted_sha256`.
+4. The dataset version header is checked on the count response and on **every** page; a change stops the pass at once, restarts once, then gives `incomplete_pagination` (`sources/socrata_pager.py`, tests in `test_socrata_pager.py`).
+5. Source BBL vs reconstructed boro-block-lot disagreement: `lot_identifier_conflict` flag, `lot_membership = conflicting`, attribution `unattributed_on_lot` at every resolution level (`records/attribution.py`).
+6. The four attributions `this_building`, `other_building_on_lot`, `unattributed_on_lot`, `lot_level` are on every normalized record, in the raw-evidence link (same sha), and as separate buckets in the summary. A model validator rejects building-level attributions on a tax-lot result.
 
 ## 1. Objective in plain language
 

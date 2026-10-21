@@ -1,6 +1,6 @@
 [
   {
-    "apartment": "1E",
+    "apartment": "[REDACTED]",
     "bbl": "2027540005",
     "bin": "2006185",
     "block": "2754",
@@ -33,7 +33,7 @@
     "unit_type": "BUILDING"
   },
   {
-    "apartment": "1E",
+    "apartment": "[REDACTED]",
     "bbl": "2027540005",
     "bin": "2006185",
     "block": "2754",
@@ -66,7 +66,7 @@
     "unit_type": "APARTMENT"
   },
   {
-    "apartment": "1E",
+    "apartment": "[REDACTED]",
     "bbl": "2027540005",
     "bin": "2006185",
     "block": "2754",
@@ -99,7 +99,7 @@
     "unit_type": "BUILDING"
   },
   {
-    "apartment": "BLDG",
+    "apartment": "[REDACTED]",
     "bbl": "2027540005",
     "bin": "2006185",
     "block": "2754",
@@ -132,7 +132,7 @@
     "unit_type": "BUILDING"
   },
   {
-    "apartment": "BLDG",
+    "apartment": "[REDACTED]",
     "bbl": "2027540005",
     "bin": "2006185",
     "block": "2754",

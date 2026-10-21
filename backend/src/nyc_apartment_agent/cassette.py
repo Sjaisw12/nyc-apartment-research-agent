@@ -13,7 +13,15 @@ from pathlib import Path
 
 import httpx
 
-_KEEP_HEADERS = ("content-type", "last-modified", "retry-after")
+_KEEP_HEADERS = (
+    "content-type",
+    "last-modified",
+    "retry-after",
+    # Socrata dataset version, used by the pager's freshness check (Phase 2).
+    "x-soda2-truth-last-modified",
+    "x-soda2-fields",
+    "x-socrata-requestid",
+)
 
 
 def _digest(entries: dict) -> str:

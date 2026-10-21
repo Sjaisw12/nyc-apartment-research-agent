@@ -20,6 +20,7 @@ from typing import Any
 
 from nyc_apartment_agent.errors import SourceError
 from nyc_apartment_agent.http_client import SourceResponse
+from nyc_apartment_agent.records.redaction import redact_row
 from nyc_apartment_agent.sources import geosearch, hpd
 from nyc_apartment_agent.sources.clients import geosearch_client, socrata_client
 
@@ -40,7 +41,12 @@ def canonical(data: Any) -> str:
 
 
 def save(name: str, resp: SourceResponse) -> str:
-    body = canonical(resp.data)
+    original = canonical(resp.data)
+    data = resp.data
+    if isinstance(data, list):
+        # Public fixtures never carry apartment/floor detail (Phase 2 decision D2).
+        data = [redact_row(r)[0] if isinstance(r, dict) else r for r in data]
+    body = canonical(data)
     digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
     folder = FIXTURES / resp.source
     folder.mkdir(parents=True, exist_ok=True)
@@ -55,6 +61,8 @@ def save(name: str, resp: SourceResponse) -> str:
         "headers": resp.headers,
         "body_sha256": digest,
     }
+    if body != original:
+        meta["original_body_sha256"] = hashlib.sha256(original.encode("utf-8")).hexdigest()
     (folder / f"{name}.meta.json").write_text(canonical(meta), encoding="utf-8")
     return digest
 

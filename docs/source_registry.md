@@ -1,4 +1,4 @@
-# Source registry (Phase 1, task 1)
+# Source registry
 
 Sources this code calls today, verified live from this repo's code on 2026-10-21. The fuller
 survey of all twelve planned sources lives in the project notes
@@ -7,7 +7,7 @@ survey of all twelve planned sources lives in the project notes
 | Source | Endpoint | Auth | Keys we use | Freshness signal | Verified |
 |---|---|---|---|---|---|
 | NYC Planning GeoSearch v2 | `https://geosearch.planninglabs.nyc/v2/search?text=&size=` | none | `properties.addendum.pad.bbl`, `.bin`, `.version` (PAD release, `26c` today) | PAD version per result | 200 OK, ~0.05–0.5 s |
-| HPD Housing Maintenance Code Violations | `https://data.cityofnewyork.us/resource/wvxf-dwi5.json` | none; optional `X-App-Token` | `bbl` | `Last-Modified` / `X-SODA2-Truth-Last-Modified` header (Tue, 20 Oct 2026 14:55 GMT) | 200 OK; 666 rows for test BBL |
+| HPD Housing Maintenance Code Violations | `https://data.cityofnewyork.us/resource/wvxf-dwi5.json` | none; optional `X-App-Token` | `bbl` OR `boroid`+`block`+`lot` (Phase 2); `bin` only to sort rows after fetching | `Last-Modified` / `X-SODA2-Truth-Last-Modified` header (Tue, 20 Oct 2026 14:55 GMT) | 200 OK; 666 rows for test BBL |
 | HPD Complaints and Problems | `https://data.cityofnewyork.us/resource/ygpa-z7cr.json` | none; optional `X-App-Token` | `bbl` | `Last-Modified` (Tue, 20 Oct 2026 14:10 GMT) | 200 OK; 912 problem rows for test BBL |
 
 Used only by the evaluation-evidence script (not by the app): PLUTO `64uk-42ks`,
@@ -39,6 +39,19 @@ Building Footprints `5zhs-2jue`, Buildings Subject to HPD Jurisdiction `kj4p-ruq
    differently.
 7. **Socrata omits null fields** in JSON rows, so schema checks look across rows, not per row.
 8. Placeholder BINs: see [bin_2000000_investigation.md](bin_2000000_investigation.md).
+
+## HPD violations (`wvxf-dwi5`), Phase 2 Task 1
+
+Measured live on 2026-10-21. Full detail: [phase2_task1_hpd_violations_design.md](phase2_task1_hpd_violations_design.md).
+
+- 41 fields; dates are `floating_timestamp` (no time zone, treated as New York local).
+- `violationid` is unique across 11.3M rows, so it is the paging order key.
+- 10,665 rows have no `bbl` and no `bin` (3,424 open, still occurring); 1,143 have `bbl = "0"`. All have `boroid`/`block`/`lot`, so the lot is queried by both forms.
+- `violationstatus` is Open/Close. `currentstatus` has 23 values; a few rows contradict the two (e.g. Open + VIOLATION CLOSED). Clear contradictions are flagged, nothing is silently picked.
+- Impossible dates exist (`inspectiondate` 0217-07-05, `currentstatusdate` 9999-12-11).
+- Class I = information/orders (registration failures, but also vacate orders, relocation, AEP, underlying conditions). Order numbers mapped in `records/hpd_violations.py`.
+- `apartment` and `story` are populated on most rows, and `novdescription` repeats them ("APT 1H, 2nd STORY"). Both are redacted from public output.
+- Condos (2 checked): HPD files violations under the billing lot (75xx) with each building's own BIN.
 
 ## Usage conditions (to finish before deployment)
 

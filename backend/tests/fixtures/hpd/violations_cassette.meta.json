@@ -1,0 +1,79 @@
+{
+ "recorded_at": "2026-10-21T21:24:54.779755+00:00",
+ "page_size": 250,
+ "addresses": {
+  "west_farms_1134": {
+   "address": "1134 West Farms Rd, Bronx, NY 10459",
+   "why": "Project test building; building-level resolution; 600+ rows over several pages.",
+   "outcome": "verified",
+   "resolution_level": "building",
+   "bbl": "2027540005",
+   "bin": "2006185",
+   "status": "records_found",
+   "source_count": 666,
+   "records": 666,
+   "data_as_of": "Wed, 21 Oct 2026 14:51:46 GMT"
+  },
+  "west_17_220": {
+   "address": "220 West 17th Street, Manhattan",
+   "why": "Lot 1007660055 holds 8 buildings; rows on other BINs and rows with no BBL/BIN.",
+   "outcome": "verified",
+   "resolution_level": "building",
+   "bbl": "1007660055",
+   "bin": "1081543",
+   "status": "records_found",
+   "source_count": 174,
+   "records": 174,
+   "data_as_of": "Wed, 21 Oct 2026 14:51:46 GMT"
+  },
+  "west_farms_1217": {
+   "address": "1217 West Farms Road, Bronx",
+   "why": "Tax-lot-level resolution (PAD gives placeholder BIN 2000000).",
+   "outcome": "verified",
+   "resolution_level": "tax_lot",
+   "bbl": "2029930031",
+   "bin": null,
+   "status": "records_found",
+   "source_count": 12,
+   "records": 12,
+   "data_as_of": "Wed, 21 Oct 2026 14:51:46 GMT"
+  },
+  "fifth_ave_350": {
+   "address": "350 5th Avenue, New York, NY 10118",
+   "why": "Empire State Building; building-level resolution; zero HPD violations.",
+   "outcome": "verified",
+   "resolution_level": "building",
+   "bbl": "1008350041",
+   "bin": "1015862",
+   "status": "no_records_found",
+   "source_count": 0,
+   "records": 0,
+   "data_as_of": "Wed, 21 Oct 2026 14:51:46 GMT"
+  },
+  "acp_1845": {
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "why": "Condo: HPD files these violations under billing lot 7502.",
+   "outcome": "verified",
+   "resolution_level": "building",
+   "bbl": "1018227502",
+   "bin": "1054974",
+   "status": "records_found",
+   "source_count": 1160,
+   "records": 1160,
+   "data_as_of": "Wed, 21 Oct 2026 14:51:46 GMT"
+  }
+ },
+ "redacted_rows_per_url": {
+  "https://data.cityofnewyork.us/resource/wvxf-dwi5.json?%24where=bbl%3D%272027540005%27+OR+%28boroid%3D2+AND+block%3D2754+AND+lot%3D5%29&%24order=violationid&%24limit=250&%24offset=0": 249,
+  "https://data.cityofnewyork.us/resource/wvxf-dwi5.json?%24where=bbl%3D%272027540005%27+OR+%28boroid%3D2+AND+block%3D2754+AND+lot%3D5%29&%24order=violationid&%24limit=250&%24offset=250": 248,
+  "https://data.cityofnewyork.us/resource/wvxf-dwi5.json?%24where=bbl%3D%272027540005%27+OR+%28boroid%3D2+AND+block%3D2754+AND+lot%3D5%29&%24order=violationid&%24limit=166&%24offset=500": 164,
+  "https://data.cityofnewyork.us/resource/wvxf-dwi5.json?%24where=bbl%3D%271007660055%27+OR+%28boroid%3D1+AND+block%3D766+AND+lot%3D55%29&%24order=violationid&%24limit=174&%24offset=0": 97,
+  "https://data.cityofnewyork.us/resource/wvxf-dwi5.json?%24where=bbl%3D%272029930031%27+OR+%28boroid%3D2+AND+block%3D2993+AND+lot%3D31%29&%24order=violationid&%24limit=12&%24offset=0": 11,
+  "https://data.cityofnewyork.us/resource/wvxf-dwi5.json?%24where=bbl%3D%271018227502%27+OR+%28boroid%3D1+AND+block%3D1822+AND+lot%3D7502%29&%24order=violationid&%24limit=250&%24offset=0": 250,
+  "https://data.cityofnewyork.us/resource/wvxf-dwi5.json?%24where=bbl%3D%271018227502%27+OR+%28boroid%3D1+AND+block%3D1822+AND+lot%3D7502%29&%24order=violationid&%24limit=250&%24offset=250": 248,
+  "https://data.cityofnewyork.us/resource/wvxf-dwi5.json?%24where=bbl%3D%271018227502%27+OR+%28boroid%3D1+AND+block%3D1822+AND+lot%3D7502%29&%24order=violationid&%24limit=250&%24offset=500": 247,
+  "https://data.cityofnewyork.us/resource/wvxf-dwi5.json?%24where=bbl%3D%271018227502%27+OR+%28boroid%3D1+AND+block%3D1822+AND+lot%3D7502%29&%24order=violationid&%24limit=250&%24offset=750": 247,
+  "https://data.cityofnewyork.us/resource/wvxf-dwi5.json?%24where=bbl%3D%271018227502%27+OR+%28boroid%3D1+AND+block%3D1822+AND+lot%3D7502%29&%24order=violationid&%24limit=160&%24offset=1000": 157
+ },
+ "note": "HPD rows are redacted before saving; original body hashes are kept per entry as original_body_sha256. Unredacted rows are not in git."
+}

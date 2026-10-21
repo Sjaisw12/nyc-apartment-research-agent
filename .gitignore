@@ -28,3 +28,6 @@ out/
 .vscode/
 .idea/
 .DS_Store
+
+# Raw source evidence (unredacted); kept out of git on purpose
+.evidence/

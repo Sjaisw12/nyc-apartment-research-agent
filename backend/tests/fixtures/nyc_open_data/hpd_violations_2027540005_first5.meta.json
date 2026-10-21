@@ -1,6 +1,6 @@
 {
   "attempts": 1,
-  "body_sha256": "6b7ab9628dbd04eff80e2dc28572896d6b122a408e9257c23def4e0e0e5cbbf2",
+  "body_sha256": "f0d99251fdcc0fc267ea1a7c681cdb6013e5e89546042cd7b1665b7d5bd13a61",
   "elapsed_seconds": 0.475,
   "fetched_at": "2026-10-21T06:05:48.803413+00:00",
   "headers": {
@@ -13,6 +13,8 @@
     "x-soda2-truth-last-modified": "Tue, 20 Oct 2026 14:55:26 GMT",
     "x-soda2-types": "[\"number\",\"number\",\"number\",\"number\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"number\",\"number\",\"text\",\"floating_timestamp\",\"floating_timestamp\",\"floating_timestamp\",\"floating_timestamp\",\"floating_timestamp\",\"floating_timestamp\",\"floating_timestamp\",\"text\",\"number\",\"text\",\"floating_timestamp\",\"number\",\"text\",\"floating_timestamp\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\",\"text\"]"
   },
+  "original_body_sha256": "6b7ab9628dbd04eff80e2dc28572896d6b122a408e9257c23def4e0e0e5cbbf2",
+  "redaction": "2026-10-21 (Phase 2 Task 1): apartment, story -> [REDACTED]; unit/floor detail in novdescription removed. original_body_sha256 is the hash of the body as captured.",
   "source": "nyc_open_data",
   "status_code": 200,
   "url": "https://data.cityofnewyork.us/resource/wvxf-dwi5.json?%24where=bbl%3D%272027540005%27&%24order=violationid&%24limit=5&%24offset=0"

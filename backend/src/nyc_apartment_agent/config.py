@@ -28,6 +28,11 @@ class Settings(BaseSettings):
     http_max_attempts: int = Field(default=3, ge=1, le=6)
     http_max_retry_after_seconds: float = Field(default=30.0, ge=0)
 
+    # Paging for record sources (Phase 2). The cap is per lot, per source: above it the
+    # result is marked incomplete_pagination instead of being silently truncated.
+    socrata_page_size: int = Field(default=1000, ge=1, le=50_000)
+    source_row_cap: int = Field(default=10_000, ge=1)
+
     user_agent: str = (
         "nyc-apartment-research-agent/0.1 "
         "(+https://github.com/Sjaisw12/nyc-apartment-research-agent)"

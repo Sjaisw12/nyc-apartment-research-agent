@@ -1,0 +1,411 @@
+{
+ "recorded_at": "2026-10-21T21:24:54.779755+00:00",
+ "addresses": {
+  "west_farms_1134": {
+   "address": "1134 West Farms Rd, Bronx, NY 10459",
+   "resolver": {
+    "outcome": "verified",
+    "resolution_level": "building",
+    "bbl": "2027540005",
+    "bin": "2006185",
+    "permitted_join_keys": [
+     "bbl",
+     "bin"
+    ]
+   },
+   "status": "records_found",
+   "status_detail": "666 violations retrieved; matches the source count",
+   "source_count": 666,
+   "normalized_records": 666,
+   "pages": [
+    0,
+    250,
+    250,
+    166
+   ],
+   "data_as_of": "Wed, 21 Oct 2026 14:51:46 GMT",
+   "summary": {
+    "data_as_of": "Wed, 21 Oct 2026 14:51:46 GMT",
+    "join_scope": "building",
+    "building_specific_claims_allowed": true,
+    "total_records": 666,
+    "by_attribution": {
+     "this_building": {
+      "records": 666,
+      "open": 112,
+      "closed": 554,
+      "status_unknown": 0,
+      "hazard_class_counts": {
+       "C": 227,
+       "B": 307,
+       "A": 131
+      },
+      "open_hazard_class_counts": {
+       "C": 40,
+       "B": 62,
+       "A": 9
+      },
+      "information_order_counts": {
+       "alternative_enforcement_program": 1
+      },
+      "open_rent_impairing": 1,
+      "inspected_last_12_months": 123,
+      "inspected_last_36_months": 285,
+      "consequential_orders": [
+       {
+        "violation_id": "18617994",
+        "order_category": "alternative_enforcement_program",
+        "is_open": true,
+        "current_status": "INFO NOV SENT OUT",
+        "inspection_date": "2026-02-02T00:00:00.000"
+       }
+      ]
+     }
+    },
+    "conflict_counts": {
+     "duplicate_id_different_content": 0,
+     "lot_identifier_conflict": 0,
+     "status_fields_disagree": 0
+    },
+    "quality_flag_counts": {},
+    "redacted_descriptions": 0,
+    "location_scope_counts": {
+     "building_wide": 1,
+     "common_area": 90,
+     "unit": 536,
+     "unspecified": 39
+    }
+   }
+  },
+  "west_17_220": {
+   "address": "220 West 17th Street, Manhattan",
+   "resolver": {
+    "outcome": "verified",
+    "resolution_level": "building",
+    "bbl": "1007660055",
+    "bin": "1081543",
+    "permitted_join_keys": [
+     "bbl",
+     "bin"
+    ]
+   },
+   "status": "records_found",
+   "status_detail": "174 violations retrieved; matches the source count",
+   "source_count": 174,
+   "normalized_records": 174,
+   "pages": [
+    0,
+    174
+   ],
+   "data_as_of": "Wed, 21 Oct 2026 14:51:46 GMT",
+   "summary": {
+    "data_as_of": "Wed, 21 Oct 2026 14:51:46 GMT",
+    "join_scope": "building",
+    "building_specific_claims_allowed": true,
+    "total_records": 174,
+    "by_attribution": {
+     "unattributed_on_lot": {
+      "records": 87,
+      "open": 39,
+      "closed": 48,
+      "status_unknown": 0,
+      "hazard_class_counts": {
+       "B": 22,
+       "A": 21,
+       "C": 35
+      },
+      "open_hazard_class_counts": {
+       "B": 17,
+       "A": 3,
+       "C": 19
+      },
+      "information_order_counts": {
+       "registration_noncompliance": 9
+      },
+      "open_rent_impairing": 8,
+      "inspected_last_12_months": 35,
+      "inspected_last_36_months": 74,
+      "consequential_orders": []
+     },
+     "other_building_on_lot": {
+      "records": 63,
+      "open": 8,
+      "closed": 55,
+      "status_unknown": 0,
+      "hazard_class_counts": {
+       "A": 30,
+       "C": 5,
+       "B": 1
+      },
+      "open_hazard_class_counts": {
+       "A": 7,
+       "C": 1
+      },
+      "information_order_counts": {
+       "registration_noncompliance": 27
+      },
+      "open_rent_impairing": 0,
+      "inspected_last_12_months": 4,
+      "inspected_last_36_months": 31,
+      "consequential_orders": []
+     },
+     "this_building": {
+      "records": 24,
+      "open": 1,
+      "closed": 23,
+      "status_unknown": 0,
+      "hazard_class_counts": {
+       "A": 13,
+       "B": 2,
+       "C": 4
+      },
+      "open_hazard_class_counts": {
+       "A": 1
+      },
+      "information_order_counts": {
+       "registration_noncompliance": 5
+      },
+      "open_rent_impairing": 0,
+      "inspected_last_12_months": 1,
+      "inspected_last_36_months": 16,
+      "consequential_orders": []
+     }
+    },
+    "conflict_counts": {
+     "duplicate_id_different_content": 0,
+     "lot_identifier_conflict": 0,
+     "status_fields_disagree": 0
+    },
+    "quality_flag_counts": {
+     "bbl_missing": 87,
+     "bin_missing": 87
+    },
+    "redacted_descriptions": 0,
+    "location_scope_counts": {
+     "common_area": 42,
+     "unit": 45,
+     "unspecified": 87
+    }
+   }
+  },
+  "west_farms_1217": {
+   "address": "1217 West Farms Road, Bronx",
+   "resolver": {
+    "outcome": "verified",
+    "resolution_level": "tax_lot",
+    "bbl": "2029930031",
+    "bin": null,
+    "permitted_join_keys": [
+     "bbl"
+    ]
+   },
+   "status": "records_found",
+   "status_detail": "12 violations retrieved; matches the source count",
+   "source_count": 12,
+   "normalized_records": 12,
+   "pages": [
+    0,
+    12
+   ],
+   "data_as_of": "Wed, 21 Oct 2026 14:51:46 GMT",
+   "summary": {
+    "data_as_of": "Wed, 21 Oct 2026 14:51:46 GMT",
+    "join_scope": "tax_lot",
+    "building_specific_claims_allowed": false,
+    "total_records": 12,
+    "by_attribution": {
+     "lot_level": {
+      "records": 12,
+      "open": 0,
+      "closed": 12,
+      "status_unknown": 0,
+      "hazard_class_counts": {
+       "A": 5,
+       "C": 3,
+       "B": 4
+      },
+      "open_hazard_class_counts": {},
+      "information_order_counts": {},
+      "open_rent_impairing": 0,
+      "inspected_last_12_months": 6,
+      "inspected_last_36_months": 8,
+      "consequential_orders": []
+     }
+    },
+    "conflict_counts": {
+     "duplicate_id_different_content": 0,
+     "lot_identifier_conflict": 0,
+     "status_fields_disagree": 0
+    },
+    "quality_flag_counts": {},
+    "redacted_descriptions": 0,
+    "location_scope_counts": {
+     "unit": 11,
+     "unspecified": 1
+    }
+   }
+  },
+  "fifth_ave_350": {
+   "address": "350 5th Avenue, New York, NY 10118",
+   "resolver": {
+    "outcome": "verified",
+    "resolution_level": "building",
+    "bbl": "1008350041",
+    "bin": "1015862",
+    "permitted_join_keys": [
+     "bbl",
+     "bin"
+    ]
+   },
+   "status": "no_records_found",
+   "status_detail": "the source reports 0 violations for this lot",
+   "source_count": 0,
+   "normalized_records": 0,
+   "pages": [
+    0
+   ],
+   "data_as_of": "Wed, 21 Oct 2026 14:51:46 GMT",
+   "summary": {
+    "data_as_of": "Wed, 21 Oct 2026 14:51:46 GMT",
+    "join_scope": "building",
+    "building_specific_claims_allowed": true,
+    "total_records": 0,
+    "by_attribution": {},
+    "conflict_counts": {
+     "duplicate_id_different_content": 0,
+     "lot_identifier_conflict": 0,
+     "status_fields_disagree": 0
+    },
+    "quality_flag_counts": {},
+    "redacted_descriptions": 0,
+    "location_scope_counts": {}
+   }
+  },
+  "acp_1845": {
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "resolver": {
+    "outcome": "verified",
+    "resolution_level": "building",
+    "bbl": "1018227502",
+    "bin": "1054974",
+    "permitted_join_keys": [
+     "bbl",
+     "bin"
+    ]
+   },
+   "status": "records_found",
+   "status_detail": "1160 violations retrieved; matches the source count",
+   "source_count": 1160,
+   "normalized_records": 1160,
+   "pages": [
+    0,
+    250,
+    250,
+    250,
+    250,
+    160
+   ],
+   "data_as_of": "Wed, 21 Oct 2026 14:51:46 GMT",
+   "summary": {
+    "data_as_of": "Wed, 21 Oct 2026 14:51:46 GMT",
+    "join_scope": "building",
+    "building_specific_claims_allowed": true,
+    "total_records": 1160,
+    "by_attribution": {
+     "this_building": {
+      "records": 891,
+      "open": 73,
+      "closed": 818,
+      "status_unknown": 0,
+      "hazard_class_counts": {
+       "B": 438,
+       "C": 243,
+       "A": 206
+      },
+      "open_hazard_class_counts": {
+       "C": 45,
+       "A": 7,
+       "B": 21
+      },
+      "information_order_counts": {
+       "underlying_conditions_order": 1,
+       "alternative_enforcement_program": 2,
+       "registration_noncompliance": 1
+      },
+      "open_rent_impairing": 3,
+      "inspected_last_12_months": 35,
+      "inspected_last_36_months": 81,
+      "consequential_orders": [
+       {
+        "violation_id": "10973694",
+        "order_category": "underlying_conditions_order",
+        "is_open": false,
+        "current_status": "VIOLATION DISMISSED",
+        "inspection_date": "2015-10-21T00:00:00.000"
+       },
+       {
+        "violation_id": "12219192",
+        "order_category": "alternative_enforcement_program",
+        "is_open": false,
+        "current_status": "VIOLATION DISMISSED",
+        "inspection_date": "2018-01-31T00:00:00.000"
+       },
+       {
+        "violation_id": "14810382",
+        "order_category": "alternative_enforcement_program",
+        "is_open": false,
+        "current_status": "VIOLATION DISMISSED",
+        "inspection_date": "2022-01-31T00:00:00.000"
+       }
+      ]
+     },
+     "other_building_on_lot": {
+      "records": 269,
+      "open": 48,
+      "closed": 221,
+      "status_unknown": 0,
+      "hazard_class_counts": {
+       "A": 70,
+       "B": 156,
+       "C": 41
+      },
+      "open_hazard_class_counts": {
+       "C": 12,
+       "A": 14,
+       "B": 22
+      },
+      "information_order_counts": {
+       "alternative_enforcement_program": 1,
+       "registration_noncompliance": 1
+      },
+      "open_rent_impairing": 1,
+      "inspected_last_12_months": 26,
+      "inspected_last_36_months": 53,
+      "consequential_orders": [
+       {
+        "violation_id": "11096969",
+        "order_category": "alternative_enforcement_program",
+        "is_open": false,
+        "current_status": "VIOLATION DISMISSED",
+        "inspection_date": "2016-02-01T00:00:00.000"
+       }
+      ]
+     }
+    },
+    "conflict_counts": {
+     "duplicate_id_different_content": 0,
+     "lot_identifier_conflict": 0,
+     "status_fields_disagree": 0
+    },
+    "quality_flag_counts": {},
+    "redacted_descriptions": 0,
+    "location_scope_counts": {
+     "building_wide": 3,
+     "common_area": 122,
+     "unit": 1011,
+     "unspecified": 24
+    }
+   }
+  }
+ }
+}

@@ -50,3 +50,15 @@ def test_hpd_dataset_is_live_and_schema_is_stable(dataset, fields, getter):
     assert hpd.missing_fields(rows, fields) == set()
     assert {r["bbl"] for r in rows} == {BBL}
     assert "last-modified" in resp.headers
+
+
+def test_live_resolver_verifies_test_building_and_rejects_false_match():
+    from nyc_apartment_agent.resolver import Outcome, ResolutionLevel, resolve_address
+
+    with geosearch_client() as g, socrata_client() as s:
+        ok = resolve_address("1134 West Farms Rd, Bronx, NY 10459", g, s)
+        bad = resolve_address("99999 Broadway, New York, NY", g, s)
+    assert ok.outcome is Outcome.VERIFIED
+    assert ok.resolution_level is ResolutionLevel.BUILDING
+    assert (ok.building.bbl, ok.building.bin) == (BBL, BIN)
+    assert bad.outcome is Outcome.NO_RELIABLE_MATCH

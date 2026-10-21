@@ -1,7 +1,7 @@
-# Candidate test addresses: DRAFT for review
+# Benchmark test addresses (24)
 
-**Status: not final.** Nothing here is a ground-truth label until Sanyam reviews and approves it.
-Machine-readable copy: [`candidate_addresses_draft.csv`](candidate_addresses_draft.csv).
+**Status:** rows N01 to E20 and the five recommendations were approved by Sanyam on 2026-10-21. Rows N21 to E24 were added afterwards on the same evidence rule, as approved ("expand to 24"); they are labelled from official records below and are open to his review.
+Machine-readable copy (benchmark input): [`candidate_addresses_draft.csv`](candidate_addresses_draft.csv).
 Raw evidence (every API answer used below): [`candidate_addresses_evidence.json`](candidate_addresses_evidence.json),
 collected 2026-10-21 by `backend/scripts/collect_address_evidence.py`.
 
@@ -22,9 +22,9 @@ Expected outcomes use the resolver's three outcomes: `verified` (one building pa
 check), `ambiguous` (the user must choose or confirm), `no_reliable_match` (nothing passed).
 A verified lot can still carry an **unresolved BIN**: the building number is kept empty, never guessed.
 
-## The 20 candidates
+## The 24 addresses
 
-All 5 boroughs covered. Single-borough rows: Manhattan 5, Bronx 4, Brooklyn 3, Queens 2, Staten Island 2. A07 and A08 span two boroughs; E18 and E19 are not NYC addresses.
+All 5 boroughs covered. Single-borough rows: Manhattan 5, Bronx 4, Brooklyn 3, Queens 4, Staten Island 4. A07 and A08 span two boroughs; E18 and E19 are not NYC addresses.
 
 | ID | Input | Type | Expected | Proposed BBL | Proposed BIN | Evidence |
 |---|---|---|---|---|---|---|
@@ -48,6 +48,10 @@ All 5 boroughs covered. Single-borough rows: Manhattan 5, Bronx 4, Brooklyn 3, Q
 | E18 | 1600 Pennsylvania Avenue NW, Washington, DC 20500 | edge | no_reliable_match | none | none | Outside NYC; GeoSearch returned 0 results. |
 | E19 | zzqx qqzz nowhere | edge | no_reliable_match | none | none | 0 results. |
 | E20 | 1310 Pennsylvania Avenue, Brooklyn, NY 11239 | edge | verified | 3044520001 | 3342903 | PAD, Footprints, HPD agree. Lot holds **8** BINs (Spring Creek complex); PLUTO lot address is 1260 Croton Loop. |
+| N21 | 209-15 18th Avenue, Bayside, NY 11360 | normal | verified (borough inferred) | 4058630200 | 4450092 | PAD, Footprints, HPD agree; lot holds 2 BINs; PLUTO lot address is 209-25 18 Ave. No borough in input. |
+| N22 | 27-05 1st Street, Queens, NY 11102 | normal | verified | 4004900101 | 4430783 | PAD, Footprints, HPD agree; lot holds **24** BINs (Astoria Houses area); PLUTO lot address is 4 1 Street. |
+| N23 | 25 Bay Terrace, Staten Island, NY 10306 | normal | verified | 5050160005 | 5064226 | PAD, PLUTO, Footprints, HPD agree; lot holds 2 BINs. |
+| E24 | 50 Belair Road, 10305 | edge | verified (borough inferred) | 5028627501 | 5043008 | Condo billing lot (PLUTO condo #86); PAD, PLUTO, HPD agree; Footprints base lot 5028620068, billing lot matches. ZIP only, no borough. |
 
 ## Supporting official records
 
@@ -108,7 +112,7 @@ ZoLa is NYC Planning's public map page for the lot. Rows without a proposed labe
 
 **E14** 1A Centre Street, Manhattan
 - Lot 1001210001: [ZoLa](https://zola.planning.nyc.gov/l/lot/1/121/1) · [PLUTO](https://data.cityofnewyork.us/resource/64uk-42ks.json?bbl=1001210001) · [Footprints on lot](https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=bin%2Cbase_bbl%2Cmappluto_bbl&%24where=base_bbl%3D%271001210001%27+OR+mappluto_bbl%3D%271001210001%27) · [HPD buildings on lot](https://data.cityofnewyork.us/resource/kj4p-ruqc.json?%24select=housenumber%2Cstreetname%2Cbin%2Crecordstatus&boroid=1&block=121&lot=1)
-- BIN 1091024: [Footprints](https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=bin%2Cbase_bbl%2Cmappluto_bbl&bin=1091024) · [HPD buildings](https://data.cityofnewyork.us/resource/kj4p-ruqc.json?%24select=housenumber%2Cstreetname%2Cboroid%2Cblock%2Clot%2Crecordstatus&bin=1091024) · [DOB BIS](https://a810-bisweb.nyc.gov/bisweb/PropertyProfileOverviewServlet?bin=1091024)
+- PAD BIN 1091024 (conflicting, not a label): [Footprints](https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=bin%2Cbase_bbl%2Cmappluto_bbl&bin=1091024) · [HPD buildings](https://data.cityofnewyork.us/resource/kj4p-ruqc.json?%24select=housenumber%2Cstreetname%2Cbin&bin=1091024)
 
 **E15** 55 Austin Place, Staten Island, NY 10304
 - Lot 5005797501: [ZoLa](https://zola.planning.nyc.gov/l/lot/5/579/7501) · [PLUTO](https://data.cityofnewyork.us/resource/64uk-42ks.json?bbl=5005797501) · [Footprints on lot](https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=bin%2Cbase_bbl%2Cmappluto_bbl&%24where=base_bbl%3D%275005797501%27+OR+mappluto_bbl%3D%275005797501%27) · [HPD buildings on lot](https://data.cityofnewyork.us/resource/kj4p-ruqc.json?%24select=housenumber%2Cstreetname%2Cbin%2Crecordstatus&boroid=5&block=579&lot=7501)
@@ -121,6 +125,22 @@ ZoLa is NYC Planning's public map page for the lot. Rows without a proposed labe
 **E20** 1310 Pennsylvania Avenue, Brooklyn, NY 11239
 - Lot 3044520001: [ZoLa](https://zola.planning.nyc.gov/l/lot/3/4452/1) · [PLUTO](https://data.cityofnewyork.us/resource/64uk-42ks.json?bbl=3044520001) · [Footprints on lot](https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=bin%2Cbase_bbl%2Cmappluto_bbl&%24where=base_bbl%3D%273044520001%27+OR+mappluto_bbl%3D%273044520001%27) · [HPD buildings on lot](https://data.cityofnewyork.us/resource/kj4p-ruqc.json?%24select=housenumber%2Cstreetname%2Cbin%2Crecordstatus&boroid=3&block=4452&lot=1)
 - BIN 3342903: [Footprints](https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=bin%2Cbase_bbl%2Cmappluto_bbl&bin=3342903) · [HPD buildings](https://data.cityofnewyork.us/resource/kj4p-ruqc.json?%24select=housenumber%2Cstreetname%2Cboroid%2Cblock%2Clot%2Crecordstatus&bin=3342903) · [DOB BIS](https://a810-bisweb.nyc.gov/bisweb/PropertyProfileOverviewServlet?bin=3342903)
+
+**N21** 209-15 18th Avenue, Bayside, NY 11360
+- Lot 4058630200: [ZoLa](https://zola.planning.nyc.gov/l/lot/4/5863/200) · [PLUTO](https://data.cityofnewyork.us/resource/64uk-42ks.json?bbl=4058630200) · [Footprints on lot](https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=bin%2Cbase_bbl%2Cmappluto_bbl&%24where=base_bbl%3D%274058630200%27+OR+mappluto_bbl%3D%274058630200%27) · [HPD buildings on lot](https://data.cityofnewyork.us/resource/kj4p-ruqc.json?%24select=housenumber%2Cstreetname%2Cbin%2Crecordstatus&boroid=4&block=5863&lot=200)
+- BIN 4450092: [Footprints](https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=bin%2Cbase_bbl%2Cmappluto_bbl&bin=4450092) · [HPD buildings](https://data.cityofnewyork.us/resource/kj4p-ruqc.json?%24select=housenumber%2Cstreetname%2Cboroid%2Cblock%2Clot%2Crecordstatus&bin=4450092) · [DOB BIS](https://a810-bisweb.nyc.gov/bisweb/PropertyProfileOverviewServlet?bin=4450092)
+
+**N22** 27-05 1st Street, Queens, NY 11102
+- Lot 4004900101: [ZoLa](https://zola.planning.nyc.gov/l/lot/4/490/101) · [PLUTO](https://data.cityofnewyork.us/resource/64uk-42ks.json?bbl=4004900101) · [Footprints on lot](https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=bin%2Cbase_bbl%2Cmappluto_bbl&%24where=base_bbl%3D%274004900101%27+OR+mappluto_bbl%3D%274004900101%27) · [HPD buildings on lot](https://data.cityofnewyork.us/resource/kj4p-ruqc.json?%24select=housenumber%2Cstreetname%2Cbin%2Crecordstatus&boroid=4&block=490&lot=101)
+- BIN 4430783: [Footprints](https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=bin%2Cbase_bbl%2Cmappluto_bbl&bin=4430783) · [HPD buildings](https://data.cityofnewyork.us/resource/kj4p-ruqc.json?%24select=housenumber%2Cstreetname%2Cboroid%2Cblock%2Clot%2Crecordstatus&bin=4430783) · [DOB BIS](https://a810-bisweb.nyc.gov/bisweb/PropertyProfileOverviewServlet?bin=4430783)
+
+**N23** 25 Bay Terrace, Staten Island, NY 10306
+- Lot 5050160005: [ZoLa](https://zola.planning.nyc.gov/l/lot/5/5016/5) · [PLUTO](https://data.cityofnewyork.us/resource/64uk-42ks.json?bbl=5050160005) · [Footprints on lot](https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=bin%2Cbase_bbl%2Cmappluto_bbl&%24where=base_bbl%3D%275050160005%27+OR+mappluto_bbl%3D%275050160005%27) · [HPD buildings on lot](https://data.cityofnewyork.us/resource/kj4p-ruqc.json?%24select=housenumber%2Cstreetname%2Cbin%2Crecordstatus&boroid=5&block=5016&lot=5)
+- BIN 5064226: [Footprints](https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=bin%2Cbase_bbl%2Cmappluto_bbl&bin=5064226) · [HPD buildings](https://data.cityofnewyork.us/resource/kj4p-ruqc.json?%24select=housenumber%2Cstreetname%2Cboroid%2Cblock%2Clot%2Crecordstatus&bin=5064226) · [DOB BIS](https://a810-bisweb.nyc.gov/bisweb/PropertyProfileOverviewServlet?bin=5064226)
+
+**E24** 50 Belair Road, 10305
+- Lot 5028627501: [ZoLa](https://zola.planning.nyc.gov/l/lot/5/2862/7501) · [PLUTO](https://data.cityofnewyork.us/resource/64uk-42ks.json?bbl=5028627501) · [Footprints on lot](https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=bin%2Cbase_bbl%2Cmappluto_bbl&%24where=base_bbl%3D%275028627501%27+OR+mappluto_bbl%3D%275028627501%27) · [HPD buildings on lot](https://data.cityofnewyork.us/resource/kj4p-ruqc.json?%24select=housenumber%2Cstreetname%2Cbin%2Crecordstatus&boroid=5&block=2862&lot=7501)
+- BIN 5043008: [Footprints](https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=bin%2Cbase_bbl%2Cmappluto_bbl&bin=5043008) · [HPD buildings](https://data.cityofnewyork.us/resource/kj4p-ruqc.json?%24select=housenumber%2Cstreetname%2Cboroid%2Cblock%2Clot%2Crecordstatus&bin=5043008) · [DOB BIS](https://a810-bisweb.nyc.gov/bisweb/PropertyProfileOverviewServlet?bin=5043008)
 
 ## Questions for review (with my recommendation)
 

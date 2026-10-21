@@ -1,5 +1,5 @@
 {
-  "collected_at": "2026-10-21T06:12:25.374622+00:00",
+  "collected_at": "2026-10-21T06:43:49.496355+00:00",
   "rows": [
     {
       "id": "N01",
@@ -2212,6 +2212,512 @@
             "bin": "3342903",
             "recordstatus": "Active",
             "bbl": "3044520001"
+          }
+        ]
+      }
+    },
+    {
+      "id": "N21",
+      "query": "209-15 18th Avenue, Bayside, NY 11360",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "209-15 18 AVENUE, North Bayside, NY, USA",
+          "bbl": "4058630200",
+          "bin": "4450092",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "209-95 18 AVENUE, North Bayside, NY, USA",
+          "bbl": "4058630110",
+          "bin": "4455261",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "209-87 18 AVENUE, North Bayside, NY, USA",
+          "bbl": "4058630110",
+          "bin": "4455271",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "209-22 18 AVENUE, North Bayside, NY, USA",
+          "bbl": "4058780075",
+          "bin": "4443742",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "209-85 18 AVENUE, North Bayside, NY, USA",
+          "bbl": "4058630110",
+          "bin": "4455270",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [],
+      "hpd_buildings": [
+        {
+          "buildingid": "404625",
+          "boroid": "4",
+          "housenumber": "209-15",
+          "streetname": "18 AVENUE",
+          "zip": "11360",
+          "block": "5863",
+          "lot": "200",
+          "bin": "4450092",
+          "recordstatus": "Active",
+          "lifecycle": "Building",
+          "legalclassa": "60",
+          "bbl": "4058630200"
+        }
+      ],
+      "top_candidate_cross_check": {
+        "bbl": "4058630200",
+        "bin": "4450092",
+        "pluto_lot": [
+          {
+            "bbl": "4058630200",
+            "borough": "QN",
+            "address": "209-25 18 AVENUE",
+            "bldgclass": "D4",
+            "numbldgs": "2",
+            "unitsres": "120",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "4450091",
+          "4450092"
+        ],
+        "footprint_of_bin": [
+          {
+            "bin": "4450092",
+            "base_bbl": "4058630200",
+            "mappluto_bbl": "4058630200",
+            "last_status_type": "Constructed"
+          }
+        ],
+        "hpd_by_bin": [
+          {
+            "buildingid": "404625",
+            "boroid": "4",
+            "housenumber": "209-15",
+            "streetname": "18 AVENUE",
+            "block": "5863",
+            "lot": "200",
+            "bin": "4450092",
+            "recordstatus": "Active",
+            "bbl": "4058630200"
+          }
+        ]
+      }
+    },
+    {
+      "id": "N22",
+      "query": "27-05 1st Street, Queens, NY 11102",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "27-05 1 STREET, Astoria, NY, USA",
+          "bbl": "4004900101",
+          "bin": "4430783",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "26-05 1 STREET, Astoria, NY, USA",
+          "bbl": "4009157501",
+          "bin": "4617681",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "27-20 1 STREET, Astoria, NY, USA",
+          "bbl": "4004900001",
+          "bin": "4000000",
+          "bin_status": "unassigned_placeholder",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "27-56 1 STREET, Astoria, NY, USA",
+          "bbl": "4004900011",
+          "bin": "4005431",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "27-60 1 STREET, Astoria, NY, USA",
+          "bbl": "4004900011",
+          "bin": "4005431",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [],
+      "hpd_buildings": [
+        {
+          "buildingid": "399133",
+          "boroid": "4",
+          "housenumber": "27-05",
+          "streetname": "1 STREET",
+          "zip": "11102",
+          "block": "490",
+          "lot": "101",
+          "bin": "4430783",
+          "recordstatus": "Active",
+          "lifecycle": "Building",
+          "legalclassa": "56",
+          "bbl": "4004900101"
+        }
+      ],
+      "top_candidate_cross_check": {
+        "bbl": "4004900101",
+        "bin": "4430783",
+        "pluto_lot": [
+          {
+            "bbl": "4004900101",
+            "borough": "QN",
+            "address": "4 1 STREET",
+            "bldgclass": "D1",
+            "numbldgs": "24",
+            "unitsres": "1104",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "4430777",
+          "4430778",
+          "4430779",
+          "4430780",
+          "4430781",
+          "4430782",
+          "4430783",
+          "4430784",
+          "4430785",
+          "4430786",
+          "4430787",
+          "4430788",
+          "4430789",
+          "4430790",
+          "4430791",
+          "4430792",
+          "4430793",
+          "4430795",
+          "4430796",
+          "4430797",
+          "4430798",
+          "4430799",
+          "4534947",
+          "4541872"
+        ],
+        "footprint_of_bin": [
+          {
+            "bin": "4430783",
+            "base_bbl": "4004900101",
+            "mappluto_bbl": "4004900101",
+            "last_status_type": "Constructed"
+          }
+        ],
+        "hpd_by_bin": [
+          {
+            "buildingid": "399133",
+            "boroid": "4",
+            "housenumber": "27-05",
+            "streetname": "1 STREET",
+            "block": "490",
+            "lot": "101",
+            "bin": "4430783",
+            "recordstatus": "Active",
+            "bbl": "4004900101"
+          }
+        ]
+      }
+    },
+    {
+      "id": "N23",
+      "query": "25 Bay Terrace, Staten Island, NY 10306",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "25 BAY TERRACE, Staten Island, NY, USA",
+          "bbl": "5050160005",
+          "bin": "5064226",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "25 BAY TERRACE AVENUE, Staten Island, NY, USA",
+          "bbl": "5050160005",
+          "bin": "5064226",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "21 BAY TERRACE, Staten Island, NY, USA",
+          "bbl": "5050160005",
+          "bin": "5064226",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "99 BAY TERRACE, Staten Island, NY, USA",
+          "bbl": "5050210007",
+          "bin": "5064316",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "87 BAY TERRACE, Staten Island, NY, USA",
+          "bbl": "5050210013",
+          "bin": "5064319",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [
+        {
+          "lookup": "SI|25 BAY TERRACE",
+          "bbl": "5050160005",
+          "borough": "SI",
+          "address": "25 BAY TERRACE",
+          "bldgclass": "C9",
+          "numbldgs": "2",
+          "unitsres": "65",
+          "version": "26v2",
+          "footprint_bins": [
+            {
+              "bin": "5064226",
+              "base_bbl": "5050160005",
+              "mappluto_bbl": "5050160005",
+              "construction_year": "1976",
+              "last_status_type": "Constructed"
+            },
+            {
+              "bin": "5168128",
+              "base_bbl": "5050160005",
+              "mappluto_bbl": "5050160005",
+              "construction_year": "1976",
+              "last_status_type": "Constructed"
+            }
+          ]
+        }
+      ],
+      "hpd_buildings": [
+        {
+          "buildingid": "713886",
+          "boroid": "5",
+          "housenumber": "25",
+          "streetname": "BAY TERRACE",
+          "zip": "10306",
+          "block": "5016",
+          "lot": "5",
+          "bin": "5064226",
+          "recordstatus": "Active",
+          "lifecycle": "Building",
+          "legalclassa": "64",
+          "bbl": "5050160005"
+        }
+      ],
+      "top_candidate_cross_check": {
+        "bbl": "5050160005",
+        "bin": "5064226",
+        "pluto_lot": [
+          {
+            "bbl": "5050160005",
+            "borough": "SI",
+            "address": "25 BAY TERRACE",
+            "bldgclass": "C9",
+            "numbldgs": "2",
+            "unitsres": "65",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "5064226",
+          "5168128"
+        ],
+        "footprint_of_bin": [
+          {
+            "bin": "5064226",
+            "base_bbl": "5050160005",
+            "mappluto_bbl": "5050160005",
+            "last_status_type": "Constructed"
+          }
+        ],
+        "hpd_by_bin": [
+          {
+            "buildingid": "713886",
+            "boroid": "5",
+            "housenumber": "25",
+            "streetname": "BAY TERRACE",
+            "block": "5016",
+            "lot": "5",
+            "bin": "5064226",
+            "recordstatus": "Active",
+            "bbl": "5050160005"
+          }
+        ]
+      }
+    },
+    {
+      "id": "E24",
+      "query": "50 Belair Road, 10305",
+      "errors": [],
+      "geosearch": [
+        {
+          "label": "50 BELAIR ROAD, Staten Island, NY, USA",
+          "bbl": "5028627501",
+          "bin": "5043008",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "67 BELAIR ROAD, Staten Island, NY, USA",
+          "bbl": "5028600013",
+          "bin": "5000000",
+          "bin_status": "unassigned_placeholder",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "71 BELAIR ROAD, Staten Island, NY, USA",
+          "bbl": "5028600013",
+          "bin": "5000000",
+          "bin_status": "unassigned_placeholder",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "53 BELAIR ROAD, Staten Island, NY, USA",
+          "bbl": "5028600078",
+          "bin": "5042961",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        },
+        {
+          "label": "63 BELAIR ROAD, Staten Island, NY, USA",
+          "bbl": "5028600116",
+          "bin": "5042949",
+          "bin_status": "assigned",
+          "match_type": "fallback",
+          "confidence": 0.8,
+          "pad_version": "26c"
+        }
+      ],
+      "pluto": [
+        {
+          "lookup": "SI|50 BELAIR ROAD",
+          "bbl": "5028627501",
+          "borough": "SI",
+          "address": "50 BELAIR ROAD",
+          "bldgclass": "R2",
+          "numbldgs": "1",
+          "unitsres": "48",
+          "condono": "86",
+          "version": "26v2",
+          "footprint_bins": [
+            {
+              "bin": "5043008",
+              "base_bbl": "5028620068",
+              "mappluto_bbl": "5028627501",
+              "construction_year": "1985",
+              "last_status_type": "Constructed"
+            }
+          ]
+        }
+      ],
+      "hpd_buildings": [
+        {
+          "buildingid": "714765",
+          "boroid": "5",
+          "housenumber": "50",
+          "streetname": "BELAIR ROAD",
+          "zip": "10305",
+          "block": "2862",
+          "lot": "7501",
+          "bin": "5043008",
+          "recordstatus": "Active",
+          "lifecycle": "Building",
+          "legalclassa": "48",
+          "bbl": "5028627501"
+        }
+      ],
+      "top_candidate_cross_check": {
+        "bbl": "5028627501",
+        "bin": "5043008",
+        "pluto_lot": [
+          {
+            "bbl": "5028627501",
+            "borough": "SI",
+            "address": "50 BELAIR ROAD",
+            "bldgclass": "R2",
+            "numbldgs": "1",
+            "unitsres": "48",
+            "condono": "86",
+            "version": "26v2"
+          }
+        ],
+        "footprint_bins_on_lot": [
+          "5043008"
+        ],
+        "footprint_of_bin": [
+          {
+            "bin": "5043008",
+            "base_bbl": "5028620068",
+            "mappluto_bbl": "5028627501",
+            "last_status_type": "Constructed"
+          }
+        ],
+        "hpd_by_bin": [
+          {
+            "buildingid": "714765",
+            "boroid": "5",
+            "housenumber": "50",
+            "streetname": "BELAIR ROAD",
+            "block": "2862",
+            "lot": "7501",
+            "bin": "5043008",
+            "recordstatus": "Active",
+            "bbl": "5028627501"
           }
         ]
       }

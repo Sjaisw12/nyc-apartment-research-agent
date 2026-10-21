@@ -75,5 +75,6 @@
   "https://data.cityofnewyork.us/resource/wvxf-dwi5.json?%24where=bbl%3D%271018227502%27+OR+%28boroid%3D1+AND+block%3D1822+AND+lot%3D7502%29&%24order=violationid&%24limit=250&%24offset=750": 247,
   "https://data.cityofnewyork.us/resource/wvxf-dwi5.json?%24where=bbl%3D%271018227502%27+OR+%28boroid%3D1+AND+block%3D1822+AND+lot%3D7502%29&%24order=violationid&%24limit=160&%24offset=1000": 157
  },
- "note": "HPD rows are redacted before saving; original body hashes are kept per entry as original_body_sha256. Unredacted rows are not in git."
+ "note": "HPD rows are redacted before saving; original body hashes are kept per entry as original_body_sha256. Unredacted rows are not in git.",
+ "redaction_events_note": "2026-10-21: per-row redaction_events (kinds and counts only, no values) were backfilled from the redaction markers in the sanitized bodies. Each replacement leaves exactly one marker, so marker counts equal the counts made at recording time. New recordings write them directly."
 }

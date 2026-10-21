@@ -18,6 +18,7 @@ from __future__ import annotations
 import datetime as dt
 import logging
 import re
+import secrets
 from collections import Counter
 from typing import Any
 
@@ -38,14 +39,22 @@ from .models import (
     LocationScope,
     NormalizedViolation,
     OrderCategory,
+    PrivacySummary,
     QualityFlag,
     RawEvidence,
+    RedactionInfo,
     RetrievalProvenance,
     RetrievalStatus,
     SourceResult,
     ViolationSummary,
 )
-from .redaction import canonical_sha256, redact_row
+from .redaction import (
+    canonical_sha256,
+    event_from_sanitized,
+    event_is_empty,
+    keyed_digest,
+    redact_row_event,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -124,6 +133,36 @@ CONSEQUENTIAL_ORDERS = frozenset(
         OrderCategory.UNDERLYING_CONDITIONS_ORDER,
     }
 )
+# What each order record does and does not establish (approved adjustment 3: an open AEP
+# order record is not confirmation of current AEP enrollment).
+ORDER_INTERPRETATION = {
+    OrderCategory.ALTERNATIVE_ENFORCEMENT_PROGRAM: (
+        "HPD order record stating the building was selected for the Alternative Enforcement "
+        "Program. It is not confirmation of current enrollment; HPD publishes enrollment "
+        "status separately (Buildings Selected for AEP, dataset hcir-3275), which this "
+        "task does not query."
+    ),
+    OrderCategory.VACATE_ORDER: (
+        "HPD order record stating units or premises were vacated. It does not confirm the "
+        "units are vacant or the order is still in force today."
+    ),
+    OrderCategory.VACANT_PREMISES_ORDER: (
+        "HPD order record about vacant, untenanted premises. It does not confirm the "
+        "building is vacant today."
+    ),
+    OrderCategory.RELOCATION_ORDER: (
+        "HPD commissioner's order record about relocation. It does not confirm anyone is "
+        "displaced today."
+    ),
+    OrderCategory.UNDERLYING_CONDITIONS_ORDER: (
+        "HPD order record under the underlying-conditions provision. It does not confirm "
+        "the order is still active."
+    ),
+    OrderCategory.REGISTRATION_NONCOMPLIANCE: (
+        "HPD record of a registration violation at the time it was issued. It does not "
+        "confirm the current registration status."
+    ),
+}
 KNOWN_CLASSES = frozenset({"A", "B", "C", "I"})
 
 # ---- Location scope --------------------------------------------------------------------
@@ -220,6 +259,7 @@ def normalize_row(
     fetched_at: str,
     data_as_of: str | None,
     as_of: dt.date,
+    digest_key: bytes,
     evidence: EvidenceStore | None = None,
     extra_flags: tuple[QualityFlag, ...] = (),
 ) -> NormalizedViolation:
@@ -248,13 +288,17 @@ def normalize_row(
         flags.append(QualityFlag.UNKNOWN_CLASS)
     scope, basis = location_scope(row)
 
-    public_row, redacted_fields = redact_row(row)
-    description_redacted = "novdescription" in redacted_fields
+    upstream = event_from_sanitized(row)  # markers already present (sanitized fixture)
+    public_row, here = redact_row_event(row)
+    redacted_fields = here["fields_masked"] + here["text_fields_redacted"]
+    redaction = _redaction_info(here, upstream)
+    description_redacted = "novdescription" in redaction.text_fields_redacted
     if description_redacted:
         flags.append(QualityFlag.UNIT_DETAIL_REDACTED)
     category = order_category(vclass, row.get("ordernumber"), row.get("novdescription"))
 
-    original_sha = canonical_sha256(row)
+    original_sha = canonical_sha256(row)  # private: evidence store only
+    original_digest = keyed_digest(row, digest_key)  # public, not brute-forceable
     redacted_sha = canonical_sha256(public_row)
     if evidence is not None:
         evidence.put(
@@ -262,6 +306,7 @@ def normalize_row(
                 dataset_id=DATASET_ID,
                 source_record_id=str(row.get("violationid")),
                 original_sha256=original_sha,
+                original_digest=original_digest,
                 redacted_sha256=redacted_sha,
                 redacted_fields=redacted_fields,
                 original_row=row,
@@ -290,8 +335,10 @@ def normalize_row(
         is_informational=vclass == "I",
         order_category=category,
         potentially_consequential=category in CONSEQUENTIAL_ORDERS,
+        order_interpretation=ORDER_INTERPRETATION.get(category) if category else None,
         description=public_row.get("novdescription"),
         description_redacted=description_redacted,
+        redaction=redaction,
         nov_type=_s(row.get("novtype")),
         rent_impairing=_yn(row.get("rentimpairing")),
         violation_status_raw=_s(row.get("violationstatus")),
@@ -302,7 +349,7 @@ def normalize_row(
         location_scope=scope,
         location_scope_basis=basis,
         quality_flags=flags,
-        original_sha256=original_sha,
+        original_digest=original_digest,
         redacted_sha256=redacted_sha,
         query_url=query_url,
         fetched_at=fetched_at,
@@ -310,11 +357,47 @@ def normalize_row(
     )
 
 
+def _redaction_info(here: dict, upstream: dict) -> RedactionInfo:
+    if not event_is_empty(here):
+        applied = "this_run"
+    elif not event_is_empty(upstream):
+        applied = "upstream"
+    else:
+        return RedactionInfo(applied="none")
+    replacements: dict[str, int] = dict(upstream["text_replacements"])
+    for k, v in here["text_replacements"].items():
+        replacements[k] = replacements.get(k, 0) + v
+    return RedactionInfo(
+        applied=applied,
+        fields_masked=sorted(set(here["fields_masked"]) | set(upstream["fields_masked"])),
+        text_fields_redacted=sorted(
+            set(here["text_fields_redacted"]) | set(upstream["text_fields_redacted"])
+        ),
+        text_replacements=dict(sorted(replacements.items())),
+    )
+
+
+def privacy_summary(records: list[NormalizedViolation]) -> PrivacySummary:
+    p = PrivacySummary(rows=len(records))
+    for r in records:
+        red = r.redaction
+        p.rows_with_unit_fields_masked += bool(red.fields_masked)
+        p.rows_with_text_redacted += bool(red.text_fields_redacted)
+        p.rows_with_any_redaction += red.applied != "none"
+        p.rows_redacted_this_run += red.applied == "this_run"
+        p.rows_redacted_upstream += red.applied == "upstream"
+        for k, v in red.text_replacements.items():
+            p.text_replacements_by_kind[k] = p.text_replacements_by_kind.get(k, 0) + v
+    p.text_replacements_by_kind = dict(sorted(p.text_replacements_by_kind.items()))
+    return p
+
+
 def normalize_fetch(
     fetch: PagedFetch,
     plan: LotQueryPlan,
     *,
     as_of: dt.date,
+    digest_key: bytes,
     evidence: EvidenceStore | None = None,
 ) -> list[NormalizedViolation]:
     """Normalize every fetched row, collapsing identical duplicates by violationid."""
@@ -349,6 +432,7 @@ def normalize_fetch(
                 fetched_at=fetched_at,
                 data_as_of=data_as_of,
                 as_of=as_of,
+                digest_key=digest_key,
                 evidence=evidence,
                 extra_flags=extra,
             )
@@ -404,6 +488,9 @@ def summarize(
                     "is_open": r.is_open,
                     "current_status": r.current_status_raw,
                     "inspection_date": inspected.raw if inspected else None,
+                    "record_type": "hpd_order_record",
+                    "confirms_current_program_status": False,
+                    "interpretation": r.order_interpretation,
                 }
             )
         flag_counts.update(f.value for f in r.quality_flags)
@@ -418,6 +505,7 @@ def summarize(
         conflict_counts=conflicts,
         quality_flag_counts=dict(sorted(flag_counts.items())),
         redacted_descriptions=sum(1 for r in records if r.description_redacted),
+        privacy=privacy_summary(records),
         location_scope_counts=dict(sorted(scope_counts.items())),
     )
 
@@ -436,6 +524,7 @@ def retrieve_hpd_violations(
     *,
     settings: Settings | None = None,
     evidence: EvidenceStore | None = None,
+    digest_key: bytes | None = None,
     page_size: int | None = None,
     row_cap: int | None = None,
     today: dt.date | None = None,
@@ -486,7 +575,9 @@ def retrieve_hpd_violations(
         )
 
     as_of = _as_of_date(fetch, today)
-    records = normalize_fetch(fetch, plan, as_of=as_of, evidence=evidence)
+    if digest_key is None:
+        digest_key = _digest_key(settings, fetch)
+    records = normalize_fetch(fetch, plan, as_of=as_of, digest_key=digest_key, evidence=evidence)
     prov = fetch.provenance
     if prov.incomplete_reasons:
         status = RetrievalStatus.INCOMPLETE_PAGINATION
@@ -511,6 +602,19 @@ def retrieve_hpd_violations(
         summary=summarize(records, plan.scope, prov.data_as_of, as_of),
         provenance=prov,
     )
+
+
+_EPHEMERAL_KEY = secrets.token_bytes(32)
+
+
+def _digest_key(settings: Settings, fetch: PagedFetch) -> bytes:
+    if settings.evidence_digest_key is not None:
+        return settings.evidence_digest_key.get_secret_value().encode("utf-8")
+    fetch.provenance.warnings.append(
+        "evidence_digest_key not configured: original_digest uses a per-process key and "
+        "is only comparable within this run"
+    )
+    return _EPHEMERAL_KEY
 
 
 def _as_of_date(fetch: PagedFetch, today: dt.date | None) -> dt.date:

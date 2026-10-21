@@ -57,7 +57,10 @@
         "order_category": "alternative_enforcement_program",
         "is_open": true,
         "current_status": "INFO NOV SENT OUT",
-        "inspection_date": "2026-02-02T00:00:00.000"
+        "inspection_date": "2026-02-02T00:00:00.000",
+        "record_type": "hpd_order_record",
+        "confirms_current_program_status": false,
+        "interpretation": "HPD order record stating the building was selected for the Alternative Enforcement Program. It is not confirmation of current enrollment; HPD publishes enrollment status separately (Buildings Selected for AEP, dataset hcir-3275), which this task does not query."
        }
       ]
      }
@@ -67,8 +70,23 @@
      "lot_identifier_conflict": 0,
      "status_fields_disagree": 0
     },
-    "quality_flag_counts": {},
-    "redacted_descriptions": 0,
+    "quality_flag_counts": {
+     "unit_detail_redacted": 616
+    },
+    "redacted_descriptions": 616,
+    "privacy": {
+     "rows": 666,
+     "rows_with_unit_fields_masked": 661,
+     "rows_with_text_redacted": 616,
+     "rows_with_any_redaction": 661,
+     "text_replacements_by_kind": {
+      "floor": 605,
+      "unit_id": 531,
+      "unit_position": 519
+     },
+     "rows_redacted_this_run": 0,
+     "rows_redacted_upstream": 661
+    },
     "location_scope_counts": {
      "building_wide": 1,
      "common_area": 90,
@@ -178,9 +196,23 @@
     },
     "quality_flag_counts": {
      "bbl_missing": 87,
-     "bin_missing": 87
+     "bin_missing": 87,
+     "unit_detail_redacted": 64
     },
-    "redacted_descriptions": 0,
+    "redacted_descriptions": 64,
+    "privacy": {
+     "rows": 174,
+     "rows_with_unit_fields_masked": 97,
+     "rows_with_text_redacted": 64,
+     "rows_with_any_redaction": 97,
+     "text_replacements_by_kind": {
+      "floor": 64,
+      "unit_id": 45,
+      "unit_position": 38
+     },
+     "rows_redacted_this_run": 0,
+     "rows_redacted_upstream": 97
+    },
     "location_scope_counts": {
      "common_area": 42,
      "unit": 45,
@@ -237,8 +269,23 @@
      "lot_identifier_conflict": 0,
      "status_fields_disagree": 0
     },
-    "quality_flag_counts": {},
-    "redacted_descriptions": 0,
+    "quality_flag_counts": {
+     "unit_detail_redacted": 11
+    },
+    "redacted_descriptions": 11,
+    "privacy": {
+     "rows": 12,
+     "rows_with_unit_fields_masked": 11,
+     "rows_with_text_redacted": 11,
+     "rows_with_any_redaction": 11,
+     "text_replacements_by_kind": {
+      "floor": 11,
+      "unit_id": 11,
+      "unit_position": 11
+     },
+     "rows_redacted_this_run": 0,
+     "rows_redacted_upstream": 11
+    },
     "location_scope_counts": {
      "unit": 11,
      "unspecified": 1
@@ -278,6 +325,15 @@
     },
     "quality_flag_counts": {},
     "redacted_descriptions": 0,
+    "privacy": {
+     "rows": 0,
+     "rows_with_unit_fields_masked": 0,
+     "rows_with_text_redacted": 0,
+     "rows_with_any_redaction": 0,
+     "text_replacements_by_kind": {},
+     "rows_redacted_this_run": 0,
+     "rows_redacted_upstream": 0
+    },
     "location_scope_counts": {}
    }
   },
@@ -341,21 +397,30 @@
         "order_category": "underlying_conditions_order",
         "is_open": false,
         "current_status": "VIOLATION DISMISSED",
-        "inspection_date": "2015-10-21T00:00:00.000"
+        "inspection_date": "2015-10-21T00:00:00.000",
+        "record_type": "hpd_order_record",
+        "confirms_current_program_status": false,
+        "interpretation": "HPD order record under the underlying-conditions provision. It does not confirm the order is still active."
        },
        {
         "violation_id": "12219192",
         "order_category": "alternative_enforcement_program",
         "is_open": false,
         "current_status": "VIOLATION DISMISSED",
-        "inspection_date": "2018-01-31T00:00:00.000"
+        "inspection_date": "2018-01-31T00:00:00.000",
+        "record_type": "hpd_order_record",
+        "confirms_current_program_status": false,
+        "interpretation": "HPD order record stating the building was selected for the Alternative Enforcement Program. It is not confirmation of current enrollment; HPD publishes enrollment status separately (Buildings Selected for AEP, dataset hcir-3275), which this task does not query."
        },
        {
         "violation_id": "14810382",
         "order_category": "alternative_enforcement_program",
         "is_open": false,
         "current_status": "VIOLATION DISMISSED",
-        "inspection_date": "2022-01-31T00:00:00.000"
+        "inspection_date": "2022-01-31T00:00:00.000",
+        "record_type": "hpd_order_record",
+        "confirms_current_program_status": false,
+        "interpretation": "HPD order record stating the building was selected for the Alternative Enforcement Program. It is not confirmation of current enrollment; HPD publishes enrollment status separately (Buildings Selected for AEP, dataset hcir-3275), which this task does not query."
        }
       ]
      },
@@ -387,7 +452,10 @@
         "order_category": "alternative_enforcement_program",
         "is_open": false,
         "current_status": "VIOLATION DISMISSED",
-        "inspection_date": "2016-02-01T00:00:00.000"
+        "inspection_date": "2016-02-01T00:00:00.000",
+        "record_type": "hpd_order_record",
+        "confirms_current_program_status": false,
+        "interpretation": "HPD order record stating the building was selected for the Alternative Enforcement Program. It is not confirmation of current enrollment; HPD publishes enrollment status separately (Buildings Selected for AEP, dataset hcir-3275), which this task does not query."
        }
       ]
      }
@@ -397,8 +465,23 @@
      "lot_identifier_conflict": 0,
      "status_fields_disagree": 0
     },
-    "quality_flag_counts": {},
-    "redacted_descriptions": 0,
+    "quality_flag_counts": {
+     "unit_detail_redacted": 1124
+    },
+    "redacted_descriptions": 1124,
+    "privacy": {
+     "rows": 1160,
+     "rows_with_unit_fields_masked": 1149,
+     "rows_with_text_redacted": 1124,
+     "rows_with_any_redaction": 1149,
+     "text_replacements_by_kind": {
+      "floor": 1124,
+      "unit_id": 1006,
+      "unit_position": 981
+     },
+     "rows_redacted_this_run": 0,
+     "rows_redacted_upstream": 1149
+    },
     "location_scope_counts": {
      "building_wide": 3,
      "common_area": 122,

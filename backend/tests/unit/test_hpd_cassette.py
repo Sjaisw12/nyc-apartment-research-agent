@@ -21,6 +21,7 @@ from nyc_apartment_agent.sources.clients import geosearch_client, socrata_client
 FIXTURES = Path(__file__).resolve().parents[1] / "fixtures" / "hpd"
 META = json.loads((FIXTURES / "violations_cassette.meta.json").read_text(encoding="utf-8"))
 DATA_AS_OF = "Wed, 21 Oct 2026 14:51:46 GMT"
+KEY = b"test-key"
 
 
 @pytest.fixture(scope="module")
@@ -35,7 +36,7 @@ def run(key, entries, evidence=None):
     with geosearch_client(settings, transport) as g, socrata_client(settings, transport) as s:
         resolution = resolve_address(address, g, s)
         result = retrieve_hpd_violations(
-            resolution, s, page_size=META["page_size"], evidence=evidence
+            resolution, s, page_size=META["page_size"], evidence=evidence, digest_key=KEY
         )
     assert transport.misses == []  # nothing outside the recording was requested
     return resolution, result
@@ -67,8 +68,8 @@ def test_test_building_complete_over_three_pages(entries):
     }
     # Every public record traces to stored raw evidence.
     for r in result.records:
-        item = store.get(r.original_sha256)
-        assert item is not None and verify(item)
+        item = store.get(r.original_digest)
+        assert item is not None and verify(item, KEY)
         assert item.redacted_sha256 == r.redacted_sha256
         assert item.source_record_id == r.violation_id
         assert r.query_url.startswith("https://data.cityofnewyork.us/resource/wvxf-dwi5.json")
@@ -127,3 +128,35 @@ def test_cassette_without_hpd_entries_gives_source_unavailable(entries):
         resolution = resolve_address(META["addresses"]["west_farms_1134"]["address"], g, s)
         result = retrieve_hpd_violations(resolution, s, page_size=META["page_size"])
     assert result.status is RetrievalStatus.SOURCE_UNAVAILABLE
+
+
+def test_privacy_metrics_reproduce_from_sanitized_fixture(entries):
+    """616 descriptions were redacted when the test building was fetched live at this
+    dataset version; the sanitized fixture must give the same number back."""
+    _, result = run("west_farms_1134", entries)
+    p = result.summary.privacy
+    assert p.rows_with_text_redacted == 616
+    assert p.rows_with_unit_fields_masked == 661
+    assert p.text_replacements_by_kind == {"floor": 605, "unit_id": 531, "unit_position": 519}
+    assert p.rows_redacted_upstream == 661 and p.rows_redacted_this_run == 0
+
+    # The stored per-row redaction events agree with the records, kind by kind.
+    stored: dict[str, int] = {}
+    rows_with_events = 0
+    for url, entry in entries.items():
+        if "wvxf-dwi5" in url and "redaction_events" in entry and "2027540005" in url:
+            for ev in entry["redaction_events"]:
+                rows_with_events += 1
+                for k, v in ev["text_replacements"].items():
+                    stored[k] = stored.get(k, 0) + v
+    assert stored == p.text_replacements_by_kind
+    assert rows_with_events == p.rows_with_any_redaction
+
+
+def test_redaction_events_hold_no_values(entries):
+    allowed = {"violationid", "fields_masked", "text_fields_redacted", "text_replacements"}
+    for entry in entries.values():
+        for ev in entry.get("redaction_events", []):
+            assert set(ev) == allowed
+            assert set(ev["fields_masked"]) <= {"apartment", "story"}
+            assert set(ev["text_replacements"]) <= {"unit_id", "floor", "unit_position"}

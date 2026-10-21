@@ -3,16 +3,22 @@
 Counts change daily, so these check invariants rather than exact numbers.
 """
 
+import datetime as dt
 import os
 
 import pytest
 
+from nyc_apartment_agent.records.evidence import InMemoryEvidenceStore
 from nyc_apartment_agent.records.hpd_violations import (
     DATASET_ID,
     REQUIRED_FIELDS,
+    normalize_row,
+    privacy_summary,
     retrieve_hpd_violations,
 )
+from nyc_apartment_agent.records.join_policy import plan_lot_query
 from nyc_apartment_agent.records.models import Attribution, QualityFlag, RetrievalStatus
+from nyc_apartment_agent.records.redaction import redact_row
 from nyc_apartment_agent.resolver import resolve_address
 from nyc_apartment_agent.sources.clients import geosearch_client, socrata_client
 
@@ -60,3 +66,32 @@ def test_tax_lot_resolution_stays_lot_level():
         Attribution.LOT_LEVEL,
         Attribution.UNATTRIBUTED_ON_LOT,
     }
+
+
+def test_privacy_metrics_survive_sanitizing_live_rows():
+    """Redact live rows, re-normalize the sanitized copies, and get the same metrics."""
+    store = InMemoryEvidenceStore()
+    address = "1134 West Farms Rd, Bronx, NY 10459"
+    with geosearch_client() as g, socrata_client() as s:
+        plan = plan_lot_query(resolve_address(address, g, s))
+    _, live = run(address, evidence=store, digest_key=b"k")
+    assert live.summary.privacy.rows_redacted_this_run > 0
+
+    sanitized = [redact_row(store.get(r.original_digest).original_row)[0] for r in live.records]
+    again = [
+        normalize_row(
+            x,
+            plan,
+            query_url="",
+            fetched_at="",
+            data_as_of=None,
+            as_of=dt.date.today(),
+            digest_key=b"k",
+        )
+        for x in sanitized
+    ]
+    a, b = live.summary.privacy, privacy_summary(again)
+    assert b.rows_redacted_upstream == a.rows_redacted_this_run
+    assert a.rows_with_text_redacted == b.rows_with_text_redacted
+    assert a.rows_with_unit_fields_masked == b.rows_with_unit_fields_masked
+    assert a.text_replacements_by_kind == b.text_replacements_by_kind

@@ -130,6 +130,31 @@ class RetrievalProvenance(BaseModel):
     error: str | None = None
 
 
+class RedactionInfo(BaseModel):
+    """What was removed from this record for privacy. Kinds and counts only, never values.
+
+    `applied` says where it happened: "this_run" (we redacted a live row now),
+    "upstream" (the row came from a sanitized fixture; counts rebuilt from its markers),
+    or "none". Either way the same metrics come out, so privacy numbers can be
+    reproduced from sanitized fixtures.
+    """
+
+    applied: str
+    fields_masked: list[str] = Field(default_factory=list)  # apartment, story
+    text_fields_redacted: list[str] = Field(default_factory=list)  # novdescription
+    text_replacements: dict[str, int] = Field(default_factory=dict)  # unit_id/floor/position
+
+
+class PrivacySummary(BaseModel):
+    rows: int = 0
+    rows_with_unit_fields_masked: int = 0
+    rows_with_text_redacted: int = 0
+    rows_with_any_redaction: int = 0
+    text_replacements_by_kind: dict[str, int] = Field(default_factory=dict)
+    rows_redacted_this_run: int = 0
+    rows_redacted_upstream: int = 0
+
+
 class DateValue(BaseModel):
     raw: str | None
     value: dt.date | None  # None when missing, unparseable or implausible
@@ -139,7 +164,7 @@ class NormalizedViolation(BaseModel):
     """One HPD violation, ready for the public report.
 
     Never contains apartment or story values, and the description is redacted.
-    The unredacted source row lives only in the evidence store, keyed by original_sha256.
+    The unredacted source row lives only in the evidence store, keyed by original_digest.
     """
 
     model_config = ConfigDict(populate_by_name=True)
@@ -165,9 +190,13 @@ class NormalizedViolation(BaseModel):
     is_informational: bool  # Class I: information / orders, kept separate from A/B/C
     order_category: OrderCategory | None  # only for Class I
     potentially_consequential: bool  # e.g. vacate, relocation, AEP, underlying conditions
+    # What an order record can and cannot show. An order record is evidence that HPD
+    # issued the order; it does not by itself confirm the program or condition is current.
+    order_interpretation: str | None = None
 
     description: str | None  # redacted
     description_redacted: bool
+    redaction: RedactionInfo
     nov_type: str | None
     rent_impairing: bool | None
 
@@ -181,7 +210,9 @@ class NormalizedViolation(BaseModel):
     location_scope_basis: str
 
     quality_flags: list[QualityFlag]
-    original_sha256: str  # hash of the unredacted source row
+    # Keyed HMAC-SHA256 of the unredacted row (server-side key). Not a plain hash: a plain
+    # hash of the original could be brute-forced back to the apartment and floor.
+    original_digest: str
     redacted_sha256: str  # hash of the public (redacted) source row
     query_url: str
     fetched_at: str
@@ -215,6 +246,7 @@ class ViolationSummary(BaseModel):
     conflict_counts: dict[str, int]
     quality_flag_counts: dict[str, int]
     redacted_descriptions: int
+    privacy: PrivacySummary
     location_scope_counts: dict[str, int]
 
 
@@ -269,7 +301,8 @@ class RawEvidence(BaseModel):
 
     dataset_id: str
     source_record_id: str
-    original_sha256: str
+    original_sha256: str  # plain hash; private, stays in controlled storage
+    original_digest: str  # keyed hash; what public records carry
     redacted_sha256: str
     redacted_fields: list[str]
     original_row: dict

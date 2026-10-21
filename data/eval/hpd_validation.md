@@ -8,6 +8,8 @@ Our numbers come from NYC Open Data `wvxf-dwi5`, dataset version `Wed, 21 Oct 20
 
 How to check: open https://hpdonline.nyc.gov, search the address, open the building's **Violations** tab. For counts, filter to open violations if the page allows it.
 
+For every mismatch, please also note (if HPD Online shows it) the page's "data as of" or last-updated date, so we can tell a timing difference from a real error. When results come in, each mismatch is classified in the reconciliation table at the end. Nothing is dropped or "fixed" to make it match.
+
 ## Building 1: 1134 West Farms Road, Bronx (BBL 2027540005, BIN 2006185)
 
 Resolution: building level. All 666 rows are on this BIN.
@@ -21,7 +23,8 @@ Resolution: building level. All 666 rows are on this BIN.
 | Open class C | 40 | | |
 | Open class I | 1 (Alternative Enforcement Program, violation 18617994) | | |
 | All violations, total (open + closed), if shown | 666 | | |
-| Is the building shown as in the Alternative Enforcement Program (AEP)? | AEP order record 18617994, Open, "INFO NOV SENT OUT", inspected 2026-02-02 | | |
+| AEP **order record** in the violations list? | Class I order record 18617994 (§27-2153, "selected to participate in AEP"), status Open / INFO NOV SENT OUT, inspected 2026-02-02. This is an order record only. It does **not** by itself confirm current enrollment. | | |
+| AEP **enrollment** shown by HPD Online (separate from the order record) | Not established by Task 1. For comparison only: HPD's separate AEP dataset (`hcir-3275`, last updated 2026-10-01) lists building 122027 as "AEP Active", start 2026-02-02, Round 19. Task 1 does not query that dataset. | | |
 
 | Violation ID | Class | Inspected | Our status / current status | HPD Online status | Match? |
 |---|---|---|---|---|---|
@@ -61,7 +64,8 @@ Resolution: building level on the condo billing lot. The lot holds two buildings
 | Open class A | 7 | | |
 | Open class B | 21 | | |
 | Open class C | 45 | | |
-| Open class I | 0 (2 AEP and 1 underlying-conditions order records exist, all closed or dismissed) | | |
+| Open class I | 0 (2 AEP order records and 1 underlying-conditions order record exist, all closed or dismissed) | | |
+| AEP enrollment shown by HPD Online | Not established by Task 1. For comparison only: `hcir-3275` lists 1845 as "AEP Discharged" twice (2018-06-18 and 2022-05-26) | | |
 | Does HPD Online show 1845 and 1851 as separate buildings? | We treat them as separate (different BINs) | | |
 
 | Violation ID | Class | Inspected | Our status / current status | HPD Online status | Match? |
@@ -72,6 +76,20 @@ Resolution: building level on the condo billing lot. The lot holds two buildings
 | 19034717 | C | 2026-06-24 | Close / VIOLATION CLOSED | | |
 | 14810382 | I | 2022-01-31 | Close / VIOLATION DISMISSED | | |
 
-## Results (to be filled from Sanyam's report)
+## Reconciliation (filled in after results arrive)
 
-_Not yet received._
+Each mismatch gets one category:
+
+- **snapshot**: the data changed between our snapshot (2026-10-21 14:51 GMT) and the date checked, e.g. a new inspection or a status change. Re-fetch live to confirm.
+- **attribution**: HPD Online files a record under another building or address than we do (likely on the multi-building lot).
+- **status interpretation**: we read open/closed differently from HPD Online (e.g. `violationstatus` vs `currentstatus`).
+- **definition**: the counts cover different things (e.g. HPD Online excludes class I, or counts problems differently).
+- **our bug**: none of the above. It gets fixed, a regression test is added, and the affected tests are rerun.
+
+| Building | Check | Our value | HPD Online value | Date checked | HPD Online "as of" | Category | Resolution |
+|---|---|---|---|---|---|---|---|
+| | | | | | | | |
+
+## Results (from Sanyam's report)
+
+_Not yet received. Validation status: PENDING. Task 1 stays open until this section is filled in._

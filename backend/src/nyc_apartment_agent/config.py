@@ -33,12 +33,16 @@ class Settings(BaseSettings):
     socrata_page_size: int = Field(default=1000, ge=1, le=50_000)
     source_row_cap: int = Field(default=10_000, ge=1)
 
+    # Key for the keyed digest of unredacted rows (records/redaction.py: keyed_digest).
+    # Unset: a random key is made per process, so digests are not stable across runs.
+    evidence_digest_key: SecretStr | None = None
+
     user_agent: str = (
         "nyc-apartment-research-agent/0.1 "
         "(+https://github.com/Sjaisw12/nyc-apartment-research-agent)"
     )
 
-    @field_validator("socrata_app_token", mode="before")
+    @field_validator("socrata_app_token", "evidence_digest_key", mode="before")
     @classmethod
     def _blank_token_is_none(cls, value: object) -> object:
         # An empty SOCRATA_APP_TOKEN= line means "no token", not an empty header.

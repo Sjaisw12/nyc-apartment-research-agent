@@ -19,7 +19,7 @@ from pathlib import Path
 
 from nyc_apartment_agent.cassette import RecordingTransport, save_cassette
 from nyc_apartment_agent.records.hpd_violations import DATASET_ID, retrieve_hpd_violations
-from nyc_apartment_agent.records.redaction import redact_row
+from nyc_apartment_agent.records.redaction import event_is_empty, redact_row_event
 from nyc_apartment_agent.resolver.resolve import resolve_address
 from nyc_apartment_agent.sources.clients import geosearch_client, socrata_client
 
@@ -63,15 +63,18 @@ def redact_entries(entries: dict[str, dict]) -> dict[str, int]:
         if not isinstance(rows, list):
             continue
         original_sha = hashlib.sha256(entry["body"].encode("utf-8")).hexdigest()
-        redacted, touched = [], 0
+        redacted, events = [], []
         for row in rows:
-            new, fields = redact_row(row)
-            touched += bool(fields)
+            new, event = redact_row_event(row)
             redacted.append(new)
+            if not event_is_empty(event):
+                # Kinds and counts only, never the removed values.
+                events.append({"violationid": row.get("violationid"), **event})
         entry["body"] = json.dumps(redacted, ensure_ascii=False)
         entry["original_body_sha256"] = original_sha
+        entry["redaction_events"] = events
         entry["redaction"] = "apartment, story -> [REDACTED]; unit/floor detail in novdescription"
-        report[url] = touched
+        report[url] = len(events)
     return report
 
 

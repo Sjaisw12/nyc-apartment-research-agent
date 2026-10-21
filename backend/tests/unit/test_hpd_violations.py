@@ -26,8 +26,12 @@ from tests.hpd_helpers import FakeSocrata, resolution, row
 TODAY = dt.date(2026, 10, 21)
 
 
+KEY = b"synthetic-test-key"
+
+
 def retrieve(rows, res=None, **kw):
     fake = FakeSocrata(rows)
+    kw.setdefault("digest_key", KEY)
     with fake.client() as c:
         result = retrieve_hpd_violations(res or resolution(), c, today=TODAY, page_size=10, **kw)
     return result, fake
@@ -291,10 +295,11 @@ def test_public_record_has_no_unit_detail_but_evidence_does():
     assert "4C" not in dumped and "4th STORY" not in dumped
     assert "apartment" not in r.model_dump() and "story" not in r.model_dump()
     assert QualityFlag.UNIT_DETAIL_REDACTED in r.quality_flags
-    item = store.get(r.original_sha256)
+    item = store.get(r.original_digest)
     assert item.original_row["apartment"] == "4C"
-    assert item.redacted_sha256 == r.redacted_sha256 != r.original_sha256
-    assert verify(item)
+    assert item.redacted_sha256 == r.redacted_sha256 != r.original_digest
+    assert verify(item, KEY)
+    assert not verify(item, b"wrong key")
     assert set(item.redacted_fields) == {"apartment", "story", "novdescription"}
 
 
@@ -328,8 +333,75 @@ def test_identical_duplicates_collapse_but_differing_ones_are_flagged():
         provenance=RetrievalProvenance(dataset_id="wvxf-dwi5", pages=[page]),
         row_page=[0, 0, 0, 0],
     )
-    out = normalize_fetch(fetch, plan_lot_query(resolution()), as_of=TODAY)
+    out = normalize_fetch(fetch, plan_lot_query(resolution()), as_of=TODAY, digest_key=KEY)
     assert [r.violation_id for r in out] == ["1", "2", "2"]
     assert QualityFlag.DUPLICATE_ID_SAME_CONTENT in out[0].quality_flags
     assert all(QualityFlag.DUPLICATE_ID_DIFFERENT_CONTENT in r.quality_flags for r in out[1:])
     assert all(r.attribution is Attribution.UNATTRIBUTED_ON_LOT for r in out[1:])
+
+
+# ---- adjustments after the Task 1 review (2026-10-21) --------------------------------
+
+
+def test_public_record_does_not_carry_a_brute_forceable_hash_of_the_original():
+    """A plain SHA-256 of the original row could be reversed by trying every apartment and
+    floor (the rest of the row is public). The public record must not contain it."""
+    from nyc_apartment_agent.records.redaction import canonical_sha256, redact_row
+
+    raw = row(1, apartment="4C", story="4", novdescription="LEAK AT APT 4C, 4th STORY")
+    r = one(raw)
+    plain = canonical_sha256(raw)
+    assert plain not in r.model_dump_json()
+    # The attack the keyed digest prevents: public row + guesses -> plain hash match.
+    public, _ = redact_row(raw)
+    guess = dict(public, apartment="4C", story="4", novdescription=raw["novdescription"])
+    assert canonical_sha256(guess) == plain  # i.e. a plain hash would have leaked "4C"
+    assert one(raw, digest_key=b"other key").original_digest != r.original_digest
+
+
+def test_redaction_metadata_kinds_and_counts_never_values():
+    r = one(
+        row(
+            1,
+            apartment="4C",
+            story="4",
+            novdescription="AT APT 4C, 4th STORY, 1st APARTMENT FROM WEST AT NORTH",
+        )
+    )
+    assert r.redaction.applied == "this_run"
+    assert r.redaction.fields_masked == ["apartment", "story"]
+    assert r.redaction.text_replacements == {"floor": 1, "unit_id": 1, "unit_position": 1}
+    assert "4C" not in r.redaction.model_dump_json()
+
+
+def test_sanitized_input_gives_the_same_privacy_metrics_as_live_input():
+    raw = row(1, apartment="4C", story="4", novdescription="AT APT 4C, 4th STORY")
+    from nyc_apartment_agent.records.redaction import redact_row
+
+    sanitized, _ = redact_row(raw)
+    live, fixture = one(raw), one(sanitized)
+    assert fixture.redaction.applied == "upstream"
+    for field in ("fields_masked", "text_fields_redacted", "text_replacements"):
+        assert getattr(live.redaction, field) == getattr(fixture.redaction, field)
+    assert live.location_scope == fixture.location_scope
+    assert QualityFlag.UNIT_DETAIL_REDACTED in fixture.quality_flags
+    assert live.description == fixture.description
+
+
+def test_open_aep_order_is_not_reported_as_current_enrollment():
+    aep = row(
+        1,
+        **{
+            "class": "I",
+            "ordernumber": "729",
+            "novdescription": "THE PREMISES HAS BEEN SELECTED TO PARTICIPATE IN THE "
+            "ALTERNATIVE ENFORCEMENT PROGRAM",
+        },
+    )
+    result, _ = retrieve([aep])
+    r = result.records[0]
+    assert r.is_open and r.order_category is OrderCategory.ALTERNATIVE_ENFORCEMENT_PROGRAM
+    assert "not confirmation of current enrollment" in r.order_interpretation
+    order = result.summary.by_attribution[Attribution.THIS_BUILDING].consequential_orders[0]
+    assert order["record_type"] == "hpd_order_record"
+    assert order["confirms_current_program_status"] is False

@@ -68,3 +68,14 @@ def test_live_output_carries_no_withheld_values():
     assert not record_fields & {"apartment", "unique_key", "complaint_anonymous_flag"}
     c = result.summary.classification
     assert c.classified + c.other == c.problems_with_text
+
+
+def test_live_rows_give_original_row_evidence():
+    from nyc_apartment_agent.records.evidence import InMemoryEvidenceStore, verifies_original_row
+    from nyc_apartment_agent.records.models import DigestBasis
+
+    store = InMemoryEvidenceStore()
+    key = b"live-test-key"
+    _, result = run("1217 West Farms Road, Bronx", evidence=store, digest_key=key)
+    assert {r.digest_basis for r in result.records} == {DigestBasis.ORIGINAL_ROW}
+    assert all(verifies_original_row(store.get(r.original_digest), key) for r in result.records)

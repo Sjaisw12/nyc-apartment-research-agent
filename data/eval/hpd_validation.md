@@ -1,4 +1,8 @@
-# HPD Online validation checklist (Phase 2, Task 1)
+# HPD Online validation checklist (Phase 2, Tasks 1 and 2)
+
+Two separate validations live in this file. **Part A (Task 1, violations)** and **Part B (Task 2, complaints)** have separate statuses; one passing does not close the other.
+
+# Part A: violations (Task 1)
 
 **Status: PENDING.** Nothing here is validated until Sanyam fills in the "HPD Online" columns. This file records his results exactly as reported, including mismatches.
 
@@ -93,3 +97,84 @@ Each mismatch gets one category:
 ## Results (from Sanyam's report)
 
 _Not yet received. Validation status: PENDING. Task 1 stays open until this section is filled in._
+
+
+# Part B: complaints (Task 2)
+
+**Status: PENDING.** Added 2026-10-21 after the Task 2 review. Nothing here is validated until Sanyam fills in the "HPD Online" columns. Part A above stays open on its own terms.
+
+Our numbers come from NYC Open Data `ygpa-z7cr` (Housing Maintenance Code Complaints and Problems), dataset version `Wed, 21 Oct 2026 14:10:13 GMT`, recorded 2026-10-21 (see `backend/tests/fixtures/hpd/complaints_cassette.meta.json`). Please write down the date you checked and any "data as of" date HPD Online shows.
+
+How to check: open https://hpdonline.nyc.gov, search the address, and open the building's **Complaints** tab (or the equivalent section).
+
+**Complaints vs problems.** One complaint holds one or more problems. Open Data has one row per *problem*: the test building has 912 problem rows in 539 complaints. HPD Online may list complaints, problems, or complaints with their problems underneath. It may also show only a recent period, or group by building differently. A different number is therefore not automatically an error. Every difference is recorded and classified in the reconciliation table below, using the same categories as Part A (snapshot, attribution, status interpretation, definition, our bug). Nothing is changed to make it match.
+
+What we never show, and will not ask you to compare: apartment numbers, the complainant-anonymity flag, and the 311 request number.
+
+## B1: 1134 West Farms Road, Bronx (BBL 2027540005, BIN 2006185)
+
+All 912 problems (539 complaints) are on this BIN.
+
+| Check | Our value | HPD Online | Match? |
+|---|---|---|---|
+| Date you checked | | | |
+| Does HPD Online count complaints, problems, or both? Does it limit the period shown? | (question) | | |
+| Complaints, all time | 539 (912 problems) | | |
+| Open complaints | 0 (0 open problems) | | |
+| Complaints received in 2026 (to 2026-10-21) | 22 | | |
+| Complaints received in 2025 | 27 | | |
+
+| Complaint ID | Received | Problems | Our complaint status | Categories | HPD's disposition (our classification) | HPD Online status | Match? |
+|---|---|---|---|---|---|---|---|
+| 15038142 | 2026-10-19 | 2 | CLOSE | HEAT/HOT WATER, WATER LEAK | 1 no violation found, 1 no access | | |
+| 15019620 | 2026-10-12 | 2 | CLOSE | UNSANITARY CONDITION, WATER LEAK | 2 violations issued | | |
+| 14975256 | 2026-09-14 | 1 | CLOSE | DOOR/WINDOW | violations issued | | |
+| 14915481 | 2026-08-01 | 1 | CLOSE | HEAT/HOT WATER | duplicate of a building-wide complaint | | |
+
+## B2: 220 West 17th Street, Manhattan (BBL 1007660055, BIN 1081543)
+
+The lot holds 8 buildings. Of 105 problems (79 complaints) on the lot: 13 problems / 10 complaints on this BIN, 8 / 8 on other BINs, and 84 / 61 with **no BBL and no BIN**. We do not attribute those 61 complaints to any building. This check shows where HPD Online puts them.
+
+| Check | Our value | HPD Online | Match? |
+|---|---|---|---|
+| Date you checked | | | |
+| Complaints shown for 220 West 17th Street | 10 on BIN 1081543 (13 problems) | | |
+| Open complaints for 220 West 17th Street | 5 | | |
+| Complaints received in 2026 for 220 West 17th Street | 7 | | |
+| Open complaints on the lot with no BBL/BIN: which address does HPD Online show them under? | 13 open of 61 (unattributed by us) | | |
+
+| Complaint ID | Received | Our attribution | Our complaint status | Categories | Which address does HPD Online show it under? | HPD Online status | Match? |
+|---|---|---|---|---|---|---|---|
+| 15041183 | 2026-10-20 | this building | OPEN | GENERAL | | | |
+| 15041170 | 2026-10-20 | this building | OPEN | HEAT/HOT WATER (duplicate of a building-wide complaint) | | | |
+| 15042281 | 2026-10-20 | unattributed on lot (no BBL/BIN) | OPEN | HEAT/HOT WATER | | | |
+| 15041535 | 2026-10-20 | unattributed on lot (no BBL/BIN) | OPEN | GENERAL | | | |
+
+## B3: 1845 Adam Clayton Powell Jr Blvd, Manhattan (condo billing BBL 1018227502, BIN 1054974)
+
+Two buildings on the billing lot: 1,717 problems / 747 complaints on BIN 1054974 (1845), and 936 / 377 on BIN 1055002 (1851).
+
+| Check | Our value | HPD Online | Match? |
+|---|---|---|---|
+| Date you checked | | | |
+| Complaints for 1845, all time | 747 (1,717 problems) | | |
+| Open complaints for 1845 | 1 (2 open problems) | | |
+| Complaints received in 2026 for 1845 | 10 | | |
+| Does HPD Online show 1845 and 1851 separately? | We treat them as separate (different BINs) | | |
+
+| Complaint ID | Received | Problems | Our attribution | Our complaint status | Categories | HPD Online status | Match? |
+|---|---|---|---|---|---|---|---|
+| 14947909 | 2026-08-25 | 2 | this building (1845) | OPEN | ELECTRIC, GENERAL | | |
+| 14979335 | 2026-09-17 | 3 | this building (1845) | CLOSE | FLOORING/STAIRS, PLUMBING, UNSANITARY CONDITION | | |
+| 14965812 | 2026-09-04 | 4 | this building (1845) | CLOSE | PAINT/PLASTER, PLUMBING, UNSANITARY CONDITION, WATER LEAK | | |
+| 15016775 | 2026-10-09 | 5 | other building on lot (1851) | CLOSE | DOOR/WINDOW, PAINT/PLASTER, PLUMBING, UNSANITARY CONDITION | | |
+
+## Part B reconciliation (filled in after results arrive)
+
+| Building | Check | Our value | HPD Online value | Date checked | HPD Online "as of" | Category | Resolution |
+|---|---|---|---|---|---|---|---|
+| | | | | | | | |
+
+## Part B results (from Sanyam's report)
+
+_Not yet received. Validation status: PENDING. Part A and Part B are tracked separately; results for one do not settle the other._

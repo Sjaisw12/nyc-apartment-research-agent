@@ -35,6 +35,7 @@ from .models import (
     Attribution,
     BucketSummary,
     DateValue,
+    DigestBasis,
     JoinScope,
     LocationScope,
     NormalizedViolation,
@@ -52,6 +53,7 @@ from .redaction import (
     canonical_sha256,
     event_from_sanitized,
     event_is_empty,
+    is_sanitized,
     keyed_digest,
     redact_row_event,
 )
@@ -297,6 +299,8 @@ def normalize_row(
         flags.append(QualityFlag.UNIT_DETAIL_REDACTED)
     category = order_category(vclass, row.get("ordernumber"), row.get("novdescription"))
 
+    # Live rows are originals; a replayed fixture row is already sanitized.
+    digest_basis = DigestBasis.SANITIZED_ROW if is_sanitized(row) else DigestBasis.ORIGINAL_ROW
     original_sha = canonical_sha256(row)  # private: evidence store only
     original_digest = keyed_digest(row, digest_key)  # public, not brute-forceable
     redacted_sha = canonical_sha256(public_row)
@@ -307,6 +311,7 @@ def normalize_row(
                 source_record_id=str(row.get("violationid")),
                 original_sha256=original_sha,
                 original_digest=original_digest,
+                basis=digest_basis,
                 redacted_sha256=redacted_sha,
                 redacted_fields=redacted_fields,
                 original_row=row,
@@ -350,6 +355,7 @@ def normalize_row(
         location_scope_basis=basis,
         quality_flags=flags,
         original_digest=original_digest,
+        digest_basis=digest_basis,
         redacted_sha256=redacted_sha,
         query_url=query_url,
         fetched_at=fetched_at,

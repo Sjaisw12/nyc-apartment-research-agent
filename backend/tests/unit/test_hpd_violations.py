@@ -300,6 +300,7 @@ def test_public_record_has_no_unit_detail_but_evidence_does():
     assert item.redacted_sha256 == r.redacted_sha256 != r.original_digest
     assert verify(item, KEY)
     assert not verify(item, b"wrong key")
+    assert r.digest_basis.value == "original_row"  # live-style input: original evidence
     assert set(item.redacted_fields) == {"apartment", "story", "novdescription"}
 
 

@@ -6,15 +6,25 @@ with apartment/floor detail redacted. Counts below are the live counts at that t
 """
 
 import json
+from collections import Counter
 from pathlib import Path
 
 import pytest
 
 from nyc_apartment_agent.cassette import ReplayTransport, load_cassette
 from nyc_apartment_agent.config import Settings
-from nyc_apartment_agent.records.evidence import InMemoryEvidenceStore, verify
+from nyc_apartment_agent.records.evidence import (
+    InMemoryEvidenceStore,
+    verifies_original_row,
+    verify,
+)
 from nyc_apartment_agent.records.hpd_violations import retrieve_hpd_violations
-from nyc_apartment_agent.records.models import Attribution, QualityFlag, RetrievalStatus
+from nyc_apartment_agent.records.models import (
+    Attribution,
+    DigestBasis,
+    QualityFlag,
+    RetrievalStatus,
+)
 from nyc_apartment_agent.resolver import resolve_address
 from nyc_apartment_agent.sources.clients import geosearch_client, socrata_client
 
@@ -66,10 +76,15 @@ def test_test_building_complete_over_three_pages(entries):
         "lot_identifier_conflict": 0,
         "status_fields_disagree": 0,
     }
-    # Every public record traces to stored raw evidence.
+    # Every public record traces to its stored row. On replay that row is the SANITIZED
+    # fixture row (basis sanitized_row): verify() proves the copy is intact, not that it
+    # matches the original unredacted row, which the fixture does not contain.
     for r in result.records:
         item = store.get(r.original_digest)
         assert item is not None and verify(item, KEY)
+        assert item.basis is r.digest_basis
+        if r.digest_basis is DigestBasis.SANITIZED_ROW:
+            assert not verifies_original_row(item, KEY)
         assert item.redacted_sha256 == r.redacted_sha256
         assert item.source_record_id == r.violation_id
         assert r.query_url.startswith("https://data.cityofnewyork.us/resource/wvxf-dwi5.json")
@@ -160,3 +175,11 @@ def test_redaction_events_hold_no_values(entries):
             assert set(ev) == allowed
             assert set(ev["fields_masked"]) <= {"apartment", "story"}
             assert set(ev["text_replacements"]) <= {"unit_id", "floor", "unit_position"}
+
+
+def test_replay_never_claims_original_row_digests(entries):
+    """Rows that were sanitized before saving replay with basis sanitized_row."""
+    _, result = run("west_farms_1134", entries)
+    bases = Counter(r.digest_basis for r in result.records)
+    sanitized = sum(1 for r in result.records if r.redaction.applied == "upstream")
+    assert bases[DigestBasis.SANITIZED_ROW] == sanitized > 0

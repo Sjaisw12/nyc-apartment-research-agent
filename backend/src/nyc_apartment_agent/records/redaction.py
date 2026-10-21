@@ -183,6 +183,15 @@ def event_from_sanitized(row: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def is_sanitized(row: dict[str, Any]) -> bool:
+    """True if the row already carries redaction or withheld markers (a sanitized fixture)."""
+    if any(row.get(f) == MARKER for f in UNIT_FIELDS):
+        return True
+    if any(row.get(f) == WITHHELD for f in WITHHELD_FIELDS):
+        return True
+    return any(count_markers(row.get(f)) for f in TEXT_FIELDS if isinstance(row.get(f), str))
+
+
 def event_is_empty(event: dict[str, Any]) -> bool:
     return not (event["fields_masked"] or event["text_fields_redacted"])
 

@@ -241,26 +241,77 @@ def test_numeric_bin_and_bbl_values_are_handled():
     assert r.attribution is Attribution.THIS_BUILDING
 
 
-def test_differing_duplicate_problem_ids_are_flagged_and_downgraded():
+def _fetch(rows):
     page = PageRecord(
         index=0,
         url="u",
-        rows=3,
+        rows=len(rows),
         fetched_at="2026-10-21T00:00:00+00:00",
         attempts=1,
         truth_last_modified="t",
         last_modified=None,
         request_id=None,
     )
-    fetch = PagedFetch(
-        rows=[row(1), row(1), row(1, problem_status="OPEN")],
+    return PagedFetch(
+        rows=rows,
         provenance=RetrievalProvenance(dataset_id="ygpa-z7cr", pages=[page]),
-        row_page=[0, 0, 0],
+        row_page=[0] * len(rows),
     )
-    out = normalize_fetch(fetch, plan_lot_query(resolution()), as_of=TODAY, digest_key=KEY)
-    assert len(out) == 2  # the identical copy collapses
-    assert QualityFlag.DUPLICATE_ID_DIFFERENT_CONTENT in out[1].quality_flags
-    assert out[1].attribution is Attribution.UNATTRIBUTED_ON_LOT
+
+
+@pytest.mark.parametrize("bin_", ["2006185", "2006186"])  # this building / another building
+def test_conflicting_duplicate_ids_flag_and_downgrade_every_copy(bin_):
+    """Regression (Task 2 review): the FIRST conflicting copy used to keep its attribution."""
+    rows = [
+        row(1, bin=bin_),
+        row(1, bin=bin_),  # identical: collapses into the first
+        row(1, bin=bin_, problem_status="OPEN"),  # same id, different content
+        row(1, bin=bin_),  # identical to the first again: still collapses
+        row(2, bin=bin_),  # unrelated row is untouched
+    ]
+    out = normalize_fetch(_fetch(rows), plan_lot_query(resolution()), as_of=TODAY, digest_key=KEY)
+    assert [r.problem_id for r in out] == ["1", "1", "2"]
+    conflicting = [r for r in out if r.problem_id == "1"]
+    assert all(QualityFlag.DUPLICATE_ID_DIFFERENT_CONTENT in r.quality_flags for r in conflicting)
+    building_only = {Attribution.THIS_BUILDING, Attribution.OTHER_BUILDING_ON_LOT}
+    assert all(r.attribution not in building_only for r in conflicting)
+    assert all(r.attribution is Attribution.UNATTRIBUTED_ON_LOT for r in conflicting)
+    assert QualityFlag.DUPLICATE_ID_SAME_CONTENT in conflicting[0].quality_flags
+    assert out[2].attribution in building_only and not out[2].quality_flags
+
+
+def test_conflicting_duplicates_flow_into_grouping_and_summary():
+    from nyc_apartment_agent.records.hpd_complaints import group_complaints, summarize
+
+    rows = [
+        row(1, cid=10),
+        row(1, cid=10, problem_status="OPEN"),  # conflicts with the row above
+        row(2, cid=11),
+        row(3, cid=11, problem_status="OPEN", complaint_status="CLOSE"),
+        row(3, cid=11),  # conflicts: complaint 11 now spans two buckets
+        row(4, cid=12),
+    ]
+    plan = plan_lot_query(resolution())
+    recs = normalize_fetch(_fetch(rows), plan, as_of=TODAY, digest_key=KEY)
+    groups = {c.complaint_id: c for c in group_complaints(recs)}
+    assert groups["10"].attribution is ComplaintAttribution.UNATTRIBUTED_ON_LOT
+    assert groups["11"].attribution is ComplaintAttribution.MIXED
+    assert groups["11"].problem_attributions == {"this_building": 1, "unattributed_on_lot": 2}
+    assert groups["12"].attribution is ComplaintAttribution.THIS_BUILDING
+    s = summarize(recs, list(groups.values()), plan.scope, None, TODAY)
+    assert s.problems_by_attribution[Attribution.THIS_BUILDING].problems == 2  # ids 2 and 4
+    assert s.problems_by_attribution[Attribution.UNATTRIBUTED_ON_LOT].problems == 4
+    assert s.complaints_by_attribution[ComplaintAttribution.THIS_BUILDING].complaints == 1
+    assert s.conflict_counts["duplicate_id_different_content"] == 4
+    assert s.conflict_counts["mixed_attribution_complaints"] == 1
+
+
+def test_conflicting_duplicates_at_tax_lot_scope_stay_lot_level_and_flagged():
+    res = resolution(level=ResolutionLevel.TAX_LOT)
+    rows = [row(1), row(1, problem_status="OPEN")]
+    out = normalize_fetch(_fetch(rows), plan_lot_query(res), as_of=TODAY, digest_key=KEY)
+    assert all(r.attribution is Attribution.LOT_LEVEL for r in out)
+    assert all(QualityFlag.DUPLICATE_ID_DIFFERENT_CONTENT in r.quality_flags for r in out)
 
 
 # ---- status and dates ----------------------------------------------------------------
@@ -460,3 +511,48 @@ def test_logs_never_contain_row_contents(caplog):
     retrieve([], fake=fake)
     for s in ("9Z", "61234567", "SECRET"):
         assert s not in caplog.text
+
+
+# ---- original evidence vs sanitized-fixture integrity (Task 2 review) ----------------
+
+
+def test_live_row_digest_is_an_original_row_digest():
+    from nyc_apartment_agent.records.evidence import verifies_original_row
+    from nyc_apartment_agent.records.models import DigestBasis
+
+    store = InMemoryEvidenceStore()
+    r = one(row(1, apartment="4C", unique_key="61234567"), evidence=store)
+    assert r.digest_basis is DigestBasis.ORIGINAL_ROW
+    item = store.get(r.original_digest)
+    assert item.basis is DigestBasis.ORIGINAL_ROW
+    assert verifies_original_row(item, KEY)
+
+
+def test_replayed_sanitized_row_does_not_claim_an_original_row_digest():
+    from nyc_apartment_agent.records.evidence import verifies_original_row
+    from nyc_apartment_agent.records.models import DigestBasis
+    from nyc_apartment_agent.records.redaction import redact_row, withhold_fields
+
+    raw = row(1, apartment="4C", unique_key="61234567", complaint_anonymous_flag="Y")
+    sanitized, _ = redact_row(raw)
+    sanitized, _ = withhold_fields(sanitized)
+    live_store, replay_store = InMemoryEvidenceStore(), InMemoryEvidenceStore()
+    live = one(raw, evidence=live_store)
+    replay = one(sanitized, evidence=replay_store)
+    assert replay.digest_basis is DigestBasis.SANITIZED_ROW
+    # Replay cannot reconstruct the original-row digest: the original values are gone.
+    assert replay.original_digest != live.original_digest
+    item = replay_store.get(replay.original_digest)
+    assert item.basis is DigestBasis.SANITIZED_ROW
+    assert item.original_row["apartment"] == "[REDACTED]"  # only the sanitized copy exists
+    assert verify(item, KEY)  # the sanitized copy is intact...
+    assert not verifies_original_row(item, KEY)  # ...but it is not original evidence
+    # The public (redacted) row is the same either way, so its hash matches.
+    assert replay.redacted_sha256 == live.redacted_sha256
+
+
+def test_row_with_nothing_to_sanitize_is_its_own_original():
+    from nyc_apartment_agent.records.models import DigestBasis
+
+    r = one(row(1, apartment=None, unique_key=None, complaint_anonymous_flag=None))
+    assert r.digest_basis is DigestBasis.ORIGINAL_ROW

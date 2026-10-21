@@ -2,7 +2,7 @@
 
 Date: 2026-10-21. Branch: `claude/project-thread-5d0l0f`. Design and approval record: [phase2_task2_hpd_complaints_design.md](phase2_task2_hpd_complaints_design.md) (section 0).
 
-**Status: implemented and tested, awaiting Sanyam's review.** Phase 2 is **not** complete: Tasks 3 to 5 have not started.
+**Status: conditionally accepted by Sanyam on 2026-10-21 (23:28 UTC), with corrections. The corrections and final status are in [phase2_task2_closure_report.md](phase2_task2_closure_report.md).** This report is kept as first submitted, except for the two marked corrections below. Phase 2 is **not** complete: Tasks 3 to 5 have not started.
 
 **Task 1 is a separate item.** It stays *conditionally accepted*, and its independent HPD Online validation is still **PENDING** ([`data/eval/hpd_validation.md`](../data/eval/hpd_validation.md)). Nothing in this report changes Task 1's validation status. Task 2 has had no independent check against HPD Online either; every number below comes from the NYC Open Data API.
 
@@ -106,7 +106,7 @@ Notes:
   - The remaining rows are counted as `not_flagged_duplicate`. They are **not** called distinct physical conditions, because the data does not support that claim.
   - The disposition text of a duplicate row describes the *initial* complaint. The classifier records it as `duplicate_of_building_wide` and keeps the initial complaint's outcome separately (`initial_complaint_outcome`).
   - `hpd_reported_violations_issued` counts only non-duplicate dispositions, so a single initial outcome is never counted several times.
-- **Repeated problem IDs:** an identical copy collapses to one row. The same ID with different content is flagged and moved to `unattributed_on_lot`. Neither case occurred live; synthetic tests cover both.
+- **Repeated problem IDs:** an identical copy collapses to one row. The same ID with different content is flagged and moved to `unattributed_on_lot`. Neither case occurred live; synthetic tests cover both. **[Correction, closure report §2: as first submitted, only the later conflicting copy was flagged and downgraded; the first copy kept its attribution. Fixed so every copy is.]**
 
 ## 6. Classification coverage and unknown outcomes
 
@@ -132,7 +132,7 @@ Rules are phrase matches on HPD's own template text, applied most specific first
 **Privacy**
 - Only one field in `ygpa-z7cr` holds unit detail: `apartment` (unit id, or the sentinel `BLDG`). It is masked on all 3,731 recorded rows. There is no `story` field.
 - `status_description` was scanned and contained no unit or floor text on these lots (0 text replacements). It is still redacted on every run, in case new templates include it.
-- Withheld in fixtures and public output: `complaint_anonymous_flag` (present on 3,353 rows) and `unique_key` (present on 2,857 rows). Both are kept only in the evidence store, keyed by the HMAC `original_digest`.
+- Withheld in fixtures and public output: `complaint_anonymous_flag` (present on 3,353 rows) and `unique_key` (present on 2,857 rows). Both are kept only in the evidence store, keyed by the HMAC `original_digest`. **[Correction, closure report §3: this holds for live retrieval. Offline replay of the sanitized fixture only has sanitized rows, so its digest is not an original-row digest; records now say which (`digest_basis`).]**
 - The cassette keeps each page's original body hash and per-row events (field names, kinds, counts; never values). Privacy metrics reproduce exactly from the sanitized fixture (tested).
 - Logs carry only the dataset id, the BBL and the error type. A test shows that no row content reaches them, including on source errors.
 - Fields such as house number, street, latitude, longitude, census tract and NTA describe the building, not a person. They stay in the fixture and are not copied into public records.

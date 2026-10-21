@@ -14,9 +14,18 @@ import pytest
 from nyc_apartment_agent.cassette import ReplayTransport, load_cassette
 from nyc_apartment_agent.config import Settings
 from nyc_apartment_agent.records.complaint_models import ComplaintAttribution, ComplaintOutcome
-from nyc_apartment_agent.records.evidence import InMemoryEvidenceStore, verify
+from nyc_apartment_agent.records.evidence import (
+    InMemoryEvidenceStore,
+    verifies_original_row,
+    verify,
+)
 from nyc_apartment_agent.records.hpd_complaints import retrieve_hpd_complaints
-from nyc_apartment_agent.records.models import Attribution, QualityFlag, RetrievalStatus
+from nyc_apartment_agent.records.models import (
+    Attribution,
+    DigestBasis,
+    QualityFlag,
+    RetrievalStatus,
+)
 from nyc_apartment_agent.records.redaction import WITHHELD
 from nyc_apartment_agent.resolver import resolve_address
 from nyc_apartment_agent.sources.clients import geosearch_client, socrata_client
@@ -69,9 +78,12 @@ def test_test_building_problems_and_complaints_counted_separately(entries):
     c = result.summary.complaints_by_attribution[ComplaintAttribution.THIS_BUILDING]
     assert (c.open, c.closed, c.hpd_reported_violations_issued) == (0, 539, 96)
     assert result.summary.quality_flag_counts == {"date_order": 9}
-    # Evidence store keeps the original row; the public record never carries it.
+    # Replay sees only sanitized fixture rows: the stored copy is intact, but it is not
+    # original evidence, and the digest is not an original-row digest.
     item = store.get(result.records[0].original_digest)
     assert verify(item, KEY)
+    assert not verifies_original_row(item, KEY)
+    assert {r.digest_basis for r in result.records} == {DigestBasis.SANITIZED_ROW}
 
 
 def test_multi_building_lot_keeps_unattributed_rows_separate(entries):

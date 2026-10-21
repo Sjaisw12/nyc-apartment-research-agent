@@ -56,6 +56,7 @@ from .models import (
     CONFLICT_FLAGS,
     Attribution,
     DateValue,
+    DigestBasis,
     JoinScope,
     LocationScope,
     LotMembership,
@@ -67,6 +68,7 @@ from .models import (
 from .redaction import (
     canonical_sha256,
     event_from_sanitized,
+    is_sanitized,
     keyed_digest,
     redact_row_event,
     withhold_fields,
@@ -234,6 +236,8 @@ def normalize_row(
         f for f in ("complaint_anonymous_flag", "unique_key") if _s(row.get(f)) is not None
     )
 
+    # Live rows are originals; a replayed fixture row is already sanitized.
+    digest_basis = DigestBasis.SANITIZED_ROW if is_sanitized(row) else DigestBasis.ORIGINAL_ROW
     original_sha = canonical_sha256(row)
     original_digest = keyed_digest(row, digest_key)
     redacted_sha = canonical_sha256(public_row)
@@ -244,6 +248,7 @@ def normalize_row(
                 source_record_id=str(row.get("problem_id")),
                 original_sha256=original_sha,
                 original_digest=original_digest,
+                basis=digest_basis,
                 redacted_sha256=redacted_sha,
                 redacted_fields=here["fields_masked"] + here["text_fields_redacted"] + withheld_now,
                 original_row=row,
@@ -286,6 +291,7 @@ def normalize_row(
         redaction=redaction,
         withheld_fields=withheld,
         original_digest=original_digest,
+        digest_basis=digest_basis,
         redacted_sha256=redacted_sha,
         query_url=query_url,
         fetched_at=fetched_at,
@@ -301,31 +307,47 @@ def normalize_fetch(
     digest_key: bytes,
     evidence: EvidenceStore | None = None,
 ) -> list[NormalizedComplaintProblem]:
+    """Normalize every row. Identical copies collapse; conflicting copies fail closed.
+
+    Same approach as Task 1: when one problem_id appears with different contents, every
+    copy is flagged and none keeps building-specific attribution, because we cannot tell
+    which copy is right. Grouping and summaries run afterwards, so they see the result.
+    """
     out: list[NormalizedComplaintProblem] = []
-    seen: dict[str, str] = {}
+    seen: dict[str, dict[str, int]] = {}  # problem_id -> {row sha: output index}
     pages = {p.index: p for p in fetch.provenance.pages}
     for i, row in enumerate(fetch.rows):
         page = pages.get(fetch.row_page[i] if i < len(fetch.row_page) else -1)
         pid = str(row.get("problem_id"))
         sha = canonical_sha256(row)
-        if seen.get(pid) == sha:
-            continue  # identical copy (the pager already marks such a fetch incomplete)
-        rec = normalize_row(
-            row,
-            plan,
-            query_url=page.url if page else "",
-            fetched_at=page.fetched_at if page else "",
-            data_as_of=fetch.provenance.data_as_of,
-            as_of=as_of,
-            digest_key=digest_key,
-            evidence=evidence,
+        copies = seen.setdefault(pid, {})
+        if sha in copies:
+            idx = copies[sha]
+            if QualityFlag.DUPLICATE_ID_SAME_CONTENT not in out[idx].quality_flags:
+                out[idx].quality_flags.append(QualityFlag.DUPLICATE_ID_SAME_CONTENT)
+            continue
+        copies[sha] = len(out)
+        out.append(
+            normalize_row(
+                row,
+                plan,
+                query_url=page.url if page else "",
+                fetched_at=page.fetched_at if page else "",
+                data_as_of=fetch.provenance.data_as_of,
+                as_of=as_of,
+                digest_key=digest_key,
+                evidence=evidence,
+            )
         )
-        if pid in seen:
-            rec.quality_flags.append(QualityFlag.DUPLICATE_ID_DIFFERENT_CONTENT)
+    for copies in seen.values():
+        if len(copies) < 2:
+            continue
+        for idx in copies.values():  # every conflicting copy, the first one included
+            rec = out[idx]
+            if QualityFlag.DUPLICATE_ID_DIFFERENT_CONTENT not in rec.quality_flags:
+                rec.quality_flags.append(QualityFlag.DUPLICATE_ID_DIFFERENT_CONTENT)
             if rec.attribution in (Attribution.THIS_BUILDING, Attribution.OTHER_BUILDING_ON_LOT):
                 rec.attribution = Attribution.UNATTRIBUTED_ON_LOT
-        seen[pid] = sha
-        out.append(rec)
     return out
 
 

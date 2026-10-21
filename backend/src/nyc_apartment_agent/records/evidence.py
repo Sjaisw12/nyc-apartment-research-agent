@@ -4,8 +4,17 @@ Raw rows may contain apartment numbers and other unit detail, so they never go i
 git, logs or API responses. Task 1 keeps them in memory or in a local directory that
 is git-ignored (`.evidence/`). A later Phase 2 task moves this into PostgreSQL.
 
-Each item is stored under the keyed digest of the original row (the value public records
-carry), so any public record can be checked against its source by re-hashing (`verify`).
+Each item is stored under the keyed digest of the row as received (the value public
+records carry), so a public record can be checked against its stored row (`verify`).
+
+Two cases must not be confused:
+- Live retrieval: the row as received is the unredacted original (`basis=original_row`).
+  `verifies_original_row()` is true, and the digest ties the public record to it.
+- Offline replay of a committed fixture: the row as received is already sanitized
+  (`basis=sanitized_row`). `verify()` then proves only that the sanitized copy is intact.
+  Replay cannot reconstruct the original-row digest, because the original values are not
+  in the fixture. Fixture integrity comes from the cassette's own content hash; each page's
+  `original_body_sha256` records what was redacted but cannot be re-checked offline.
 """
 
 from __future__ import annotations
@@ -14,7 +23,7 @@ import json
 from pathlib import Path
 from typing import Protocol
 
-from .models import RawEvidence
+from .models import DigestBasis, RawEvidence
 from .redaction import canonical_sha256, keyed_digest
 
 
@@ -59,3 +68,8 @@ def verify(item: RawEvidence, key: bytes) -> bool:
     return canonical_sha256(item.original_row) == item.original_sha256 and (
         keyed_digest(item.original_row, key) == item.original_digest
     )
+
+
+def verifies_original_row(item: RawEvidence, key: bytes) -> bool:
+    """True only for evidence captured from an unredacted live row that is still intact."""
+    return item.basis is DigestBasis.ORIGINAL_ROW and verify(item, key)

@@ -73,6 +73,15 @@ class EvidenceKind(StrEnum):
     REPORTED_ALLEGATION = "reported_allegation"  # e.g. a tenant complaint to HPD
 
 
+class DigestBasis(StrEnum):
+    """What `original_digest` was computed over. Live retrieval sees the unredacted row;
+    offline replay of a committed fixture only ever sees the sanitized row, so its digest
+    is NOT an original-row digest and cannot be checked against original evidence."""
+
+    ORIGINAL_ROW = "original_row"  # input row carried no redaction or withheld markers
+    SANITIZED_ROW = "sanitized_row"  # input row was already sanitized (e.g. fixture replay)
+
+
 class QualityFlag(StrEnum):
     # Lot identity
     BBL_MISSING = "bbl_missing"  # source bbl empty; lot matched by boro-block-lot
@@ -222,6 +231,9 @@ class NormalizedViolation(BaseModel):
     # Keyed HMAC-SHA256 of the unredacted row (server-side key). Not a plain hash: a plain
     # hash of the original could be brute-forced back to the apartment and floor.
     original_digest: str
+    # original_row: live input, verifiable against the evidence store's original row.
+    # sanitized_row: replayed fixture; the digest covers only the sanitized row.
+    digest_basis: DigestBasis
     redacted_sha256: str  # hash of the public (redacted) source row
     query_url: str
     fetched_at: str
@@ -320,6 +332,9 @@ class RawEvidence(BaseModel):
     original_digest: str  # keyed hash; what public records carry
     redacted_sha256: str
     redacted_fields: list[str]
+    # The row as received. With basis sanitized_row it is a sanitized fixture row, not
+    # original evidence: verify() then proves only that the sanitized copy is intact.
+    basis: DigestBasis
     original_row: dict
     query_url: str
     fetched_at: str

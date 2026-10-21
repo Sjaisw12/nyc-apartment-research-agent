@@ -20,6 +20,7 @@ from pydantic import BaseModel, Field, model_validator
 from .models import (
     Attribution,
     DateValue,
+    DigestBasis,
     EvidenceKind,
     JoinScope,
     LocationScope,
@@ -110,6 +111,7 @@ class NormalizedComplaintProblem(BaseModel):
     redaction: RedactionInfo
     withheld_fields: list[str]
     original_digest: str
+    digest_basis: DigestBasis  # original_row (live) vs sanitized_row (fixture replay)
     redacted_sha256: str
     query_url: str
     fetched_at: str

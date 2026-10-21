@@ -1,0 +1,546 @@
+{
+  "run_at": "2026-10-21T07:04:48.659734+00:00",
+  "mode": "live (recorded)",
+  "summary": {
+    "rows": 24,
+    "correct_auto_matches": "14/14",
+    "incorrect_auto_matches_wrong_building": 0,
+    "incorrect_auto_matches_right_building_but_expected_non_verified": 0,
+    "ambiguity_handled": "6/6",
+    "ambiguous_missing_expected_option": 0,
+    "correct_abstentions": "4/4",
+    "over_cautious": 0,
+    "missed_or_other": 0,
+    "source_unavailable": 0,
+    "unresolved_bin_preserved": "2/2"
+  },
+  "rows": [
+    {
+      "id": "N01",
+      "query": "1134 West Farms Rd, Bronx, NY 10459",
+      "expected": "verified",
+      "got": "verified",
+      "expected_bbl": [
+        "2027540005"
+      ],
+      "expected_bin": [
+        "2006185"
+      ],
+      "explanation": "Accepted: house number 1134 and street WEST FARMS ROAD match exactly, in Bronx (borough you gave); tax lot (BBL) 2027540005. Building number (BIN) 2006185 is confirmed by Building Footprints on the same lot.",
+      "reasons": [
+        "BOROUGH_STATED",
+        "BIN_CROSS_VERIFIED"
+      ],
+      "bbl": "2027540005",
+      "bin": "2006185",
+      "bin_evidence": "cross_verified",
+      "resolution_level": "building",
+      "options": [],
+      "category": "correct_auto_match"
+    },
+    {
+      "id": "N02",
+      "query": "350 5th Avenue, New York, NY 10118",
+      "expected": "verified",
+      "got": "verified",
+      "expected_bbl": [
+        "1008350041"
+      ],
+      "expected_bin": [
+        "1015862"
+      ],
+      "explanation": "Accepted: house number 350 and street 5 AVENUE match exactly, in Manhattan (borough you gave); tax lot (BBL) 1008350041. Building number (BIN) 1015862 is confirmed by Building Footprints on the same lot.",
+      "reasons": [
+        "BOROUGH_STATED",
+        "BIN_CROSS_VERIFIED"
+      ],
+      "bbl": "1008350041",
+      "bin": "1015862",
+      "bin_evidence": "cross_verified",
+      "resolution_level": "building",
+      "options": [],
+      "category": "correct_auto_match"
+    },
+    {
+      "id": "N03",
+      "query": "530 2nd Street, Brooklyn, NY 11215",
+      "expected": "verified",
+      "got": "verified",
+      "expected_bbl": [
+        "3010780016"
+      ],
+      "expected_bin": [
+        "3025292"
+      ],
+      "explanation": "Accepted: house number 530 and street 2 STREET match exactly, in Brooklyn (borough you gave); tax lot (BBL) 3010780016. Building number (BIN) 3025292 is confirmed by Building Footprints on the same lot.",
+      "reasons": [
+        "BOROUGH_STATED",
+        "BIN_CROSS_VERIFIED"
+      ],
+      "bbl": "3010780016",
+      "bin": "3025292",
+      "bin_evidence": "cross_verified",
+      "resolution_level": "building",
+      "options": [],
+      "category": "correct_auto_match"
+    },
+    {
+      "id": "N04",
+      "query": "33-43 14th Street, Astoria, NY 11106",
+      "expected": "verified",
+      "got": "verified",
+      "expected_bbl": [
+        "4005280050"
+      ],
+      "expected_bin": [
+        "4430813"
+      ],
+      "explanation": "Accepted: house number 33-43 and street 14 STREET match exactly, in Queens (inferred: the only borough where PAD has this exact address); tax lot (BBL) 4005280050. Building number (BIN) 4430813 is confirmed by Building Footprints on the same lot.",
+      "reasons": [
+        "BOROUGH_INFERRED",
+        "BIN_CROSS_VERIFIED"
+      ],
+      "bbl": "4005280050",
+      "bin": "4430813",
+      "bin_evidence": "cross_verified",
+      "resolution_level": "building",
+      "options": [],
+      "category": "correct_auto_match"
+    },
+    {
+      "id": "N05",
+      "query": "100 Belmont Place, Staten Island, NY 10301",
+      "expected": "verified",
+      "got": "verified",
+      "expected_bbl": [
+        "5000200008"
+      ],
+      "expected_bin": [
+        "5112989"
+      ],
+      "explanation": "Accepted: house number 100 and street BELMONT PLACE match exactly, in Staten Island (borough you gave); tax lot (BBL) 5000200008. Building number (BIN) 5112989 is confirmed by Building Footprints on the same lot.",
+      "reasons": [
+        "BOROUGH_STATED",
+        "BIN_CROSS_VERIFIED"
+      ],
+      "bbl": "5000200008",
+      "bin": "5112989",
+      "bin_evidence": "cross_verified",
+      "resolution_level": "building",
+      "options": [],
+      "category": "correct_auto_match"
+    },
+    {
+      "id": "N06",
+      "query": "1279 First Avenue, Manhattan",
+      "expected": "verified",
+      "got": "verified",
+      "expected_bbl": [
+        "1014430030"
+      ],
+      "expected_bin": [
+        "1044761"
+      ],
+      "explanation": "Accepted: house number 1279 and street FIRST AVENUE match exactly, in Manhattan (borough you gave); tax lot (BBL) 1014430030. Building number (BIN) 1044761 is confirmed by Building Footprints on the same lot.",
+      "reasons": [
+        "BOROUGH_STATED",
+        "BIN_CROSS_VERIFIED"
+      ],
+      "bbl": "1014430030",
+      "bin": "1044761",
+      "bin_evidence": "cross_verified",
+      "resolution_level": "building",
+      "options": [],
+      "category": "correct_auto_match"
+    },
+    {
+      "id": "A07",
+      "query": "100 Broadway",
+      "expected": "ambiguous",
+      "got": "ambiguous",
+      "expected_bbl": [
+        "1000460003",
+        "3021310001"
+      ],
+      "expected_bin": [
+        "1001024",
+        "3324734"
+      ],
+      "explanation": "No borough was given and this address exists in Brooklyn and Manhattan. Please choose one.",
+      "reasons": [
+        "BOROUGH_MULTIPLE"
+      ],
+      "options": [
+        {
+          "bbl": "3021310001",
+          "bin": "3324734"
+        },
+        {
+          "bbl": "1000460003",
+          "bin": "1001024"
+        }
+      ],
+      "category": "ambiguity_handled"
+    },
+    {
+      "id": "A08",
+      "query": "1 Center St",
+      "expected": "ambiguous",
+      "got": "ambiguous",
+      "expected_bbl": [
+        "1001210001",
+        "2056270046"
+      ],
+      "expected_bin": [
+        "1001394",
+        "2103477"
+      ],
+      "explanation": "No borough was given and this address exists in Bronx and Manhattan. Please choose one.",
+      "reasons": [
+        "BOROUGH_MULTIPLE"
+      ],
+      "options": [
+        {
+          "bbl": "2056270046",
+          "bin": "2103477"
+        },
+        {
+          "bbl": "1001210001",
+          "bin": "1001394"
+        }
+      ],
+      "category": "ambiguity_handled"
+    },
+    {
+      "id": "A09",
+      "query": "3343 14th St, Queens",
+      "expected": "ambiguous",
+      "got": "ambiguous",
+      "expected_bbl": [
+        "4005280050"
+      ],
+      "expected_bin": [
+        "4430813"
+      ],
+      "explanation": "No record matches exactly, but close matches exist: 3343 14 STREET, Long Island City, NY, USA (the official house number is 33-43; 3343 is an alternate form). Please confirm or correct the address.",
+      "reasons": [
+        "QUEENS_NUMBER_NEEDS_HYPHEN"
+      ],
+      "options": [
+        {
+          "bbl": "4005280050",
+          "bin": "4430813"
+        }
+      ],
+      "category": "ambiguity_handled"
+    },
+    {
+      "id": "A10",
+      "query": "Broadway, Manhattan",
+      "expected": "no_reliable_match",
+      "got": "no_reliable_match",
+      "expected_bbl": [],
+      "expected_bin": [],
+      "explanation": "No house number was found. Add the building number, for example '350 5th Avenue, Manhattan'.",
+      "reasons": [
+        "MISSING_HOUSE_NUMBER"
+      ],
+      "options": [],
+      "category": "correct_abstention"
+    },
+    {
+      "id": "A11",
+      "query": "1134 West Farms Rd, Brooklyn",
+      "expected": "ambiguous",
+      "got": "ambiguous",
+      "expected_bbl": [
+        "2027540005"
+      ],
+      "expected_bin": [
+        "2006185"
+      ],
+      "explanation": "No record matches exactly, but close matches exist: 1134 WEST FARMS ROAD, Bronx, NY, USA (it is in Bronx, not Brooklyn). Please confirm or correct the address.",
+      "reasons": [
+        "BOROUGH_CONFLICT"
+      ],
+      "options": [
+        {
+          "bbl": "2027540005",
+          "bin": "2006185"
+        }
+      ],
+      "category": "ambiguity_handled"
+    },
+    {
+      "id": "E12",
+      "query": "873 East 228th Street, Bronx",
+      "expected": "verified",
+      "got": "verified",
+      "expected_bbl": [
+        "2048530011"
+      ],
+      "expected_bin": [
+        "2130638"
+      ],
+      "explanation": "Accepted: house number 873 and street EAST 228 STREET match exactly, in Bronx (borough you gave); tax lot (BBL) 2048530011. Building number (BIN) 2130638 is confirmed by Building Footprints on the same lot.",
+      "reasons": [
+        "BOROUGH_STATED",
+        "BIN_CROSS_VERIFIED"
+      ],
+      "bbl": "2048530011",
+      "bin": "2130638",
+      "bin_evidence": "cross_verified",
+      "resolution_level": "building",
+      "options": [],
+      "category": "correct_auto_match"
+    },
+    {
+      "id": "E13",
+      "query": "1217 West Farms Road, Bronx",
+      "expected": "verified",
+      "got": "verified",
+      "expected_bbl": [
+        "2029930031"
+      ],
+      "expected_bin": [],
+      "explanation": "Accepted: house number 1217 and street WEST FARMS ROAD match exactly, in Bronx (borough you gave); tax lot (BBL) 2029930031. PAD gives placeholder BIN 2000000 (unassigned or unknown), so the building number is unresolved. For context, Building Footprints lists 1 building(s) on this lot (2128717); none is assigned to this address by us. Verified at tax-lot level only: records keyed by building number must not be attached.",
+      "reasons": [
+        "BOROUGH_STATED",
+        "BIN_PLACEHOLDER"
+      ],
+      "bbl": "2029930031",
+      "bin": null,
+      "bin_evidence": "placeholder",
+      "resolution_level": "tax_lot",
+      "options": [],
+      "category": "correct_auto_match",
+      "unresolved_bin_preserved": true
+    },
+    {
+      "id": "E14",
+      "query": "1A Centre Street, Manhattan",
+      "expected": "ambiguous",
+      "got": "ambiguous",
+      "expected_bbl": [
+        "1001210001"
+      ],
+      "expected_bin": [],
+      "explanation": "The address matches lot 1001210001, but official sources disagree about its building number: PAD gives BIN 1091024, while Building Footprints places that BIN on lot 1001210998. The BIN is left unresolved; please confirm.",
+      "reasons": [
+        "BOROUGH_STATED",
+        "BIN_LOT_CONFLICT"
+      ],
+      "options": [
+        {
+          "bbl": "1001210001",
+          "bin": null
+        }
+      ],
+      "category": "ambiguity_handled",
+      "unresolved_bin_preserved": true
+    },
+    {
+      "id": "E15",
+      "query": "55 Austin Place, Staten Island, NY 10304",
+      "expected": "verified",
+      "got": "verified",
+      "expected_bbl": [
+        "5005797501"
+      ],
+      "expected_bin": [
+        "5112220"
+      ],
+      "explanation": "Accepted: house number 55 and street AUSTIN PLACE match exactly, in Staten Island (borough you gave); tax lot (BBL) 5005797501. Building number (BIN) 5112220 is confirmed by Building Footprints on the same lot.",
+      "reasons": [
+        "BOROUGH_STATED",
+        "BIN_CROSS_VERIFIED"
+      ],
+      "bbl": "5005797501",
+      "bin": "5112220",
+      "bin_evidence": "cross_verified",
+      "resolution_level": "building",
+      "options": [],
+      "category": "correct_auto_match"
+    },
+    {
+      "id": "E16",
+      "query": "530 2nd Stret, Brooklyn",
+      "expected": "ambiguous",
+      "got": "ambiguous",
+      "expected_bbl": [
+        "3010780016"
+      ],
+      "expected_bin": [
+        "3025292"
+      ],
+      "explanation": "No record matches exactly, but close matches exist: 530 2 STREET, Brooklyn, NY, USA (street 2 STREET is a close spelling of what you typed). Please confirm or correct the address.",
+      "reasons": [
+        "STREET_TYPO"
+      ],
+      "options": [
+        {
+          "bbl": "3010780016",
+          "bin": "3025292"
+        }
+      ],
+      "category": "ambiguity_handled"
+    },
+    {
+      "id": "E17",
+      "query": "99999 Broadway, New York, NY",
+      "expected": "no_reliable_match",
+      "got": "no_reliable_match",
+      "expected_bbl": [],
+      "expected_bin": [],
+      "explanation": "Rejected: no address record has house number 99999 on BROADWAY in Manhattan. GeoSearch's nearest results (23 B'WAY, New York, NY, USA, 1 BROADWAY, New York, NY, USA, 5 BROADWAY, New York, NY, USA, 98 BROADWAY, New York, NY, USA, 104 B'WAY, New York, NY, USA) do not match the house number or street.",
+      "reasons": [
+        "HOUSE_NUMBER_MISMATCH"
+      ],
+      "options": [],
+      "category": "correct_abstention"
+    },
+    {
+      "id": "E18",
+      "query": "1600 Pennsylvania Avenue NW, Washington, DC 20500",
+      "expected": "no_reliable_match",
+      "got": "no_reliable_match",
+      "expected_bbl": [],
+      "expected_bin": [],
+      "explanation": "The address is in DC, not New York City.",
+      "reasons": [
+        "NOT_NYC"
+      ],
+      "options": [],
+      "category": "correct_abstention"
+    },
+    {
+      "id": "E19",
+      "query": "zzqx qqzz nowhere",
+      "expected": "no_reliable_match",
+      "got": "no_reliable_match",
+      "expected_bbl": [],
+      "expected_bin": [],
+      "explanation": "No house number was found. Add the building number, for example '350 5th Avenue, Manhattan'.",
+      "reasons": [
+        "MISSING_HOUSE_NUMBER"
+      ],
+      "options": [],
+      "category": "correct_abstention"
+    },
+    {
+      "id": "E20",
+      "query": "1310 Pennsylvania Avenue, Brooklyn, NY 11239",
+      "expected": "verified",
+      "got": "verified",
+      "expected_bbl": [
+        "3044520001"
+      ],
+      "expected_bin": [
+        "3342903"
+      ],
+      "explanation": "Accepted: house number 1310 and street PENNSYLVANIA AVENUE match exactly, in Brooklyn (borough you gave); tax lot (BBL) 3044520001. Building number (BIN) 3342903 is confirmed by Building Footprints on the same lot.",
+      "reasons": [
+        "BOROUGH_STATED",
+        "BIN_CROSS_VERIFIED"
+      ],
+      "bbl": "3044520001",
+      "bin": "3342903",
+      "bin_evidence": "cross_verified",
+      "resolution_level": "building",
+      "options": [],
+      "category": "correct_auto_match"
+    },
+    {
+      "id": "N21",
+      "query": "209-15 18th Avenue, Bayside, NY 11360",
+      "expected": "verified",
+      "got": "verified",
+      "expected_bbl": [
+        "4058630200"
+      ],
+      "expected_bin": [
+        "4450092"
+      ],
+      "explanation": "Accepted: house number 209-15 and street 18 AVENUE match exactly, in Queens (inferred: the only borough where PAD has this exact address); tax lot (BBL) 4058630200. Building number (BIN) 4450092 is confirmed by Building Footprints on the same lot.",
+      "reasons": [
+        "BOROUGH_INFERRED",
+        "BIN_CROSS_VERIFIED"
+      ],
+      "bbl": "4058630200",
+      "bin": "4450092",
+      "bin_evidence": "cross_verified",
+      "resolution_level": "building",
+      "options": [],
+      "category": "correct_auto_match"
+    },
+    {
+      "id": "N22",
+      "query": "27-05 1st Street, Queens, NY 11102",
+      "expected": "verified",
+      "got": "verified",
+      "expected_bbl": [
+        "4004900101"
+      ],
+      "expected_bin": [
+        "4430783"
+      ],
+      "explanation": "Accepted: house number 27-05 and street 1 STREET match exactly, in Queens (borough you gave); tax lot (BBL) 4004900101. Building number (BIN) 4430783 is confirmed by Building Footprints on the same lot.",
+      "reasons": [
+        "BOROUGH_STATED",
+        "BIN_CROSS_VERIFIED"
+      ],
+      "bbl": "4004900101",
+      "bin": "4430783",
+      "bin_evidence": "cross_verified",
+      "resolution_level": "building",
+      "options": [],
+      "category": "correct_auto_match"
+    },
+    {
+      "id": "N23",
+      "query": "25 Bay Terrace, Staten Island, NY 10306",
+      "expected": "verified",
+      "got": "verified",
+      "expected_bbl": [
+        "5050160005"
+      ],
+      "expected_bin": [
+        "5064226"
+      ],
+      "explanation": "Accepted: house number 25 and street BAY TERRACE match exactly, in Staten Island (borough you gave); tax lot (BBL) 5050160005. Building number (BIN) 5064226 is confirmed by Building Footprints on the same lot.",
+      "reasons": [
+        "BOROUGH_STATED",
+        "BIN_CROSS_VERIFIED"
+      ],
+      "bbl": "5050160005",
+      "bin": "5064226",
+      "bin_evidence": "cross_verified",
+      "resolution_level": "building",
+      "options": [],
+      "category": "correct_auto_match"
+    },
+    {
+      "id": "E24",
+      "query": "50 Belair Road, 10305",
+      "expected": "verified",
+      "got": "verified",
+      "expected_bbl": [
+        "5028627501"
+      ],
+      "expected_bin": [
+        "5043008"
+      ],
+      "explanation": "Accepted: house number 50 and street BELAIR ROAD match exactly, in Staten Island (inferred: the only borough where PAD has this exact address); tax lot (BBL) 5028627501. Building number (BIN) 5043008 is confirmed by Building Footprints on the same lot.",
+      "reasons": [
+        "BOROUGH_INFERRED",
+        "BIN_CROSS_VERIFIED"
+      ],
+      "bbl": "5028627501",
+      "bin": "5043008",
+      "bin_evidence": "cross_verified",
+      "resolution_level": "building",
+      "options": [],
+      "category": "correct_auto_match"
+    }
+  ]
+}

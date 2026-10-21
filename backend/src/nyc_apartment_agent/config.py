@@ -1,0 +1,47 @@
+"""Runtime settings, read from environment variables (and an optional .env file).
+
+Secrets such as the Socrata app token live only in the environment. See .env.example.
+"""
+
+from functools import lru_cache
+from pathlib import Path
+
+from pydantic import Field, SecretStr, field_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# Repository root: backend/src/nyc_apartment_agent/config.py -> parents[3]
+REPO_ROOT = Path(__file__).resolve().parents[3]
+
+
+class Settings(BaseSettings):
+    # Real environment variables win over the .env file at the repo root.
+    model_config = SettingsConfigDict(
+        env_file=REPO_ROOT / ".env", env_file_encoding="utf-8", extra="ignore"
+    )
+
+    socrata_app_token: SecretStr | None = None
+    socrata_base_url: str = "https://data.cityofnewyork.us"
+    geosearch_base_url: str = "https://geosearch.planninglabs.nyc"
+
+    http_connect_timeout_seconds: float = Field(default=5.0, gt=0)
+    http_read_timeout_seconds: float = Field(default=20.0, gt=0)
+    http_max_attempts: int = Field(default=3, ge=1, le=6)
+    http_max_retry_after_seconds: float = Field(default=30.0, ge=0)
+
+    user_agent: str = (
+        "nyc-apartment-research-agent/0.1 "
+        "(+https://github.com/Sjaisw12/nyc-apartment-research-agent)"
+    )
+
+    @field_validator("socrata_app_token", mode="before")
+    @classmethod
+    def _blank_token_is_none(cls, value: object) -> object:
+        # An empty SOCRATA_APP_TOKEN= line means "no token", not an empty header.
+        if isinstance(value, str) and not value.strip():
+            return None
+        return value
+
+
+@lru_cache
+def get_settings() -> Settings:
+    return Settings()

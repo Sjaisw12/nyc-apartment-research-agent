@@ -1,0 +1,287 @@
+{
+  "bbox": [
+    -73.859123,
+    40.88841,
+    -73.85378,
+    40.889632
+  ],
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          -73.85378,
+          40.88841
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "accuracy": "point",
+        "addendum": {
+          "pad": {
+            "bbl": "2048530011",
+            "bin": "2130638",
+            "version": "26c"
+          }
+        },
+        "borough": "Bronx",
+        "borough_gid": "whosonfirst:borough:421205773",
+        "confidence": 0.8,
+        "country": "United States",
+        "country_a": "USA",
+        "country_code": "US",
+        "country_gid": "whosonfirst:country:85633793",
+        "county": "Bronx County",
+        "county_a": "BX",
+        "county_gid": "whosonfirst:county:102083063",
+        "gid": "nycpad:venue:623561",
+        "housenumber": "873",
+        "id": "623561",
+        "label": "873 EAST 228 STREET, Bronx, NY, USA",
+        "layer": "venue",
+        "locality": "New York",
+        "locality_a": "NYC",
+        "locality_gid": "whosonfirst:locality:85977539",
+        "match_type": "fallback",
+        "name": "873 EAST 228 STREET",
+        "neighbourhood": "Wakefield",
+        "neighbourhood_gid": "whosonfirst:neighbourhood:85854163",
+        "postalcode": "10466",
+        "region": "New York",
+        "region_a": "NY",
+        "region_gid": "whosonfirst:region:85688543",
+        "source": "nycpad",
+        "source_id": "623561",
+        "street": "EAST 228 STREET"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -73.85378,
+          40.88841
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "accuracy": "point",
+        "addendum": {
+          "pad": {
+            "bbl": "2048530011",
+            "bin": "2000000",
+            "version": "26c"
+          }
+        },
+        "borough": "Bronx",
+        "borough_gid": "whosonfirst:borough:421205773",
+        "confidence": 0.8,
+        "country": "United States",
+        "country_a": "USA",
+        "country_code": "US",
+        "country_gid": "whosonfirst:country:85633793",
+        "county": "Bronx County",
+        "county_a": "BX",
+        "county_gid": "whosonfirst:county:102083063",
+        "gid": "nycpad:venue:623560",
+        "housenumber": "873 GARAGE",
+        "id": "623560",
+        "label": "873 GARAGE EAST 228 STREET, Bronx, NY, USA",
+        "layer": "venue",
+        "locality": "New York",
+        "locality_a": "NYC",
+        "locality_gid": "whosonfirst:locality:85977539",
+        "match_type": "fallback",
+        "name": "873 GARAGE EAST 228 STREET",
+        "neighbourhood": "Wakefield",
+        "neighbourhood_gid": "whosonfirst:neighbourhood:85854163",
+        "postalcode": "10466",
+        "region": "New York",
+        "region_a": "NY",
+        "region_gid": "whosonfirst:region:85688543",
+        "source": "nycpad",
+        "source_id": "623560",
+        "street": "EAST 228 STREET"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -73.859123,
+          40.889632
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "accuracy": "point",
+        "addendum": {
+          "pad": {
+            "bbl": "2048410050",
+            "bin": "2063523",
+            "version": "26c"
+          }
+        },
+        "borough": "Bronx",
+        "borough_gid": "whosonfirst:borough:421205773",
+        "confidence": 0.8,
+        "country": "United States",
+        "country_a": "USA",
+        "country_code": "US",
+        "country_gid": "whosonfirst:country:85633793",
+        "county": "Bronx County",
+        "county_a": "BX",
+        "county_gid": "whosonfirst:county:102083063",
+        "gid": "nycpad:venue:616673",
+        "housenumber": "702",
+        "id": "616673",
+        "label": "702 EAST 228 STREET, Bronx, NY, USA",
+        "layer": "venue",
+        "locality": "New York",
+        "locality_a": "NYC",
+        "locality_gid": "whosonfirst:locality:85977539",
+        "match_type": "fallback",
+        "name": "702 EAST 228 STREET",
+        "neighbourhood": "Wakefield",
+        "neighbourhood_gid": "whosonfirst:neighbourhood:85854163",
+        "postalcode": "10466",
+        "region": "New York",
+        "region_a": "NY",
+        "region_gid": "whosonfirst:region:85688543",
+        "source": "nycpad",
+        "source_id": "616673",
+        "street": "EAST 228 STREET"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -73.859123,
+          40.889632
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "accuracy": "point",
+        "addendum": {
+          "pad": {
+            "bbl": "2048410050",
+            "bin": "2063523",
+            "version": "26c"
+          }
+        },
+        "borough": "Bronx",
+        "borough_gid": "whosonfirst:borough:421205773",
+        "confidence": 0.8,
+        "country": "United States",
+        "country_a": "USA",
+        "country_code": "US",
+        "country_gid": "whosonfirst:country:85633793",
+        "county": "Bronx County",
+        "county_a": "BX",
+        "county_gid": "whosonfirst:county:102083063",
+        "gid": "nycpad:venue:616674",
+        "housenumber": "704",
+        "id": "616674",
+        "label": "704 EAST 228 STREET, Bronx, NY, USA",
+        "layer": "venue",
+        "locality": "New York",
+        "locality_a": "NYC",
+        "locality_gid": "whosonfirst:locality:85977539",
+        "match_type": "fallback",
+        "name": "704 EAST 228 STREET",
+        "neighbourhood": "Wakefield",
+        "neighbourhood_gid": "whosonfirst:neighbourhood:85854163",
+        "postalcode": "10466",
+        "region": "New York",
+        "region_a": "NY",
+        "region_gid": "whosonfirst:region:85688543",
+        "source": "nycpad",
+        "source_id": "616674",
+        "street": "EAST 228 STREET"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -73.859123,
+          40.889632
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "accuracy": "point",
+        "addendum": {
+          "pad": {
+            "bbl": "2048410050",
+            "bin": "2063523",
+            "version": "26c"
+          }
+        },
+        "borough": "Bronx",
+        "borough_gid": "whosonfirst:borough:421205773",
+        "confidence": 0.8,
+        "country": "United States",
+        "country_a": "USA",
+        "country_code": "US",
+        "country_gid": "whosonfirst:country:85633793",
+        "county": "Bronx County",
+        "county_a": "BX",
+        "county_gid": "whosonfirst:county:102083063",
+        "gid": "nycpad:venue:616676",
+        "housenumber": "708",
+        "id": "616676",
+        "label": "708 EAST 228 STREET, Bronx, NY, USA",
+        "layer": "venue",
+        "locality": "New York",
+        "locality_a": "NYC",
+        "locality_gid": "whosonfirst:locality:85977539",
+        "match_type": "fallback",
+        "name": "708 EAST 228 STREET",
+        "neighbourhood": "Wakefield",
+        "neighbourhood_gid": "whosonfirst:neighbourhood:85854163",
+        "postalcode": "10466",
+        "region": "New York",
+        "region_a": "NY",
+        "region_gid": "whosonfirst:region:85688543",
+        "source": "nycpad",
+        "source_id": "616676",
+        "street": "EAST 228 STREET"
+      },
+      "type": "Feature"
+    }
+  ],
+  "geocoding": {
+    "attribution": "http://geosearch.planninglabs.nyc/attribution",
+    "engine": {
+      "author": "Mapzen",
+      "name": "Pelias",
+      "version": "1.0"
+    },
+    "query": {
+      "lang": {
+        "defaulted": true,
+        "iso6391": "en",
+        "iso6393": "eng",
+        "name": "English",
+        "via": "default"
+      },
+      "parsed_text": {
+        "admin": "Bronx",
+        "housenumber": "873",
+        "locality": "Bronx",
+        "street": "East 228 Street",
+        "subject": "873 East 228 Street"
+      },
+      "parser": "pelias",
+      "private": false,
+      "querySize": 20,
+      "size": 5,
+      "text": "873 East 228 Street Bronx"
+    },
+    "timestamp": 1792562740402,
+    "version": "0.2"
+  },
+  "type": "FeatureCollection"
+}

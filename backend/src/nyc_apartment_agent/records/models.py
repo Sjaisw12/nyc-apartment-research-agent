@@ -68,6 +68,11 @@ class OrderCategory(StrEnum):
     OTHER = "other"
 
 
+class EvidenceKind(StrEnum):
+    OFFICIAL_FINDING = "official_finding"  # e.g. an HPD violation issued after inspection
+    REPORTED_ALLEGATION = "reported_allegation"  # e.g. a tenant complaint to HPD
+
+
 class QualityFlag(StrEnum):
     # Lot identity
     BBL_MISSING = "bbl_missing"  # source bbl empty; lot matched by boro-block-lot
@@ -89,6 +94,9 @@ class QualityFlag(StrEnum):
     DUPLICATE_ID_DIFFERENT_CONTENT = "duplicate_id_different_content"  # kept, flagged
     # Other
     UNKNOWN_CLASS = "unknown_class"
+    # Complaints (Task 2)
+    DATE_ORDER = "date_order"  # a status date earlier than the received date
+    COMPLAINT_FIELDS_DISAGREE = "complaint_fields_disagree"  # differs between problems
     UNIT_DETAIL_REDACTED = "unit_detail_redacted"  # description had unit/floor detail
 
 
@@ -170,6 +178,7 @@ class NormalizedViolation(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     dataset_id: str
+    evidence_kind: EvidenceKind = EvidenceKind.OFFICIAL_FINDING
     violation_id: str
     nov_id: str | None
     order_number: str | None
@@ -265,35 +274,41 @@ class SourceResult(BaseModel):
 
     @model_validator(mode="after")
     def _enforce_invariants(self) -> SourceResult:
-        if self.join_scope is not JoinScope.BUILDING:
-            bad = [
-                r.violation_id for r in self.records if r.attribution in BUILDING_ONLY_ATTRIBUTIONS
-            ]
-            if bad:
-                raise ValueError(
-                    f"building-level attribution without a building-level join: {bad[:5]}"
-                )
-            if self.resolved_bin is not None:
-                raise ValueError("resolved_bin may only be set at building scope")
-            if self.summary is not None and self.summary.building_specific_claims_allowed:
-                raise ValueError("building-specific claims require a building-level join")
-        if self.status is RetrievalStatus.UNSUPPORTED_JOIN and (
-            self.records or self.provenance.pages
-        ):
-            raise ValueError("an unsupported join must not make requests or return records")
-        if self.status is RetrievalStatus.NO_RECORDS_FOUND and (
-            self.records or self.provenance.source_count != 0
-        ):
-            raise ValueError("no_records_found requires a complete fetch with count 0")
-        if self.status is RetrievalStatus.RECORDS_FOUND and (
-            not self.records or self.partial or self.provenance.incomplete_reasons
-        ):
-            raise ValueError("records_found requires a complete, non-empty fetch")
-        if self.status is RetrievalStatus.INCOMPLETE_PAGINATION and not (
-            self.partial and self.provenance.incomplete_reasons
-        ):
-            raise ValueError("incomplete_pagination must be marked partial, with reasons")
+        check_source_invariants(
+            self,
+            [r.violation_id for r in self.records if r.attribution in BUILDING_ONLY_ATTRIBUTIONS],
+        )
         return self
+
+
+def check_source_invariants(result, building_attributed_ids: list[str]) -> None:
+    """Rules every source result must satisfy (shared by violations and complaints)."""
+    if result.join_scope is not JoinScope.BUILDING:
+        if building_attributed_ids:
+            raise ValueError(
+                "building-level attribution without a building-level join: "
+                f"{building_attributed_ids[:5]}"
+            )
+        if result.resolved_bin is not None:
+            raise ValueError("resolved_bin may only be set at building scope")
+        if result.summary is not None and result.summary.building_specific_claims_allowed:
+            raise ValueError("building-specific claims require a building-level join")
+    if result.status is RetrievalStatus.UNSUPPORTED_JOIN and (
+        result.records or result.provenance.pages
+    ):
+        raise ValueError("an unsupported join must not make requests or return records")
+    if result.status is RetrievalStatus.NO_RECORDS_FOUND and (
+        result.records or result.provenance.source_count != 0
+    ):
+        raise ValueError("no_records_found requires a complete fetch with count 0")
+    if result.status is RetrievalStatus.RECORDS_FOUND and (
+        not result.records or result.partial or result.provenance.incomplete_reasons
+    ):
+        raise ValueError("records_found requires a complete, non-empty fetch")
+    if result.status is RetrievalStatus.INCOMPLETE_PAGINATION and not (
+        result.partial and result.provenance.incomplete_reasons
+    ):
+        raise ValueError("incomplete_pagination must be marked partial, with reasons")
 
 
 class RawEvidence(BaseModel):

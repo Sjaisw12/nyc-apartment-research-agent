@@ -59,4 +59,6 @@ Do Step 1 before merging PR #1, and Step 2 after merging. Skip Step 3 unless you
 
 ## Decision log
 
-_No decision yet._
+- **2026-10-21: Step 1 approved by Sanyam and done.** Commit `caa8e39` on `claude/project-thread-rcb2pd` is a normal commit that redacts the two Phase 1 fixtures and their `.meta.json` (no history rewrite, no force-push). CI was green on both the push run (39690168149) and the PR run (39690174291). The PR #1 diff was checked afterwards and contains no unredacted apartment values.
+- **What Step 1 does not do.** It is not complete removal. The earlier commits on `claude/project-thread-rcb2pd`, and GitHub's `refs/pull/1/head` history for PR #1, still contain the unredacted versions and stay reachable by commit SHA. `main` (187ebb9) never contained them.
+- **Not approved yet:** squash-merging PR #1, deleting branches (Step 2), and any history rewrite or GitHub Support purge (Step 3). Each needs separate approval.

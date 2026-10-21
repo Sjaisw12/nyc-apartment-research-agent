@@ -8,7 +8,7 @@ survey of all twelve planned sources lives in the project notes
 |---|---|---|---|---|---|
 | NYC Planning GeoSearch v2 | `https://geosearch.planninglabs.nyc/v2/search?text=&size=` | none | `properties.addendum.pad.bbl`, `.bin`, `.version` (PAD release, `26c` today) | PAD version per result | 200 OK, ~0.05–0.5 s |
 | HPD Housing Maintenance Code Violations | `https://data.cityofnewyork.us/resource/wvxf-dwi5.json` | none; optional `X-App-Token` | `bbl` OR `boroid`+`block`+`lot` (Phase 2); `bin` only to sort rows after fetching | `Last-Modified` / `X-SODA2-Truth-Last-Modified` header (Tue, 20 Oct 2026 14:55 GMT) | 200 OK; 666 rows for test BBL |
-| HPD Complaints and Problems | `https://data.cityofnewyork.us/resource/ygpa-z7cr.json` | none; optional `X-App-Token` | `bbl` | `Last-Modified` (Tue, 20 Oct 2026 14:10 GMT) | 200 OK; 912 problem rows for test BBL |
+| HPD Complaints and Problems | `https://data.cityofnewyork.us/resource/ygpa-z7cr.json` | none; optional `X-App-Token` | `bbl` OR `borough` (name) + `block` + `lot` (Phase 2); `bin` only to sort rows after fetching | `X-SODA2-Truth-Last-Modified` header (Wed, 21 Oct 2026 14:10 GMT) | 200 OK; 912 problem rows / 539 complaints for test BBL |
 
 Used only by the evaluation-evidence script (not by the app): PLUTO `64uk-42ks`,
 Building Footprints `5zhs-2jue`, Buildings Subject to HPD Jurisdiction `kj4p-ruqc`.
@@ -52,6 +52,16 @@ Measured live on 2026-10-21. Full detail: [phase2_task1_hpd_violations_design.md
 - Class I = information/orders (registration failures, but also vacate orders, relocation, AEP, underlying conditions). Order numbers mapped in `records/hpd_violations.py`.
 - `apartment` and `story` are populated on most rows, and `novdescription` repeats them ("APT 1H, 2nd STORY"). Both are redacted from public output.
 - Condos (2 checked): HPD files violations under the billing lot (75xx) with each building's own BIN.
+
+## HPD complaints and problems (`ygpa-z7cr`), Phase 2 Task 2
+
+Measured live on 2026-10-21. Full detail: [phase2_task2_hpd_complaints_design.md](phase2_task2_hpd_complaints_design.md) and [phase2_task2_report.md](phase2_task2_report.md).
+
+- One row per **problem**; `complaint_id` groups problems. 16.4M problems, 8.9M complaints. `problem_id` is unique and is the paging order key.
+- The lot's borough is a **name** (`BRONX`), not an id. 37,466 rows have no `bbl`, so the lot is queried by both forms.
+- HPD's outcome is free text (`status_description`); 24 templates on the 5 test lots. No key links a complaint to a violation.
+- `unique_key` is a 311 request number (withheld from public output; kept in evidence for Task 5). `complaint_anonymous_flag` is withheld. `apartment` is redacted.
+- Some rows have a status date before the received date; all observed cases are "received late December, closed early January of the same year", which looks like a year-entry error. Flagged, never corrected.
 
 ## Usage conditions (to finish before deployment)
 

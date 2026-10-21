@@ -6,7 +6,16 @@ Scans every JSON file under tests/fixtures, including bodies stored inside casse
 import json
 from pathlib import Path
 
-from nyc_apartment_agent.records.redaction import MARKER, TEXT_FIELDS, UNIT_FIELDS, needs_redaction
+import pytest
+
+from nyc_apartment_agent.records.redaction import (
+    MARKER,
+    TEXT_FIELDS,
+    UNIT_FIELDS,
+    WITHHELD,
+    WITHHELD_FIELDS,
+    needs_redaction,
+)
 
 FIXTURES = Path(__file__).resolve().parents[1] / "fixtures"
 
@@ -39,10 +48,18 @@ def test_no_unit_detail_in_any_fixture():
             for f in TEXT_FIELDS:
                 if isinstance(row.get(f), str) and needs_redaction(row[f]):
                     problems.append(f"{path.name}: {f} still has unit/floor detail")
+            for f in WITHHELD_FIELDS:  # anonymity flag, 311 request number
+                if f in row and row[f] not in (None, "", WITHHELD):
+                    problems.append(f"{path.name}: {f} not withheld")
     assert problems == []
 
 
-def test_redacted_fixtures_record_the_original_hash():
-    meta = json.loads((FIXTURES / "hpd" / "violations_cassette.json").read_text("utf-8"))
-    hpd_pages = [e for u, e in meta["entries"].items() if "wvxf-dwi5" in u and "count" not in u]
+@pytest.mark.parametrize(
+    ("name", "dataset"),
+    [("violations_cassette.json", "wvxf-dwi5"), ("complaints_cassette.json", "ygpa-z7cr")],
+)
+def test_redacted_fixtures_record_the_original_hash(name, dataset):
+    meta = json.loads((FIXTURES / "hpd" / name).read_text("utf-8"))
+    hpd_pages = [e for u, e in meta["entries"].items() if dataset in u and "count" not in u]
     assert hpd_pages and all("original_body_sha256" in e for e in hpd_pages)
+    assert all("redaction_events" in e for e in hpd_pages)

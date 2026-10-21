@@ -1,6 +1,19 @@
 # Phase 2, Task 2: HPD complaints and problems (design for approval)
 
-Status: **design only, no implementation.** Written 2026-10-21 on branch `claude/project-thread-5d0l0f` after Task 1 was conditionally accepted. Task 1 stays open until the HPD Online validation results arrive.
+Status: **approved and implemented** (see the approval record below and [phase2_task2_report.md](phase2_task2_report.md)). Originally Written 2026-10-21 on branch `claude/project-thread-5d0l0f` after Task 1 was conditionally accepted. Task 1 stays open until the HPD Online validation results arrive.
+
+## 0. Approval record (2026-10-21)
+
+Sanyam approved D5 to D8 (all "yes") with these refinements and corrections, all applied in the implementation:
+
+1. `complaint_anonymous_flag` is excluded from public records, reports and logs, and kept only in the controlled evidence store (D5).
+2. The 311 `unique_key` is not exposed publicly by default. It is kept in the evidence store for the later 311 reconciliation (Task 5). Public records carry only `has_311_reference`.
+3. A complaint is never linked to an individual violation ID without a real key. HPD's disposition text is labelled as HPD's account (`identifies_specific_violation = false`) (D6).
+4. Rows that are not duplicate-flagged are not called "distinct physical conditions"; the summary field is `not_flagged_duplicate` (D7, corrected).
+5. Matching rules are not broadened to reach the 95% coverage target. Coverage is reported as measured, and the sanitized text of every `other` outcome is kept.
+6. Privacy scans cover `status_description` and every other public free-text field, plus the withheld fields.
+7. All five addresses are recorded (D8).
+
 
 All numbers come from live queries against `data.cityofnewyork.us` on 2026-10-21 (07:20 to 07:30 and 22:30 to 22:45 UTC). Exact queries are in the appendix.
 

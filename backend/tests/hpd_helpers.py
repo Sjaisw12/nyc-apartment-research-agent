@@ -121,3 +121,42 @@ class FakeSocrata:
         c = socrata_client(settings, transport=httpx.MockTransport(self.handler))
         c._sleep = lambda _s: None  # no real waiting in tests
         return c
+
+
+DISPOSITION_ISSUED = (
+    "The Department of Housing Preservation and Development inspected the following "
+    "conditions. Violations were issued. Information about specific violations is "
+    "available at www.nyc.gov/hpd."
+)
+
+
+def complaint_row(pid: int, cid: int = 100, **overrides) -> dict:
+    """A synthetic problem row shaped like ygpa-z7cr (field names from X-SODA2-Fields)."""
+    base = {
+        "problem_id": str(pid),
+        "complaint_id": str(cid),
+        "building_id": "1",
+        "borough": "BRONX",
+        "block": "2754",
+        "lot": "5",
+        "bbl": "2027540005",
+        "bin": "2006185",
+        "apartment": "1A",
+        "received_date": "2026-01-15T10:00:00.000",
+        "complaint_status": "CLOSE",
+        "complaint_status_date": "2026-01-20T05:00:00.000",
+        "problem_status": "CLOSE",
+        "problem_status_date": "2026-01-19T12:00:00.000",
+        "unit_type": "APARTMENT",
+        "space_type": "BATHROOM",
+        "type": "NON EMERGENCY",
+        "major_category": "PLUMBING",
+        "minor_category": "WATER-LEAKS",
+        "problem_code": "SLOW LEAK",
+        "status_description": DISPOSITION_ISSUED,
+        "problem_duplicate_flag": "N",
+        "complaint_anonymous_flag": "N",
+        "unique_key": "99999999",
+    }
+    base.update(overrides)
+    return {k: v for k, v in base.items() if v is not None}  # Socrata omits nulls

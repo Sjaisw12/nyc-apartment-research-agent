@@ -24,7 +24,14 @@ from typing import Any
 
 MARKER = "[REDACTED]"
 UNIT_FIELDS = ("apartment", "story")
-TEXT_FIELDS = ("novdescription",)
+TEXT_FIELDS = ("novdescription", "status_description")  # every public free-text field
+
+# Fields that are not unit detail but are still kept out of public output (approved D5 and
+# Task 2 correction 5): the complainant's anonymity flag and the 311 request number.
+# They stay in the evidence store only. In fixtures the value becomes WITHHELD, so tests
+# can still see whether a value was present.
+WITHHELD = "[WITHHELD]"
+WITHHELD_FIELDS = ("complaint_anonymous_flag", "unique_key")
 
 _DIR = r"(?:NORTH|SOUTH|EAST|WEST|FRONT|REAR)"
 # A unit id: starts with a digit (1H, 12, 3-A), or is 1-2 letters with optional digits
@@ -140,6 +147,17 @@ def redact_row_event(row: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any
         "text_fields_redacted": text_fields,
         "text_replacements": replacements,
     }
+
+
+def withhold_fields(row: dict[str, Any]) -> tuple[dict[str, Any], list[str]]:
+    """Replace WITHHELD_FIELDS values with a marker. Returns (row, fields withheld)."""
+    out = dict(row)
+    done: list[str] = []
+    for f in WITHHELD_FIELDS:
+        if f in out and out[f] not in (None, "", WITHHELD):
+            out[f] = WITHHELD
+            done.append(f)
+    return out, done
 
 
 def redact_row(row: dict[str, Any]) -> tuple[dict[str, Any], list[str]]:

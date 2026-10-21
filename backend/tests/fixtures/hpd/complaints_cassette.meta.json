@@ -1,0 +1,85 @@
+{
+ "recorded_at": "2026-10-21T23:06:19.557863+00:00",
+ "page_size": 500,
+ "addresses": {
+  "west_farms_1134": {
+   "address": "1134 West Farms Rd, Bronx, NY 10459",
+   "why": "Project test building; building-level resolution; 600+ rows over several pages.",
+   "outcome": "verified",
+   "resolution_level": "building",
+   "bbl": "2027540005",
+   "bin": "2006185",
+   "status": "records_found",
+   "source_count": 912,
+   "problems": 912,
+   "complaints": 539,
+   "data_as_of": "Wed, 21 Oct 2026 14:10:13 GMT"
+  },
+  "west_17_220": {
+   "address": "220 West 17th Street, Manhattan",
+   "why": "Lot 1007660055 holds 8 buildings; rows on other BINs and rows with no BBL/BIN.",
+   "outcome": "verified",
+   "resolution_level": "building",
+   "bbl": "1007660055",
+   "bin": "1081543",
+   "status": "records_found",
+   "source_count": 105,
+   "problems": 105,
+   "complaints": 79,
+   "data_as_of": "Wed, 21 Oct 2026 14:10:13 GMT"
+  },
+  "west_farms_1217": {
+   "address": "1217 West Farms Road, Bronx",
+   "why": "Tax-lot-level resolution (PAD gives placeholder BIN 2000000).",
+   "outcome": "verified",
+   "resolution_level": "tax_lot",
+   "bbl": "2029930031",
+   "bin": null,
+   "status": "records_found",
+   "source_count": 51,
+   "problems": 51,
+   "complaints": 48,
+   "data_as_of": "Wed, 21 Oct 2026 14:10:13 GMT"
+  },
+  "fifth_ave_350": {
+   "address": "350 5th Avenue, New York, NY 10118",
+   "why": "Empire State Building; building-level resolution; zero HPD violations.",
+   "outcome": "verified",
+   "resolution_level": "building",
+   "bbl": "1008350041",
+   "bin": "1015862",
+   "status": "records_found",
+   "source_count": 10,
+   "problems": 10,
+   "complaints": 6,
+   "data_as_of": "Wed, 21 Oct 2026 14:10:13 GMT"
+  },
+  "acp_1845": {
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "why": "Condo: HPD files these violations under billing lot 7502.",
+   "outcome": "verified",
+   "resolution_level": "building",
+   "bbl": "1018227502",
+   "bin": "1054974",
+   "status": "records_found",
+   "source_count": 2653,
+   "problems": 2653,
+   "complaints": 1124,
+   "data_as_of": "Wed, 21 Oct 2026 14:10:13 GMT"
+  }
+ },
+ "sanitized_rows_per_url": {
+  "https://data.cityofnewyork.us/resource/ygpa-z7cr.json?%24where=bbl%3D2027540005+OR+%28borough%3D%27BRONX%27+AND+block%3D2754+AND+lot%3D5%29&%24order=problem_id&%24limit=500&%24offset=0": 500,
+  "https://data.cityofnewyork.us/resource/ygpa-z7cr.json?%24where=bbl%3D2027540005+OR+%28borough%3D%27BRONX%27+AND+block%3D2754+AND+lot%3D5%29&%24order=problem_id&%24limit=412&%24offset=500": 412,
+  "https://data.cityofnewyork.us/resource/ygpa-z7cr.json?%24where=bbl%3D1007660055+OR+%28borough%3D%27MANHATTAN%27+AND+block%3D766+AND+lot%3D55%29&%24order=problem_id&%24limit=105&%24offset=0": 105,
+  "https://data.cityofnewyork.us/resource/ygpa-z7cr.json?%24where=bbl%3D2029930031+OR+%28borough%3D%27BRONX%27+AND+block%3D2993+AND+lot%3D31%29&%24order=problem_id&%24limit=51&%24offset=0": 51,
+  "https://data.cityofnewyork.us/resource/ygpa-z7cr.json?%24where=bbl%3D1008350041+OR+%28borough%3D%27MANHATTAN%27+AND+block%3D835+AND+lot%3D41%29&%24order=problem_id&%24limit=10&%24offset=0": 10,
+  "https://data.cityofnewyork.us/resource/ygpa-z7cr.json?%24where=bbl%3D1018227502+OR+%28borough%3D%27MANHATTAN%27+AND+block%3D1822+AND+lot%3D7502%29&%24order=problem_id&%24limit=500&%24offset=0": 500,
+  "https://data.cityofnewyork.us/resource/ygpa-z7cr.json?%24where=bbl%3D1018227502+OR+%28borough%3D%27MANHATTAN%27+AND+block%3D1822+AND+lot%3D7502%29&%24order=problem_id&%24limit=500&%24offset=500": 500,
+  "https://data.cityofnewyork.us/resource/ygpa-z7cr.json?%24where=bbl%3D1018227502+OR+%28borough%3D%27MANHATTAN%27+AND+block%3D1822+AND+lot%3D7502%29&%24order=problem_id&%24limit=500&%24offset=1000": 500,
+  "https://data.cityofnewyork.us/resource/ygpa-z7cr.json?%24where=bbl%3D1018227502+OR+%28borough%3D%27MANHATTAN%27+AND+block%3D1822+AND+lot%3D7502%29&%24order=problem_id&%24limit=500&%24offset=1500": 500,
+  "https://data.cityofnewyork.us/resource/ygpa-z7cr.json?%24where=bbl%3D1018227502+OR+%28borough%3D%27MANHATTAN%27+AND+block%3D1822+AND+lot%3D7502%29&%24order=problem_id&%24limit=500&%24offset=2000": 500,
+  "https://data.cityofnewyork.us/resource/ygpa-z7cr.json?%24where=bbl%3D1018227502+OR+%28borough%3D%27MANHATTAN%27+AND+block%3D1822+AND+lot%3D7502%29&%24order=problem_id&%24limit=153&%24offset=2500": 153
+ },
+ "note": "Complaint rows are sanitized before saving (see the script docstring); original body hashes are kept per entry. Unsanitized rows are not in git."
+}

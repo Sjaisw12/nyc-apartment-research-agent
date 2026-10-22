@@ -45,6 +45,7 @@ from nyc_apartment_agent.storage.repository import (
     commit_checked,
     load_complaint_result,
     save_complaints,
+    save_research_snapshot,
     save_result,
     save_run,
 )
@@ -328,10 +329,10 @@ def _cassette_result(key, entries):
             res, s, page_size=cmeta["page_size"], evidence=buffer, digest_key=KEY, today=TODAY
         )
         b = retrieve_hpd_buildings(
-            res, s, page_size=bmeta["page_size"], digest_key=KEY, today=TODAY
+            res, s, page_size=bmeta["page_size"], evidence=buffer, digest_key=KEY, today=TODAY
         )
     assert transport.misses == []
-    return res, address, c, apply_to_complaints(c, b, as_of=TODAY), buffer
+    return res, address, c, apply_to_complaints(c, b, as_of=TODAY), buffer, b
 
 
 def test_recorded_complaints_round_trip_before_and_after_d9(db, cassette_entries):
@@ -339,10 +340,13 @@ def test_recorded_complaints_round_trip_before_and_after_d9(db, cassette_entries
     assert len(keys) == 5
     stats = {}
     for key in keys:
-        res, address, before, after, buffer = _cassette_result(key, cassette_entries)
+        res, address, before, after, buffer, buildings = _cassette_result(key, cassette_entries)
         ids = {}
         for label, result in (("before", before), ("after", after)):
-            _, saved = save(db["writer"], result, buffer, res=res, raw_input=address)
+            _, snap = save_research_snapshot(
+                db["writer"], res, address, [buildings, result], buffer.items(), SETTINGS
+            )
+            saved = snap["hpd_complaints"]
             stored = load(db["app_reader"], saved.fetch_id)
             assert stored.result == result, (key, label)
             for r in stored.result.records:
@@ -408,22 +412,26 @@ def test_recorded_complaints_round_trip_before_and_after_d9(db, cassette_entries
 
 
 def test_resave_is_idempotent_and_d9_is_its_own_snapshot(db, cassette_entries):
-    res, address, before, after, buffer = _cassette_result("west_17_220", cassette_entries)
+    res, address, before, after, buffer, buildings = _cassette_result(
+        "west_17_220", cassette_entries
+    )
     with db["writer"].connect() as conn:
         run_id = save_run(conn, res, address, digest_key=KEY)
         kw = {"digest_key": KEY, "retention_days": 180}
         first = save_result(conn, run_id, before, buffer.items(), **kw)
         commit_checked(conn)
         again = save_result(conn, run_id, before, buffer.items(), **kw)
-        d9 = save_result(conn, run_id, after, buffer.items(), **kw)
+        b = save_result(conn, run_id, buildings, buffer.items(), **kw)
+        d9 = save_result(conn, run_id, after, buffer.items(), buildings_fetch_id=b.fetch_id, **kw)
         commit_checked(conn)
     assert first.created and not again.created and again.fetch_id == first.fetch_id
     assert d9.created and d9.fetch_id != first.fetch_id
     c = counts(db["owner"])
-    assert c["source_fetch"] == 2
-    assert c["normalized_record"] == 2 * len(before.records)
+    assert c["source_fetch"] == 3
+    assert c["normalized_record"] == 2 * len(before.records) + len(buildings.records)
     assert c["complaint_group"] == len(before.complaints) + len(after.complaints)
-    assert c["raw_row"] == len(before.records)  # shared by both snapshots, stored once
+    # Problem raw rows are shared by both snapshots and stored once.
+    assert c["raw_row"] == len(before.records) + len(buildings.records)
 
 
 # ---- atomicity -------------------------------------------------------------------------

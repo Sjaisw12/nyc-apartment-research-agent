@@ -1,12 +1,13 @@
-"""Persist and load source-result snapshots (Task 4: HPD violations, step 3; complaints, step 4).
+"""Persist and load source-result snapshots (Task 4: HPD violations, step 3; complaints,
+step 4; HPD building records, registrations and registration contacts, step 5).
 
 One save is one transaction on the caller's connection, as a login holding ingest_writer
 (plus evidence_restorer, only needed when an expired raw row comes back):
 
     1. skip if this exact result was already saved for this run (idempotency key);
     2. write the raw rows the records cite (storage/evidence_pg.write_raw_rows);
-    3. insert the fetch, its pages, (complaints) its complaint groups, its records and
-       their source-row links;
+    3. insert the fetch, its pages, (complaints) its complaint groups, (contacts) its
+       registration coverage rows, its records and their source-row links;
     4. the caller commits. At commit a deferred trigger checks the snapshot is complete.
 
 Any failure rolls back all of it, evidence included. Nothing is ever updated: a new
@@ -40,6 +41,15 @@ from sqlalchemy.types import Text
 
 from ..config import Settings
 from ..identifiers import normalize_bbl
+from ..records.admin_models import (
+    BuildingSourceResult,
+    ContactSourceResult,
+    HpdBuildingRecord,
+    HpdRegistrationContact,
+    HpdRegistrationRecord,
+    RegistrationContacts,
+    RegistrationSourceResult,
+)
 from ..records.complaint_models import (
     ComplaintGroup,
     ComplaintSourceResult,
@@ -47,6 +57,7 @@ from ..records.complaint_models import (
 )
 from ..records.join_policy import UnsupportedJoinError, plan_lot_query
 from ..records.models import (
+    AttributionBasis,
     DigestBasis,
     NormalizedViolation,
     PageRecord,
@@ -60,6 +71,9 @@ from .evidence_pg import EvidenceWriteReport, require_digest_key, write_raw_rows
 SCHEMA_VERSION = 1
 RESULT_TYPE_VIOLATIONS = "hpd_violations"
 RESULT_TYPE_COMPLAINTS = "hpd_complaints"
+RESULT_TYPE_BUILDINGS = "hpd_buildings"
+RESULT_TYPE_REGISTRATIONS = "hpd_registrations"
+RESULT_TYPE_CONTACTS = "hpd_contacts"
 
 
 class RecordWriteError(RuntimeError):
@@ -158,8 +172,20 @@ def save_run(
 
 # ---- source results (shared by violations and complaints) -----------------------------
 
-AnyResult = SourceResult | ComplaintSourceResult
-AnyRecord = NormalizedViolation | NormalizedComplaintProblem
+AnyResult = (
+    SourceResult
+    | ComplaintSourceResult
+    | BuildingSourceResult
+    | RegistrationSourceResult
+    | ContactSourceResult
+)
+AnyRecord = (
+    NormalizedViolation
+    | NormalizedComplaintProblem
+    | HpdBuildingRecord
+    | HpdRegistrationRecord
+    | HpdRegistrationContact
+)
 
 
 @dataclass(frozen=True)
@@ -169,6 +195,9 @@ class _Kind:
     model: type
     source_record_id: Callable[[AnyRecord], str]
     complaint_id: Callable[[AnyRecord], str | None]
+    # How the record's attribution was decided when the model does not say: admin
+    # records by their own row identifiers, contacts through their registration.
+    attribution_basis: str | None = None
 
 
 VIOLATIONS = _Kind(
@@ -183,11 +212,44 @@ COMPLAINTS = _Kind(
 )
 
 
+BUILDINGS = _Kind(
+    RESULT_TYPE_BUILDINGS,
+    "hpd_building",
+    BuildingSourceResult,
+    lambda r: r.building_id,
+    lambda r: None,
+    AttributionBasis.ROW_IDENTIFIERS.value,
+)
+REGISTRATIONS = _Kind(
+    RESULT_TYPE_REGISTRATIONS,
+    "registration",
+    RegistrationSourceResult,
+    lambda r: r.source_row_id,  # Socrata :id; the dataset has no unique business key
+    lambda r: None,
+    AttributionBasis.ROW_IDENTIFIERS.value,
+)
+CONTACTS = _Kind(
+    RESULT_TYPE_CONTACTS,
+    "contact",
+    ContactSourceResult,
+    lambda r: r.source_row_id,
+    lambda r: None,
+    "registration_coverage",
+)
+
+_KINDS = (
+    (ComplaintSourceResult | NormalizedComplaintProblem, COMPLAINTS),
+    (SourceResult | NormalizedViolation, VIOLATIONS),
+    (BuildingSourceResult | HpdBuildingRecord, BUILDINGS),
+    (RegistrationSourceResult | HpdRegistrationRecord, REGISTRATIONS),
+    (ContactSourceResult | HpdRegistrationContact, CONTACTS),
+)
+
+
 def _kind_of(obj) -> _Kind:
-    if isinstance(obj, ComplaintSourceResult | NormalizedComplaintProblem):
-        return COMPLAINTS
-    if isinstance(obj, SourceResult | NormalizedViolation):
-        return VIOLATIONS
+    for types, kind in _KINDS:
+        if isinstance(obj, types):
+            return kind
     raise TypeError(f"unsupported result type: {type(obj).__name__}")
 
 
@@ -199,11 +261,20 @@ class SavedResult:
 
 
 def result_payload(result: AnyResult) -> dict:
-    """The public result without records, complaint groups and pages (own tables)."""
+    """The public result without what has its own table: records, pages, complaint
+    groups, and the contacts' per-registration coverage."""
     exclude: dict = {"records": True, "provenance": {"pages"}}
     if isinstance(result, ComplaintSourceResult):
         exclude["complaints"] = True
+    if isinstance(result, ContactSourceResult) and result.summary is not None:
+        exclude["summary"] = {"by_registration"}
     return result.model_dump(mode="json", by_alias=True, exclude=exclude)
+
+
+def _coverage(result: AnyResult) -> list[RegistrationContacts]:
+    if isinstance(result, ContactSourceResult) and result.summary is not None:
+        return result.summary.by_registration
+    return []
 
 
 def record_payload(record: AnyRecord) -> dict:
@@ -214,11 +285,15 @@ def content_sha256(result: AnyResult) -> str:
     return canonical_sha256(result.model_dump(mode="json", by_alias=True))
 
 
-def idempotency_key(run_id: uuid.UUID, result_type: str, content: str) -> str:
-    """Same run + same type + same content: the same snapshot. Anything else is new."""
-    return hashlib.sha256(
-        canonical_json({"run": str(run_id), "type": result_type, "content": content})
-    ).hexdigest()
+def idempotency_key(
+    run_id: uuid.UUID, result_type: str, content: str, buildings_fetch_id=None
+) -> str:
+    """Same run + same type + same content (+ same BuildingID basis): the same snapshot.
+    Anything else is new."""
+    key = {"run": str(run_id), "type": result_type, "content": content}
+    if buildings_fetch_id is not None:
+        key["buildings_fetch"] = str(buildings_fetch_id)
+    return hashlib.sha256(canonical_json(key)).hexdigest()
 
 
 _FIND_FETCH = text("SELECT id FROM records.source_fetch WHERE idempotency_key = :k")
@@ -234,14 +309,16 @@ _INSERT_FETCH = text(
         id, run_id, idempotency_key, content_sha256, result_type, source, dataset_id,
         status, status_detail, partial, join_scope, resolved_bbl, resolved_bin,
         source_count, rows_fetched, record_count, source_row_count, page_count,
-        group_count, incomplete_reasons, warnings, data_as_of, where_clause, order_by,
-        page_size, row_cap, building_id_applied, result_payload, schema_version
+        group_count, coverage_count, incomplete_reasons, warnings, data_as_of, where_clause,
+        order_by, page_size, row_cap, building_id_applied, buildings_fetch_id,
+        result_payload, schema_version
     ) VALUES (
         :id, :run_id, :idempotency_key, :content_sha256, :result_type, :source, :dataset_id,
         :status, :status_detail, :partial, :join_scope, :resolved_bbl, :resolved_bin,
         :source_count, :rows_fetched, :record_count, :source_row_count, :page_count,
-        :group_count, :incomplete_reasons, :warnings, :data_as_of, :where_clause, :order_by,
-        :page_size, :row_cap, :building_id_applied, :result_payload, :schema_version
+        :group_count, :coverage_count, :incomplete_reasons, :warnings, :data_as_of,
+        :where_clause, :order_by, :page_size, :row_cap, :building_id_applied,
+        :buildings_fetch_id, :result_payload, :schema_version
     )
     """
 ).bindparams(
@@ -273,6 +350,25 @@ _INSERT_GROUP = text(
     )
     """
 ).bindparams(bindparam("payload", type_=JSONB), bindparam("problem_attributions", type_=JSONB))
+
+_INSERT_COVERAGE = text(
+    """
+    INSERT INTO records.registration_coverage (
+        id, fetch_id, ordinal, registration_id, attribution, association,
+        shared_registration, building_ids_on_lot, covered_building_ids,
+        covered_buildings_off_lot, contacts, persons_named_withheld, payload, schema_version
+    ) VALUES (
+        :id, :fetch_id, :ordinal, :registration_id, :attribution, :association,
+        :shared_registration, :building_ids_on_lot, :covered_building_ids,
+        :covered_buildings_off_lot, :contacts, :persons_named_withheld, :payload,
+        :schema_version
+    )
+    """
+).bindparams(
+    bindparam("payload", type_=JSONB),
+    bindparam("building_ids_on_lot", type_=ARRAY(Text)),
+    bindparam("covered_building_ids", type_=ARRAY(Text)),
+)
 
 _INSERT_RECORD = text(
     """
@@ -339,10 +435,12 @@ def source_row_links(result: AnyResult) -> int:
     return sum(len(getattr(r, "source_rows", None) or [r]) for r in result.records)
 
 
-def _fetch_params(fetch_id, run_id, key, content, result: AnyResult) -> dict:
+def _fetch_params(
+    fetch_id, run_id, key, content, result: AnyResult, buildings_fetch_id=None
+) -> dict:
     kind = _kind_of(result)
     prov = result.provenance
-    d9 = result.building_id_attribution
+    d9 = getattr(result, "building_id_attribution", None)
     groups = result.complaints if isinstance(result, ComplaintSourceResult) else []
     return {
         "id": fetch_id,
@@ -364,6 +462,7 @@ def _fetch_params(fetch_id, run_id, key, content, result: AnyResult) -> dict:
         "source_row_count": source_row_links(result),
         "page_count": len(prov.pages),
         "group_count": len(groups),
+        "coverage_count": len(_coverage(result)),
         "incomplete_reasons": list(prov.incomplete_reasons),
         "warnings": list(prov.warnings),
         "data_as_of": prov.data_as_of,
@@ -372,13 +471,22 @@ def _fetch_params(fetch_id, run_id, key, content, result: AnyResult) -> dict:
         "page_size": prov.page_size,
         "row_cap": prov.row_cap,
         "building_id_applied": bool(d9 and d9.applied),
+        "buildings_fetch_id": buildings_fetch_id,
         "result_payload": result_payload(result),
         "schema_version": SCHEMA_VERSION,
     }
 
 
-def _record_params(fetch_id, ordinal: int, r: AnyRecord) -> dict:
+def _value(x):
+    return None if x is None else x.value
+
+
+def _record_params(fetch_id, ordinal: int, r: AnyRecord, resolved_bbl: str | None = None) -> dict:
+    """Typed columns for one record. Fields a model does not have are stored as NULL
+    (administrative records have no location scope or BuildingID upgrade; contacts have
+    no lot membership of their own and take the fetch's lot)."""
     kind = _kind_of(r)
+    basis = getattr(r, "attribution_basis", None)
     return {
         "id": uuid.uuid4(),
         "fetch_id": fetch_id,
@@ -388,14 +496,14 @@ def _record_params(fetch_id, ordinal: int, r: AnyRecord) -> dict:
         "dataset_id": r.dataset_id,
         "source_record_id": kind.source_record_id(r),
         "complaint_id": kind.complaint_id(r),
-        "resolved_bbl": r.resolved_bbl,
-        "lot_membership": r.lot_membership.value,
+        "resolved_bbl": getattr(r, "resolved_bbl", None) or resolved_bbl,
+        "lot_membership": _value(getattr(r, "lot_membership", None)),
         "attribution": r.attribution.value,
-        "attribution_basis": r.attribution_basis.value,
-        "original_attribution": r.original_attribution.value if r.original_attribution else None,
-        "mapped_bin": r.mapped_bin,
-        "location_scope": r.location_scope.value,
-        "quality_flags": [f.value for f in r.quality_flags],
+        "attribution_basis": basis.value if basis is not None else kind.attribution_basis,
+        "original_attribution": _value(getattr(r, "original_attribution", None)),
+        "mapped_bin": getattr(r, "mapped_bin", None),
+        "location_scope": _value(getattr(r, "location_scope", None)),
+        "quality_flags": [f.value for f in getattr(r, "quality_flags", [])],  # contacts: none
         "digest_basis": r.digest_basis.value,
         "original_digest": r.original_digest,
         "redacted_sha256": r.redacted_sha256,
@@ -419,6 +527,29 @@ def _group_params(fetch_id, ordinal: int, g: ComplaintGroup) -> dict:
     }
 
 
+def _coverage_params(fetch_id, ordinal: int, c: RegistrationContacts) -> dict:
+    payload = c.model_dump(mode="json")
+    typed = (
+        "registration_id",
+        "attribution",
+        "association",
+        "shared_registration",
+        "building_ids_on_lot",
+        "covered_building_ids",
+        "covered_buildings_off_lot",
+        "contacts",
+        "persons_named_withheld",
+    )
+    return {
+        "id": uuid.uuid4(),
+        "fetch_id": fetch_id,
+        "ordinal": ordinal,
+        **{k: payload[k] for k in typed},
+        "payload": payload,
+        "schema_version": SCHEMA_VERSION,
+    }
+
+
 def save_result(
     conn: Connection,
     run_id: uuid.UUID,
@@ -428,13 +559,19 @@ def save_result(
     digest_key: bytes,
     retention_days: int,
     now: dt.datetime | None = None,
+    buildings_fetch_id: uuid.UUID | None = None,
 ) -> SavedResult:
-    """Save one source result and the raw rows it cites. Never commits."""
+    """Save one source result and the raw rows it cites. Never commits.
+
+    `buildings_fetch_id`: for a violations or complaints result with a BuildingID
+    attribution report (D9), the stored HPD building records it was attributed with
+    (saved earlier in the same run). Required by the database when D9 was applied.
+    """
     kind = _kind_of(result)
     # Validate again: a model changed with model_copy() skips its validators.
     result = kind.model.model_validate(result.model_dump(by_alias=True))
     content = content_sha256(result)
-    key = idempotency_key(run_id, kind.result_type, content)
+    key = idempotency_key(run_id, kind.result_type, content, buildings_fetch_id)
     cited = {
         link["original_digest"]
         for r in result.records
@@ -480,18 +617,26 @@ def save_result(
         if isinstance(result, ComplaintSourceResult)
         else []
     )
-    records = [_record_params(fetch_id, i, r) for i, r in enumerate(result.records)]
+    coverage = [_coverage_params(fetch_id, i, c) for i, c in enumerate(_coverage(result))]
+    records = [
+        _record_params(fetch_id, i, r, result.resolved_bbl) for i, r in enumerate(result.records)
+    ]
     links = [
         link
         for rec, r in zip(records, result.records, strict=True)
         for link in _links(fetch_id, rec["id"], r, rec["source_record_id"])
     ]
     try:
-        conn.execute(_INSERT_FETCH, _fetch_params(fetch_id, run_id, key, content, result))
+        conn.execute(
+            _INSERT_FETCH,
+            _fetch_params(fetch_id, run_id, key, content, result, buildings_fetch_id),
+        )
         if pages:
             conn.execute(_INSERT_PAGE, pages)
         if groups:  # before the problems, which reference their complaint
             conn.execute(_INSERT_GROUP, groups)
+        if coverage:
+            conn.execute(_INSERT_COVERAGE, coverage)
         if records:
             conn.execute(_INSERT_RECORD, records)
             conn.execute(_INSERT_LINK, links)
@@ -547,6 +692,58 @@ def save_with_run(
 save_violations = save_with_run
 save_complaints = save_with_run
 
+_SNAPSHOT_ORDER = (BUILDINGS, REGISTRATIONS, CONTACTS, VIOLATIONS, COMPLAINTS)
+
+
+def save_research_snapshot(
+    engine: Engine,
+    resolution: ResolutionResult,
+    raw_input: str,
+    results: Iterable[AnyResult],
+    evidence: Iterable[RawEvidence],
+    settings: Settings,
+) -> tuple[uuid.UUID, dict[str, SavedResult]]:
+    """A run and several source results (at most one per type) in ONE transaction.
+
+    Building records are saved first, so a violations or complaints result with a
+    BuildingID report is linked to the building records it was attributed with. Any
+    failure (a constraint, a commit-time check, a stale raw row) rolls back all of it:
+    the run, every result, every record, link and coverage row, and the raw evidence.
+    """
+    key = require_digest_key(settings)
+    by_type: dict[str, AnyResult] = {}
+    for r in results:
+        kind = _kind_of(r)
+        if kind.result_type in by_type:
+            raise ValueError(f"more than one {kind.result_type} result")
+        by_type[kind.result_type] = r
+    items = list(evidence)
+    saved: dict[str, SavedResult] = {}
+    with engine.connect() as conn:
+        try:
+            run_id = save_run(conn, resolution, raw_input, digest_key=key)
+            for kind in _SNAPSHOT_ORDER:
+                result = by_type.get(kind.result_type)
+                if result is None:
+                    continue
+                d9 = getattr(result, "building_id_attribution", None)
+                buildings = saved.get(RESULT_TYPE_BUILDINGS)
+                link = buildings.fetch_id if d9 is not None and buildings else None
+                saved[kind.result_type] = save_result(
+                    conn,
+                    run_id,
+                    result,
+                    items,
+                    digest_key=key,
+                    retention_days=settings.evidence_retention_days,
+                    buildings_fetch_id=link,
+                )
+            commit_checked(conn)
+        except BaseException:
+            conn.rollback()
+            raise
+    return run_id, saved
+
 
 # ---- loading ---------------------------------------------------------------------------
 
@@ -565,12 +762,14 @@ class StoredResult:
     run_id: uuid.UUID
     result: AnyResult
     evidence: dict[str, EvidenceState]  # original_digest -> state of its raw row
+    buildings_fetch_id: uuid.UUID | None = None  # D9: the building records used
 
 
 StoredViolationResult = StoredResult
 
 _LOAD_FETCH = text(
-    "SELECT run_id, result_type, result_payload FROM records.source_fetch WHERE id = :id"
+    "SELECT run_id, result_type, result_payload, buildings_fetch_id "
+    "FROM records.source_fetch WHERE id = :id"
 )
 _LOAD_PAGES = text(
     """
@@ -584,6 +783,9 @@ _LOAD_RECORDS = text(
 )
 _LOAD_GROUPS = text(
     "SELECT payload FROM records.complaint_group WHERE fetch_id = :id ORDER BY ordinal"
+)
+_LOAD_COVERAGE = text(
+    "SELECT payload FROM records.registration_coverage WHERE fetch_id = :id ORDER BY ordinal"
 )
 _LOAD_EVIDENCE = text(
     """
@@ -620,6 +822,11 @@ def _load(conn: Connection, fetch_id: uuid.UUID, kind: _Kind) -> StoredResult:
     payload["records"] = list(conn.execute(_LOAD_RECORDS, {"id": fetch_id}).scalars())
     if kind is COMPLAINTS:
         payload["complaints"] = list(conn.execute(_LOAD_GROUPS, {"id": fetch_id}).scalars())
+    if kind is CONTACTS and payload.get("summary") is not None:
+        payload["summary"] = {
+            **payload["summary"],
+            "by_registration": list(conn.execute(_LOAD_COVERAGE, {"id": fetch_id}).scalars()),
+        }
     result = kind.model.model_validate(payload)
     evidence = {
         e.original_digest: EvidenceState(
@@ -631,10 +838,18 @@ def _load(conn: Connection, fetch_id: uuid.UUID, kind: _Kind) -> StoredResult:
         for e in conn.execute(_LOAD_EVIDENCE, {"id": fetch_id})
     }
     for r in result.records:  # the database checks this too; fail loudly if not
-        state = evidence.get(r.original_digest)
-        if state is None or state.basis is not r.digest_basis:
-            raise RecordWriteError("a record's raw row is missing or has another basis")
-    return StoredResult(fetch_id=fetch_id, run_id=row.run_id, result=result, evidence=evidence)
+        digests = [ref.original_digest for ref in getattr(r, "source_rows", None) or [r]]
+        for digest in digests:
+            state = evidence.get(digest)
+            if state is None or state.basis is not r.digest_basis:
+                raise RecordWriteError("a record's raw row is missing or has another basis")
+    return StoredResult(
+        fetch_id=fetch_id,
+        run_id=row.run_id,
+        result=result,
+        evidence=evidence,
+        buildings_fetch_id=row.buildings_fetch_id,
+    )
 
 
 def load_violation_result(conn: Connection, fetch_id: uuid.UUID) -> StoredResult:
@@ -643,6 +858,18 @@ def load_violation_result(conn: Connection, fetch_id: uuid.UUID) -> StoredResult
 
 def load_complaint_result(conn: Connection, fetch_id: uuid.UUID) -> StoredResult:
     return _load(conn, fetch_id, COMPLAINTS)
+
+
+def load_building_result(conn: Connection, fetch_id: uuid.UUID) -> StoredResult:
+    return _load(conn, fetch_id, BUILDINGS)
+
+
+def load_registration_result(conn: Connection, fetch_id: uuid.UUID) -> StoredResult:
+    return _load(conn, fetch_id, REGISTRATIONS)
+
+
+def load_contact_result(conn: Connection, fetch_id: uuid.UUID) -> StoredResult:
+    return _load(conn, fetch_id, CONTACTS)
 
 
 __all__ = [
@@ -654,11 +881,15 @@ __all__ = [
     "StoredViolationResult",
     "commit_checked",
     "input_digest",
+    "load_building_result",
     "load_complaint_result",
+    "load_contact_result",
+    "load_registration_result",
     "load_violation_result",
     "resolution_projection",
     "save_complaint_result",
     "save_complaints",
+    "save_research_snapshot",
     "save_result",
     "save_run",
     "save_violation_result",

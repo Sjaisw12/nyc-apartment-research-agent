@@ -107,6 +107,11 @@ Columns: `record_id`, `fetch_id`, `position`, `source_row_id`, `original_digest`
 - FK `original_digest` to `evidence.raw_row`;
 - unique (`fetch_id`, `source_row_id`) and (`record_id`, `position`).
 
+As built (0004, changed by 0006): the per-fetch unique (`fetch_id`, `original_digest`)
+was dropped in step 5, because a collapsed registration or contact in an incomplete
+fetch can list one repeated source row twice. Uniqueness of linked rows is checked at
+commit for `records_found` fetches instead (section 10.2c).
+
 ### 3.6 `records.complaint_group`
 Columns: `fetch_id`, `complaint_id`, `attribution` (including `mixed`),
 `problem_attributions` jsonb, `payload` jsonb, `ordinal`. Unique (`fetch_id`,
@@ -335,6 +340,51 @@ Where step 3 differs from the plan above, and why:
   themselves exist only in `evidence.raw_row`.
 - **Additive migration.** 0005 adds a table, a column, constraints and triggers; the
   only change to 0004 objects is replacing the result-payload privacy CHECK as above.
+
+### 10.2c Step 5 decisions (migrations 0006 and 0007, 2026-10-22)
+
+- **Three counts, kept apart.** Fetched source rows (`rows_fetched`, `source_count`),
+  normalized records (`record_count`) and stored links (`source_row_count`). Identical
+  registration or contact rows under different Socrata `:id`s are one record with one
+  link per `:id`, so links can exceed records. `source_row_count` now counts links.
+- **Lineage equals the model (0006).** At commit, a record's payload `source_rows` must
+  equal its links in position order, by (`source_row_id`, `original_digest`). Records
+  without `source_rows` have exactly one plain link. On `records_found`, no raw row is
+  linked twice and, with row-level lineage, links equal `source_count` with distinct
+  `:id`s. The per-fetch digest UNIQUE was dropped (see 3.5).
+- **Link identity (0007).** Each link's source id must be the source id its raw row was
+  stored under, in the record's dataset, via `records.evidence_identity` (digest,
+  dataset, source id; readable by `ingest_writer` only, since future 311 rows use the
+  request number as source id).
+- **Admin record shape.** `hpd_building`, `registration` and `contact` are exactly the
+  `administrative_record` kinds. Buildings and registrations are attributed by
+  `row_identifiers`; contacts by `registration_coverage` (a new basis value: a contact
+  has no location of its own). No location scope, original attribution or mapped BIN.
+  Contacts have no lot membership. Building `is_current`, the registration
+  shared flag, approved registration status labels, partial registration fetches
+  stating no requested-building status, HPD role mapping and "a person's contact
+  publishes no city, state or zip" are CHECKs.
+- **Private keys.** Person-name and business-address keys (`firstname`,
+  `middleinitial`, `lastname`, `title`, `businesshousenumber`, `businessstreetname`,
+  `businessapartment`, `businesscity`, `businessstate`, `businesszip`) are refused in
+  every public JSONB value. Field-name counts under `summary.withheld_field_counts`
+  remain the one exception (10.2b).
+- **Cross-lot coverage.** `records.registration_coverage` holds one row per
+  registration ID a contacts fetch looked up: buildings on this lot, every building
+  citywide with that registration (NULL when the lookup did not complete), the off-lot
+  count and the association. CHECKs derive shared / requested-only / unknown from the
+  coverage. At commit every contact must agree with its registration's row, contact and
+  person counts must match, the coverage status must match which rows have coverage,
+  and `summary.requested_building` must equal the this-building rows. The list is not
+  repeated in `result_payload`.
+- **BuildingID basis (D9).** `source_fetch.buildings_fetch_id` (same-run foreign key)
+  names the stored building records a violations or complaints result was attributed
+  with; an applied report requires it, and the linked fetch must match the report's
+  dataset, status and data version. Every BuildingID-upgraded record must map to exactly
+  one current, confirmed-lot building record with that building ID and the mapped BIN.
+  At commit the report's before, after, upgraded and (complaints) group-after counts
+  must equal the stored records. `save_research_snapshot` saves building records first
+  and links them, all in one transaction.
 
 ### 10.3 Privacy
 

@@ -43,6 +43,7 @@ from nyc_apartment_agent.storage.repository import (
     _record_params,
     commit_checked,
     load_violation_result,
+    save_research_snapshot,
     save_run,
     save_violation_result,
     save_violations,
@@ -290,7 +291,7 @@ def _cassette_result(key, entries):
             res, s, page_size=vmeta["page_size"], evidence=buffer, digest_key=KEY, today=TODAY
         )
         b = retrieve_hpd_buildings(
-            res, s, page_size=bmeta["page_size"], digest_key=KEY, today=TODAY
+            res, s, page_size=bmeta["page_size"], evidence=buffer, digest_key=KEY, today=TODAY
         )
     assert transport.misses == []
     return (
@@ -299,6 +300,7 @@ def _cassette_result(key, entries):
         v,
         apply_to_violations(v, b, as_of=TODAY),
         buffer,
+        b,
     )
 
 
@@ -308,10 +310,17 @@ def test_recorded_results_round_trip_before_and_after_d9(db, cassette_entries):
     upgraded_total = 0
     bases: set = set()
     for key in keys:
-        res, address, before, after, buffer = _cassette_result(key, cassette_entries)
+        res, address, before, after, buffer, buildings = _cassette_result(key, cassette_entries)
         for result in (before, after):
-            _, saved = save(db["writer"], result, buffer, res=res, raw_input=address)
+            # The D9 result is saved with the building records it was attributed with.
+            _, snap = save_research_snapshot(
+                db["writer"], res, address, [buildings, result], buffer.items(), SETTINGS
+            )
+            saved = snap["hpd_violations"]
             stored = load(db["app_reader"], saved.fetch_id)
+            assert (stored.buildings_fetch_id is not None) == (
+                result.building_id_attribution is not None
+            )
             assert stored.result == result, key
             # Each raw row keeps the basis its record states (fixture rows that carried
             # redaction markers are sanitized_row; untouched rows are original_row).
@@ -336,8 +345,15 @@ def test_recorded_results_round_trip_before_and_after_d9(db, cassette_entries):
         ).scalar()
     assert typed == 87
     # Raw rows are shared by the before and after snapshots and stored once.
-    c = counts(db["owner"])
-    assert c["record_source_row"] == 2 * c["raw_row"]
+    with db["owner"].connect() as conn:
+        links, rows = conn.execute(
+            text(
+                "select count(*), count(distinct l.original_digest) "
+                "from records.record_source_row l join records.source_fetch f "
+                "on f.id = l.fetch_id where f.result_type = 'hpd_violations'"
+            )
+        ).one()
+    assert links == 2 * rows
 
 
 # ---- idempotency and append-only snapshots --------------------------------------------
@@ -550,7 +566,9 @@ def test_building_attribution_rejected_at_tax_lot_scope(open_fetch):
 @pytest.mark.parametrize(
     ("update", "pattern"),
     [
-        ({"attribution_basis": AttributionBasis.HPD_BUILDING_ID}, "building_id_basis"),
+        # The BuildingID evidence trigger (0007) rejects it before the building_id_basis
+        # CHECK is reached: no applied report and no linked building records.
+        ({"attribution_basis": AttributionBasis.HPD_BUILDING_ID}, "needs an applied report"),
         ({"mapped_bin": "2006185"}, "row_identifier_basis"),
         ({"original_attribution": Attribution.UNATTRIBUTED_ON_LOT}, "row_identifier_basis"),
         ({"resolved_bbl": "2027540006"}, "differs from its fetch"),

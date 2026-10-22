@@ -297,6 +297,28 @@ structure. Examples:
 `load_result` runs the full model validation, so a stored row that breaks a rule fails
 loudly on read.
 
+### 10.2a Step 3 decisions (migration 0004, 2026-10-22)
+
+Where step 3 differs from the plan above, and why:
+
+- **Idempotency key** = SHA-256 of run id, result type and a hash of the full result
+  content, not of page URLs alone. A D9-upgraded result has the same pages as the
+  original but different records; a page-only key would have treated it as a duplicate.
+- **Source-row uniqueness** is (`fetch_id`, `original_digest`). Violation rows carry no
+  Socrata row id, and two different-content copies of one `violationid` share their ID,
+  so the digest is the row identity. `source_row_id` stays nullable for step 5.
+- **Link count rule.** On a `records_found` fetch, links equal `source_count`, except
+  when identical duplicate rows were collapsed (flag `duplicate_id_same_content`); then
+  there must be fewer. The model does not record how many copies were collapsed.
+- **No duplication between payload and child tables.** `result_payload` excludes
+  `records` and `provenance.pages`; those live only in `normalized_record` and
+  `fetch_page`. CHECK constraints tie each typed column to the payload's own value.
+- **Sealed snapshots.** `source_fetch.created_txid` is set by trigger; pages, records and
+  links may only be added in the transaction that created the fetch.
+- **Helper functions** used inside CHECKs and triggers run with the writer's rights,
+  so `ingest_writer` holds `EXECUTE` on those four functions (pure, or reading only
+  `records.source_fetch`). No `SECURITY DEFINER` was added.
+
 ### 10.3 Privacy
 
 - **The scan covers every column** of every table and view in `records`, and in

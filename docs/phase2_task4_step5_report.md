@@ -364,3 +364,42 @@ It commits once.
 - **Least privilege for identifiers.** The identity view is readable only by the role
   that needs it, because one dataset's harmless source ID is another dataset's private
   key.
+
+## 11. Review correction: distinct building IDs in coverage (migration 0008)
+
+**Reproduced.** I logged in with only `ingest_writer` and saved a contacts snapshot with
+forged coverage. The contacts and `requested_building` were changed to match, so only
+the coverage arrays were wrong. Before 0008:
+
+| Forged case | Result before 0008 |
+|---|---|
+| on lot `['1']`, covered `['1','1']`, shared, 1 off-lot | committed |
+| on lot `['1','1']`, covered `['1','1']`, shared | committed |
+| on lot `['1','1']`, coverage unknown (NULL), shared | committed |
+| covered `['1','1']` presented as requested-building-only | refused (`shared_follows_coverage`) |
+
+**Fix.**
+- **Migration 0008** is additive. It adds `records.text_array_distinct(text[])` and
+  CHECK `building_ids_distinct`: both arrays must hold distinct, non-NULL IDs, so each
+  array's length equals its number of distinct buildings. NULL stays "unknown".
+- **Pydantic.** `RegistrationContacts` refuses a repeated ID, so `save_result` fails
+  before any SQL.
+
+**Tests.**
+- **Database:** all four cases are now refused by `building_ids_distinct`.
+- **Pydantic:** all four cases are refused before persistence.
+- **Unknown coverage** is still stored as NULL.
+- **Unchanged:**
+  - the four genuine cases (on-lot shared, cross-lot shared, requested-only, unknown);
+  - all five recorded addresses;
+  - 87 violation and 84 complaint-problem BuildingID reassignments;
+  - tax-lot results stay `lot_level`.
+- **No recorded count changed.**
+
+**Results.**
+- With PostgreSQL required: 648 passed, 23 live skipped.
+- Offline: 494 passed.
+- Live: 23 passed.
+- Alembic CLI: base → 0008 → base → 0008.
+- Lint and format: clean.
+- Phase 1 benchmark: unchanged.

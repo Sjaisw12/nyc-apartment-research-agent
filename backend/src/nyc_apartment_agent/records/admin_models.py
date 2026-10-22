@@ -403,6 +403,16 @@ class RegistrationContacts(BaseModel):
     corporate_names_by_role: dict[str, list[str]]
     persons_named_withheld: int
 
+    @model_validator(mode="after")
+    def _distinct_building_ids(self) -> RegistrationContacts:
+        # Sharing and off-lot counts are counts of buildings: a repeated ID must not
+        # count twice. Unknown coverage stays None, never an empty or one-ID list.
+        for name in ("building_ids_on_lot", "covered_building_ids"):
+            ids = getattr(self, name)
+            if ids is not None and len(ids) != len(set(ids)):
+                raise ValueError(f"{name} repeats a building ID")
+        return self
+
 
 class ContactSummary(BaseModel):
     data_as_of: str | None

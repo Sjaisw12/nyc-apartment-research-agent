@@ -386,6 +386,11 @@ Where step 3 differs from the plan above, and why:
   must equal the stored records. `save_research_snapshot` saves building records first
   and links them, all in one transaction.
 
+- **Distinct coverage IDs (0008, review correction).** Sharing and off-lot counts are
+  array cardinalities, so `building_ids_on_lot` and `covered_building_ids` must hold
+  distinct, non-NULL IDs (CHECK `building_ids_distinct`; Pydantic refuses repeats too).
+  Unknown coverage stays NULL.
+
 ### 10.3 Privacy
 
 - **The scan covers every column** of every table and view in `records`, and in

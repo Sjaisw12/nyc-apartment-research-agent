@@ -15,6 +15,7 @@ from collections import Counter
 from pathlib import Path
 
 import pytest
+from pydantic import ValidationError
 from sqlalchemy import text
 from sqlalchemy.exc import DBAPIError
 
@@ -23,6 +24,7 @@ from nyc_apartment_agent.config import Settings
 from nyc_apartment_agent.records.admin_models import (
     ContactAssociation,
     ContactRole,
+    ContactSourceResult,
     RegistrationStatus,
 )
 from nyc_apartment_agent.records.building_id_attribution import apply_to_violations
@@ -1126,3 +1128,126 @@ def test_no_person_name_or_business_address_reaches_a_readable_column(db, caplog
     assert held == 2
     for s in SECRETS:
         assert s not in caplog.text
+
+
+# ---- step 5 correction: repeated building IDs in registration coverage ------------------
+
+
+@pytest.fixture
+def ingest_txn(db):
+    """A connection as a login holding ONLY ingest_writer, with a single-building
+    registration whose citywide coverage was checked: requested building only."""
+    pipe = Pipeline()
+    regs = pipe.registrations([registration_row("r-1", bid=1)])
+    c = pipe.contacts([contact_row("c-01"), person_contact("c-02")], regs)
+    (cov,) = c.summary.by_registration
+    assert (cov.building_ids_on_lot, cov.covered_building_ids) == (["1"], ["1"])
+    assert cov.association is ContactAssociation.REQUESTED_BUILDING_ONLY
+    conn = db["ingest_writer"].connect()
+    run_id = save_run(conn, pipe.res, RAW_INPUT, digest_key=KEY)
+    write_raw_rows(conn, pipe.buffer.items(), digest_key=KEY, retention_days=180)
+    conn.commit()
+    yield conn, run_id, c
+    conn.rollback()
+    conn.close()
+
+
+def _forged(c, coverage_status=None, **cov_update):
+    """The contacts result with its one coverage row changed, and every place that must
+    agree with it (contact records, requested_building) changed to match. model_copy
+    does not validate, so this reaches the database even after the Pydantic check."""
+    cov = c.summary.by_registration[0].model_copy(update=cov_update)
+    records = [
+        r.model_copy(
+            update={"association": cov.association, "registration_shared": cov.shared_registration}
+        )
+        for r in c.records
+    ]
+    summary = c.summary.model_copy(
+        update={
+            "by_registration": [cov],
+            "requested_building": [cov],
+            "coverage_status": coverage_status or c.summary.coverage_status,
+        }
+    )
+    return c.model_copy(update={"records": records, "summary": summary})
+
+
+SHARED = ContactAssociation.SHARED_INCLUDING_REQUESTED_BUILDING
+REPEATED_ID_CASES = {
+    # One distinct building listed twice citywide: fabricated sharing and off-lot building.
+    "covered_repeated": {
+        "covered_building_ids": ["1", "1"],
+        "shared_registration": True,
+        "covered_buildings_off_lot": 1,
+        "association": SHARED,
+    },
+    # One building listed twice on the lot: fabricated on-lot sharing.
+    "on_lot_repeated": {
+        "building_ids_on_lot": ["1", "1"],
+        "covered_building_ids": ["1", "1"],
+        "shared_registration": True,
+        "covered_buildings_off_lot": 0,
+        "association": SHARED,
+    },
+    # Coverage unknown, but a repeated on-lot ID fabricates sharing anyway.
+    "unknown_with_repeat": {
+        "building_ids_on_lot": ["1", "1"],
+        "covered_building_ids": None,
+        "shared_registration": True,
+        "covered_buildings_off_lot": None,
+        "association": SHARED,
+        "coverage_status": "unavailable",
+    },
+    # Repeated IDs presented as requested-building-only.
+    "exclusive_with_repeat": {
+        "covered_building_ids": ["1", "1"],
+        "shared_registration": False,
+        "covered_buildings_off_lot": 1,
+        "association": ContactAssociation.REQUESTED_BUILDING_ONLY,
+    },
+}
+
+
+@pytest.mark.parametrize("case", list(REPEATED_ID_CASES))
+def test_repeated_building_ids_cannot_fabricate_coverage(ingest_txn, case):
+    conn, run_id, c = ingest_txn
+    forged = _forged(c, **REPEATED_ID_CASES[case])
+    # Before 0008 the first three COMMITTED as ingest_writer; the last was already
+    # refused by shared_follows_coverage. 0008's CHECK now refuses all four first.
+    with pytest.raises(DBAPIError, match="building_ids_distinct"):
+        _insert_all(conn, run_id, forged)
+        conn.commit()
+    conn.rollback()
+
+
+@pytest.mark.parametrize("case", list(REPEATED_ID_CASES))
+def test_pydantic_refuses_repeated_building_ids_before_persistence(case):
+    pipe = Pipeline()
+    regs = pipe.registrations([registration_row("r-1", bid=1)])
+    c = pipe.contacts([contact_row("c-01")], regs)
+    data = _forged(c, **REPEATED_ID_CASES[case]).model_dump(mode="json")
+    with pytest.raises(ValidationError, match="repeats a building ID"):
+        ContactSourceResult.model_validate(data)
+    # save_result re-validates before touching the connection, so it never reaches SQL.
+    with pytest.raises(ValidationError, match="repeats a building ID"):
+        save_result(
+            None,
+            uuid.uuid4(),
+            _forged(c, **REPEATED_ID_CASES[case]),
+            [],
+            digest_key=KEY,
+            retention_days=180,
+        )
+
+
+def test_distinct_coverage_cases_still_store(db):
+    """Genuine on-lot sharing, cross-lot sharing, requested-only and unknown are unchanged
+    (the full table is checked in test_shared_registration_semantics_are_stored_and_enforced);
+    here the empty-but-checked and NULL-unknown distinctions are stored as such."""
+    pipe = Pipeline()
+    regs, c = _coverage_unavailable(pipe)
+    _, saved = snapshot(db, pipe, regs, c)
+    (row,) = _coverage_rows(db, saved["hpd_contacts"].fetch_id)
+    assert row.covered_building_ids is None and row.shared_registration is None
+    assert row.association == "requested_building_sharing_unknown"

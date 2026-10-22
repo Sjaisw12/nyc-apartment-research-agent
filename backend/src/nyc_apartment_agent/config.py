@@ -37,12 +37,16 @@ class Settings(BaseSettings):
     # Unset: a random key is made per process, so digests are not stable across runs.
     evidence_digest_key: SecretStr | None = None
 
+    # PostgreSQL connection URL (Phase 2 Task 4). A secret: it can hold a password, so it
+    # is never logged. Unset: nothing is stored and the offline suite still runs.
+    database_url: SecretStr | None = None
+
     user_agent: str = (
         "nyc-apartment-research-agent/0.1 "
         "(+https://github.com/Sjaisw12/nyc-apartment-research-agent)"
     )
 
-    @field_validator("socrata_app_token", "evidence_digest_key", mode="before")
+    @field_validator("socrata_app_token", "evidence_digest_key", "database_url", mode="before")
     @classmethod
     def _blank_token_is_none(cls, value: object) -> object:
         # An empty SOCRATA_APP_TOKEN= line means "no token", not an empty header.

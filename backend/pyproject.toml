@@ -5,10 +5,13 @@ description = "Evidence-grounded research on NYC apartment buildings from offici
 license = "MIT"
 requires-python = ">=3.12"
 dependencies = [
+    "alembic>=1.13",
     "fastapi>=0.115",
     "httpx>=0.27",
+    "psycopg[binary]>=3.2",
     "pydantic>=2.7",
     "pydantic-settings>=2.3",
+    "sqlalchemy>=2.0",
     "uvicorn>=0.30",
 ]
 
@@ -29,6 +32,7 @@ packages = ["src/nyc_apartment_agent"]
 testpaths = ["tests"]
 markers = [
     "live: calls the real NYC APIs over the network (opt in with RUN_LIVE_TESTS=1)",
+    "db: needs PostgreSQL 16 (TEST_DATABASE_ADMIN_URL; REQUIRE_DB_TESTS=1 makes it mandatory)",
 ]
 
 [tool.ruff]

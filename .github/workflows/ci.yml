@@ -41,3 +41,56 @@ jobs:
 
       - name: 24-address benchmark (offline replay of recorded responses)
         run: uv run python scripts/evaluate_resolver.py
+
+  postgres:
+    name: PostgreSQL 16 (migrations, roles, storage)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: backend
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          # Disposable service container; not a real credential.
+          POSTGRES_PASSWORD: ci-only-password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      RUN_LIVE_TESTS: "0"
+      # Database tests must run here: a missing database or any skipped db test fails.
+      REQUIRE_DB_TESTS: "1"
+      TEST_DATABASE_ADMIN_URL: postgresql://postgres:ci-only-password@localhost:5432/postgres
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install Python 3.13
+        run: uv python install 3.13
+
+      - name: Install locked dependencies
+        run: uv sync --locked
+
+      - name: Server version
+        run: psql "$TEST_DATABASE_ADMIN_URL" -Atc "show server_version"
+
+      - name: Database tests (exit code 5 if none are collected)
+        run: uv run pytest -q -m db -rs
+
+      - name: Alembic CLI up, down, up on a disposable database
+        env:
+          DATABASE_URL: postgresql://postgres:ci-only-password@localhost:5432/alembic_cli
+        run: |
+          psql "$TEST_DATABASE_ADMIN_URL" -c "CREATE DATABASE alembic_cli"
+          uv run alembic upgrade head
+          uv run alembic downgrade base
+          uv run alembic upgrade head
+          uv run alembic current

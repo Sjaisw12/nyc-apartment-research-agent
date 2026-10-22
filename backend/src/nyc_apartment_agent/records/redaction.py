@@ -160,6 +160,40 @@ def withhold_fields(row: dict[str, Any]) -> tuple[dict[str, Any], list[str]]:
     return out, done
 
 
+# Registration contacts (Task 3, approved D11). Names and unit-level address detail of
+# individuals never leave the evidence store; corporate names and roles stay public.
+CONTACT_PERSON_FIELDS = ("firstname", "middleinitial", "lastname", "title")
+CONTACT_ALWAYS_WITHHELD = CONTACT_PERSON_FIELDS + (
+    "businessapartment",
+    "businesshousenumber",
+    "businessstreetname",
+)
+CONTACT_INDIVIDUAL_EXTRA = ("businesscity", "businessstate", "businesszip")
+
+
+def contact_names_a_person(row: dict[str, Any]) -> bool:
+    return any(row.get(f) not in (None, "") for f in CONTACT_PERSON_FIELDS)
+
+
+def sanitize_contact(row: dict[str, Any]) -> tuple[dict[str, Any], list[str]]:
+    """Withhold personal contact fields. Returns (row, field names withheld now).
+
+    Street, house number and suite are withheld for every contact; for a contact that
+    names a person, city/state/zip are withheld too. Idempotent on sanitized rows.
+    """
+    out = dict(row)
+    person = contact_names_a_person(row) or any(
+        row.get(f) == WITHHELD for f in CONTACT_PERSON_FIELDS
+    )
+    fields = CONTACT_ALWAYS_WITHHELD + (CONTACT_INDIVIDUAL_EXTRA if person else ())
+    done: list[str] = []
+    for f in fields:
+        if f in out and out[f] not in (None, "", WITHHELD):
+            out[f] = WITHHELD
+            done.append(f)
+    return out, done
+
+
 def redact_row(row: dict[str, Any]) -> tuple[dict[str, Any], list[str]]:
     """Copy of a source row with unit fields masked. Returns (row, redacted field names)."""
     out, event = redact_row_event(row)
@@ -187,7 +221,7 @@ def is_sanitized(row: dict[str, Any]) -> bool:
     """True if the row already carries redaction or withheld markers (a sanitized fixture)."""
     if any(row.get(f) == MARKER for f in UNIT_FIELDS):
         return True
-    if any(row.get(f) == WITHHELD for f in WITHHELD_FIELDS):
+    if any(v == WITHHELD for v in row.values()):  # any withheld field, any dataset
         return True
     return any(count_markers(row.get(f)) for f in TEXT_FIELDS if isinstance(row.get(f), str))
 

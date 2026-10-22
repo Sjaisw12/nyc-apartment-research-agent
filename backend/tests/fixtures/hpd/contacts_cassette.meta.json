@@ -1,0 +1,82 @@
+{
+ "recorded_at": "2026-10-22T01:12:26.019073+00:00",
+ "page_size": 5,
+ "contact_batch_size": 4,
+ "addresses": {
+  "west_farms_1134": {
+   "address": "1134 West Farms Rd, Bronx, NY 10459",
+   "why": "Project test building; building-level resolution; 600+ rows over several pages.",
+   "resolution_level": "building",
+   "buildings_status": "records_found",
+   "registrations_status": "records_found",
+   "status": "records_found",
+   "source_count": 5,
+   "contacts": 5,
+   "batches": 1,
+   "data_as_of": "Wed, 12 Aug 2026 15:01:42 GMT"
+  },
+  "west_17_220": {
+   "address": "220 West 17th Street, Manhattan",
+   "why": "Lot 1007660055 holds 8 buildings; rows on other BINs and rows with no BBL/BIN.",
+   "resolution_level": "building",
+   "buildings_status": "records_found",
+   "registrations_status": "records_found",
+   "status": "records_found",
+   "source_count": 32,
+   "contacts": 32,
+   "batches": 2,
+   "data_as_of": "Wed, 12 Aug 2026 15:01:42 GMT"
+  },
+  "west_farms_1217": {
+   "address": "1217 West Farms Road, Bronx",
+   "why": "Tax-lot-level resolution (PAD gives placeholder BIN 2000000).",
+   "resolution_level": "tax_lot",
+   "buildings_status": "records_found",
+   "registrations_status": "records_found",
+   "status": "records_found",
+   "source_count": 4,
+   "contacts": 4,
+   "batches": 1,
+   "data_as_of": "Wed, 12 Aug 2026 15:01:42 GMT"
+  },
+  "fifth_ave_350": {
+   "address": "350 5th Avenue, New York, NY 10118",
+   "why": "Empire State Building; building-level resolution; zero HPD violations.",
+   "resolution_level": "building",
+   "buildings_status": "records_found",
+   "registrations_status": "no_records_found",
+   "status": "no_records_found",
+   "source_count": 0,
+   "contacts": 0,
+   "batches": 0,
+   "data_as_of": null
+  },
+  "acp_1845": {
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "why": "Condo: HPD files these violations under billing lot 7502.",
+   "resolution_level": "building",
+   "buildings_status": "records_found",
+   "registrations_status": "records_found",
+   "status": "records_found",
+   "source_count": 10,
+   "contacts": 10,
+   "batches": 1,
+   "data_as_of": "Wed, 12 Aug 2026 15:01:42 GMT"
+  }
+ },
+ "sanitized_rows_per_url": {
+  "https://data.cityofnewyork.us/resource/feu5-w2e2.json?%24select=%2A%2C+%3Aid&%24where=registrationid+in+%28203625%29&%24order=%3Aid&%24limit=5&%24offset=0": 4,
+  "https://data.cityofnewyork.us/resource/feu5-w2e2.json?%24select=%2A%2C+%3Aid&%24where=registrationid+in+%28121973%2C121974%2C121978%2C121980%29&%24order=%3Aid&%24limit=5&%24offset=0": 5,
+  "https://data.cityofnewyork.us/resource/feu5-w2e2.json?%24select=%2A%2C+%3Aid&%24where=registrationid+in+%28121973%2C121974%2C121978%2C121980%29&%24order=%3Aid&%24limit=5&%24offset=5": 5,
+  "https://data.cityofnewyork.us/resource/feu5-w2e2.json?%24select=%2A%2C+%3Aid&%24where=registrationid+in+%28121973%2C121974%2C121978%2C121980%29&%24order=%3Aid&%24limit=5&%24offset=10": 5,
+  "https://data.cityofnewyork.us/resource/feu5-w2e2.json?%24select=%2A%2C+%3Aid&%24where=registrationid+in+%28121973%2C121974%2C121978%2C121980%29&%24order=%3Aid&%24limit=1&%24offset=15": 1,
+  "https://data.cityofnewyork.us/resource/feu5-w2e2.json?%24select=%2A%2C+%3Aid&%24where=registrationid+in+%28121982%2C121983%2C123116%2C144266%29&%24order=%3Aid&%24limit=5&%24offset=0": 5,
+  "https://data.cityofnewyork.us/resource/feu5-w2e2.json?%24select=%2A%2C+%3Aid&%24where=registrationid+in+%28121982%2C121983%2C123116%2C144266%29&%24order=%3Aid&%24limit=5&%24offset=5": 5,
+  "https://data.cityofnewyork.us/resource/feu5-w2e2.json?%24select=%2A%2C+%3Aid&%24where=registrationid+in+%28121982%2C121983%2C123116%2C144266%29&%24order=%3Aid&%24limit=5&%24offset=10": 5,
+  "https://data.cityofnewyork.us/resource/feu5-w2e2.json?%24select=%2A%2C+%3Aid&%24where=registrationid+in+%28121982%2C121983%2C123116%2C144266%29&%24order=%3Aid&%24limit=1&%24offset=15": 1,
+  "https://data.cityofnewyork.us/resource/feu5-w2e2.json?%24select=%2A%2C+%3Aid&%24where=registrationid+in+%28228115%29&%24order=%3Aid&%24limit=4&%24offset=0": 4,
+  "https://data.cityofnewyork.us/resource/feu5-w2e2.json?%24select=%2A%2C+%3Aid&%24where=registrationid+in+%28113010%2C113011%29&%24order=%3Aid&%24limit=5&%24offset=0": 5,
+  "https://data.cityofnewyork.us/resource/feu5-w2e2.json?%24select=%2A%2C+%3Aid&%24where=registrationid+in+%28113010%2C113011%29&%24order=%3Aid&%24limit=5&%24offset=5": 5
+ },
+ "note": "Contact rows sanitized before saving (see the script docstring); originals are not in git."
+}

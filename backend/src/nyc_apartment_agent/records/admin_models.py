@@ -269,3 +269,109 @@ class RegistrationSourceResult(BaseModel):
         ):
             raise ValueError("a lot-level result cannot name a requested building")
         return self
+
+
+# ---- Registration contacts (Task 3, step 3) ------------------------------------------
+
+
+class ContactRole(StrEnum):
+    """HPD's registration contact type, mapped one to one. Unknown types stay `other`
+    with the raw value kept. A role is what was registered with HPD, not independent
+    proof of legal title or of who actually manages the building."""
+
+    CORPORATE_OWNER = "corporate_owner"
+    INDIVIDUAL_OWNER = "individual_owner"
+    JOINT_OWNER = "joint_owner"
+    HEAD_OFFICER = "head_officer"
+    OFFICER = "officer"
+    SHAREHOLDER = "shareholder"
+    AGENT = "agent"
+    SITE_MANAGER = "site_manager"
+    LESSEE = "lessee"
+    OTHER = "other"
+
+
+ROLE_NOTE = (
+    "Registered with HPD under this role. A registration is the owner's filing with HPD; "
+    "it is not independent proof of legal title or of who actually manages the building."
+)
+
+
+class HpdRegistrationContact(BaseModel):
+    dataset_id: str
+    evidence_kind: EvidenceKind = EvidenceKind.ADMINISTRATIVE_RECORD
+    source_row_id: str  # Socrata :id; registrationcontactid is not unique citywide
+    registration_contact_id: str | None
+    registration_id: str
+    role: ContactRole
+    role_raw: str | None
+    role_note: str = ROLE_NOTE
+    registration_description: str | None  # HPD's contactdescription, e.g. CORP, CONDO
+    corporation_name: str | None  # public
+    names_a_person: bool  # a person's name is on file (withheld)
+    public_city: str | None  # only for contacts that name no person
+    public_state: str | None
+    public_zip: str | None
+    attribution: Attribution  # from the registration's buildings
+    withheld_fields: list[str]  # names only, never values
+    redaction: RedactionInfo
+    original_digest: str
+    digest_basis: DigestBasis
+    redacted_sha256: str
+    query_url: str
+    fetched_at: str
+    data_as_of: str | None
+
+
+class RegistrationContacts(BaseModel):
+    registration_id: str
+    attribution: Attribution
+    building_ids: list[str]  # buildings on this lot covered by the registration
+    contacts: int
+    roles: dict[str, int]
+    corporate_names_by_role: dict[str, list[str]]
+    persons_named_withheld: int
+
+
+class ContactSummary(BaseModel):
+    data_as_of: str | None
+    freshness: DataFreshness | None
+    join_scope: JoinScope | None
+    building_specific_claims_allowed: bool
+    registrations_requested: int
+    registrations_checked: int  # batches completed for these ids
+    total_contacts: int
+    by_registration: list[RegistrationContacts]
+    requested_building: list[RegistrationContacts] | None  # None at tax-lot scope
+    withheld_field_counts: dict[str, int]
+    role_counts: dict[str, int]
+    duplicate_contact_ids: int
+
+
+class ContactSourceResult(BaseModel):
+    source: str
+    dataset_id: str
+    status: RetrievalStatus
+    status_detail: str
+    join_scope: JoinScope | None
+    resolved_bbl: str | None
+    resolved_bin: str | None
+    records: list[HpdRegistrationContact] = Field(default_factory=list)
+    partial: bool = False
+    summary: ContactSummary | None = None
+    freshness: DataFreshness | None = None
+    provenance: RetrievalProvenance  # aggregate over batches
+    batch_provenance: list[RetrievalProvenance] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def _enforce_invariants(self) -> ContactSourceResult:
+        building_only = {Attribution.THIS_BUILDING, Attribution.OTHER_BUILDING_ON_LOT}
+        bad = [r.source_row_id for r in self.records if r.attribution in building_only]
+        check_source_invariants(self, bad)
+        if self.join_scope is not JoinScope.BUILDING and self.summary is not None:
+            if self.summary.requested_building is not None:
+                raise ValueError("a lot-level result cannot name a requested building")
+        for r in self.records:  # defence in depth: nothing personal in public records
+            if r.names_a_person and (r.public_city or r.public_zip):
+                raise ValueError("address detail published for a contact naming a person")
+        return self

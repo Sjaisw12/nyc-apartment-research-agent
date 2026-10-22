@@ -65,3 +65,24 @@ def test_registrations_schema_and_row_id_paging_is_complete():
     assert result.summary.requested_building is not None
     text = result.model_dump_json().lower()
     assert "expired" not in text and "unregistered" not in text
+
+
+def test_contacts_schema_and_privacy_on_live_data():
+    from nyc_apartment_agent.records import hpd_contacts
+    from nyc_apartment_agent.records.hpd_registrations import retrieve_hpd_registrations
+
+    with socrata_client() as s:
+        resp = s.get_json(f"/resource/{hpd_contacts.DATASET_ID}.json", params={"$limit": 1})
+    fields = resp.headers["x-soda2-fields"]
+    for f in hpd_contacts.REQUIRED_FIELDS + ("corporationname", "firstname", "lastname"):
+        assert f'"{f}"' in fields
+    with geosearch_client() as g, socrata_client() as s:
+        res = resolve_address("1134 West Farms Rd, Bronx, NY 10459", g, s)
+        regs = retrieve_hpd_registrations(res, s)
+        result = hpd_contacts.retrieve_hpd_contacts(res, s, registrations=regs)
+    assert result.status is RetrievalStatus.RECORDS_FOUND and result.records
+    for rec in result.records:
+        dumped = rec.model_dump()
+        assert not {"firstname", "lastname", "middleinitial"} & dumped.keys()
+        if rec.names_a_person:
+            assert rec.public_city is None and rec.public_zip is None

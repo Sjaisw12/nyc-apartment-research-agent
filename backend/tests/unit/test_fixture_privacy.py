@@ -9,6 +9,9 @@ from pathlib import Path
 import pytest
 
 from nyc_apartment_agent.records.redaction import (
+    CONTACT_ALWAYS_WITHHELD,
+    CONTACT_INDIVIDUAL_EXTRA,
+    CONTACT_PERSON_FIELDS,
     MARKER,
     TEXT_FIELDS,
     UNIT_FIELDS,
@@ -51,15 +54,32 @@ def test_no_unit_detail_in_any_fixture():
             for f in WITHHELD_FIELDS:  # anonymity flag, 311 request number
                 if f in row and row[f] not in (None, "", WITHHELD):
                     problems.append(f"{path.name}: {f} not withheld")
+            if "registrationcontactid" in row:  # HPD registration contact (D11)
+                for f in CONTACT_ALWAYS_WITHHELD:
+                    if row.get(f) not in (None, "", WITHHELD):
+                        problems.append(f"{path.name}: contact {f} not withheld")
+                if any(row.get(f) == WITHHELD for f in CONTACT_PERSON_FIELDS):
+                    for f in CONTACT_INDIVIDUAL_EXTRA:
+                        if row.get(f) not in (None, "", WITHHELD):
+                            problems.append(f"{path.name}: {f} of a named person not withheld")
     assert problems == []
 
 
 @pytest.mark.parametrize(
     ("name", "dataset"),
-    [("violations_cassette.json", "wvxf-dwi5"), ("complaints_cassette.json", "ygpa-z7cr")],
+    [
+        ("violations_cassette.json", "wvxf-dwi5"),
+        ("complaints_cassette.json", "ygpa-z7cr"),
+        ("contacts_cassette.json", "feu5-w2e2"),
+    ],
 )
 def test_redacted_fixtures_record_the_original_hash(name, dataset):
     meta = json.loads((FIXTURES / "hpd" / name).read_text("utf-8"))
-    hpd_pages = [e for u, e in meta["entries"].items() if dataset in u and "count" not in u]
+    # Only data pages carry a body hash; the /api/views/ catalog entry holds no rows.
+    hpd_pages = [
+        e
+        for u, e in meta["entries"].items()
+        if f"/resource/{dataset}.json" in u and "count" not in u
+    ]
     assert hpd_pages and all("original_body_sha256" in e for e in hpd_pages)
     assert all("redaction_events" in e for e in hpd_pages)

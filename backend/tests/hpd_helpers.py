@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 
 import httpx
 
@@ -117,13 +118,22 @@ class FakeSocrata:
         if request.url.path.startswith("/api/views/"):  # catalog entry (freshness)
             return httpx.Response(200, json=self.views_meta)
         params = request.url.params
+        rows = self._filtered(params.get("$where", ""))
         if "count(" in params.get("$select", ""):
-            return httpx.Response(200, json=[{"n": str(len(self.rows))}], headers=headers)
+            return httpx.Response(200, json=[{"n": str(len(rows))}], headers=headers)
         offset, limit = int(params["$offset"]), int(params["$limit"])
-        page = self.rows[offset : offset + limit]
+        page = rows[offset : offset + limit]
         if n in self.short_at:
             page = page[:-1]
         return httpx.Response(200, content=json.dumps(page), headers=headers)
+
+    def _filtered(self, where: str) -> list[dict]:
+        """Honour `registrationid in (...)` (contacts batches); other filters are ignored."""
+        m = re.search(r"registrationid in \(([0-9,]+)\)", where)
+        if not m:
+            return self.rows
+        wanted = set(m.group(1).split(","))
+        return [r for r in self.rows if str(r.get("registrationid")) in wanted]
 
     def client(self):
         settings = Settings(_env_file=None, http_max_attempts=2)
@@ -217,3 +227,38 @@ def registration_row(row_id: str, reg: int = 203625, bid: int = 122027, **overri
     }
     base.update(overrides)
     return {k: v for k, v in base.items() if v is not None}
+
+
+def contact_row(row_id: str, reg: int = 203625, type_: str = "CorporateOwner", **overrides):
+    """A synthetic registration contact shaped like feu5-w2e2. All names are invented."""
+    base = {
+        ":id": row_id,
+        "registrationcontactid": f"{reg}{row_id[-2:]}",
+        "registrationid": str(reg),
+        "type": type_,
+        "contactdescription": "CORP",
+        "corporationname": "SYNTHETIC OWNER LLC",
+        "businesshousenumber": "100",
+        "businessstreetname": "SYNTHETIC AVENUE",
+        "businessapartment": "SUITE 9",
+        "businesscity": "NEW YORK",
+        "businessstate": "NY",
+        "businesszip": "10001",
+    }
+    base.update(overrides)
+    return {k: v for k, v in base.items() if v is not None}
+
+
+def person_contact(row_id: str, reg: int = 203625, type_: str = "HeadOfficer", **overrides):
+    """A synthetic contact naming an invented person."""
+    base = {
+        "corporationname": None,
+        "firstname": "ZEBULON",
+        "middleinitial": "Q",
+        "lastname": "SYNTHETICSON",
+        "title": "PRESIDENT",
+        "businesscity": "BROOKLYN",
+        "businesszip": "11201",
+    }
+    base.update(overrides)
+    return contact_row(row_id, reg, type_, **base)

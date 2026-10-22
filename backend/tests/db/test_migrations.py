@@ -42,10 +42,18 @@ def test_upgrade_creates_owned_schemas_and_roles(migrated_database):
     )
     assert dict(rows) == dict.fromkeys(ROLES, False)  # group roles only, no logins
     (version,) = q(migrated_database, "select version_num from alembic_version")[0]
-    assert version == "0002"
+    assert version == "0003"
 
 
 def test_up_down_up(fresh_database):
+    migrate(fresh_database)
+    migrate(fresh_database, "0002", down=True)  # 0003's restore boundary is undone
+    granted = q(
+        fresh_database,
+        "select has_function_privilege('ingest_writer', p.oid, 'EXECUTE'), pronargs "
+        "from pg_proc p where proname = 'restore_expired_raw_row'",
+    )
+    assert granted == [(True, 8)]
     migrate(fresh_database)
     migrate(fresh_database, "0001", down=True)  # one step back: the evidence table goes
     assert q(fresh_database, "select to_regclass('evidence.raw_row')")[0][0] is None
@@ -87,6 +95,8 @@ def test_schema_grants(migrated_database):
         ("evidence_admin", "evidence"): True,
         ("evidence_retention", "records"): False,
         ("evidence_retention", "evidence"): True,
+        ("evidence_restorer", "records"): False,
+        ("evidence_restorer", "evidence"): True,
     }
     for (role, schema), expected in cases.items():
         got = q(migrated_database, "select has_schema_privilege(:r, :s, 'USAGE')", r=role, s=schema)

@@ -150,6 +150,7 @@ All group roles are NOLOGIN. Deployments grant them to login users.
 | `ingest_writer` | `USAGE` on both schemas; `SELECT, INSERT` on `records`; `INSERT` on `evidence.raw_row`. No `UPDATE` or `DELETE` anywhere. |
 | `evidence_admin` | `USAGE` and `SELECT` on `evidence` (audits and validation only) |
 | `evidence_retention` | `USAGE` on `evidence`; `SELECT, UPDATE` on `evidence.raw_row` (the expiry job only) |
+| `evidence_restorer` | `USAGE` on `evidence`; `EXECUTE` on `evidence.restore_expired_raw_row` only. Granted with `ingest_writer` to the server-side writer (migration 0003). |
 
 **Hardening:**
 - `REVOKE ALL ON SCHEMA evidence FROM PUBLIC`.
@@ -159,7 +160,8 @@ All group roles are NOLOGIN. Deployments grant them to login users.
   - grant the table privileges above on future tables.
 - **No `SECURITY DEFINER` functions, with one reviewed exception (step 2):**
   `evidence.restore_expired_raw_row`. It has a pinned `search_path`, `EXECUTE` is
-  granted to `ingest_writer` only, and a test allow-lists it by name.
+  granted to `evidence_restorer` only (since migration 0003; `ingest_writer` in 0002),
+  and a test allow-lists it by name.
 
 The roles are cluster-wide, so a migration downgrade drops the schemas but keeps the
 roles (they may serve other databases). This is documented and tested.
@@ -357,7 +359,8 @@ loudly on read.
   never silently ignored. It goes through `evidence.restore_expired_raw_row`, which
   updates a row only when it is a tombstone and its dataset, source record ID, basis and
   redacted hash all match. Otherwise it raises, and the whole save rolls back. It cannot
-  touch held evidence and returns nothing. The writer gets no `UPDATE` right.
+  touch held evidence and returns nothing. The writer gets no `UPDATE` right. Since
+  migration 0003, only `evidence_restorer` may call it (see 10.4b).
 - **Retention on a repeat sighting.** Seeing a held row again does **not** extend its
   retention: `retain_until` comes from its first fetch. A restored row gets a new
   `retain_until`, set from the new fetch. Whether a repeat sighting should extend
@@ -369,6 +372,50 @@ loudly on read.
   original exception, because PostgreSQL's DETAIL can quote the failing row. The server
   log can do the same, so production should set `log_error_verbosity = terse` for this
   database. That is a deployment setting, needs a superuser, and is not testable here.
+
+### 10.4b Step 2 hardening (migration 0003, 2026-10-22)
+
+**Finding 1: the restore function cannot enforce digest integrity.** Tested with real
+logins: a direct call with matching digest and metadata but a forged `original_row`
+stored the forged row. The function has no HMAC key, and the plain hash it receives is
+supplied by the caller (a tombstone keeps none to compare against). The same holds for a
+plain `INSERT` by `ingest_writer` under an absent digest.
+
+The resulting guarantee, stated exactly:
+
+- **PostgreSQL does not verify that a raw row matches its keyed digest**, on insert or on
+  restore. It enforces the row's shape, tombstone state, matching metadata on restore,
+  and the retention window, and nothing more about content.
+- **Prevention** is in Python: `write_raw_rows` verifies every item under the configured
+  key before any SQL runs.
+- **Detection** is on read: `PostgresEvidenceReader` re-verifies each row and raises
+  `EvidenceIntegrityError` instead of returning one that does not match.
+- **Trusted restore boundary:** `EXECUTE` on the restore function moved from
+  `ingest_writer` to a new NOLOGIN role, `evidence_restorer`, which holds no other right
+  (no table access). Only the server-side writer's login is given it, alongside
+  `ingest_writer`. A login with `ingest_writer` alone cannot restore. Anyone holding
+  `evidence_restorer` or `ingest_writer` is trusted to write only verified rows.
+- **Rejected alternative:** copying the HMAC key into the database (for example for
+  `pgcrypto.hmac`) so SQL could verify. That would put the key in backups and within
+  reach of the owner role and any SQL injection running as it, for a check the reader
+  already makes.
+
+**Finding 2: old source timestamps.** Restoring a copy fetched long ago stored a row whose
+`retain_until` had already passed, and kept the first fetch's `fetched_at`, so
+`retain_until` no longer equalled `fetched_at` + retention. Now:
+
+- `retain_until = fetched_at + retention_days`, with both values from the fetch whose
+  copy is currently held. A restore updates `fetched_at`, `query_url` and `data_as_of`
+  to the restoring fetch. `first_seen_at` keeps the first storage time.
+- `CHECK (retain_until <= fetched_at + interval '180 days')`: no row can be held longer
+  than 180 days after its fetch. `EVIDENCE_RETENTION_DAYS` is limited to 1 to 180.
+- A trigger on `INSERT` and on `UPDATE OF fetched_at, retain_until` refuses a row whose
+  `retain_until` is not in the future, or whose `fetched_at` is more than 5 minutes in
+  the future. The Python writer makes the same check first and raises
+  `EvidenceRetentionError`, so a stale item fails the whole save rather than being
+  stored and then immediately expired.
+- Raw evidence is therefore held for at most 180 days after the fetch it came from, plus
+  the gap until the next expiry run (scheduling arrives in step 6).
 
 ### 10.5 Round-trip and digest correctness
 

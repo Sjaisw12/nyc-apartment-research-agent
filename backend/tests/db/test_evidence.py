@@ -16,7 +16,6 @@ from nyc_apartment_agent.records.evidence import verifies_original_row
 from nyc_apartment_agent.records.hpd_violations import retrieve_hpd_violations
 from nyc_apartment_agent.records.models import DigestBasis, RawEvidence
 from nyc_apartment_agent.records.redaction import canonical_sha256, keyed_digest
-from nyc_apartment_agent.storage.db import make_engine
 from nyc_apartment_agent.storage.evidence_buffer import BufferedEvidenceStore
 from nyc_apartment_agent.storage.evidence_pg import (
     DigestKeyNotConfiguredError,
@@ -27,14 +26,14 @@ from nyc_apartment_agent.storage.evidence_pg import (
     save_evidence,
     write_raw_rows,
 )
-from tests.db.conftest import url_for
 from tests.hpd_helpers import FakeSocrata, resolution, row
 
 pytestmark = pytest.mark.db
 KEY = b"synthetic-test-key"
 SENTINEL = "SENTINEL-APT-9Z"
-FETCHED = "2026-10-22T01:00:00+00:00"
-NOW = dt.datetime(2026, 10, 22, 2, tzinfo=dt.UTC)
+# Relative to the real clock: the database refuses rows already past their retention date.
+NOW = dt.datetime.now(dt.UTC).replace(microsecond=0)
+FETCHED = (NOW - dt.timedelta(hours=1)).isoformat()
 
 
 def item(n: int = 1, basis=DigestBasis.ORIGINAL_ROW, **row_overrides) -> RawEvidence:
@@ -52,18 +51,6 @@ def item(n: int = 1, basis=DigestBasis.ORIGINAL_ROW, **row_overrides) -> RawEvid
         fetched_at=FETCHED,
         data_as_of="Tue, 20 Oct 2026 14:55:26 GMT",
     )
-
-
-@pytest.fixture
-def db(migrated_database, login_role):
-    """Engines for one login per role on a migrated database, plus the admin engine."""
-    engines = {"owner": make_engine(url_for(migrated_database))}
-    for role in ("app_reader", "ingest_writer", "evidence_admin", "evidence_retention"):
-        user, password = login_role(role)
-        engines[role] = make_engine(url_for(migrated_database, user, password))
-    yield engines
-    for e in engines.values():
-        e.dispose()
 
 
 def write(engine, items, retention_days=180):
@@ -180,6 +167,12 @@ INSERT_SQL = (
 )
 
 
+RESTORE_PROBE = (
+    "select evidence.restore_expired_raw_row("
+    "'a','b','c','d','e','f','{}'::jsonb, now(), 'u', null, now() + interval '1 day')"
+)
+
+
 def insert_params(it):
     import json
 
@@ -188,7 +181,7 @@ def insert_params(it):
         "r": json.dumps(it.original_row),
         "s": it.original_sha256,
         "f": FETCHED,
-        "u": "2027-04-20T00:00:00+00:00",
+        "u": (NOW + dt.timedelta(days=170)).isoformat(),
     }
 
 
@@ -239,9 +232,7 @@ def test_app_reader_sees_only_availability(db):
         (row,) = res.all()
     assert SENTINEL not in str(row) and row.held is True
     assert denied(r, "select * from evidence.raw_row")
-    assert denied(
-        r, "select evidence.restore_expired_raw_row('a','b','c','d','e','f','{}'::jsonb, now())"
-    )
+    assert denied(r, RESTORE_PROBE)
     assert denied(r, "update records.evidence_availability set retain_until = now()")
 
 
@@ -250,9 +241,7 @@ def test_evidence_admin_reads_and_cannot_write_or_restore(db):
     a = db["evidence_admin"]
     assert scalar(a, "select original_row->>'apartment' from evidence.raw_row") == SENTINEL
     assert denied(a, "delete from evidence.raw_row")
-    assert denied(
-        a, "select evidence.restore_expired_raw_row('a','b','c','d','e','f','{}'::jsonb, now())"
-    )
+    assert denied(a, RESTORE_PROBE)
 
 
 def test_retention_role_expires_but_never_reads_content(db):
@@ -369,7 +358,7 @@ def expire(db, now):
 
 def test_expiry_leaves_a_tombstone_and_keeps_lineage(db):
     write(db["ingest_writer"], [item(1)], retention_days=1)
-    write(db["ingest_writer"], [item(2)], retention_days=365)
+    write(db["ingest_writer"], [item(2)], retention_days=180)
     assert expire(db, NOW) == 0  # nothing is due yet
     later = NOW + dt.timedelta(days=2)
     assert expire(db, later) == 1
@@ -405,7 +394,7 @@ def test_expiry_leaves_a_tombstone_and_keeps_lineage(db):
 def test_reinserting_an_expired_row_restores_it_through_the_narrow_function(db):
     write(db["ingest_writer"], [item(1)], retention_days=1)
     expire(db, NOW + dt.timedelta(days=2))
-    report = write(db["ingest_writer"], [item(1)], retention_days=180)
+    report = write(db["writer"], [item(1)], retention_days=180)
     assert (report.inserted, report.already_held, report.restored) == (0, 0, 1)
     reader = PostgresEvidenceReader(db["evidence_admin"], KEY)
     assert verifies_original_row(reader.get(item(1).original_digest), KEY)
@@ -431,18 +420,18 @@ def test_restore_refuses_mismatched_metadata_and_held_rows(db):
     # the whole write is rolled back rather than the new original being ignored.
     mismatched = item(1).model_copy(update={"source_record_id": "999"})
     with pytest.raises(EvidenceWriteError, match="P0002"):
-        write(db["ingest_writer"], [mismatched, item(7)])
+        write(db["writer"], [mismatched, item(7)])
     assert scalar(db["owner"], "select count(*) from evidence.raw_row") == 1  # item 7 not kept
     assert scalar(db["owner"], "select expired_at is not null from evidence.raw_row") is True
     # Calling the function on held evidence never overwrites it.
     write(db["ingest_writer"], [item(2)])
     p = insert_params(item(2))
     with pytest.raises(DBAPIError, match="no expired evidence"):
-        with db["ingest_writer"].begin() as conn:
+        with db["writer"].begin() as conn:
             conn.execute(
                 text(
                     "select evidence.restore_expired_raw_row(:d, 'wvxf-dwi5', '2', 'original_row', "
-                    ":rs, :s, cast(:r as jsonb), now() + interval '1 day')"
+                    ":rs, :s, cast(:r as jsonb), now(), 'u', null, now() + interval '1 day')"
                 ),
                 {**p, "rs": item(2).redacted_sha256},
             )

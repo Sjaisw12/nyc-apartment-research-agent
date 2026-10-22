@@ -41,7 +41,8 @@ class Settings(BaseSettings):
     # is never logged. Unset: nothing is stored and the offline suite still runs.
     database_url: SecretStr | None = None
     # Raw evidence is held this long after it was fetched, then reduced to a tombstone.
-    evidence_retention_days: int = Field(default=180, ge=1)
+    # D15 sets 180 days as the maximum; the database refuses anything longer.
+    evidence_retention_days: int = Field(default=180, ge=1, le=180)
 
     user_agent: str = (
         "nyc-apartment-research-agent/0.1 "

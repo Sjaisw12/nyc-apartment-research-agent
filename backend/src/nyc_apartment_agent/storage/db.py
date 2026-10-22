@@ -11,13 +11,21 @@ from sqlalchemy import Engine, create_engine
 
 from ..config import Settings, get_settings
 
-# Group roles created by migration 0001 (NOLOGIN; deployments grant them to logins).
+# Group roles created by migrations 0001 and 0003 (NOLOGIN; deployments grant them to logins).
 OWNER_ROLE = "nyc_owner"
 APP_READER = "app_reader"
 INGEST_WRITER = "ingest_writer"
 EVIDENCE_ADMIN = "evidence_admin"
 EVIDENCE_RETENTION = "evidence_retention"
-ROLES = (OWNER_ROLE, APP_READER, INGEST_WRITER, EVIDENCE_ADMIN, EVIDENCE_RETENTION)
+EVIDENCE_RESTORER = "evidence_restorer"  # added by migration 0003
+ROLES = (
+    OWNER_ROLE,
+    APP_READER,
+    INGEST_WRITER,
+    EVIDENCE_ADMIN,
+    EVIDENCE_RETENTION,
+    EVIDENCE_RESTORER,
+)
 SCHEMAS = ("records", "evidence")
 
 

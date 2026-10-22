@@ -101,14 +101,16 @@ def migrated_database(fresh_database) -> str:
 
 @pytest.fixture
 def login_role(admin_engine) -> Iterator:
-    """Factory for real LOGIN users that are members of one group role. Dropped after."""
+    """Factory for real LOGIN users that are members of the given group roles. Dropped after."""
     made: list[str] = []
 
-    def make(group: str) -> tuple[str, str]:
-        user = f"t_{group}_{secrets.token_hex(4)}"
+    def make(*groups: str) -> tuple[str, str]:
+        user = f"t_{groups[0]}_{secrets.token_hex(4)}"
         password = secrets.token_urlsafe(16)
         with admin_engine.connect() as conn:
-            conn.execute(text(f"CREATE ROLE {user} LOGIN PASSWORD '{password}' IN ROLE {group}"))
+            conn.execute(
+                text(f"CREATE ROLE {user} LOGIN PASSWORD '{password}' IN ROLE {', '.join(groups)}")
+            )
         made.append(user)
         return user, password
 
@@ -116,3 +118,24 @@ def login_role(admin_engine) -> Iterator:
     with admin_engine.connect() as conn:
         for user in made:
             conn.execute(text(f"DROP ROLE IF EXISTS {user}"))
+
+
+@pytest.fixture
+def db(migrated_database, login_role):
+    """Engines for one login per role on a migrated database, plus the admin engine."""
+    engines = {"owner": make_engine(url_for(migrated_database))}
+    for role in (
+        "app_reader",
+        "ingest_writer",
+        "evidence_admin",
+        "evidence_retention",
+        "evidence_restorer",
+    ):
+        user, password = login_role(role)
+        engines[role] = make_engine(url_for(migrated_database, user, password))
+    # The server-side writer: inserts, and restores expired rows after verifying them.
+    user, password = login_role("ingest_writer", "evidence_restorer")
+    engines["writer"] = make_engine(url_for(migrated_database, user, password))
+    yield engines
+    for e in engines.values():
+        e.dispose()

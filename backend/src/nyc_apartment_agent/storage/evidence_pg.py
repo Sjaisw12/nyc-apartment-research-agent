@@ -14,11 +14,21 @@ delete them. It learns what already exists only from the public availability vie
     expired digest  -> evidence.restore_expired_raw_row(...), which restores the
                        original only if the tombstone's dataset, source id, basis and
                        redacted hash all match, and raises otherwise. A newly supplied
-                       original is never silently dropped.
+                       original is never silently dropped. Needs a login that also
+                       holds evidence_restorer (migration 0003).
 
 Every item is checked first: its keyed digest and plain hash must match its row under
 the configured key. Writes refuse to run without a configured EVIDENCE_DIGEST_KEY,
 because digests made with a per-process key could never be matched again.
+
+Digest integrity is enforced HERE, not by the database. PostgreSQL has no key, so
+neither a plain INSERT nor the restore function can tell whether a row matches its
+digest. Logins holding ingest_writer or evidence_restorer are trusted to write only
+verified rows; the reader detects any that are not.
+
+Retention: retain_until = fetched_at + retention_days (at most 180). An item whose
+retention date has already passed is refused before anything is written; the database
+enforces the same rule and the 180-day cap.
 
 Audit side, `PostgresEvidenceReader`: for a login holding `evidence_admin`.
 
@@ -53,6 +63,13 @@ class EvidenceIntegrityError(ValueError):
 
 class DigestKeyNotConfiguredError(RuntimeError):
     pass
+
+
+class EvidenceRetentionError(ValueError):
+    """An item is already past its retention date, or the retention period is invalid."""
+
+
+MAX_RETENTION_DAYS = 180  # D15; also enforced by evidence.raw_row's check constraint
 
 
 class EvidenceWriteError(RuntimeError):
@@ -113,7 +130,8 @@ _RESTORE = text(
     """
     SELECT evidence.restore_expired_raw_row(
         :original_digest, :dataset_id, :source_record_id, :basis, :redacted_sha256,
-        :original_sha256, :original_row, :retain_until
+        :original_sha256, :original_row, :fetched_at, :query_url, :data_as_of,
+        :retain_until
     )
     """
 ).bindparams(bindparam("original_row", type_=JSONB))
@@ -148,16 +166,26 @@ def write_raw_rows(
     *,
     digest_key: bytes,
     retention_days: int,
+    now: dt.datetime | None = None,
 ) -> EvidenceWriteReport:
     """Write buffered evidence on the caller's transaction. Never commits."""
+    if not 1 <= retention_days <= MAX_RETENTION_DAYS:
+        raise EvidenceRetentionError(f"retention must be 1 to {MAX_RETENTION_DAYS} days")
+    now = now or dt.datetime.now(dt.UTC)
     batch = sorted(items, key=lambda i: i.original_digest)  # stable lock order
     for item in batch:
         if not verify(item, digest_key):
             raise EvidenceIntegrityError("digest or hash does not match the row")
+    params = {i.original_digest: _params(i, retention_days) for i in batch}
+    for p in params.values():
+        if p["retain_until"] <= now:
+            raise EvidenceRetentionError(
+                f"evidence fetched at {p['fetched_at'].isoformat()} is past its "
+                f"{retention_days}-day retention date"
+            )
     if not batch:
         return EvidenceWriteReport(0, 0, 0)
     digests = [i.original_digest for i in batch]
-    params = {i.original_digest: _params(i, retention_days) for i in batch}
     try:
         state = dict(conn.execute(_AVAILABILITY, {"digests": digests}).all())
         absent = [i for i in batch if i.original_digest not in state]

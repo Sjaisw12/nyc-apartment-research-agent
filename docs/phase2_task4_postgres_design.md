@@ -1,8 +1,8 @@
 # Phase 2, Task 4 design: PostgreSQL storage for evidence and normalized records
 
-Status: **design only, for review.** No PostgreSQL code, migrations, dependencies or
-infrastructure have been added. Implementation starts only after Task 3 is closed and
-this design is approved.
+Status: **approved 2026-10-22 (D13 to D17, all yes), revised with the six required
+corrections (section 10).** Implementation proceeds in separate, reviewable steps
+(section 8). Step 1 is the only step authorized to start now.
 
 ## 1. Goal and scope
 
@@ -14,37 +14,37 @@ every guarantee the in-memory models already enforce.
 - schema and migrations;
 - a PostgreSQL evidence store (replacing the git-ignored `.evidence/` directory);
 - persistence of source results: status, provenance, freshness, records and summaries;
-- round-trip loading back into the same Pydantic models;
-- database-level constraints that mirror the model invariants;
-- access roles;
+- round-trip loading back into the same validated Pydantic models;
+- database constraints, foreign keys and triggers for the invariants SQL can express;
+- least-privilege roles;
 - retention;
 - local and CI test setup.
 
 **Out of scope:** API endpoints, caching or refresh policy, the agent, DOB and 311
 sources (Task 5), hosting and deployment.
 
-## 2. Principles carried over
+## 2. Principles
 
-1. **Statuses are stored as returned.** Status and partial flag are stored as returned,
-   and `no_records_found` is never stored without a complete fetch with count 0.
-   Database CHECK constraints repeat the rules in `check_source_invariants`.
-2. **Snapshots, not current state.** Every retrieval is stored as a new, append-only
-   snapshot with its own `data_as_of`, freshness and query URLs. Nothing is updated in
-   place, so a past report can always be reproduced from what was stored at the time.
+1. **Statuses are stored as returned.** `no_records_found` always means a complete
+   retrieval with a confirmed source count of 0.
+2. **Append-only snapshots (D14).** Every retrieval is a new snapshot with its own
+   provenance and freshness. Historical source results are never overwritten.
 3. **Building-level attribution needs building scope.** It may only exist under a
-   building-scope fetch (CHECK constraint). BuildingID upgrades keep `original_attribution`
-   and `attribution_basis`.
-4. **Raw evidence stays private.** Raw rows (with apartment numbers, contact names,
-   `complaint_anonymous_flag`, 311 `unique_key`) live in a separate schema that the
-   application's read role cannot select from. Public tables hold only the redacted
-   records the models already produce.
-5. **Every source row is traceable** (Task 3 correction 3). Each normalized record links
-   to all of its source rows and their keyed digests.
-6. **Source counts and normalized counts are stored separately.**
+   building-scope fetch. BuildingID upgrades keep `original_attribution` and
+   `attribution_basis`.
+4. **Private evidence (D15).** Raw rows live in a separate schema that the application's
+   read role cannot reach.
+5. **Every source row is traceable.** Every normalized record links to all of its source
+   rows, and source counts and normalized counts are stored separately.
+6. **Two layers of checks** (correction 2). The database enforces what SQL can express.
+   Everything else is validated by the Pydantic models before saving and again after
+   loading.
 
 ## 3. Schema
 
-There are two schemas: `records` (public, redacted) and `evidence` (private).
+The schemas are `records` (readable by the application) and `evidence` (private). All
+schemas, tables, views and functions are owned by the NOLOGIN role `nyc_owner`
+(section 4).
 
 ### 3.1 `records.retrieval_run`
 One row per research request.
@@ -53,197 +53,326 @@ One row per research request.
 |---|---|
 | `id` | uuid primary key |
 | `created_at` | |
-| `input_digest` | keyed hash of the normalized address input. The free text is not stored (D16). |
-| `resolution_outcome`, `resolution_level` | |
-| `resolved_bbl`, `resolved_bin` | `resolved_bin` is only set at building level (CHECK) |
-| `resolution` | jsonb: the resolver's public result (no user free text) |
+| `input_digest` | HMAC of the normalized address input (D16). The free text is never stored. |
+| `resolution_outcome`, `resolution_level` | enums |
+| `resolved_bbl`, `resolved_bin` | `resolved_bin` only set at building level |
+| `resolution` | jsonb: a **whitelisted projection** of the resolver result (identifiers, outcome, level, BIN evidence, candidate BBL/BIN lists, reason codes). The parsed input, the raw input and any address text are excluded. |
 
 ### 3.2 `records.source_fetch`
-One row per source per run: violations, complaints, buildings, registrations or
-contacts.
+One row per source result: violations, complaints, buildings, registrations or contacts.
 
 | column | notes |
 |---|---|
-| `id`, `run_id` | |
-| `source`, `dataset_id` | |
-| `status` | enum of the five statuses |
+| `id` | uuid |
+| `run_id` | FK to `retrieval_run` |
+| `idempotency_key` | unique: SHA-256 of run id, dataset, and page URLs with fetch times |
+| `source`, `dataset_id`, `result_type` | `result_type` is an enum of the five result models |
+| `status` | enum |
 | `status_detail` | |
 | `partial` | bool |
 | `join_scope` | `building` / `tax_lot` / null |
 | `resolved_bbl`, `resolved_bin` | |
-| `where_clause`, `order_by`, `page_size`, `row_cap` | |
 | `source_count`, `rows_fetched` | |
-| `incomplete_reasons` | text[] |
-| `warnings` | text[] |
+| `incomplete_reasons`, `warnings` | text[] |
 | `data_as_of` | truth header |
-| `data_updated_at`, `metadata_updated_at` | freshness: data update and metadata update kept apart |
-| `stated_update_frequency`, `stale` | freshness |
-| `summary` | jsonb: the model's summary, as computed at the time |
-| `building_id_attribution` | jsonb: the D9 report, when applied |
-| `coverage_status` | contacts only |
+| `data_updated_at`, `metadata_updated_at`, `stated_update_frequency`, `stale` | freshness |
+| `result_payload` | jsonb: the full public result model **without** its record lists (summary, provenance, freshness, batch and coverage provenance, D9 report) |
 | `fetched_at` | |
 
-CHECK constraints:
-- `records_found` → `partial = false`, no incomplete reasons, `source_count > 0`;
-- `no_records_found` → `source_count = 0`;
-- `incomplete_pagination` → `partial = true` and at least one reason;
-- `unsupported_join` → no pages and no records;
-- non-building scope → `resolved_bin is null`.
+`where_clause`, `order_by`, `page_size` and `row_cap` are typed copies of provenance
+fields, kept for querying.
 
 ### 3.3 `records.fetch_page`
-One row per HTTP response: `fetch_id`, `batch` (for contact and coverage batches), page
-`index` (-1 is the count call), `url`, `rows`, `fetched_at`, `truth_last_modified`. This
-is the citation trail.
+One row per HTTP response, with primary key (`fetch_id`, `seq`):
+- `batch` (contacts and coverage batches);
+- page `index` (-1 is the count call);
+- `url`, `rows`, `fetched_at`, `truth_last_modified`.
 
 ### 3.4 `records.normalized_record`
-One row per normalized record of any kind.
+One row per normalized record.
 
-**Kind and identity:**
-- `id`, `fetch_id`;
-- `record_kind`: `violation`, `complaint_problem`, `hpd_building`, `registration` or
-  `contact`;
-- `evidence_kind`: `official_finding`, `reported_allegation` or `administrative_record`;
-- `dataset_id`, `source_record_id` (violation ID, problem ID, building ID or `:id`).
+- **Identity:** `id`, `fetch_id`, `record_kind`, `evidence_kind`, `dataset_id`,
+  `source_record_id`, `source_row_id`.
+- **Attribution:** `resolved_bbl`, `lot_membership`, `attribution`, `attribution_basis`,
+  `original_attribution`, `mapped_bin`, `location_scope`, `quality_flags` text[].
+- **Integrity and payload:** `digest_basis`, `original_digest`, `redacted_sha256`,
+  `payload` jsonb (the full public model, dumped by alias), `schema_version`, `ordinal`
+  (keeps record order for round-trip).
 
-**Attribution:**
-- `resolved_bbl`, `lot_membership`;
-- `attribution`, `attribution_basis`, `original_attribution`, `mapped_bin`;
-- `location_scope` (where applicable);
-- `quality_flags` text[].
-
-**Integrity and payload:**
-- `digest_basis`, `original_digest`, `redacted_sha256`;
-- `payload` jsonb: the full public Pydantic model, exactly as the API would return it;
-- `schema_version`.
-
-Indexes: (`fetch_id`, `attribution`), (`resolved_bbl`, `record_kind`), and
-`source_record_id`.
-
-CHECK constraints:
-- a building attribution is allowed only when the parent fetch has building scope
-  (enforced with a trigger, since it spans two tables);
-- `attribution_basis = 'hpd_building_id'` requires `original_attribution =
-  'unattributed_on_lot'` and `mapped_bin is not null`.
+There is a unique (`id`, `fetch_id`), so child tables can carry a composite foreign key.
 
 ### 3.5 `records.record_source_row`
-`record_id`, `source_row_id`, `original_digest`, and `position` (0 is the record's own
-row). Unique on (`fetch_id`, `source_row_id`) for complete fetches. Collapsed identical
-copies are listed here, so source-row counts stay derivable.
+Columns: `record_id`, `fetch_id`, `position`, `source_row_id`, `original_digest`.
+- composite FK (`record_id`, `fetch_id`) to `normalized_record`;
+- FK `original_digest` to `evidence.raw_row`;
+- unique (`fetch_id`, `source_row_id`) and (`record_id`, `position`).
 
 ### 3.6 `records.complaint_group`
-Complaint-level grouping (Task 2): `fetch_id`, `complaint_id`, `attribution` (including
-`mixed`), `problem_attributions` jsonb, `payload` jsonb.
+Columns: `fetch_id`, `complaint_id`, `attribution` (including `mixed`),
+`problem_attributions` jsonb, `payload` jsonb, `ordinal`. Unique (`fetch_id`,
+`complaint_id`).
 
-### 3.7 `evidence.raw_row` (private schema)
+### 3.7 `evidence.raw_row` (private)
 
 | column | notes |
 |---|---|
-| `original_digest` | primary key: keyed HMAC, the value public records carry |
+| `original_digest` | primary key |
 | `dataset_id`, `source_record_id` | |
-| `original_sha256` | private plain hash |
 | `basis` | `original_row` / `sanitized_row` |
-| `original_row` | jsonb |
+| `original_row` | jsonb, nullable after expiry |
+| `original_sha256` | private plain hash, nullable after expiry |
 | `redacted_sha256`, `redacted_fields` | |
 | `query_url`, `fetched_at`, `data_as_of` | |
 | `first_seen_fetch_id` | |
 | `retain_until` | |
+| `expired_at` | |
 
-Inserts use `ON CONFLICT DO NOTHING`. The same row seen again gives the same digest, so
-it is stored once and referenced many times.
+A CHECK requires that `original_row` and `original_sha256` are both null exactly when
+`expired_at` is set.
 
-### 3.8 Why typed columns plus JSONB (D13)
-- **Typed columns** carry everything we filter, join or constrain on: identifiers,
-  status, attribution, flags and digests.
-- **The JSONB payload** keeps the complete public model, so loading returns exactly
-  what was produced, without a column for every dataset-specific field.
+### 3.8 `records.evidence_availability` (view)
+Columns: `original_digest`, `basis`, `held` (bool), `retain_until`, `expired_at`. The view
+is owned by `nyc_owner`, so `app_reader` can see whether an original is still held
+without any privilege on `evidence`. It exposes no row content and no plain hash.
 
-Fully normalized per-dataset tables would add five wide tables and migrations for every
-model change, for fields the system never queries.
+### 3.9 Typed columns plus JSONB (D13)
+Typed columns carry everything we filter, join or constrain on. JSONB keeps the complete
+public models, so loading reconstructs exactly what was produced.
 
-## 4. Access, privacy and retention
+## 4. Roles, ownership and grants (D15)
 
-- **Roles:**
-  - `app_reader`: SELECT on `records` only;
-  - `ingest_writer`: INSERT on both schemas, no UPDATE or DELETE on `records`;
-  - `evidence_admin`: SELECT on `evidence`, used only for audits and validation.
+All group roles are NOLOGIN. Deployments grant them to login users.
 
-  The application never connects as `evidence_admin`.
-- **Digest key:** database writes refuse to run without a configured
-  `EVIDENCE_DIGEST_KEY`. The per-process fallback key would store digests that can never
-  be matched again. Rotating the key needs a documented migration, because stored
-  digests are keyed.
-- **Retention (D15):** proposed 180 days for `evidence.raw_row`, enforced by a scheduled
-  delete on `retain_until`. Public records keep their digest after the raw row expires,
-  and the report says the original is no longer held.
-- **Privacy test:** a test scans every `records` table and JSONB payload for withheld
-  keys and values. The keys checked are `apartment`, `story`, `complaint_anonymous_flag`,
-  `unique_key` and contact person fields. The test is the database counterpart of
-  `test_fixture_privacy.py`.
-- **No logging of row data:** SQL statement parameters are never logged.
+| role | privileges |
+|---|---|
+| `nyc_owner` | owns the schemas and every object in them; migrations run `SET ROLE nyc_owner` |
+| `app_reader` | `USAGE` on `records`; `SELECT` on `records` tables and views. **No** `USAGE` on `evidence`. |
+| `ingest_writer` | `USAGE` on both schemas; `SELECT, INSERT` on `records`; `INSERT` on `evidence.raw_row`. No `UPDATE` or `DELETE` anywhere. |
+| `evidence_admin` | `USAGE` and `SELECT` on `evidence` (audits and validation only) |
+| `evidence_retention` | `USAGE` on `evidence`; `SELECT, UPDATE` on `evidence.raw_row` (the expiry job only) |
 
-## 5. Code shape
+**Hardening:**
+- `REVOKE ALL ON SCHEMA evidence FROM PUBLIC`.
+- `REVOKE CREATE ON SCHEMA public FROM PUBLIC`.
+- Default privileges `FOR ROLE nyc_owner`:
+  - revoke `EXECUTE` on functions from `PUBLIC`, in both schemas;
+  - grant the table privileges above on future tables.
+- No `SECURITY DEFINER` functions.
 
-- **Database access:** SQLAlchemy Core 2.x (no ORM) with psycopg 3, and Alembic for
-  migrations (D17). Core keeps SQL explicit, and Alembic gives reviewable,
-  reversible migrations.
-- **Evidence store:** `records/pg_evidence.py` holds `PostgresEvidenceStore`. It
-  implements the existing `EvidenceStore` protocol (`put`, `get`), so the adapters do not
-  change.
-- **Repository:** `storage/repository.py` holds:
-  - `save_run(resolution) -> run_id`;
-  - `save_result(run_id, result)`, one transaction per source result, so a failed write
-    leaves nothing partial;
-  - `load_result(fetch_id) -> SourceResult | ComplaintSourceResult | ...`, validated
-    through the same Pydantic models, so a stored result that breaks an invariant fails
-    on load.
-- **Configuration:** a `DATABASE_URL` secret, environment only.
+The roles are cluster-wide, so a migration downgrade drops the schemas but keeps the
+roles (they may serve other databases). This is documented and tested.
+
+## 5. Code shape (D17)
+
+- **Database access:** SQLAlchemy Core 2.x (no ORM), psycopg 3 and Alembic.
+- **Engine settings:** created with `hide_parameters=True` and `echo=False`, so SQL
+  parameters (raw rows, digests) never appear in logs or exception messages.
+- **Connection URL:** `DATABASE_URL` comes from the environment and is a secret. It is
+  never logged.
+- **Evidence buffer:** `storage/evidence_buffer.py` holds `BufferedEvidenceStore`, which
+  implements the existing `EvidenceStore` protocol. Adapters `put` into memory; nothing
+  touches the database during retrieval.
+- **Repository:** `storage/repository.py` has three functions.
+  - `save_run(...)`.
+  - `save_result(run_id, result, evidence_buffer)`. It validates the model first, then
+    writes everything in **one transaction** (section 10.1).
+  - `load_result(fetch_id)`. It rebuilds the model and validates it again.
 
 ## 6. Testing
 
-- The offline suite stays runnable with no database.
-- New tests are marked `db` and skipped unless `DATABASE_URL` is set.
-- **Local:** `docker compose up db` (PostgreSQL 16).
-- **CI:** a PostgreSQL 16 service container in GitHub Actions. Migrations run up, then
-  down, then up.
-- **Round-trip:** every recorded cassette result (five addresses, five sources, plus the
-  D9 reports) is saved and loaded back. Each must equal the original model.
-- **Constraints:** direct SQL inserts that break each CHECK are rejected (for example,
-  `records_found` with `partial`, building attribution under a tax-lot fetch, and
-  `hpd_building_id` basis on a row that was not unattributed).
-- **Privacy scan and role tests:** `app_reader` cannot select from `evidence`.
-- **Idempotency:** saving the same live rows twice stores each raw row once.
+- **Offline suite:** unchanged and runnable with no database. Database tests are marked
+  `db` and skip with a clear reason when no database is configured.
+- **CI:** a separate `postgres` job uses a PostgreSQL 16 service container and sets
+  `REQUIRE_DB_TESTS=1`. With that set, a missing or unreachable database is a test
+  **failure**, not a skip. The job also fails if zero `db` tests ran.
+- **Disposable databases:** each test session creates `nyc_test_<random>` and drops it
+  afterwards. The migration test uses its own database and runs up, down and up.
+- **Role tests:** they use real login roles, not just `SET ROLE` (section 10.3).
 
-## 7. Proposed implementation steps (separate commits, after approval)
+## 7. Retention summary (D15)
 
-1. Dependencies, Alembic skeleton, compose file, CI service, and the empty-schema
-   migration test.
-2. `evidence.raw_row` and `PostgresEvidenceStore`, with idempotency and role tests.
-3. Runs, fetches, pages and normalized records for violations, with round-trip and
-   constraint tests.
+Raw evidence is kept for 180 days. Section 10.4 covers expiry, lineage and backups.
+
+## 8. Implementation steps (separate commits, each reported)
+
+1. **Infrastructure (now):**
+   - dependencies;
+   - Alembic skeleton;
+   - migration 0001 (roles, schemas, ownership, grants, default privileges);
+   - local PostgreSQL via `docker compose`;
+   - CI service job;
+   - migration up/down/up test;
+   - schema, role and privilege tests.
+2. `evidence.raw_row`, `evidence_availability`, the buffered evidence store, and
+   atomic, idempotent evidence writes.
+3. Runs, fetches, pages, normalized records and source-row links for violations. Covers
+   constraints, triggers, round-trip, rollback and idempotency tests.
 4. Complaints and complaint groups.
-5. Buildings, registrations, contacts, source-row links and D9 reports.
-6. Privacy scan, retention job and report.
-
-## 8. Decisions needed
-
-- **D13. Hybrid storage:** typed columns for keys, status and attribution, plus a JSONB
-  payload of the full public model. **Recommended: yes.**
-- **D14. Append-only snapshots:** no in-place updates. Refresh and caching policy is
-  decided later, with the API. **Recommended: yes.**
-- **D15. Raw evidence:** a private schema with separate roles, 180-day retention, and
-  database writes that require a configured digest key. **Recommended: yes (confirm 180
-  days).**
-- **D16. User input:** do not store the user's free-text address; store resolved
-  identifiers and a keyed hash of the normalized input. **Recommended: yes.**
-- **D17. Tooling:** PostgreSQL 16, SQLAlchemy Core with psycopg 3, Alembic, and a CI
-  service container. **Recommended: yes.**
+5. Buildings, registrations, contacts (with coverage), and D9 reports.
+6. The full-schema privacy scan, the retention job and expiry tests, and the final Task 4
+   report.
 
 ## 9. Acceptance criteria
 
-1. Migrations apply and roll back cleanly in CI.
-2. All recorded Task 1 to 3 results round-trip unchanged.
-3. Every model invariant has a matching database constraint or trigger, each with a
-   rejection test.
-4. `app_reader` cannot read raw evidence, and the privacy scan finds no withheld field.
-5. The offline suite, live tests, benchmark and CI all pass, with test counts reported as
-   run.
+1. Migrations apply, roll back and re-apply in CI on PostgreSQL 16.
+2. All five result types, complaint groups, contact coverage, source-row references and
+   D9 reports round-trip into equal, validated models.
+3. Every SQL-enforceable invariant has a constraint, FK or trigger, each with a rejection
+   test. The rest is validated in Pydantic on save and on load.
+4. `app_reader` cannot read raw evidence through any path, tested with real roles.
+5. The privacy scan covers every readable column and finds nothing.
+6. Retention expires originals without breaking lineage.
+7. The offline suite, live tests, benchmark and CI all pass, with counts reported as run.
+
+## 10. Required corrections (2026-10-22) and how the design meets them
+
+### 10.1 Transaction atomicity
+
+`save_result` runs on one connection, in one transaction, as a login holding
+`ingest_writer`. The order is:
+1. insert raw rows (`ON CONFLICT (original_digest) DO NOTHING`);
+2. insert the fetch;
+3. insert pages, records, source-row links and complaint groups;
+4. commit.
+
+Any error rolls back all of it, so a failed public-record insert leaves no new evidence
+rows and no partial links.
+
+Raw rows written by an earlier, committed snapshot may be referenced; they are not
+modified.
+
+**Idempotency:**
+- `source_fetch.idempotency_key` is unique. Re-saving the same result returns the
+  existing fetch id and writes nothing.
+- Raw rows are content-addressed by their keyed digest.
+
+**Tests:**
+- Inject a failure after the evidence insert (an invalid record that violates a
+  constraint). Afterwards, there must be zero new rows in every table.
+- Save the same result twice: one copy only.
+- Two snapshots sharing raw rows: rows are stored once and referenced by both.
+
+### 10.2 Database invariants
+
+**SQL-enforced (each with a rejection test):**
+
+- Enum types for status, scope, attribution, basis, record kind, evidence kind and
+  digest basis.
+- CHECK constraints on `source_fetch`:
+  - `records_found` → `partial = false`, no incomplete reasons, `source_count > 0`;
+  - `no_records_found` → `partial = false`, no incomplete reasons, `source_count = 0`,
+    `rows_fetched = 0`;
+  - `incomplete_pagination` → `partial = true` and at least one reason;
+  - `source_unavailable` and `unsupported_join` → `partial = false`;
+  - non-building scope → `resolved_bin is null`.
+- CHECK constraints on `normalized_record`:
+  - `attribution_basis = 'hpd_building_id'` → `original_attribution =
+    'unattributed_on_lot'`, `mapped_bin is not null`, `lot_membership = 'confirmed'`;
+  - basis `row_identifiers` → `original_attribution` and `mapped_bin` are null.
+- Foreign keys: run → fetch → page, record, group; record → source row; source row →
+  raw row.
+- Unique constraints: idempotency key; (`fetch_id`, `source_row_id`); (`record_id`,
+  `position`); (`fetch_id`, `complaint_id`).
+- Triggers:
+  - **row-level:** a record or group may not be added to a fetch whose status is
+    `no_records_found`, `source_unavailable` or `unsupported_join`;
+  - **row-level:** building attributions (`this_building`, `other_building_on_lot`) only
+    under a fetch with building scope;
+  - **deferred constraint trigger, checked at commit:**
+    - a `records_found` fetch has at least one record;
+    - on a complete fetch, its source-row links equal `source_count`;
+    - each record's position-0 link is its own source row.
+
+**Pydantic-only, checked on save and on load:** semantic rules that span JSON
+structure. Examples:
+- a mixed complaint really spans buckets;
+- a contact association agrees with coverage;
+- no address detail on a contact that names a person;
+- a requested building is never named at tax-lot scope.
+
+`load_result` runs the full model validation, so a stored row that breaks a rule fails
+loudly on read.
+
+### 10.3 Privacy
+
+- **The scan covers every column** of every table and view in `records`, and in
+  `public`, cast to text. That includes resolver JSON, query URLs, page URLs, status
+  details, provenance, warnings, quality flags and every JSONB payload.
+- **Sentinel test:** tests save results built from synthetic rows seeded with unique
+  sentinel values. These include an apartment, a story, contact person names, business
+  street and suite, `complaint_anonymous_flag`, the 311 `unique_key`, and a free-text
+  address passed as resolver input. No sentinel may appear in any readable column.
+  Forbidden keys are checked too.
+- **Query URLs** contain only integer lot parts, validated BBLs and digit-only
+  registration IDs. A test asserts this for every stored URL.
+- **Real-role tests in CI.** They create login users that are members of `app_reader`
+  and of `ingest_writer`, connect as each, and assert the following:
+  - `SELECT` on `evidence.raw_row` is denied, and `has_schema_privilege(...,
+    'evidence', 'USAGE')` is false;
+  - no function in our schemas is `SECURITY DEFINER`;
+  - `PUBLIC` holds no `EXECUTE` on our functions;
+  - `app_reader` is a member of no other role;
+  - the `evidence_availability` view exposes only its five columns;
+  - `ingest_writer` cannot `UPDATE` or `DELETE`.
+- **Logging:** `hide_parameters=True`, no row data in log messages, and a log-capture
+  test with the sentinels.
+
+### 10.4 Evidence retention
+
+- `retain_until = fetched_at + 180 days` (configurable, default 180).
+- **Expiry is a tombstone, not a delete.** The retention job, running as
+  `evidence_retention`:
+  - sets `original_row` and `original_sha256` to null and `expired_at` to now;
+  - keeps the digest, dataset, source record ID, basis, redacted hash and fetch time.
+
+  The plain hash is removed too, because it could be brute-forced back to unit details.
+- **Lineage stays intact.** Foreign keys from `record_source_row` still resolve, and
+  public records keep their keyed digest.
+- **Two separate states.** `evidence_availability.held` tells "a public digest is
+  retained" apart from "the original evidence can still be verified independently".
+  After expiry the report states the original is no longer held. The digest then proves
+  nothing by itself.
+- **Backups.** Deleting from the live database does not remove copies in backups. The
+  practical deletion window is 180 days plus the backup and point-in-time-recovery
+  retention period of the hosting provider, which is set at deployment. Backups must be
+  encrypted with restricted access, and any restore must re-run the retention job before
+  the database is used. The Task 4 report will state this limit plainly.
+- **Tests:**
+  - expiry nulls the content and keeps foreign keys;
+  - records still load, and they load as "not held";
+  - re-saving a row that has expired re-holds it, under a new retention date;
+  - nothing is purged before `retain_until`.
+
+### 10.5 Round-trip and digest correctness
+
+- `basis` (`original_row` / `sanitized_row`) is stored as an enum on each raw row and in
+  each record's `digest_basis`, and round-trips.
+- **JSONB is not the original HTTP response bytes.** It normalizes key order and
+  whitespace and drops duplicate keys. Our digests were never over response bytes: they
+  are over `canonical_json` (sorted keys, compact separators, UTF-8) of the parsed row.
+  Socrata values are strings, which JSONB preserves exactly.
+- **Digest check:** a test re-computes `keyed_digest` and `canonical_sha256` from every
+  stored `original_row` after loading, and they must equal the stored digests. If a value
+  ever changed in JSONB, verification fails and is reported, not hidden. Fixture page
+  body hashes (`original_body_sha256`) stay in the fixtures and are not presented as
+  stored response bytes.
+- **Round-trip tests:** every recorded cassette result is saved and loaded back. That
+  covers five addresses, all five result types, complaint groups, contact coverage and
+  batch provenance, source-row references, and D9 reports. Each loaded model must equal
+  the original (`==` on the Pydantic models), and validation runs again on load.
+
+### 10.6 CI and migrations
+
+- The offline job is unchanged and needs no database.
+- The new `postgres` job:
+  - runs the PostgreSQL 16 service container with a health check;
+  - sets `REQUIRE_DB_TESTS=1`, so a skipped database test fails the job;
+  - runs the `db` tests and fails if zero ran.
+- Migrations run up, down and up on a disposable database.
+- After `up`, tests check:
+  - schema ownership (`nyc_owner`);
+  - grants and default privileges;
+  - no `CREATE` for `PUBLIC` on `public`.
+- After `down`, tests check that the schemas are gone and the roles remain.
+- Later steps add foreign-key, constraint, rollback and idempotency tests as each table
+  arrives.

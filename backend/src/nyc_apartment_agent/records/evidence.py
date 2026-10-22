@@ -27,9 +27,20 @@ from .models import DigestBasis, RawEvidence
 from .redaction import canonical_sha256, keyed_digest
 
 
-class EvidenceStore(Protocol):
+class EvidenceWriter(Protocol):
+    """What retrieval needs: hand over each raw row. Adapters only ever call put()."""
+
     def put(self, item: RawEvidence) -> None: ...
+
+
+class EvidenceReader(Protocol):
+    """Authorized audit/retrieval of raw rows (in PostgreSQL: the evidence_admin role)."""
+
     def get(self, original_digest: str) -> RawEvidence | None: ...
+
+
+class EvidenceStore(EvidenceWriter, EvidenceReader, Protocol):
+    """Both sides together: the in-memory and directory stores used in tests and tools."""
 
 
 class InMemoryEvidenceStore:

@@ -42,11 +42,14 @@ def test_upgrade_creates_owned_schemas_and_roles(migrated_database):
     )
     assert dict(rows) == dict.fromkeys(ROLES, False)  # group roles only, no logins
     (version,) = q(migrated_database, "select version_num from alembic_version")[0]
-    assert version == "0001"
+    assert version == "0002"
 
 
 def test_up_down_up(fresh_database):
     migrate(fresh_database)
+    migrate(fresh_database, "0001", down=True)  # one step back: the evidence table goes
+    assert q(fresh_database, "select to_regclass('evidence.raw_row')")[0][0] is None
+    assert schemas(fresh_database) == dict.fromkeys(SCHEMAS, "nyc_owner")
     migrate(fresh_database, "base", down=True)
     assert schemas(fresh_database) == {}
     # Roles are cluster-wide and deliberately kept on downgrade.

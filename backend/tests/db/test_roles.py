@@ -82,13 +82,27 @@ def test_app_reader_has_no_indirect_path_to_evidence(probes, login_role):
     e.dispose()
 
 
+# The only SECURITY DEFINER function allowed: the narrow restore path for expired
+# evidence (migration 0002), with a fixed search_path.
+ALLOWED_DEFINERS = [("restore_expired_raw_row",)]
+
+
 def test_no_security_definer_functions_and_no_public_execute(probes, admin_engine):
     engine = make_engine(url_for(probes))
     with engine.connect() as conn:
         definers = conn.execute(
             text(
                 "select p.proname from pg_proc p join pg_namespace n on n.oid = p.pronamespace "
-                "where n.nspname in ('records', 'evidence') and p.prosecdef"
+                "where n.nspname in ('records', 'evidence') and p.prosecdef "
+                "and 'search_path=pg_catalog, pg_temp' = any(p.proconfig)"
+            )
+        ).all()
+        unpinned = conn.execute(
+            text(
+                "select p.proname from pg_proc p join pg_namespace n on n.oid = p.pronamespace "
+                "where n.nspname in ('records', 'evidence') and p.prosecdef "
+                "and (p.proconfig is null "
+                "or not ('search_path=pg_catalog, pg_temp' = any(p.proconfig)))"
             )
         ).all()
         public_exec = conn.execute(
@@ -99,7 +113,7 @@ def test_no_security_definer_functions_and_no_public_execute(probes, admin_engin
             )
         ).all()
     engine.dispose()
-    assert definers == [] and public_exec == []
+    assert definers == ALLOWED_DEFINERS and unpinned == [] and public_exec == []
 
 
 def test_ingest_writer_inserts_but_never_updates_or_deletes(probes, login_role):

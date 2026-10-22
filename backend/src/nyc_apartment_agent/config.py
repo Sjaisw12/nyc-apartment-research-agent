@@ -40,6 +40,8 @@ class Settings(BaseSettings):
     # PostgreSQL connection URL (Phase 2 Task 4). A secret: it can hold a password, so it
     # is never logged. Unset: nothing is stored and the offline suite still runs.
     database_url: SecretStr | None = None
+    # Raw evidence is held this long after it was fetched, then reduced to a tombstone.
+    evidence_retention_days: int = Field(default=180, ge=1)
 
     user_agent: str = (
         "nyc-apartment-research-agent/0.1 "

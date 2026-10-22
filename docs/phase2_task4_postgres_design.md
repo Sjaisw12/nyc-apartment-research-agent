@@ -123,7 +123,7 @@ Columns: `fetch_id`, `complaint_id`, `attribution` (including `mixed`),
 | `original_sha256` | private plain hash, nullable after expiry |
 | `redacted_sha256`, `redacted_fields` | |
 | `query_url`, `fetched_at`, `data_as_of` | |
-| `first_seen_fetch_id` | |
+| `first_seen_at` | (step 2) Replaces the planned `first_seen_fetch_id`. Fetches do not exist in step 2, and a foreign key from raw rows to fetches would invert the save order. Lineage is fetch → record → source-row link → raw row. |
 | `retain_until` | |
 | `expired_at` | |
 
@@ -157,7 +157,9 @@ All group roles are NOLOGIN. Deployments grant them to login users.
 - Default privileges `FOR ROLE nyc_owner`:
   - revoke `EXECUTE` on functions from `PUBLIC`, in both schemas;
   - grant the table privileges above on future tables.
-- No `SECURITY DEFINER` functions.
+- **No `SECURITY DEFINER` functions, with one reviewed exception (step 2):**
+  `evidence.restore_expired_raw_row`. It has a pinned `search_path`, `EXECUTE` is
+  granted to `ingest_writer` only, and a test allow-lists it by name.
 
 The roles are cluster-wide, so a migration downgrade drops the schemas but keeps the
 roles (they may serve other databases). This is documented and tested.
@@ -342,6 +344,31 @@ loudly on read.
   - records still load, and they load as "not held";
   - re-saving a row that has expired re-holds it, under a new retention date;
   - nothing is purged before `retain_until`.
+
+### 10.4a Step 2 decisions (2026-10-22)
+
+- **Writer without read access.** `ingest_writer` holds `INSERT` on `evidence.raw_row`
+  only. It uses `ON CONFLICT DO NOTHING` **without** a conflict target, because naming
+  one requires `SELECT` on that column. The primary key is the table's only unique
+  constraint, so nothing else can be absorbed. `RETURNING` is refused for the same
+  reason. The writer learns held or expired state from `records.evidence_availability`
+  (metadata only).
+- **Restoring expired evidence.** An original row supplied for an expired tombstone is
+  never silently ignored. It goes through `evidence.restore_expired_raw_row`, which
+  updates a row only when it is a tombstone and its dataset, source record ID, basis and
+  redacted hash all match. Otherwise it raises, and the whole save rolls back. It cannot
+  touch held evidence and returns nothing. The writer gets no `UPDATE` right.
+- **Retention on a repeat sighting.** Seeing a held row again does **not** extend its
+  retention: `retain_until` comes from its first fetch. A restored row gets a new
+  `retain_until`, set from the new fetch. Whether a repeat sighting should extend
+  retention is left for review in step 6.
+- **Expiry rights.** `evidence_retention` has column-level rights only: `SELECT` on
+  digest, `retain_until` and `expired_at`, and `UPDATE` on `original_row`,
+  `original_sha256` and `expired_at`. It cannot read row content.
+- **Error text.** Database errors during evidence writes are re-raised without the
+  original exception, because PostgreSQL's DETAIL can quote the failing row. The server
+  log can do the same, so production should set `log_error_verbosity = terse` for this
+  database. That is a deployment setting, needs a superuser, and is not testable here.
 
 ### 10.5 Round-trip and digest correctness
 

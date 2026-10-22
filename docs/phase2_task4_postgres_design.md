@@ -319,6 +319,23 @@ Where step 3 differs from the plan above, and why:
   so `ingest_writer` holds `EXECUTE` on those four functions (pure, or reading only
   `records.source_fetch`). No `SECURITY DEFINER` was added.
 
+### 10.2b Step 4 decisions (migration 0005, 2026-10-22)
+
+- **Problems are records, complaints are groups.** Each problem row is a
+  `normalized_record` (`record_kind = complaint_problem`) with a typed `complaint_id`.
+  Each complaint is one `records.complaint_group` row. A foreign key (`fetch_id`,
+  `complaint_id`) means no problem exists without its complaint.
+- **Group attribution is derived, and checked at commit.** A group's problem count,
+  duplicate count, `problem_ids`, per-bucket counts and attribution (`mixed` exactly
+  when its problems span more than one bucket) must equal what its problem records say.
+  A group can never claim a building its problems do not support.
+- **Withheld-field counts.** `summary.withheld_field_counts` is keyed by the names
+  `complaint_anonymous_flag` and `unique_key`, with numeric counts. The private-key
+  CHECK skips that one object and requires its values to be numbers. The values
+  themselves exist only in `evidence.raw_row`.
+- **Additive migration.** 0005 adds a table, a column, constraints and triggers; the
+  only change to 0004 objects is replacing the result-payload privacy CHECK as above.
+
 ### 10.3 Privacy
 
 - **The scan covers every column** of every table and view in `records`, and in

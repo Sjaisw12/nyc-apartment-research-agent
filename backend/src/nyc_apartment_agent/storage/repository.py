@@ -1,11 +1,12 @@
-"""Persist and load source-result snapshots (Task 4, step 3: HPD violations).
+"""Persist and load source-result snapshots (Task 4: HPD violations, step 3; complaints, step 4).
 
 One save is one transaction on the caller's connection, as a login holding ingest_writer
 (plus evidence_restorer, only needed when an expired raw row comes back):
 
     1. skip if this exact result was already saved for this run (idempotency key);
     2. write the raw rows the records cite (storage/evidence_pg.write_raw_rows);
-    3. insert the fetch, its pages, its records and their source-row links;
+    3. insert the fetch, its pages, (complaints) its complaint groups, its records and
+       their source-row links;
     4. the caller commits. At commit a deferred trigger checks the snapshot is complete.
 
 Any failure rolls back all of it, evidence included. Nothing is ever updated: a new
@@ -29,7 +30,7 @@ import datetime as dt
 import hashlib
 import hmac
 import uuid
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 
 from sqlalchemy import Connection, Engine, bindparam, text
@@ -39,6 +40,11 @@ from sqlalchemy.types import Text
 
 from ..config import Settings
 from ..identifiers import normalize_bbl
+from ..records.complaint_models import (
+    ComplaintGroup,
+    ComplaintSourceResult,
+    NormalizedComplaintProblem,
+)
 from ..records.join_policy import UnsupportedJoinError, plan_lot_query
 from ..records.models import (
     DigestBasis,
@@ -53,6 +59,7 @@ from .evidence_pg import EvidenceWriteReport, require_digest_key, write_raw_rows
 
 SCHEMA_VERSION = 1
 RESULT_TYPE_VIOLATIONS = "hpd_violations"
+RESULT_TYPE_COMPLAINTS = "hpd_complaints"
 
 
 class RecordWriteError(RuntimeError):
@@ -149,7 +156,39 @@ def save_run(
     return run_id
 
 
-# ---- violation results -----------------------------------------------------------------
+# ---- source results (shared by violations and complaints) -----------------------------
+
+AnyResult = SourceResult | ComplaintSourceResult
+AnyRecord = NormalizedViolation | NormalizedComplaintProblem
+
+
+@dataclass(frozen=True)
+class _Kind:
+    result_type: str
+    record_kind: str
+    model: type
+    source_record_id: Callable[[AnyRecord], str]
+    complaint_id: Callable[[AnyRecord], str | None]
+
+
+VIOLATIONS = _Kind(
+    RESULT_TYPE_VIOLATIONS, "violation", SourceResult, lambda r: r.violation_id, lambda r: None
+)
+COMPLAINTS = _Kind(
+    RESULT_TYPE_COMPLAINTS,
+    "complaint_problem",
+    ComplaintSourceResult,
+    lambda r: r.problem_id,
+    lambda r: r.complaint_id,
+)
+
+
+def _kind_of(obj) -> _Kind:
+    if isinstance(obj, ComplaintSourceResult | NormalizedComplaintProblem):
+        return COMPLAINTS
+    if isinstance(obj, SourceResult | NormalizedViolation):
+        return VIOLATIONS
+    raise TypeError(f"unsupported result type: {type(obj).__name__}")
 
 
 @dataclass(frozen=True)
@@ -159,18 +198,19 @@ class SavedResult:
     evidence: EvidenceWriteReport | None
 
 
-def result_payload(result: SourceResult) -> dict:
-    """The public result without records and pages (those have their own tables)."""
-    return result.model_dump(
-        mode="json", by_alias=True, exclude={"records": True, "provenance": {"pages"}}
-    )
+def result_payload(result: AnyResult) -> dict:
+    """The public result without records, complaint groups and pages (own tables)."""
+    exclude: dict = {"records": True, "provenance": {"pages"}}
+    if isinstance(result, ComplaintSourceResult):
+        exclude["complaints"] = True
+    return result.model_dump(mode="json", by_alias=True, exclude=exclude)
 
 
-def record_payload(record: NormalizedViolation) -> dict:
+def record_payload(record: AnyRecord) -> dict:
     return record.model_dump(mode="json", by_alias=True)
 
 
-def content_sha256(result: SourceResult) -> str:
+def content_sha256(result: AnyResult) -> str:
     return canonical_sha256(result.model_dump(mode="json", by_alias=True))
 
 
@@ -194,14 +234,14 @@ _INSERT_FETCH = text(
         id, run_id, idempotency_key, content_sha256, result_type, source, dataset_id,
         status, status_detail, partial, join_scope, resolved_bbl, resolved_bin,
         source_count, rows_fetched, record_count, source_row_count, page_count,
-        incomplete_reasons, warnings, data_as_of, where_clause, order_by, page_size,
-        row_cap, building_id_applied, result_payload, schema_version
+        group_count, incomplete_reasons, warnings, data_as_of, where_clause, order_by,
+        page_size, row_cap, building_id_applied, result_payload, schema_version
     ) VALUES (
         :id, :run_id, :idempotency_key, :content_sha256, :result_type, :source, :dataset_id,
         :status, :status_detail, :partial, :join_scope, :resolved_bbl, :resolved_bin,
         :source_count, :rows_fetched, :record_count, :source_row_count, :page_count,
-        :incomplete_reasons, :warnings, :data_as_of, :where_clause, :order_by, :page_size,
-        :row_cap, :building_id_applied, :result_payload, :schema_version
+        :group_count, :incomplete_reasons, :warnings, :data_as_of, :where_clause, :order_by,
+        :page_size, :row_cap, :building_id_applied, :result_payload, :schema_version
     )
     """
 ).bindparams(
@@ -222,18 +262,31 @@ _INSERT_PAGE = text(
     """
 )
 
+_INSERT_GROUP = text(
+    """
+    INSERT INTO records.complaint_group (
+        id, fetch_id, ordinal, complaint_id, attribution, problem_attributions,
+        problem_count, duplicate_problem_count, payload, schema_version
+    ) VALUES (
+        :id, :fetch_id, :ordinal, :complaint_id, :attribution, :problem_attributions,
+        :problem_count, :duplicate_problem_count, :payload, :schema_version
+    )
+    """
+).bindparams(bindparam("payload", type_=JSONB), bindparam("problem_attributions", type_=JSONB))
+
 _INSERT_RECORD = text(
     """
     INSERT INTO records.normalized_record (
         id, fetch_id, ordinal, record_kind, evidence_kind, dataset_id, source_record_id,
-        resolved_bbl, lot_membership, attribution, attribution_basis, original_attribution,
-        mapped_bin, location_scope, quality_flags, digest_basis, original_digest,
-        redacted_sha256, payload, schema_version
+        complaint_id, resolved_bbl, lot_membership, attribution, attribution_basis,
+        original_attribution, mapped_bin, location_scope, quality_flags, digest_basis,
+        original_digest, redacted_sha256, payload, schema_version
     ) VALUES (
-        :id, :fetch_id, :ordinal, 'violation', :evidence_kind, :dataset_id, :source_record_id,
-        :resolved_bbl, :lot_membership, :attribution, :attribution_basis,
-        :original_attribution, :mapped_bin, :location_scope, :quality_flags, :digest_basis,
-        :original_digest, :redacted_sha256, :payload, :schema_version
+        :id, :fetch_id, :ordinal, :record_kind, :evidence_kind, :dataset_id,
+        :source_record_id, :complaint_id, :resolved_bbl, :lot_membership, :attribution,
+        :attribution_basis, :original_attribution, :mapped_bin, :location_scope,
+        :quality_flags, :digest_basis, :original_digest, :redacted_sha256, :payload,
+        :schema_version
     )
     """
 ).bindparams(bindparam("payload", type_=JSONB), bindparam("quality_flags", type_=ARRAY(Text)))
@@ -247,15 +300,17 @@ _INSERT_LINK = text(
 )
 
 
-def _fetch_params(fetch_id, run_id, key, content, result: SourceResult) -> dict:
+def _fetch_params(fetch_id, run_id, key, content, result: AnyResult) -> dict:
+    kind = _kind_of(result)
     prov = result.provenance
     d9 = result.building_id_attribution
+    groups = result.complaints if isinstance(result, ComplaintSourceResult) else []
     return {
         "id": fetch_id,
         "run_id": run_id,
         "idempotency_key": key,
         "content_sha256": content,
-        "result_type": RESULT_TYPE_VIOLATIONS,
+        "result_type": kind.result_type,
         "source": result.source,
         "dataset_id": result.dataset_id,
         "status": result.status.value,
@@ -267,8 +322,9 @@ def _fetch_params(fetch_id, run_id, key, content, result: SourceResult) -> dict:
         "source_count": prov.source_count,
         "rows_fetched": prov.rows_fetched,
         "record_count": len(result.records),
-        "source_row_count": len(result.records),  # one source row per violation record
+        "source_row_count": len(result.records),  # one source row per record
         "page_count": len(prov.pages),
+        "group_count": len(groups),
         "incomplete_reasons": list(prov.incomplete_reasons),
         "warnings": list(prov.warnings),
         "data_as_of": prov.data_as_of,
@@ -282,14 +338,17 @@ def _fetch_params(fetch_id, run_id, key, content, result: SourceResult) -> dict:
     }
 
 
-def _record_params(fetch_id, ordinal: int, r: NormalizedViolation) -> dict:
+def _record_params(fetch_id, ordinal: int, r: AnyRecord) -> dict:
+    kind = _kind_of(r)
     return {
         "id": uuid.uuid4(),
         "fetch_id": fetch_id,
         "ordinal": ordinal,
+        "record_kind": kind.record_kind,
         "evidence_kind": r.evidence_kind.value,
         "dataset_id": r.dataset_id,
-        "source_record_id": r.violation_id,
+        "source_record_id": kind.source_record_id(r),
+        "complaint_id": kind.complaint_id(r),
         "resolved_bbl": r.resolved_bbl,
         "lot_membership": r.lot_membership.value,
         "attribution": r.attribution.value,
@@ -306,21 +365,37 @@ def _record_params(fetch_id, ordinal: int, r: NormalizedViolation) -> dict:
     }
 
 
-def save_violation_result(
+def _group_params(fetch_id, ordinal: int, g: ComplaintGroup) -> dict:
+    return {
+        "id": uuid.uuid4(),
+        "fetch_id": fetch_id,
+        "ordinal": ordinal,
+        "complaint_id": g.complaint_id,
+        "attribution": g.attribution.value,
+        "problem_attributions": g.problem_attributions,
+        "problem_count": g.problem_count,
+        "duplicate_problem_count": g.duplicate_problem_count,
+        "payload": g.model_dump(mode="json"),
+        "schema_version": SCHEMA_VERSION,
+    }
+
+
+def save_result(
     conn: Connection,
     run_id: uuid.UUID,
-    result: SourceResult,
+    result: AnyResult,
     evidence: Iterable[RawEvidence],
     *,
     digest_key: bytes,
     retention_days: int,
     now: dt.datetime | None = None,
 ) -> SavedResult:
-    """Save one violations result and the raw rows it cites. Never commits."""
+    """Save one source result and the raw rows it cites. Never commits."""
+    kind = _kind_of(result)
     # Validate again: a model changed with model_copy() skips its validators.
-    result = SourceResult.model_validate(result.model_dump(by_alias=True))
+    result = kind.model.model_validate(result.model_dump(by_alias=True))
     content = content_sha256(result)
-    key = idempotency_key(run_id, RESULT_TYPE_VIOLATIONS, content)
+    key = idempotency_key(run_id, kind.result_type, content)
     cited = {r.original_digest for r in result.records}
     items = [i for i in evidence if i.original_digest in cited]  # only what records cite
     try:
@@ -357,20 +432,27 @@ def save_violation_result(
         }
         for seq, p in enumerate(result.provenance.pages)
     ]
+    groups = (
+        [_group_params(fetch_id, i, g) for i, g in enumerate(result.complaints)]
+        if isinstance(result, ComplaintSourceResult)
+        else []
+    )
     records = [_record_params(fetch_id, i, r) for i, r in enumerate(result.records)]
     links = [
         {
             "record_id": rec["id"],
             "fetch_id": fetch_id,
-            "source_record_id": r.violation_id,
-            "original_digest": r.original_digest,
+            "source_record_id": rec["source_record_id"],
+            "original_digest": rec["original_digest"],
         }
-        for rec, r in zip(records, result.records, strict=True)
+        for rec in records
     ]
     try:
         conn.execute(_INSERT_FETCH, _fetch_params(fetch_id, run_id, key, content, result))
         if pages:
             conn.execute(_INSERT_PAGE, pages)
+        if groups:  # before the problems, which reference their complaint
+            conn.execute(_INSERT_GROUP, groups)
         if records:
             conn.execute(_INSERT_RECORD, records)
             conn.execute(_INSERT_LINK, links)
@@ -379,28 +461,36 @@ def save_violation_result(
     return SavedResult(fetch_id=fetch_id, created=True, evidence=report)
 
 
+def save_violation_result(conn: Connection, run_id, result: SourceResult, evidence, **kw):
+    return save_result(conn, run_id, result, evidence, **kw)
+
+
+def save_complaint_result(conn: Connection, run_id, result: ComplaintSourceResult, evidence, **kw):
+    return save_result(conn, run_id, result, evidence, **kw)
+
+
 def commit_checked(conn: Connection) -> None:
-    """Commit, scrubbing a failure of the deferred completeness check."""
+    """Commit, scrubbing a failure of the deferred completeness checks."""
     try:
         conn.commit()
     except DBAPIError as exc:
         raise _scrubbed(exc) from None
 
 
-def save_violations(
+def save_with_run(
     engine: Engine,
     resolution: ResolutionResult,
     raw_input: str,
-    result: SourceResult,
+    result: AnyResult,
     evidence: Iterable[RawEvidence],
     settings: Settings,
 ) -> tuple[uuid.UUID, SavedResult]:
-    """A run and its violations result in one transaction."""
+    """A run and one source result in one transaction."""
     key = require_digest_key(settings)
     with engine.connect() as conn:
         try:
             run_id = save_run(conn, resolution, raw_input, digest_key=key)
-            saved = save_violation_result(
+            saved = save_result(
                 conn,
                 run_id,
                 result,
@@ -415,6 +505,10 @@ def save_violations(
     return run_id, saved
 
 
+save_violations = save_with_run
+save_complaints = save_with_run
+
+
 # ---- loading ---------------------------------------------------------------------------
 
 
@@ -427,12 +521,14 @@ class EvidenceState:
 
 
 @dataclass(frozen=True)
-class StoredViolationResult:
+class StoredResult:
     fetch_id: uuid.UUID
     run_id: uuid.UUID
-    result: SourceResult
+    result: AnyResult
     evidence: dict[str, EvidenceState]  # original_digest -> state of its raw row
 
+
+StoredViolationResult = StoredResult
 
 _LOAD_FETCH = text(
     "SELECT run_id, result_type, result_payload FROM records.source_fetch WHERE id = :id"
@@ -447,6 +543,9 @@ _LOAD_PAGES = text(
 _LOAD_RECORDS = text(
     "SELECT payload FROM records.normalized_record WHERE fetch_id = :id ORDER BY ordinal"
 )
+_LOAD_GROUPS = text(
+    "SELECT payload FROM records.complaint_group WHERE fetch_id = :id ORDER BY ordinal"
+)
 _LOAD_EVIDENCE = text(
     """
     SELECT e.original_digest, e.basis, e.held, e.retain_until, e.expired_at
@@ -457,13 +556,13 @@ _LOAD_EVIDENCE = text(
 )
 
 
-def load_violation_result(conn: Connection, fetch_id: uuid.UUID) -> StoredViolationResult:
-    """Rebuild a saved violations result and validate it again. Read-only."""
+def _load(conn: Connection, fetch_id: uuid.UUID, kind: _Kind) -> StoredResult:
+    """Rebuild a saved result and validate it again. Read-only."""
     row = conn.execute(_LOAD_FETCH, {"id": fetch_id}).first()
     if row is None:
         raise StoredResultNotFoundError(str(fetch_id))
-    if row.result_type != RESULT_TYPE_VIOLATIONS:
-        raise StoredResultNotFoundError(f"{fetch_id} is not a violations result")
+    if row.result_type != kind.result_type:
+        raise StoredResultNotFoundError(f"{fetch_id} is not a {kind.result_type} result")
     payload = dict(row.result_payload)
     pages = [
         PageRecord(
@@ -480,7 +579,9 @@ def load_violation_result(conn: Connection, fetch_id: uuid.UUID) -> StoredViolat
     ]
     payload["provenance"] = {**payload["provenance"], "pages": pages}
     payload["records"] = list(conn.execute(_LOAD_RECORDS, {"id": fetch_id}).scalars())
-    result = SourceResult.model_validate(payload)
+    if kind is COMPLAINTS:
+        payload["complaints"] = list(conn.execute(_LOAD_GROUPS, {"id": fetch_id}).scalars())
+    result = kind.model.model_validate(payload)
     evidence = {
         e.original_digest: EvidenceState(
             basis=DigestBasis(e.basis),
@@ -494,22 +595,34 @@ def load_violation_result(conn: Connection, fetch_id: uuid.UUID) -> StoredViolat
         state = evidence.get(r.original_digest)
         if state is None or state.basis is not r.digest_basis:
             raise RecordWriteError("a record's raw row is missing or has another basis")
-    return StoredViolationResult(
-        fetch_id=fetch_id, run_id=row.run_id, result=result, evidence=evidence
-    )
+    return StoredResult(fetch_id=fetch_id, run_id=row.run_id, result=result, evidence=evidence)
+
+
+def load_violation_result(conn: Connection, fetch_id: uuid.UUID) -> StoredResult:
+    return _load(conn, fetch_id, VIOLATIONS)
+
+
+def load_complaint_result(conn: Connection, fetch_id: uuid.UUID) -> StoredResult:
+    return _load(conn, fetch_id, COMPLAINTS)
 
 
 __all__ = [
     "EvidenceState",
     "RecordWriteError",
     "SavedResult",
+    "StoredResult",
     "StoredResultNotFoundError",
     "StoredViolationResult",
     "commit_checked",
     "input_digest",
+    "load_complaint_result",
     "load_violation_result",
     "resolution_projection",
+    "save_complaint_result",
+    "save_complaints",
+    "save_result",
     "save_run",
     "save_violation_result",
     "save_violations",
+    "save_with_run",
 ]

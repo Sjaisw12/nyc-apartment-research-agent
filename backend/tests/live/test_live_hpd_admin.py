@@ -45,3 +45,23 @@ def test_test_building_has_one_current_record_and_freshness():
 def test_tax_lot_buildings_stay_lot_level():
     _, result = run("1217 West Farms Road, Bronx")
     assert {r.attribution for r in result.records} <= {Attribution.LOT_LEVEL}
+
+
+def test_registrations_schema_and_row_id_paging_is_complete():
+    from nyc_apartment_agent.records.hpd_registrations import (
+        DATASET_ID,
+        REQUIRED_FIELDS,
+        retrieve_hpd_registrations,
+    )
+
+    with socrata_client() as s:
+        resp = s.get_json(f"/resource/{DATASET_ID}.json", params={"$limit": 1})
+    fields = resp.headers["x-soda2-fields"]
+    for f in REQUIRED_FIELDS + ("bin", "lastregistrationdate", "registrationenddate"):
+        assert f'"{f}"' in fields
+    _, result = run("220 West 17th Street, Manhattan", fn=retrieve_hpd_registrations, page_size=3)
+    assert result.status is RetrievalStatus.RECORDS_FOUND
+    assert len({r.source_row_id for r in result.records}) == len(result.records) >= 8
+    assert result.summary.requested_building is not None
+    text = result.model_dump_json().lower()
+    assert "expired" not in text and "unregistered" not in text

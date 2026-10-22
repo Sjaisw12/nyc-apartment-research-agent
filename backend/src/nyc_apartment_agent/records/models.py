@@ -107,6 +107,9 @@ class QualityFlag(StrEnum):
     # HPD administrative records (Task 3)
     NON_CURRENT_RECORD = "non_current_record"  # lifecycle/record status not Building/Active
     MULTIPLE_RECORDS_FOR_BIN = "multiple_records_for_bin"  # >1 current HPD record, same BIN
+    MULTIPLE_REGISTRATION_ROWS = "multiple_registration_rows"  # >1 row for one building
+    SHARED_REGISTRATION = "shared_registration"  # one registration id, several buildings
+    BUILDING_RECORD_MISMATCH = "building_record_mismatch"  # BIN/lot differs from HPD record
     # Other
     UNKNOWN_CLASS = "unknown_class"
     # Complaints (Task 2)

@@ -196,3 +196,24 @@ def building_row(bid: int, **overrides) -> dict:
     }
     base.update(overrides)
     return {k: v for k, v in base.items() if v is not None}
+
+
+def registration_row(row_id: str, reg: int = 203625, bid: int = 122027, **overrides) -> dict:
+    """A synthetic registration row shaped like tesw-yqqr, with Socrata's :id."""
+    base = {
+        ":id": row_id,
+        "registrationid": str(reg),
+        "buildingid": str(bid),
+        "boroid": "2",
+        "boro": "BRONX",
+        "housenumber": "1",
+        "streetname": "TEST STREET",
+        "zip": "10460",
+        "block": "2754",
+        "lot": "5",
+        "bin": "2006185",
+        "lastregistrationdate": "2025-10-08T00:00:00.000",
+        "registrationenddate": "2026-09-01T00:00:00.000",
+    }
+    base.update(overrides)
+    return {k: v for k, v in base.items() if v is not None}

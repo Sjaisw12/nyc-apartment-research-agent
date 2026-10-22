@@ -16,6 +16,7 @@ from pydantic import BaseModel, Field, model_validator
 from .models import (
     Attribution,
     DataFreshness,
+    DateValue,
     DigestBasis,
     EvidenceKind,
     JoinScope,
@@ -132,4 +133,139 @@ class BuildingSourceResult(BaseModel):
                 RequestedBuildingStatus.NOT_APPLICABLE_TAX_LOT
             ):
                 raise ValueError("a lot-level result cannot name a requested building record")
+        return self
+
+
+# ---- Registrations (Task 3, step 2) --------------------------------------------------
+
+
+class RegistrationStatus(StrEnum):
+    """What the checked snapshot shows. Never "expired", "unregistered" or "non-compliant"
+    (approved decisions D10, D12): the data cannot establish legal status."""
+
+    ON_FILE_END_DATE_NOT_PASSED = "on_file_end_date_not_passed"
+    # End date passed, but after the dataset's last data update: a renewal made since
+    # then would not be in this snapshot.
+    ON_FILE_END_DATE_PASSED_AFTER_DATA_UPDATE = "on_file_end_date_passed_after_data_update"
+    # End date passed before the last data update, and no later row is on file.
+    ON_FILE_END_DATE_PASSED_BEFORE_DATA_UPDATE = "on_file_end_date_passed_before_data_update"
+    ON_FILE_END_DATE_PASSED_FRESHNESS_UNKNOWN = "on_file_end_date_passed_freshness_unknown"
+    ON_FILE_END_DATE_UNKNOWN = "on_file_end_date_unknown"
+    NONE_ON_FILE = "none_on_file"  # only: none found in the checked snapshot
+
+
+REGISTRATION_STATUS_NOTE = {
+    RegistrationStatus.ON_FILE_END_DATE_NOT_PASSED: (
+        "A registration is on file with an end date that has not passed."
+    ),
+    RegistrationStatus.ON_FILE_END_DATE_PASSED_AFTER_DATA_UPDATE: (
+        "The registration on file has an end date that has passed, but the dataset was last "
+        "updated before that date, so a renewal would not appear in it. Status unknown."
+    ),
+    RegistrationStatus.ON_FILE_END_DATE_PASSED_BEFORE_DATA_UPDATE: (
+        "The registration on file ended before the dataset's last update, and the snapshot "
+        "shows no later registration. This is not a finding of legal non-compliance."
+    ),
+    RegistrationStatus.ON_FILE_END_DATE_PASSED_FRESHNESS_UNKNOWN: (
+        "The registration on file has an end date that has passed; the dataset's update date "
+        "could not be checked, so whether a renewal would be visible is unknown."
+    ),
+    RegistrationStatus.ON_FILE_END_DATE_UNKNOWN: (
+        "A registration is on file but its end date is missing or unreadable."
+    ),
+    RegistrationStatus.NONE_ON_FILE: (
+        "No registration was found in the checked snapshot. This does not show that one was "
+        "required, or that any requirement was violated."
+    ),
+}
+
+
+class HpdRegistrationRecord(BaseModel):
+    dataset_id: str
+    evidence_kind: EvidenceKind = EvidenceKind.ADMINISTRATIVE_RECORD
+    source_row_id: str  # Socrata :id; the dataset has no unique business key
+    registration_id: str
+    building_id: str | None
+
+    source_boroid: str | None
+    source_block: str | None
+    source_lot: str | None
+    source_bin: str | None
+    resolved_bbl: str
+    lot_membership: LotMembership
+    attribution: Attribution
+
+    address: str | None  # display only, never a join key
+    last_registration_date: DateValue
+    registration_end_date: DateValue
+    buildings_on_lot_with_this_registration: int  # other lots are not checked
+
+    quality_flags: list[QualityFlag]
+    redaction: RedactionInfo
+    original_digest: str
+    digest_basis: DigestBasis
+    redacted_sha256: str
+    query_url: str
+    fetched_at: str
+    data_as_of: str | None
+
+
+class BuildingRegistration(BaseModel):
+    """The registration picture for one HPD building ID, from every row on file for it."""
+
+    building_id: str | None
+    attribution: Attribution
+    status: RegistrationStatus
+    note: str
+    registration_ids: list[str]
+    latest_registration_id: str | None
+    latest_last_registration_date: DateValue | None
+    latest_end_date: DateValue | None
+    rows_on_file: int
+    status_basis: dict  # dates the status was judged with
+
+
+class RegistrationSummary(BaseModel):
+    data_as_of: str | None
+    freshness: DataFreshness | None
+    join_scope: JoinScope | None
+    building_specific_claims_allowed: bool
+    total_rows: int
+    registration_ids: int
+    buildings: list[BuildingRegistration]
+    requested_building: BuildingRegistration | None  # None at tax-lot scope
+    quality_flag_counts: dict[str, int]
+
+
+class RegistrationSourceResult(BaseModel):
+    source: str
+    dataset_id: str
+    status: RetrievalStatus
+    status_detail: str
+    join_scope: JoinScope | None
+    resolved_bbl: str | None
+    resolved_bin: str | None
+    records: list[HpdRegistrationRecord] = Field(default_factory=list)
+    partial: bool = False
+    summary: RegistrationSummary | None = None
+    freshness: DataFreshness | None = None
+    provenance: RetrievalProvenance
+
+    @model_validator(mode="after")
+    def _enforce_invariants(self) -> RegistrationSourceResult:
+        building_only = {Attribution.THIS_BUILDING, Attribution.OTHER_BUILDING_ON_LOT}
+        bad = [r.source_row_id for r in self.records if r.attribution in building_only]
+        if self.summary is not None:
+            bad += [
+                f"building {b.building_id}"
+                for b in self.summary.buildings
+                if b.attribution in building_only
+            ]
+        check_source_invariants(self, bad)
+        if (
+            self.summary is not None
+            and self.join_scope is not JoinScope.BUILDING
+            and self.summary.requested_building is not None
+        ):
+            raise ValueError("a lot-level result cannot name a requested building")
         return self

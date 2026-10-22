@@ -44,6 +44,15 @@ BUILDING_ONLY_ATTRIBUTIONS = frozenset(
 )
 
 
+class AttributionBasis(StrEnum):
+    """Which identifiers decided a row's attribution (D9)."""
+
+    ROW_IDENTIFIERS = "row_identifiers"  # the row's own BBL / boro-block-lot / BIN
+    # The row's HPD BuildingID maps to exactly one current HPD building record on the
+    # same lot, with an assigned BIN. Only ever applied to rows that were unattributed.
+    HPD_BUILDING_ID = "hpd_building_id"
+
+
 class LotMembership(StrEnum):
     CONFIRMED = "confirmed"  # source BBL and/or boro-block-lot agree with the resolved lot
     CONFLICTING = "conflicting"  # source BBL and boro-block-lot point at different lots
@@ -233,6 +242,11 @@ class NormalizedViolation(BaseModel):
     resolved_bbl: str  # the lot the resolver gave us
     lot_membership: LotMembership
     attribution: Attribution
+    # D9: how the attribution was decided. original_attribution and mapped_bin are set
+    # only when the HPD BuildingID enhancement changed an unattributed row.
+    attribution_basis: AttributionBasis = AttributionBasis.ROW_IDENTIFIERS
+    original_attribution: Attribution | None = None
+    mapped_bin: str | None = None
 
     violation_class: str | None = Field(alias="class")
     is_informational: bool  # Class I: information / orders, kept separate from A/B/C
@@ -301,6 +315,44 @@ class ViolationSummary(BaseModel):
     location_scope_counts: dict[str, int]
 
 
+class BuildingIdAttributionReport(BaseModel):
+    """Before/after record of the optional HPD BuildingID attribution step (D9)."""
+
+    applied: bool
+    not_applied_reason: str | None = None
+    buildings_dataset_id: str | None = None
+    buildings_status: RetrievalStatus | None = None
+    buildings_data_as_of: str | None = None
+    before: dict[str, int] = Field(default_factory=dict)  # row bucket -> count
+    after: dict[str, int] = Field(default_factory=dict)
+    upgraded: dict[str, int] = Field(default_factory=dict)  # new bucket -> rows moved
+    upgraded_by_building_id: dict[str, dict] = Field(default_factory=dict)
+    kept_unattributed: dict[str, int] = Field(default_factory=dict)  # reason -> rows
+    # Rows whose own BIN gave the attribution but whose BuildingID maps to a different
+    # BIN. Reported only; the original attribution is never changed by this step.
+    bin_building_id_disagreements: int = 0
+    complaints_before: dict[str, int] | None = None  # complaints only (grouped level)
+    complaints_after: dict[str, int] | None = None
+    note: str = (
+        "BuildingID is a secondary key: used only for rows the row's own identifiers left "
+        "unattributed, on a confirmed lot, when it maps to exactly one current HPD building "
+        "record on that lot with an assigned BIN. Never applied at tax-lot scope."
+    )
+
+
+def check_basis_invariants(result, records) -> None:
+    for r in records:
+        if r.attribution_basis is AttributionBasis.HPD_BUILDING_ID:
+            if result.join_scope is not JoinScope.BUILDING:
+                raise ValueError("BuildingID attribution requires a building-level join")
+            if r.original_attribution is not Attribution.UNATTRIBUTED_ON_LOT:
+                raise ValueError("BuildingID attribution may only upgrade unattributed rows")
+            if r.lot_membership is not LotMembership.CONFIRMED or not r.mapped_bin:
+                raise ValueError("BuildingID attribution needs a confirmed lot and mapped BIN")
+        elif r.original_attribution is not None or r.mapped_bin is not None:
+            raise ValueError("original_attribution/mapped_bin set without a basis change")
+
+
 class SourceResult(BaseModel):
     source: str
     dataset_id: str
@@ -313,6 +365,7 @@ class SourceResult(BaseModel):
     partial: bool = False  # True when records are a known-incomplete subset
     summary: ViolationSummary | None = None
     provenance: RetrievalProvenance
+    building_id_attribution: BuildingIdAttributionReport | None = None
 
     @model_validator(mode="after")
     def _enforce_invariants(self) -> SourceResult:
@@ -320,6 +373,7 @@ class SourceResult(BaseModel):
             self,
             [r.violation_id for r in self.records if r.attribution in BUILDING_ONLY_ATTRIBUTIONS],
         )
+        check_basis_invariants(self, self.records)
         return self
 
 

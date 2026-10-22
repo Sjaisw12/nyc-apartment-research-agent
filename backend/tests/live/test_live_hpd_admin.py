@@ -86,3 +86,24 @@ def test_contacts_schema_and_privacy_on_live_data():
         assert not {"firstname", "lastname", "middleinitial"} & dumped.keys()
         if rec.names_a_person:
             assert rec.public_city is None and rec.public_zip is None
+
+
+def test_building_id_attribution_on_live_data_is_conservative():
+    import datetime as dt
+
+    from nyc_apartment_agent.records.building_id_attribution import apply_to_violations
+    from nyc_apartment_agent.records.hpd_violations import retrieve_hpd_violations
+    from nyc_apartment_agent.records.models import AttributionBasis
+
+    with geosearch_client() as g, socrata_client() as s:
+        res = resolve_address("220 West 17th Street, Manhattan", g, s)
+        b = retrieve_hpd_buildings(res, s)
+        v = retrieve_hpd_violations(res, s)
+    after = apply_to_violations(v, b, as_of=dt.date.today())
+    rep = after.building_id_attribution
+    assert rep.applied
+    for r in after.records:
+        if r.attribution_basis is AttributionBasis.HPD_BUILDING_ID:
+            assert r.original_attribution is Attribution.UNATTRIBUTED_ON_LOT and r.mapped_bin
+            if r.attribution is Attribution.THIS_BUILDING:
+                assert r.mapped_bin == res.building.bin

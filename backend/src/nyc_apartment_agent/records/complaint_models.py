@@ -19,6 +19,8 @@ from pydantic import BaseModel, Field, model_validator
 
 from .models import (
     Attribution,
+    AttributionBasis,
+    BuildingIdAttributionReport,
     DateValue,
     DigestBasis,
     EvidenceKind,
@@ -30,6 +32,7 @@ from .models import (
     RedactionInfo,
     RetrievalProvenance,
     RetrievalStatus,
+    check_basis_invariants,
     check_source_invariants,
 )
 
@@ -88,6 +91,9 @@ class NormalizedComplaintProblem(BaseModel):
     resolved_bbl: str
     lot_membership: LotMembership
     attribution: Attribution
+    attribution_basis: AttributionBasis = AttributionBasis.ROW_IDENTIFIERS  # see models.py
+    original_attribution: Attribution | None = None
+    mapped_bin: str | None = None
 
     type: str | None
     major_category: str | None
@@ -200,6 +206,7 @@ class ComplaintSourceResult(BaseModel):
     partial: bool = False
     summary: ComplaintSummary | None = None
     provenance: RetrievalProvenance
+    building_id_attribution: BuildingIdAttributionReport | None = None
 
     @model_validator(mode="after")
     def _enforce_invariants(self) -> ComplaintSourceResult:
@@ -212,6 +219,7 @@ class ComplaintSourceResult(BaseModel):
             in (ComplaintAttribution.THIS_BUILDING, ComplaintAttribution.OTHER_BUILDING_ON_LOT)
         ]
         check_source_invariants(self, bad)
+        check_basis_invariants(self, self.records)
         # A mixed complaint must really span more than one bucket.
         for c in self.complaints:
             if (c.attribution is ComplaintAttribution.MIXED) != (len(c.problem_attributions) > 1):

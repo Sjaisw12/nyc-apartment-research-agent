@@ -85,15 +85,21 @@ def fetch_all(
     row_cap: int,
     required_fields: tuple[str, ...] = (),
     max_restarts: int = 1,
+    select: str | None = None,
 ) -> PagedFetch:
-    """Fetch every row matching `where`, ordered by `order_by` (must be unique)."""
+    """Fetch every row matching `where`, ordered by `order_by` (must be unique).
+
+    For datasets without a unique business key, page by Socrata's row id: pass
+    `order_by=":id"`, `unique_key=":id"` and `select="*, :id"` so the id comes back in
+    each row and its uniqueness can be checked like any other key.
+    """
     if page_size < 1 or row_cap < 1:
         raise ValueError("page_size and row_cap must be positive")
     resource = f"/resource/{dataset_id}.json"
     restarts = 0
     while True:
         result = _fetch_once(
-            client, resource, dataset_id, where, order_by, unique_key, page_size, row_cap
+            client, resource, dataset_id, where, order_by, unique_key, page_size, row_cap, select
         )
         changed = "dataset_changed_during_retrieval" in result.provenance.incomplete_reasons
         if changed and restarts < max_restarts:
@@ -122,6 +128,7 @@ def _fetch_once(
     unique_key: str,
     page_size: int,
     row_cap: int,
+    select: str | None = None,
 ) -> PagedFetch:
     prov = RetrievalProvenance(
         dataset_id=dataset_id, where=where, order_by=order_by, page_size=page_size, row_cap=row_cap
@@ -143,10 +150,10 @@ def _fetch_once(
     while offset < target:
         limit = min(page_size, target - offset)
         try:
-            resp = client.get_json(
-                resource,
-                params={"$where": where, "$order": order_by, "$limit": limit, "$offset": offset},
-            )
+            params = {"$where": where, "$order": order_by, "$limit": limit, "$offset": offset}
+            if select:
+                params = {"$select": select, **params}
+            resp = client.get_json(resource, params=params)
             page = _rows(resp)
         except SourceError as exc:
             reasons.append(f"page_failed at offset {offset}: {type(exc).__name__}")

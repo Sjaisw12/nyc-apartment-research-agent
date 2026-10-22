@@ -71,6 +71,9 @@ class OrderCategory(StrEnum):
 class EvidenceKind(StrEnum):
     OFFICIAL_FINDING = "official_finding"  # e.g. an HPD violation issued after inspection
     REPORTED_ALLEGATION = "reported_allegation"  # e.g. a tenant complaint to HPD
+    # e.g. an HPD building or registration record: what HPD has on file, not a finding
+    # about conditions, and not independent proof of title or actual management.
+    ADMINISTRATIVE_RECORD = "administrative_record"
 
 
 class DigestBasis(StrEnum):
@@ -101,6 +104,9 @@ class QualityFlag(StrEnum):
     # Duplicates
     DUPLICATE_ID_SAME_CONTENT = "duplicate_id_same_content"  # identical copies collapsed
     DUPLICATE_ID_DIFFERENT_CONTENT = "duplicate_id_different_content"  # kept, flagged
+    # HPD administrative records (Task 3)
+    NON_CURRENT_RECORD = "non_current_record"  # lifecycle/record status not Building/Active
+    MULTIPLE_RECORDS_FOR_BIN = "multiple_records_for_bin"  # >1 current HPD record, same BIN
     # Other
     UNKNOWN_CLASS = "unknown_class"
     # Complaints (Task 2)
@@ -144,6 +150,27 @@ class RetrievalProvenance(BaseModel):
     data_as_of: str | None = None  # X-SODA2-Truth-Last-Modified, same on every page
     incomplete_reasons: list[str] = Field(default_factory=list)
     warnings: list[str] = Field(default_factory=list)
+    error: str | None = None
+
+
+class DataFreshness(BaseModel):
+    """How current a Socrata dataset is, from its catalog entry (/api/views/<id>.json).
+
+    Two timestamps that must not be confused:
+    - data_updated_at (`rowsUpdatedAt`): when the rows last changed. This is what decides
+      whether a record could reflect recent events (e.g. a registration renewal).
+    - metadata_updated_at (`viewLastModified`): when the catalog page changed (description,
+      columns, tags). It can be recent while the data is months old.
+    """
+
+    dataset_id: str
+    data_updated_at: str | None = None
+    metadata_updated_at: str | None = None
+    stated_update_frequency: str | None = None
+    checked_on: str | None = None  # date the staleness was judged against
+    days_since_data_update: int | None = None
+    stale_threshold_days: int | None = None  # from the stated frequency, plus a margin
+    stale: bool | None = None  # None = could not be judged
     error: str | None = None
 
 

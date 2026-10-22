@@ -97,6 +97,13 @@ class FakeSocrata:
         self.fail_at: dict[int, int] = {}  # call number -> HTTP status
         self.truth_at: dict[int, str | None] = {}  # call number -> header value from then on
         self.short_at: set[int] = set()  # calls that return one row fewer
+        # Catalog entry for /api/views/<id>.json. Synthetic: data updated 2026-08-12,
+        # metadata edited 2026-10-02, stated frequency Monthly.
+        self.views_meta = {
+            "rowsUpdatedAt": 1786546678,
+            "viewLastModified": 1790969120,
+            "metadata": {"custom_fields": {"Update": {"Update Frequency": "Monthly"}}},
+        }
 
     def handler(self, request: httpx.Request) -> httpx.Response:
         n = len(self.calls)
@@ -107,6 +114,8 @@ class FakeSocrata:
         if n in self.fail_at:
             return httpx.Response(self.fail_at[n], text="synthetic failure")
         headers = {"x-soda2-truth-last-modified": self.truth} if self.truth else {}
+        if request.url.path.startswith("/api/views/"):  # catalog entry (freshness)
+            return httpx.Response(200, json=self.views_meta)
         params = request.url.params
         if "count(" in params.get("$select", ""):
             return httpx.Response(200, json=[{"n": str(len(self.rows))}], headers=headers)
@@ -160,3 +169,30 @@ def complaint_row(pid: int, cid: int = 100, **overrides) -> dict:
     }
     base.update(overrides)
     return {k: v for k, v in base.items() if v is not None}  # Socrata omits nulls
+
+
+def building_row(bid: int, **overrides) -> dict:
+    """A synthetic HPD building record shaped like kj4p-ruqc (fields from X-SODA2-Fields)."""
+    base = {
+        "buildingid": str(bid),
+        "boroid": "2",
+        "boro": "BRONX",
+        "housenumber": "1",
+        "streetname": "TEST STREET",
+        "zip": "10460",
+        "block": "2754",
+        "lot": "5",
+        "bin": "2006185",
+        "managementprogram": "PVT",
+        "dobbuildingclassid": "2",
+        "dobbuildingclass": "NEW LAW TENEMENT",
+        "legalstories": "6",
+        "legalclassa": "44",
+        "legalclassb": "0",
+        "registrationid": "203625",
+        "lifecycle": "Building",
+        "recordstatusid": "1",
+        "recordstatus": "Active",
+    }
+    base.update(overrides)
+    return {k: v for k, v in base.items() if v is not None}

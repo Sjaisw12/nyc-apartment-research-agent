@@ -122,3 +122,30 @@ def test_duplicate_ids_across_pages_block_completeness():
     rows = ROWS[:10] + [row(5)] + ROWS[11:]
     f = run(FakeSocrata(rows))
     assert "duplicate_violationid_across_pages" in f.provenance.incomplete_reasons
+
+
+def test_select_is_sent_on_pages_for_row_id_paging():
+    """Datasets without a unique business key page by Socrata's :id (Task 3)."""
+    from nyc_apartment_agent.sources.socrata_pager import fetch_all
+    from tests.hpd_helpers import FakeSocrata
+
+    rows = [{":id": f"row-{i}", "v": "x"} for i in range(5)]
+    fake = FakeSocrata(rows)
+    with fake.client() as c:
+        f = fetch_all(
+            c,
+            "d",
+            where="1=1",
+            order_by=":id",
+            unique_key=":id",
+            page_size=2,
+            row_cap=100,
+            select="*, :id",
+        )
+    assert f.complete and len(f.rows) == 5
+    pages = [r for r in fake.calls if "$offset" in r.url.params]
+    assert all(
+        r.url.params["$select"] == "*, :id" and r.url.params["$order"] == ":id" for r in pages
+    )
+    count = fake.calls[0].url.params["$select"]
+    assert "count(" in count  # the count call keeps its own select

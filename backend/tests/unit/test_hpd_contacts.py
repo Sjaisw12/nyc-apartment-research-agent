@@ -6,7 +6,11 @@ import logging
 import pytest
 from pydantic import ValidationError
 
-from nyc_apartment_agent.records.admin_models import ContactRole, ContactSourceResult
+from nyc_apartment_agent.records.admin_models import (
+    ContactAssociation,
+    ContactRole,
+    ContactSourceResult,
+)
 from nyc_apartment_agent.records.evidence import InMemoryEvidenceStore, verifies_original_row
 from nyc_apartment_agent.records.hpd_contacts import retrieve_hpd_contacts
 from nyc_apartment_agent.records.hpd_registrations import retrieve_hpd_registrations
@@ -40,9 +44,22 @@ def registrations(rows, res=None, fake=None):
         )
 
 
-def contacts(rows, regs=None, res=None, fake=None, **kw):
+def coverage_rows(regs, extra=()):
+    """Registration rows as the coverage lookup sees them: by default exactly the lot's."""
+    rows = [
+        {"registrationid": r.registration_id, "buildingid": r.building_id, ":id": f"cov-{i}"}
+        for i, r in enumerate(regs.records)
+    ]
+    return rows + [
+        {"registrationid": str(reg), "buildingid": str(bid), ":id": f"cov-x{i}"}
+        for i, (reg, bid) in enumerate(extra)
+    ]
+
+
+def contacts(rows, regs=None, res=None, fake=None, coverage=None, **kw):
     regs = regs if regs is not None else registrations([registration_row("r-1")], res=res)
     fake = fake or FakeSocrata(rows)
+    fake.datasets.setdefault("tesw-yqqr", coverage if coverage is not None else coverage_rows(regs))
     kw.setdefault("digest_key", KEY)
     kw.setdefault("page_size", 10)
     with fake.client() as c:
@@ -250,7 +267,7 @@ def test_shared_registration_contacts_apply_to_every_covered_building():
     )
     result, _ = contacts([contact_row("c-01")], regs=regs)
     (summary,) = result.summary.by_registration
-    assert summary.building_ids == ["1", "2"]
+    assert summary.building_ids_on_lot == ["1", "2"]
     assert summary.attribution is Attribution.THIS_BUILDING
     assert result.summary.requested_building == [summary]
 
@@ -283,3 +300,116 @@ def test_identical_copies_collapse_and_reused_contact_ids_are_counted():
     result, _ = contacts(rows)
     assert len(result.records) == 2
     assert result.summary.duplicate_contact_ids == 1
+
+
+# ---- correction 3: every source row stays traceable ---------------------------------
+
+
+def test_identical_rows_under_distinct_ids_keep_every_source_row():
+    store = InMemoryEvidenceStore()
+    same = {"registrationcontactid": "20362501"}  # identical business fields
+    rows = [
+        contact_row("c-01", **same),
+        contact_row("c-02", **same),
+        contact_row("c-03", type_="Agent"),
+    ]
+    result, _ = contacts(rows, evidence=store)
+    assert result.status is RetrievalStatus.RECORDS_FOUND
+    first, agent = result.records
+    assert [r.source_row_id for r in first.source_rows] == ["c-01", "c-02"]
+    assert [r.source_row_id for r in agent.source_rows] == ["c-03"]
+    digests = [r.original_digest for r in first.source_rows]
+    assert len(set(digests)) == 2 and all(store.get(d) for d in digests)
+    s = result.summary
+    assert (s.source_rows, s.total_contacts, s.identical_rows_collapsed) == (3, 2, 1)
+    assert result.provenance.source_count == 3  # the source count is rows, not records
+    assert "3 source rows" in result.status_detail and "2 normalized" in result.status_detail
+
+
+def test_model_rejects_contacts_that_silently_drop_a_source_row():
+    same = {"registrationcontactid": "20362501"}
+    result, _ = contacts([contact_row("c-01", **same), contact_row("c-02", **same)])
+    assert len(result.records) == 1
+    data = result.model_dump()
+    data["records"][0]["source_rows"] = data["records"][0]["source_rows"][:1]
+    with pytest.raises(ValidationError, match="source count"):
+        ContactSourceResult.model_validate(data)
+
+
+# ---- correction 1: incomplete upstream registrations --------------------------------
+
+
+def test_registration_paging_failing_before_any_row_is_not_an_absence_of_contacts():
+    fake = FakeSocrata([registration_row(f"r-{i:02d}", reg=i, bid=i) for i in range(1, 4)])
+    fake.fail_at = {1: 500, 2: 500}  # the count works, the first page never arrives
+    regs = registrations([], fake=fake)
+    assert regs.status is RetrievalStatus.INCOMPLETE_PAGINATION and regs.records == []
+    result, cfake = contacts([contact_row("c-01")], regs=regs)
+    assert result.status is RetrievalStatus.INCOMPLETE_PAGINATION
+    assert result.status is not RetrievalStatus.NO_RECORDS_FOUND and result.partial
+    assert result.records == [] and result.summary is None and cfake.calls == []
+    assert result.provenance.source_count is None  # no count claimed
+    assert "not evidence that none exist" in result.status_detail
+
+
+# ---- correction 2: shared registrations ----------------------------------------------
+
+
+def _shared_on_lot():
+    return registrations(
+        [registration_row("r-1", bid=1), registration_row("r-2", bid=2, bin="2006186")]
+    )
+
+
+def test_registration_shared_with_another_building_on_the_lot():
+    result, _ = contacts(
+        [contact_row("c-01"), contact_row("c-02", type_="Agent")], regs=_shared_on_lot()
+    )
+    (reg,) = result.summary.by_registration
+    assert reg.association is ContactAssociation.SHARED_INCLUDING_REQUESTED_BUILDING
+    assert reg.shared_registration is True
+    assert reg.building_ids_on_lot == reg.covered_building_ids == ["1", "2"]
+    assert "not specifically for the requested building" in reg.association_note
+    for r in result.records:
+        assert r.association is ContactAssociation.SHARED_INCLUDING_REQUESTED_BUILDING
+        assert r.registration_shared is True
+    assert result.summary.requested_building == [reg]
+
+
+def test_registration_shared_with_a_building_on_another_lot():
+    regs = registrations([registration_row("r-1", bid=1)])
+    cov = coverage_rows(regs, extra=[(203625, 999001)])
+    result, _ = contacts([contact_row("c-01")], regs=regs, coverage=cov)
+    (reg,) = result.summary.by_registration
+    assert reg.building_ids_on_lot == ["1"]
+    assert reg.covered_building_ids == ["1", "999001"] and reg.covered_buildings_off_lot == 1
+    assert reg.association is ContactAssociation.SHARED_INCLUDING_REQUESTED_BUILDING
+    assert result.summary.coverage_status == "complete"
+
+
+def test_unshared_registration_is_requested_building_only_after_the_check():
+    result, fake = contacts([contact_row("c-01")])
+    (reg,) = result.summary.by_registration
+    assert reg.association is ContactAssociation.REQUESTED_BUILDING_ONLY
+    assert reg.shared_registration is False and reg.covered_building_ids == ["122027"]
+    assert any("/tesw-yqqr" in r.url.path for r in fake.calls)  # coverage was checked
+
+
+def test_coverage_failure_leaves_sharing_unknown_but_keeps_contacts():
+    regs = registrations([registration_row("r-1", bid=1)])
+    fake = FakeSocrata([contact_row("c-01")])
+    fake.fail_at = {2: 503, 3: 503}  # contacts batch ok (calls 0-1); coverage count fails
+    result, _ = contacts([], regs=regs, fake=fake)
+    assert result.status is RetrievalStatus.RECORDS_FOUND and len(result.records) == 1
+    (reg,) = result.summary.by_registration
+    assert reg.association is ContactAssociation.REQUESTED_BUILDING_SHARING_UNKNOWN
+    assert reg.shared_registration is None and reg.covered_building_ids is None
+    assert result.summary.coverage_status == "unavailable"
+
+
+def test_model_rejects_requested_building_only_without_complete_coverage():
+    result, _ = contacts([contact_row("c-01")], regs=_shared_on_lot())
+    data = result.model_dump()
+    data["summary"]["by_registration"][0]["association"] = "requested_building_only"
+    with pytest.raises(ValidationError, match="complete coverage"):
+        ContactSourceResult.model_validate(data)

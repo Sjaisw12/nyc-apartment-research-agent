@@ -9,6 +9,7 @@ from nyc_apartment_agent.records.admin_models import (
     RegistrationSourceResult,
     RegistrationStatus,
 )
+from nyc_apartment_agent.records.evidence import InMemoryEvidenceStore
 from nyc_apartment_agent.records.hpd_buildings import retrieve_hpd_buildings
 from nyc_apartment_agent.records.hpd_registrations import (
     registration_status,
@@ -81,9 +82,26 @@ def test_missing_row_id_makes_the_fetch_incomplete():
 
 
 def test_same_business_key_same_content_different_row_id_collapses_and_is_flagged():
+    store = InMemoryEvidenceStore()
+    result, _ = retrieve([row("row-1"), row("row-2"), row("row-3", reg=2, bid=2)], evidence=store)
+    assert len(result.records) == 2
+    first = result.records[0]
+    assert QualityFlag.DUPLICATE_ID_SAME_CONTENT in first.quality_flags
+    # Both source rows stay traceable, each with its own digest and evidence entry.
+    assert [ref.source_row_id for ref in first.source_rows] == ["row-1", "row-2"]
+    assert all(store.get(ref.original_digest) for ref in first.source_rows)
+    s = result.summary
+    assert (s.source_rows, s.total_rows, s.identical_rows_collapsed) == (3, 2, 1)
+    assert result.provenance.source_count == 3
+    assert "3 source rows match the source count; 2 normalized" in result.status_detail
+
+
+def test_model_rejects_a_record_set_that_drops_a_source_row():
     result, _ = retrieve([row("row-1"), row("row-2")])
-    assert len(result.records) == 1
-    assert QualityFlag.DUPLICATE_ID_SAME_CONTENT in result.records[0].quality_flags
+    data = result.model_dump()
+    data["records"][0]["source_rows"] = data["records"][0]["source_rows"][:1]
+    with pytest.raises(ValidationError, match="source count"):
+        RegistrationSourceResult.model_validate(data)
 
 
 def test_same_business_key_different_content_is_kept_as_history():

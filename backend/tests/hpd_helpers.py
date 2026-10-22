@@ -91,8 +91,9 @@ class FakeSocrata:
     Hooks let a test inject failures or a dataset refresh at a given call number.
     """
 
-    def __init__(self, rows, truth=TRUTH):
+    def __init__(self, rows, truth=TRUTH, datasets=None):
         self.rows = rows
+        self.datasets: dict[str, list[dict]] = datasets or {}  # dataset id -> its own rows
         self.truth = truth
         self.calls: list[httpx.Request] = []
         self.fail_at: dict[int, int] = {}  # call number -> HTTP status
@@ -118,7 +119,8 @@ class FakeSocrata:
         if request.url.path.startswith("/api/views/"):  # catalog entry (freshness)
             return httpx.Response(200, json=self.views_meta)
         params = request.url.params
-        rows = self._filtered(params.get("$where", ""))
+        dataset = request.url.path.rsplit("/", 1)[-1].removesuffix(".json")
+        rows = self._filtered(params.get("$where", ""), self.datasets.get(dataset, self.rows))
         if "count(" in params.get("$select", ""):
             return httpx.Response(200, json=[{"n": str(len(rows))}], headers=headers)
         offset, limit = int(params["$offset"]), int(params["$limit"])
@@ -127,13 +129,14 @@ class FakeSocrata:
             page = page[:-1]
         return httpx.Response(200, content=json.dumps(page), headers=headers)
 
-    def _filtered(self, where: str) -> list[dict]:
-        """Honour `registrationid in (...)` (contacts batches); other filters are ignored."""
+    @staticmethod
+    def _filtered(where: str, rows: list[dict]) -> list[dict]:
+        """Honour `registrationid in (...)` (ID batches); other filters are ignored."""
         m = re.search(r"registrationid in \(([0-9,]+)\)", where)
         if not m:
-            return self.rows
+            return rows
         wanted = set(m.group(1).split(","))
-        return [r for r in self.rows if str(r.get("registrationid")) in wanted]
+        return [r for r in rows if str(r.get("registrationid")) in wanted]
 
     def client(self):
         settings = Settings(_env_file=None, http_max_attempts=2)

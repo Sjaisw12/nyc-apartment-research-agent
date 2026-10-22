@@ -14,7 +14,7 @@ import pytest
 
 from nyc_apartment_agent.cassette import ReplayTransport, load_cassette
 from nyc_apartment_agent.config import Settings
-from nyc_apartment_agent.records.admin_models import ROLE_NOTE
+from nyc_apartment_agent.records.admin_models import ROLE_NOTE, ContactAssociation
 from nyc_apartment_agent.records.hpd_buildings import retrieve_hpd_buildings
 from nyc_apartment_agent.records.hpd_contacts import retrieve_hpd_contacts
 from nyc_apartment_agent.records.hpd_registrations import retrieve_hpd_registrations
@@ -62,13 +62,17 @@ def test_test_building_contacts_are_corporate_names_and_roles(entries):
     assert all(r.evidence_kind is EvidenceKind.ADMINISTRATIVE_RECORD for r in c.records)
     assert all(r.role_note == ROLE_NOTE for r in c.records)
     (reg,) = c.summary.by_registration
-    assert (reg.registration_id, reg.attribution, reg.building_ids) == (
+    assert (reg.registration_id, reg.attribution, reg.building_ids_on_lot) == (
         "203625",
         Attribution.THIS_BUILDING,
         ["122027"],
     )
     assert reg.corporate_names_by_role["corporate_owner"] == ["BRONX 1134 WEST FARMS ROAD L.P."]
     assert reg.persons_named_withheld == 3
+    # Checked across every HPD registration row with this ID: it covers only this building.
+    assert reg.covered_building_ids == ["122027"]
+    assert reg.association is ContactAssociation.REQUESTED_BUILDING_ONLY
+    assert (c.summary.source_rows, c.summary.total_contacts) == (5, 5)
     # HPD's own description of the registration, reported as that and nothing more.
     assert {r.registration_description for r in c.records} == {"RECEIVERSHIP"}
     assert [x.registration_id for x in c.summary.requested_building] == ["203625"]
@@ -84,6 +88,9 @@ def test_eight_registrations_fetched_in_two_batches(entries):
     assert set(attr.values()) == {Attribution.OTHER_BUILDING_ON_LOT} and len(attr) == 7
     assert [x.registration_id for x in c.summary.requested_building] == ["123116"]
     assert c.summary.duplicate_contact_ids == 0
+    # None of the eight registrations covers more than one building (checked citywide).
+    assert {x.shared_registration for x in c.summary.by_registration} == {False}
+    assert c.summary.coverage_status == "complete"
     assert_private(c)
 
 
@@ -93,7 +100,8 @@ def test_tax_lot_contacts_stay_lot_level(entries):
     assert c.summary.requested_building is None
     assert not c.summary.building_specific_claims_allowed
     (reg,) = c.summary.by_registration
-    assert reg.building_ids == ["972462"]  # 1017 HOME STREET: listed by HPD, not the user's
+    assert reg.building_ids_on_lot == ["972462"]  # 1017 HOME STREET: HPD's, not the user's
+    assert reg.association is ContactAssociation.LOT_LEVEL
     assert_private(c)
 
 

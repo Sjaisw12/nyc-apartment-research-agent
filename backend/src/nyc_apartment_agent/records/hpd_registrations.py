@@ -36,6 +36,7 @@ from .admin_models import (
     RegistrationSourceResult,
     RegistrationStatus,
     RegistrationSummary,
+    SourceRowRef,
 )
 from .attribution import attribute, bin_flags
 from .evidence import EvidenceStore
@@ -108,6 +109,9 @@ def normalize_row(
     return HpdRegistrationRecord(
         dataset_id=DATASET_ID,
         source_row_id=str(row.get(":id")),
+        source_rows=[
+            SourceRowRef(source_row_id=str(row.get(":id")), original_digest=original_digest)
+        ],
         registration_id=str(row.get("registrationid")),
         building_id=_s(row.get("buildingid")),
         source_boroid=_s(row.get("boroid")),
@@ -160,22 +164,23 @@ def normalize_fetch(
         content = {k: v for k, v in row.items() if k != ":id"}
         sha = canonical_sha256(content)
         copies = seen.setdefault(key, {})
-        if sha in copies:  # same business key, same content, different row id
-            _flag(out[copies[sha]], QualityFlag.DUPLICATE_ID_SAME_CONTENT)
+        record = normalize_row(  # every source row reaches the evidence store
+            row,
+            plan,
+            query_url=page.url if page else "",
+            fetched_at=page.fetched_at if page else "",
+            data_as_of=fetch.provenance.data_as_of,
+            as_of=as_of,
+            digest_key=digest_key,
+            evidence=evidence,
+        )
+        if sha in copies:  # same business fields, different :id: collapse, keep the row ref
+            kept = out[copies[sha]]
+            _flag(kept, QualityFlag.DUPLICATE_ID_SAME_CONTENT)
+            kept.source_rows.extend(record.source_rows)
             continue
         copies[sha] = len(out)
-        out.append(
-            normalize_row(
-                row,
-                plan,
-                query_url=page.url if page else "",
-                fetched_at=page.fetched_at if page else "",
-                data_as_of=fetch.provenance.data_as_of,
-                as_of=as_of,
-                digest_key=digest_key,
-                evidence=evidence,
-            )
-        )
+        out.append(record)
 
     # Several rows for one building: history (e.g. renewals) or a contradiction.
     by_building: dict[str | None, list[HpdRegistrationRecord]] = defaultdict(list)
@@ -331,6 +336,8 @@ def summarize(
         join_scope=scope,
         building_specific_claims_allowed=scope is JoinScope.BUILDING,
         total_rows=len(records),
+        source_rows=sum(len(r.source_rows) for r in records),
+        identical_rows_collapsed=sum(len(r.source_rows) - 1 for r in records),
         registration_ids=len({r.registration_id for r in records}),
         buildings=per_building,
         requested_building=requested,
@@ -409,7 +416,11 @@ def retrieve_hpd_registrations(
         detail = "the source reports 0 registration rows for this lot (in this snapshot)"
     else:
         status = RetrievalStatus.RECORDS_FOUND
-        detail = f"{len(records)} registration rows; matches the source count"
+        n_rows = sum(len(r.source_rows) for r in records)
+        detail = (
+            f"{n_rows} source rows match the source count; {len(records)} normalized records"
+            f" ({n_rows - len(records)} identical copies collapsed, each row still listed)"
+        )
     summary = summarize(records, plan.scope, prov, freshness, as_of, buildings)
     if status is RetrievalStatus.INCOMPLETE_PAGINATION and summary.requested_building:
         # A partial fetch cannot support "none on file" or a latest-row status.

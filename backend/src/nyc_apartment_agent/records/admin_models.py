@@ -29,6 +29,28 @@ from .models import (
 )
 
 
+class SourceRowRef(BaseModel):
+    """One original source row behind a normalized record (Socrata :id + keyed digest).
+    When identical copies under different :ids are collapsed, every copy stays listed."""
+
+    source_row_id: str
+    original_digest: str
+
+
+def check_source_rows(result, records) -> None:
+    """Every fetched source row is accounted for by exactly one normalized record."""
+    refs = [ref.source_row_id for r in records for ref in r.source_rows]
+    for r in records:
+        if not r.source_rows or r.source_rows[0].source_row_id != r.source_row_id:
+            raise ValueError("source_rows must start with the record's own source row")
+    # A complete fetch: unique row ids (the pager marks repeats incomplete), all listed.
+    if result.status is RetrievalStatus.RECORDS_FOUND:
+        if len(refs) != len(set(refs)):
+            raise ValueError("a source row is listed under more than one record")
+        if len(refs) != result.provenance.source_count:
+            raise ValueError("source rows listed do not match the source count")
+
+
 class HpdBuildingRecord(BaseModel):
     dataset_id: str
     evidence_kind: EvidenceKind = EvidenceKind.ADMINISTRATIVE_RECORD
@@ -184,6 +206,9 @@ class HpdRegistrationRecord(BaseModel):
     dataset_id: str
     evidence_kind: EvidenceKind = EvidenceKind.ADMINISTRATIVE_RECORD
     source_row_id: str  # Socrata :id; the dataset has no unique business key
+    # Every source row this record stands for: itself first, then identical copies
+    # (same business fields, different :id) that were collapsed into it.
+    source_rows: list[SourceRowRef]
     registration_id: str
     building_id: str | None
 
@@ -230,7 +255,9 @@ class RegistrationSummary(BaseModel):
     freshness: DataFreshness | None
     join_scope: JoinScope | None
     building_specific_claims_allowed: bool
-    total_rows: int
+    total_rows: int  # normalized records (after collapsing identical copies)
+    source_rows: int  # rows the source returned; equals the source count when complete
+    identical_rows_collapsed: int  # source_rows - total_rows
     registration_ids: int
     buildings: list[BuildingRegistration]
     requested_building: BuildingRegistration | None  # None at tax-lot scope
@@ -262,6 +289,7 @@ class RegistrationSourceResult(BaseModel):
                 if b.attribution in building_only
             ]
         check_source_invariants(self, bad)
+        check_source_rows(self, self.records)
         if (
             self.summary is not None
             and self.join_scope is not JoinScope.BUILDING
@@ -291,6 +319,39 @@ class ContactRole(StrEnum):
     OTHER = "other"
 
 
+class ContactAssociation(StrEnum):
+    """Which buildings a contact's registration covers. Contacts belong to a registration,
+    so they are associated with every building it covers, never one exclusively."""
+
+    REQUESTED_BUILDING_ONLY = "requested_building_only"  # coverage checked: only this one
+    SHARED_INCLUDING_REQUESTED_BUILDING = "shared_including_requested_building"
+    REQUESTED_BUILDING_SHARING_UNKNOWN = "requested_building_sharing_unknown"  # unchecked
+    OTHER_BUILDINGS_ONLY = "other_buildings_only"
+    LOT_LEVEL = "lot_level"  # tax-lot scope
+    UNATTRIBUTED = "unattributed"
+
+
+ASSOCIATION_NOTE = {
+    ContactAssociation.REQUESTED_BUILDING_ONLY: (
+        "The registration covers only the requested building (checked across all HPD "
+        "registration rows for this registration ID)."
+    ),
+    ContactAssociation.SHARED_INCLUDING_REQUESTED_BUILDING: (
+        "The registration covers the requested building and other buildings. Its contacts "
+        "are registered for all of them, not specifically for the requested building."
+    ),
+    ContactAssociation.REQUESTED_BUILDING_SHARING_UNKNOWN: (
+        "The registration covers the requested building; whether it also covers buildings "
+        "on other lots could not be checked."
+    ),
+    ContactAssociation.OTHER_BUILDINGS_ONLY: (
+        "The registration covers other buildings on this lot, not the requested building."
+    ),
+    ContactAssociation.LOT_LEVEL: "About the tax lot, not any one building.",
+    ContactAssociation.UNATTRIBUTED: "The registration could not be tied to a building.",
+}
+
+
 ROLE_NOTE = (
     "Registered with HPD under this role. A registration is the owner's filing with HPD; "
     "it is not independent proof of legal title or of who actually manages the building."
@@ -301,8 +362,11 @@ class HpdRegistrationContact(BaseModel):
     dataset_id: str
     evidence_kind: EvidenceKind = EvidenceKind.ADMINISTRATIVE_RECORD
     source_row_id: str  # Socrata :id; registrationcontactid is not unique citywide
+    source_rows: list[SourceRowRef]  # itself first, then collapsed identical copies
     registration_contact_id: str | None
     registration_id: str
+    association: ContactAssociation  # via the registration's covered buildings
+    registration_shared: bool | None  # None: off-lot coverage could not be checked
     role: ContactRole
     role_raw: str | None
     role_note: str = ROLE_NOTE
@@ -325,8 +389,15 @@ class HpdRegistrationContact(BaseModel):
 
 class RegistrationContacts(BaseModel):
     registration_id: str
-    attribution: Attribution
-    building_ids: list[str]  # buildings on this lot covered by the registration
+    attribution: Attribution  # THIS_BUILDING: covers the requested building (maybe others)
+    association: ContactAssociation
+    association_note: str
+    shared_registration: bool | None  # None: only one building known, coverage unchecked
+    building_ids_on_lot: list[str]  # HPD building IDs on this lot with this registration
+    # Every HPD building ID with this registration ID in the registrations dataset,
+    # citywide. None when that coverage lookup did not complete.
+    covered_building_ids: list[str] | None
+    covered_buildings_off_lot: int | None
     contacts: int
     roles: dict[str, int]
     corporate_names_by_role: dict[str, list[str]]
@@ -340,7 +411,10 @@ class ContactSummary(BaseModel):
     building_specific_claims_allowed: bool
     registrations_requested: int
     registrations_checked: int  # batches completed for these ids
-    total_contacts: int
+    total_contacts: int  # normalized records (after collapsing identical copies)
+    source_rows: int  # rows the source returned
+    identical_rows_collapsed: int
+    coverage_status: str  # complete / incomplete / unavailable / not_needed
     by_registration: list[RegistrationContacts]
     requested_building: list[RegistrationContacts] | None  # None at tax-lot scope
     withheld_field_counts: dict[str, int]
@@ -362,12 +436,26 @@ class ContactSourceResult(BaseModel):
     freshness: DataFreshness | None = None
     provenance: RetrievalProvenance  # aggregate over batches
     batch_provenance: list[RetrievalProvenance] = Field(default_factory=list)
+    coverage_provenance: list[RetrievalProvenance] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def _enforce_invariants(self) -> ContactSourceResult:
         building_only = {Attribution.THIS_BUILDING, Attribution.OTHER_BUILDING_ON_LOT}
         bad = [r.source_row_id for r in self.records if r.attribution in building_only]
         check_source_invariants(self, bad)
+        check_source_rows(self, self.records)
+        if self.summary is not None:
+            for c in self.summary.by_registration:
+                only = ContactAssociation.REQUESTED_BUILDING_ONLY
+                if c.association is only and (
+                    c.covered_building_ids is None or len(c.covered_building_ids) != 1
+                ):
+                    raise ValueError("'requested building only' needs complete coverage")
+                shared = ContactAssociation.SHARED_INCLUDING_REQUESTED_BUILDING
+                if (c.association is shared) != (
+                    c.attribution is Attribution.THIS_BUILDING and c.shared_registration is True
+                ):
+                    raise ValueError("shared association inconsistent with coverage")
         if self.join_scope is not JoinScope.BUILDING and self.summary is not None:
             if self.summary.requested_building is not None:
                 raise ValueError("a lot-level result cannot name a requested building")

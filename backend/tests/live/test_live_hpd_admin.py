@@ -107,3 +107,14 @@ def test_building_id_attribution_on_live_data_is_conservative():
             assert r.original_attribution is Attribution.UNATTRIBUTED_ON_LOT and r.mapped_bin
             if r.attribution is Attribution.THIS_BUILDING:
                 assert r.mapped_bin == res.building.bin
+
+
+def test_a_known_shared_registration_covers_buildings_on_several_lots():
+    # Measured 2026-10-22: registration 10391 covers 87 HPD buildings across lots.
+    from nyc_apartment_agent.records.hpd_contacts import fetch_coverage
+
+    with socrata_client() as s:
+        covered, status, _ = fetch_coverage(
+            s, ["10391"], batch_size=50, page_size=1000, row_cap=5000
+        )
+    assert status == "complete" and len(covered["10391"]) > 1

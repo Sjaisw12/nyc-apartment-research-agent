@@ -42,7 +42,7 @@ def test_upgrade_creates_owned_schemas_and_roles(migrated_database):
     )
     assert dict(rows) == dict.fromkeys(ROLES, False)  # group roles only, no logins
     (version,) = q(migrated_database, "select version_num from alembic_version")[0]
-    assert version == "0005"
+    assert version == "0006"
 
 
 def test_up_down_up(fresh_database):

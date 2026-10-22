@@ -295,9 +295,48 @@ _INSERT_LINK = text(
     """
     INSERT INTO records.record_source_row (
         record_id, fetch_id, position, source_record_id, source_row_id, original_digest
-    ) VALUES (:record_id, :fetch_id, 0, :source_record_id, NULL, :original_digest)
+    ) VALUES (
+        :record_id, :fetch_id, :position, :source_record_id, :source_row_id, :original_digest
+    )
     """
 )
+
+
+def _links(fetch_id, record_id, record: AnyRecord, source_record_id: str) -> list[dict]:
+    """One link per source row the record stands for.
+
+    Registrations and contacts list every source row in `source_rows` (itself first, then
+    identical copies collapsed into it), each with its own Socrata :id and raw row. Every
+    other record stands for exactly one source row: its own.
+    """
+    refs = getattr(record, "source_rows", None)
+    if refs is None:
+        return [
+            {
+                "record_id": record_id,
+                "fetch_id": fetch_id,
+                "position": 0,
+                "source_record_id": source_record_id,
+                "source_row_id": None,
+                "original_digest": record.original_digest,
+            }
+        ]
+    return [
+        {
+            "record_id": record_id,
+            "fetch_id": fetch_id,
+            "position": i,
+            "source_record_id": ref.source_row_id,
+            "source_row_id": ref.source_row_id,
+            "original_digest": ref.original_digest,
+        }
+        for i, ref in enumerate(refs)
+    ]
+
+
+def source_row_links(result: AnyResult) -> int:
+    """Stored links: source rows behind the records, not the number of records."""
+    return sum(len(getattr(r, "source_rows", None) or [r]) for r in result.records)
 
 
 def _fetch_params(fetch_id, run_id, key, content, result: AnyResult) -> dict:
@@ -322,7 +361,7 @@ def _fetch_params(fetch_id, run_id, key, content, result: AnyResult) -> dict:
         "source_count": prov.source_count,
         "rows_fetched": prov.rows_fetched,
         "record_count": len(result.records),
-        "source_row_count": len(result.records),  # one source row per record
+        "source_row_count": source_row_links(result),
         "page_count": len(prov.pages),
         "group_count": len(groups),
         "incomplete_reasons": list(prov.incomplete_reasons),
@@ -396,7 +435,11 @@ def save_result(
     result = kind.model.model_validate(result.model_dump(by_alias=True))
     content = content_sha256(result)
     key = idempotency_key(run_id, kind.result_type, content)
-    cited = {r.original_digest for r in result.records}
+    cited = {
+        link["original_digest"]
+        for r in result.records
+        for link in _links(None, None, r, kind.source_record_id(r))
+    }
     items = [i for i in evidence if i.original_digest in cited]  # only what records cite
     try:
         existing = conn.execute(_FIND_FETCH, {"k": key}).scalar()
@@ -439,13 +482,9 @@ def save_result(
     )
     records = [_record_params(fetch_id, i, r) for i, r in enumerate(result.records)]
     links = [
-        {
-            "record_id": rec["id"],
-            "fetch_id": fetch_id,
-            "source_record_id": rec["source_record_id"],
-            "original_digest": rec["original_digest"],
-        }
-        for rec in records
+        link
+        for rec, r in zip(records, result.records, strict=True)
+        for link in _links(fetch_id, rec["id"], r, rec["source_record_id"])
     ]
     try:
         conn.execute(_INSERT_FETCH, _fetch_params(fetch_id, run_id, key, content, result))

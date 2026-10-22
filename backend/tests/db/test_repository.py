@@ -584,7 +584,9 @@ def test_source_row_link_needs_a_stored_raw_row(open_fetch):
     link = {
         "record_id": rec["id"],
         "fetch_id": fid,
+        "position": 0,
         "source_record_id": "1",
+        "source_row_id": None,
         "original_digest": "f" * 64,
     }
     _rejects(conn, _INSERT_LINK, link, "record_source_row_original_digest_fkey")
@@ -611,11 +613,108 @@ def test_raw_row_basis_must_match_the_record_at_commit(open_fetch):
         {
             "record_id": rp["id"],
             "fetch_id": p["id"],
+            "position": 0,
             "source_record_id": rec.violation_id,
+            "source_row_id": None,
             "original_digest": rec.original_digest,
         },
     )
     with pytest.raises(DBAPIError, match="raw row basis differs from the record"):
+        conn.commit()
+    conn.rollback()
+
+
+def _one_record_fetch(conn, run_id, result, n_links):
+    """A records_found fetch of one violation record, expecting n_links links."""
+    one = result.model_copy(update={"records": result.records[:1]})
+    p = _fetch(
+        run_id,
+        one,
+        record_count=1,
+        source_row_count=n_links,
+        source_count=n_links,
+        rows_fetched=n_links,
+        page_count=0,
+    )
+    conn.execute(_INSERT_FETCH, p)
+    rp = _record_params(p["id"], 0, result.records[0])
+    conn.execute(_INSERT_RECORD, rp)
+    return p["id"], rp
+
+
+def _link(fid, rp, position, digest, source_row_id=None, source_record_id=None):
+    return {
+        "record_id": rp["id"],
+        "fetch_id": fid,
+        "position": position,
+        "source_record_id": source_record_id or rp["source_record_id"],
+        "source_row_id": source_row_id,
+        "original_digest": digest,
+    }
+
+
+def test_fetch_digest_uniqueness_moved_to_commit(db):
+    """0006 dropped UNIQUE (fetch_id, original_digest): an incomplete fetch may list one
+    repeated source row twice. A complete fetch still may not."""
+    with db["owner"].connect() as conn:
+        names = set(
+            conn.execute(
+                text(
+                    "select conname from pg_constraint "
+                    "where conrelid = 'records.record_source_row'::regclass"
+                )
+            ).scalars()
+        )
+    assert "record_source_row_fetch_id_original_digest_key" not in names
+
+
+def test_single_row_record_needs_exactly_one_plain_link(open_fetch):
+    conn, run_id, result = open_fetch
+    fid, rp = _one_record_fetch(conn, run_id, result, 2)
+    other = result.records[1].original_digest
+    conn.execute(_INSERT_LINK, [_link(fid, rp, 0, rp["original_digest"]), _link(fid, rp, 1, other)])
+    with pytest.raises(DBAPIError, match="single-row record must have exactly one plain link"):
+        conn.commit()
+    conn.rollback()
+
+
+def test_single_row_record_link_cannot_carry_a_source_row_id(open_fetch):
+    conn, run_id, result = open_fetch
+    fid, rp = _one_record_fetch(conn, run_id, result, 1)
+    conn.execute(_INSERT_LINK, _link(fid, rp, 0, rp["original_digest"], source_row_id="row-1"))
+    with pytest.raises(DBAPIError, match="exactly one plain link"):
+        conn.commit()
+    conn.rollback()
+
+
+def test_link_source_id_must_be_the_records_own(open_fetch):
+    conn, run_id, result = open_fetch
+    fid, rp = _one_record_fetch(conn, run_id, result, 1)
+    conn.execute(_INSERT_LINK, _link(fid, rp, 0, rp["original_digest"], source_record_id="999999"))
+    with pytest.raises(DBAPIError, match="link's source id differs from its row"):
+        conn.commit()
+    conn.rollback()
+
+
+def test_records_found_cannot_link_one_raw_row_twice(open_fetch):
+    conn, run_id, result = open_fetch
+    two = result.model_copy(update={"records": result.records[:2]})
+    p = _fetch(
+        run_id,
+        two,
+        record_count=2,
+        source_row_count=2,
+        source_count=2,
+        rows_fetched=2,
+        page_count=0,
+    )
+    conn.execute(_INSERT_FETCH, p)
+    recs = [_record_params(p["id"], i, r) for i, r in enumerate(result.records[:2])]
+    recs[1]["original_digest"] = recs[0]["original_digest"]
+    recs[1]["payload"] = {**recs[1]["payload"], "original_digest": recs[0]["original_digest"]}
+    conn.execute(_INSERT_RECORD, recs)
+    conn.execute(_INSERT_LINK, [_link(p["id"], rp, 0, recs[0]["original_digest"]) for rp in recs])
+    with pytest.raises(DBAPIError, match="source row is linked more than once"):
         conn.commit()
     conn.rollback()
 

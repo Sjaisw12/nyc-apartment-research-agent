@@ -1216,6 +1216,78 @@ Where the built adapter differs from, or adds to, earlier sections:
 - **Not in step 2:** storage (needs migration 0011, step 5), the retired-BIN note from
   ECB rows (step 3), freshness from catalog metadata, ECB and 311.
 
+### 18.8 Step 3 as built (DOB ECB violations, 2026-10-23, after 07:00Z)
+
+Where the built adapter differs from, or adds to, earlier sections. Section 18 still
+takes precedence over sections 1 to 17.
+
+- **Query.** The step-1 recording's form, reproduced exactly: for each lot in the lot
+  family, in BBL order, `(boro='B' AND block='BBBBB' AND lot in ('LLLL', '0LLLL'))`,
+  joined by OR; at building scope ` OR bin='R'` (resolved BIN only); `$order=
+  isn_dob_bis_extract`, no `$select`. This replaces the 8.2 sketch. The block is always
+  the 5-digit form, as measured (one 4-digit block in 1.84 million rows). At tax-lot scope
+  there is no BIN clause, and the result model refuses one.
+- **Lot family.** Building scope reuses the DOB complaint BIN evidence (Footprints by
+  lot, HPD buildings, Footprints by BIN for BINs Footprints does not place). Tax-lot scope
+  uses Footprints by lot only (no HPD, no lookup by BIN). Only a failed or incomplete
+  Footprints lot lookup makes the ECB result `incomplete_pagination`
+  (`lot_family_incomplete`), because only it can shrink the query. Other evidence gaps
+  are warnings: the rows they touch fail closed.
+- **Attribution (building scope).** From the row's own identifiers, basis
+  `row_identifiers`:
+
+  | Row lot | Row BIN | Attribution | Lot membership | Flags |
+  |---|---|---|---|---|
+  | in family | R | `this_building` | `confirmed` | `condo_lot_family` if not the resolved lot |
+  | in family | Footprints or HPD place it on the lot | `other_building_on_lot` | `confirmed` | `bin_single_source` if one source |
+  | in family | in no current source (Footprints by BIN: no row) | `unattributed_on_lot` | `confirmed` | `bin_retired_or_unknown` |
+  | in family | Footprints by BIN: another lot only | `unattributed_on_lot` | `conflicting` | `bin_on_other_lot` |
+  | in family | two-source conflict (in `bin_lot_conflicts`), including R | `unattributed_on_lot` | `conflicting` | `bin_lot_conflict` |
+  | in family | missing, placeholder, invalid | `unattributed_on_lot` | `confirmed` | `bin_missing` / `bin_placeholder` / `bin_invalid` |
+  | in family | Footprints by-BIN lookup failed | `unattributed_on_lot` | `confirmed` | `bin_not_on_current_lot` |
+  | outside family | any | `unattributed_on_lot` | `conflicting` | `lot_identifier_conflict` |
+  | missing or malformed | R (no conflict) | `this_building` | `via_bin_mapping` | `lot_parts_missing` |
+  | missing or malformed | anything else | `unattributed_on_lot` | `conflicting` | `lot_parts_missing` |
+
+  Tax-lot scope: every family-lot row is `lot_level`; a BIN not on the Footprints lot list
+  is flagged `bin_not_on_current_lot` and never looked up or promoted.
+- **BINs seen only on ECB rows** are listed in `row_bins_not_on_lot` with their
+  classification and rows. They are never added to the DOB complaint BIN search.
+- **Duplicates.** One query, so a row matching both clauses arrives once; `matched_by`
+  says which clauses it satisfies. Identical copies of an extract id collapse with every
+  copy in lineage (`row_index`); differing copies, and a summons number repeated under two
+  extract ids, are all kept, flagged `duplicate_id_different_content`, and lose building
+  attribution. A repeated extract id also makes the fetch incomplete (the paging key).
+- **Statuses.** `correction_status` from `ecb_violation_status` (documented),
+  `adjudication` from `hearing_status` (the approved mapping, with `upheld_by_default`
+  for DEFAULT), `certification_status` as recorded. Raw values are kept. Each record
+  carries an `adjudication_note`; DEFAULT, POP/IN-VIO and WRITTEN OFF say their meaning
+  is not documented. ACTIVE with dismissed, and RESOLVE with pending, are flagged
+  `status_fields_disagree`. Every result carries a statement that a summons is a charge,
+  not a finding.
+- **Severity.** CLASS - 1, 2, 3 are kept and flagged `severity_undocumented_value`.
+- **Money.** Decimal, plain numbers only (`-?digits(.dd)?`); anything else is `None`
+  with `amount_unparseable`. Negative balances are kept as recorded. The financial
+  summary is for `this_building` records only, and is absent at tax-lot scope or when
+  the resolved BIN conflicts. Unparseable rows are counted and excluded from totals.
+- **Privacy.** Never public: `respondent_*`, `violation_description`, `hearing_time`.
+  Picklists (correction status, hearing, certification, severity, violation type,
+  aggravated level) are shown only if on the measured list, else
+  `[UNCOMMON VALUE WITHHELD]` with `uncommon_value_withheld`. Infraction codes are shown
+  only if on the measured code list; a section/law text only for an allowlisted pair
+  (`docs/task5/ecb_reference_measurements.json`: 1,011 pairs, every code with one text;
+  898 allowlisted; 108 with a missing code or text; 5 withheld on the privacy pattern,
+  all "FLOOR NUMBERING SIGNS", fail closed). Section 18.2 reported 980 pairs from an
+  earlier scan; this measurement, over all ten columns, finds 1,011. Summons and DOB violation numbers must match their formats, else they are
+  withheld (`identifier_withheld`). Malformed dates do not show their raw text. Raw rows
+  go only to the evidence store, with keyed digests and the existing 180-day retention.
+- **New values.** `EvidenceKind.enforcement_action`; flags `bin_retired_or_unknown`,
+  `bin_on_other_lot`, `condo_lot_family`, `severity_undocumented_value`,
+  `uncommon_value_withheld`, `amount_unparseable`, `identifier_withheld` (additions only).
+- **Restarts.** The pager may restart twice on a changed truth header (18.4).
+- **Not in step 3:** storage (migration 0011, step 5), freshness from catalog metadata,
+  the OATH cross-check (validation part D), 311.
+
 ## Appendix: live queries (2026-10-23, about 03:55 to 04:15 UTC)
 
 All against `https://data.cityofnewyork.us/resource/<id>.json`, metadata from

@@ -32,6 +32,7 @@ from tests.db.test_evidence import (
     KEY,
     NOW,
     SENTINEL,
+    age_raw_rows,
     denied,
     expire,
     insert_params,
@@ -49,10 +50,15 @@ RESTORE_SQL = (
 )
 
 
+EXPIRED_AT = NOW - dt.timedelta(days=15)
+
+
 def expired_item_1(db):
-    """Store item 1 with a one-day retention, then expire it (leaves a tombstone)."""
+    """Item 1 fetched 20 days ago with a one-day retention and expired 15 days ago: a
+    tombstone. A copy fetched after EXPIRED_AT may restore it."""
     write(db["writer"], [item(1)], retention_days=1)
-    assert expire(db, NOW + dt.timedelta(days=2)) == 1
+    age_raw_rows(db, 20)
+    assert expire(db, EXPIRED_AT) == 1
     return item(1)
 
 
@@ -163,11 +169,17 @@ def test_restore_with_old_source_timestamp_is_refused(db):
     old = it.model_copy(update={"fetched_at": (NOW - dt.timedelta(days=200)).isoformat()})
     with pytest.raises(EvidenceRetentionError, match="past its 180-day retention date"):
         write(db["writer"], [old], retention_days=180)
-    # The database enforces the same rule on a direct call.
+    # The database enforces the same rule on a direct call: a copy fetched before the
+    # expiry (migration 0010) ...
     stale = restore_params(it, it.original_row, fetched=NOW - dt.timedelta(days=200))
-    with pytest.raises(DBAPIError, match="already past its retention date"):
+    with pytest.raises(DBAPIError, match="must be fetched after it expired"):
         with db["evidence_restorer"].begin() as conn:
             conn.execute(text(RESTORE_SQL), stale)
+    # ... and a retention date already in the past (migration 0003).
+    past = restore_params(it, it.original_row, retain_until=NOW - dt.timedelta(minutes=1))
+    with pytest.raises(DBAPIError, match="already past its retention date"):
+        with db["evidence_restorer"].begin() as conn:
+            conn.execute(text(RESTORE_SQL), past)
     assert row_state(db, it.original_digest)["expired_at"] is not None
 
 
@@ -183,7 +195,9 @@ def test_restore_records_the_restoring_fetch_and_a_full_window(db):
     assert state["retain_until"] == fetched + dt.timedelta(days=180)
     assert state["expired_at"] is None and state["restore_count"] == 1
     assert expire(db, NOW) == 0  # not due
-    assert expire(db, fetched + dt.timedelta(days=180)) == 1  # due exactly at the window end
+    age_raw_rows(db, 180)  # 180 days on, the restored copy's window ends at `fetched`
+    assert expire(db, fetched - dt.timedelta(seconds=1)) == 0
+    assert expire(db, fetched) == 1  # due exactly at the window end
 
 
 def test_retention_longer_than_180_days_is_refused(db):

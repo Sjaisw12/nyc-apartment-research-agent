@@ -48,6 +48,7 @@ from nyc_apartment_agent.storage.repository import (
     save_violation_result,
     save_violations,
 )
+from tests.db.test_evidence import age_raw_rows
 from tests.hpd_helpers import FakeSocrata, resolution, row
 
 pytestmark = pytest.mark.db
@@ -854,7 +855,8 @@ def test_input_digest_is_keyed_and_normalized(db):
 def test_expired_evidence_still_loads_and_is_reported_as_not_held(db):
     result, buffer = retrieve(sentinel_rows())
     _, saved = save(db["writer"], result, buffer)
-    later = dt.datetime.now(dt.UTC) + dt.timedelta(days=181)
+    age_raw_rows(db, 181)
+    later = dt.datetime.now(dt.UTC)
     with db["evidence_retention"].begin() as conn:
         assert expire_due(conn, later) == 5
     stored = load(db["app_reader"], saved.fetch_id)

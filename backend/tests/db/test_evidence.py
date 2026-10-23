@@ -356,11 +356,30 @@ def expire(db, now):
         return expire_due(conn, now)
 
 
+def age_raw_rows(db, days: float) -> None:
+    """Move every raw row `days` into the past, as if it had been fetched (and expired or
+    restored) that much earlier. Test-only time travel: the database refuses expiry
+    before the database clock says a row is due (migration 0010), so a test cannot simply
+    pass a future clock. The superuser test connection disables triggers for this one
+    statement; the CHECK constraints still apply."""
+    with db["owner"].begin() as conn:
+        conn.execute(text("SET LOCAL session_replication_role = replica"))
+        conn.execute(
+            text(
+                "update evidence.raw_row set fetched_at = fetched_at - :d, "
+                "retain_until = retain_until - :d, first_seen_at = first_seen_at - :d, "
+                "expired_at = expired_at - :d, restored_at = restored_at - :d"
+            ),
+            {"d": dt.timedelta(days=days)},
+        )
+
+
 def test_expiry_leaves_a_tombstone_and_keeps_lineage(db):
     write(db["ingest_writer"], [item(1)], retention_days=1)
     write(db["ingest_writer"], [item(2)], retention_days=180)
     assert expire(db, NOW) == 0  # nothing is due yet
-    later = NOW + dt.timedelta(days=2)
+    age_raw_rows(db, 2)  # two days later, item 1 (one-day retention) is due
+    later = NOW
     assert expire(db, later) == 1
     o = db["owner"]
     d1, d2 = item(1).original_digest, item(2).original_digest
@@ -393,7 +412,9 @@ def test_expiry_leaves_a_tombstone_and_keeps_lineage(db):
 
 def test_reinserting_an_expired_row_restores_it_through_the_narrow_function(db):
     write(db["ingest_writer"], [item(1)], retention_days=1)
-    expire(db, NOW + dt.timedelta(days=2))
+    age_raw_rows(db, 2)
+    assert expire(db, NOW - dt.timedelta(days=1)) == 1
+    # item(1) was fetched an hour ago, after the expiry: newly fetched evidence.
     report = write(db["writer"], [item(1)], retention_days=180)
     assert (report.inserted, report.already_held, report.restored) == (0, 0, 1)
     reader = PostgresEvidenceReader(db["evidence_admin"], KEY)
@@ -415,7 +436,8 @@ def test_reinserting_an_expired_row_restores_it_through_the_narrow_function(db):
 
 def test_restore_refuses_mismatched_metadata_and_held_rows(db):
     write(db["ingest_writer"], [item(1)], retention_days=1)
-    expire(db, NOW + dt.timedelta(days=2))
+    age_raw_rows(db, 2)
+    assert expire(db, NOW - dt.timedelta(days=1)) == 1
     # Same row and digest, but the metadata disagrees with the tombstone: refused, and
     # the whole write is rolled back rather than the new original being ignored.
     mismatched = item(1).model_copy(update={"source_record_id": "999"})

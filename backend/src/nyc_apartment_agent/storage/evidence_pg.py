@@ -11,11 +11,15 @@ delete them. It learns what already exists only from the public availability vie
                        one needs SELECT on that column, which the writer does not have;
                        the primary key is the table's only unique constraint)
     held digest     -> nothing to do (content-addressed: same digest, same row)
-    expired digest  -> evidence.restore_expired_raw_row(...), which restores the
+    expired digest  -> if the copy was fetched AFTER the row expired:
+                       evidence.restore_expired_raw_row(...), which restores the
                        original only if the tombstone's dataset, source id, basis and
-                       redacted hash all match, and raises otherwise. A newly supplied
-                       original is never silently dropped. Needs a login that also
-                       holds evidence_restorer (migration 0003).
+                       redacted hash all match, and raises otherwise. Needs a login that
+                       also holds evidence_restorer (migration 0003).
+                       If the copy was fetched at or before the expiry time, it is a
+                       repeat sighting from while the row was still held: nothing is
+                       written and it is counted as `not_restored` (migration 0010
+                       refuses such a restore; repeat sightings never extend retention).
 
 Every item is checked first: its keyed digest and plain hash must match its row under
 the configured key. Writes refuse to run without a configured EVIDENCE_DIGEST_KEY,
@@ -91,6 +95,8 @@ class EvidenceWriteReport:
     inserted: int  # absent before this write (a concurrent identical insert counts too)
     already_held: int
     restored: int  # expired tombstones given their original back
+    # Expired digests whose copy was fetched before they expired: left as tombstones.
+    not_restored: int = 0
 
 
 def require_digest_key(settings: Settings | None = None) -> bytes:
@@ -137,7 +143,7 @@ _RESTORE = text(
 ).bindparams(bindparam("original_row", type_=JSONB))
 
 _AVAILABILITY = text(
-    "SELECT original_digest, held FROM records.evidence_availability "
+    "SELECT original_digest, held, expired_at FROM records.evidence_availability "
     "WHERE original_digest = ANY(:digests)"
 ).bindparams(bindparam("digests", type_=ARRAY(Text)))
 
@@ -187,17 +193,30 @@ def write_raw_rows(
         return EvidenceWriteReport(0, 0, 0)
     digests = [i.original_digest for i in batch]
     try:
-        state = dict(conn.execute(_AVAILABILITY, {"digests": digests}).all())
+        rows = conn.execute(_AVAILABILITY, {"digests": digests}).all()
+        state = {r.original_digest: r for r in rows}
         absent = [i for i in batch if i.original_digest not in state]
-        expired = [i for i in batch if state.get(i.original_digest) is False]
+        expired = [
+            i for i in batch if i.original_digest in state and not state[i.original_digest].held
+        ]
+        restorable = [
+            i
+            for i in expired
+            if params[i.original_digest]["fetched_at"] > state[i.original_digest].expired_at
+        ]
         if absent:
             conn.execute(_INSERT, [params[i.original_digest] for i in absent])
-        for item in expired:
+        for item in restorable:
             conn.execute(_RESTORE, params[item.original_digest])
     except DBAPIError as exc:
         raise _scrubbed(exc) from None
-    held = sum(1 for i in batch if state.get(i.original_digest) is True)
-    return EvidenceWriteReport(inserted=len(absent), already_held=held, restored=len(expired))
+    held = sum(1 for i in batch if i.original_digest in state and state[i.original_digest].held)
+    return EvidenceWriteReport(
+        inserted=len(absent),
+        already_held=held,
+        restored=len(restorable),
+        not_restored=len(expired) - len(restorable),
+    )
 
 
 def save_evidence(

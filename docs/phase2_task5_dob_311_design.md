@@ -1288,6 +1288,85 @@ takes precedence over sections 1 to 17.
 - **Not in step 3:** storage (migration 0011, step 5), freshness from catalog metadata,
   the OATH cross-check (validation part D), 311.
 
+### 18.9 Step 4 as built (311 Service Requests, 2026-10-23, after 07:55Z)
+
+Where the built adapter differs from, or adds to, earlier sections. Section 18 still
+takes precedence over sections 1 to 17.
+
+- **Query (replaces the 8.2 sketch).** `bbl in (<lot family, sorted>) AND created_date >=
+  '2020-01-01T00:00:00' AND agency not in ('HPD', 'DOB')`, `$order=unique_key`, no
+  `$select` (so no `:id`). This is the step-1 recording's form, reproduced exactly. Every
+  lot value is checked as a 10-digit BBL before it is quoted. The result model refuses a
+  `$where` naming `unique_key`, `:id` or `bin`.
+- **Lot family.** The resolved BBL plus the `base_bbl` and `mappluto_bbl` that Footprints
+  gives for the lot, from the Footprints lot lookup only, at both scopes. There is no
+  HPD lookup and no lookup by BIN (311 has no BIN). A failed or incomplete lookup makes
+  the result `incomplete_pagination` (`lot_family_incomplete`).
+- **Attribution.** Building scope: every row `unattributed_on_lot`. Tax-lot scope: a row
+  whose BBL is in the family is `lot_level`. A row with no BBL (`bbl_missing`), a
+  malformed BBL (`bbl_invalid`) or a BBL outside the family (`lot_identifier_conflict`)
+  is `unattributed_on_lot` with `lot_membership = conflicting` at both scopes. A row on a
+  family lot other than the resolved lot is flagged `condo_lot_family`. Nothing else
+  (address, location type, a one-building lot) changes the attribution, and the models
+  refuse `this_building` and `other_building_on_lot`.
+- **Snapshots (D27).** The pager restarts up to twice when the count and data headers
+  differ, when rows and count disagree (`short_page`, `row_count_mismatch`,
+  `page_too_long`) or when a key repeats. Each attempt is kept (`attempts`: count header,
+  page headers, count, rows, reasons, accepted). Rows from different attempts are never
+  combined. If the last attempt still has a header or count reason, the result is
+  `incomplete_pagination` with `source_snapshot_unstable`; a repeated key keeps its own
+  reason `duplicate_unique_key_across_pages`. `data_versions_seen` lists every header;
+  `accepted_data_version` is set only for a complete fetch. Row cap and failed pages are
+  not retried. A failed retry keeps the previous attempt, marked `retry_failed`.
+- **Excluded counts (D19).** A separate `$select=agency, count(*) AS n ... AND agency in
+  ('HPD', 'DOB')&$group=agency` query. Established only when it succeeded, the main fetch
+  is complete, and its header equals the accepted data version; otherwise
+  `not_established_reason` says which (`count query failed`, `main fetch incomplete`,
+  `count response has no data version header`, `data version differs`). An agency
+  missing from the grouped answer is 0 only when established. The numbers are never
+  records and never enter the summary totals.
+- **NULL agency (new decision, for review).** NULL-agency rows cannot match `agency not
+  in (...)`. A second count, `... AND agency IS NULL`, runs on each lookup. Established
+  and above 0: the result is `incomplete_pagination` (`null_agency_rows_not_retrieved:
+  n`). Not established: a warning, and the status is unchanged, because none was found
+  citywide since 2026-09-01 (step 1). The recordings have no answer for this query, so
+  in replay it fails and is shown as not established.
+- **Token and evidence.** `request_ref` = `source_record_id` = evidence `source_record_id`
+  = the `k311_` token (18.1); `source_row_id` is always null. A row with a missing or
+  malformed `unique_key` (not 1 to 12 digits) gets no token, no record and no evidence;
+  it is counted in `rows_rejected` and the result is incomplete. Identical copies of one
+  key collapse (`collapsed_copies`, `duplicate_id_same_content`); differing copies are all
+  kept with the same token and `duplicate_id_different_content`.
+- **Public fields (D21).** `agency` (allowlisted agency codes), `complaint_type`,
+  `descriptor`, `descriptor_2`, `location_type` (allowlists), `resolution_description`
+  (allowlisted template, then the unit and floor redactor), `status` (measured or mapped
+  values only), the three dates (date part only), and the BBL. Every other source field
+  is withheld and named in `withheld_fields`. A value off its list, or matching the unit,
+  floor, phone, email or honorific pattern even if listed, becomes `[UNCOMMON VALUE
+  WITHHELD]` with `uncommon_value_withheld`.
+- **Allowlists.** `records/data/sr311_reference.json` (SHA-256
+  `6b2a6055...d532`), built by `backend/scripts/task5_build_311_reference.py` from
+  `docs/task5/sr311_dictionary_values.json` (the dictionary tab, extracted by
+  `backend/scripts/task5_extract_311_dictionary.py`; workbook SHA-256 `6cc30e13...94fc`)
+  and the step-1 vocabularies (window: created since 2026-09-01, agency not HPD or DOB,
+  at least 20 rows). A test rebuilds it byte for byte and pins both hashes. It is a
+  snapshot, not exhaustive. Its step-1 vocabulary queries came back on two data versions
+  (`complaint_type` and `resolution_description` on Thu 22 Oct 01:37:36; the other three
+  on Fri 23 Oct 01:38:29), so its counts differ slightly from the 18.2 table.
+- **Statuses and dates.** Approved mapping (4.2); `Unspecified` is shown and mapped to
+  `unknown`; an unmeasured value is withheld and `unknown`; `unknown` always carries
+  `status_unknown`. `status_fields_disagree` for closed without `closed_date` and open with
+  one. Status, `closed_date` and `agency_updated_date` stay separate. Malformed dates show
+  no raw text (`unparseable_date`); before 1900 or after the fetch date
+  `implausible_date`; closed or updated before created `date_order`.
+- **Summary.** By attribution: totals by agency, complaint type, status, and
+  agency/type/status; 12- and 36-month windows only when the fetch is complete (else
+  null); counts of status disagreements and withheld values; `building_specific_claims_allowed`
+  is always false; a statement that a request is a report, not a finding, and that closed
+  is not repaired.
+- **Not in step 4:** storage (migration 0011, step 5), freshness from catalog metadata,
+  validation part E.
+
 ## Appendix: live queries (2026-10-23, about 03:55 to 04:15 UTC)
 
 All against `https://data.cityofnewyork.us/resource/<id>.json`, metadata from

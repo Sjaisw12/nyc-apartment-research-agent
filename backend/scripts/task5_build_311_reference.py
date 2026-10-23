@@ -17,6 +17,11 @@ the frequency rule applies, and the adapter still runs the unit and floor redact
 The lists are a snapshot. They are not exhaustive and not permanently authoritative: a
 value outside them is withheld and flagged, never passed through.
 
+Step 5 (decision A) adds values from the reviewed 2020-to-present measurement,
+docs/task5/sr311_history_review.json: only values a reviewer admitted verbatim. The
+step-4 lists are rebuilt first (`base()`), so the review can always be checked against
+them, and the admitted values are added on top. Frequency alone admits nothing.
+
 Status mapping (design 4.2, step-1 report 3.3): open for Open, In Progress, Assigned,
 Pending, Started; closed for Closed; canceled for Canceled; unknown otherwise. A closed
 status is never read as "resolved" or "repaired".
@@ -65,7 +70,8 @@ def _query(step1: dict, label: str) -> dict:
     return {"where": q["params"]["$where"], "truth_header": q["truth_last_modified"], "at": q["at"]}
 
 
-def build() -> dict:
+def base() -> dict:
+    """The step-4 reference (step-1 window plus dictionary), before any history admission."""
     dictionary = json.loads((DOCS / "sr311_dictionary_values.json").read_text(encoding="utf-8"))
     step1 = json.loads((DOCS / "step1_measurements.json").read_text(encoding="utf-8"))
     res = step1["results"]
@@ -119,6 +125,38 @@ def build() -> dict:
         "status_values_measured": sorted(res["sr311_status"]),
         "status_note": STATUS_NOTE,
     }
+
+
+def build() -> dict:
+    """The step-4 reference plus the values admitted by the step-5 history review."""
+    ref = base()
+    review = json.loads((DOCS / "sr311_history_review.json").read_text(encoding="utf-8"))
+    for field in (*FIELDS, "resolution_description"):
+        admitted = review["fields"][field]["admitted"]
+        bad = sorted(v for v in admitted if _private(v) or v in ref["allowlists"][field])
+        assert not bad, (field, len(bad))
+        ref["allowlists"][field] = sorted(set(ref["allowlists"][field]) | set(admitted))
+        stats = ref["field_stats"][field]
+        stats["history_admitted"] = len(admitted)
+        stats["allowlisted"] = len(ref["allowlists"][field])
+    admitted = review["fields"]["agency"]["admitted"]
+    assert not set(admitted) & ({"HPD", "DOB"} | set(ref["agencies"]))
+    ref["agencies"] = sorted(set(ref["agencies"]) | set(admitted))
+    ref["rule"] = (
+        f"public if listed in the dictionary tab or seen at least {MIN_COUNT} times in the "
+        "reference window, or admitted by the reviewed 2020-to-present history measurement, "
+        "and free of unit, floor, phone, email and honorific patterns; a snapshot, not "
+        "exhaustive"
+    )
+    ref["sources"]["history_review"] = {
+        "file": "docs/task5/sr311_history_review.json",
+        "where": review["where"],
+        "min_count": review["min_count"],
+        "truth_header": review["raw_truth_header"],
+        "measured_at": review["measured_at"],
+        "rule": "admitted only after manual review; frequency alone admits nothing",
+    }
+    return ref
 
 
 def main() -> None:

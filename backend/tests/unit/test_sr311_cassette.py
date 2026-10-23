@@ -19,6 +19,7 @@ were recorded on another version than every main fetch, so none is established.
 """
 
 import datetime as dt
+import importlib.util
 import json
 from collections import Counter
 from pathlib import Path
@@ -28,6 +29,7 @@ import pytest
 
 from nyc_apartment_agent.cassette import ReplayTransport, load_cassette
 from nyc_apartment_agent.config import Settings
+from nyc_apartment_agent.records import sr311
 from nyc_apartment_agent.records.evidence import InMemoryEvidenceStore, verify
 from nyc_apartment_agent.records.models import (
     Attribution,
@@ -45,6 +47,7 @@ from nyc_apartment_agent.resolver import resolve_address
 from nyc_apartment_agent.sources.clients import geosearch_client, socrata_client
 
 FIXTURES = Path(__file__).resolve().parents[1] / "fixtures"
+BUILDER = Path(__file__).resolve().parents[2] / "scripts" / "task5_build_311_reference.py"
 HPD_META = json.loads((FIXTURES / "hpd" / "buildings_cassette.meta.json").read_text("utf-8"))
 DOB_META = json.loads((FIXTURES / "dob311" / "cassettes.meta.json").read_text("utf-8"))
 THU = "Thu, 22 Oct 2026 01:37:36 GMT"
@@ -77,8 +80,7 @@ def _with_synthetic_keys(entries: dict) -> dict:
     return out
 
 
-@pytest.fixture(scope="module")
-def results():
+def _replay():
     hpd_entries = load_cassette(FIXTURES / "hpd" / "buildings_cassette.json")
     entries = {
         **load_cassette(FIXTURES / "dob311" / "footprints_cassette.json"),
@@ -107,6 +109,27 @@ def results():
         assert t_hpd.misses == []
         out[key] = (result, store, t_311)
     return out
+
+
+@pytest.fixture(scope="module")
+def results():
+    return _replay()
+
+
+@pytest.fixture(scope="module")
+def step4_results():
+    """The same recordings replayed against the step-4 allowlists (before decision A)."""
+    spec = importlib.util.spec_from_file_location("task5_build_311_reference", BUILDER)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    step4 = mod.base()
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setattr(sr311, "reference", lambda: step4)
+        sr311._allow.cache_clear()
+        try:
+            return _replay()
+        finally:
+            sr311._allow.cache_clear()
 
 
 def test_exact_recorded_queries_are_sent(results):
@@ -217,7 +240,7 @@ def test_tokens_evidence_and_lineage(results):
     assert len(tokens) == sum(EXPECTED.values())
 
 
-def test_recorded_statuses_dates_and_withheld_values(results):
+def test_recorded_statuses_dates_and_withheld_values(results, step4_results):
     every = [r for result, _, _ in results.values() for r in result.records]
     assert Counter(r.status_raw for r in every) == {"Closed": 925, "In Progress": 19, "Pending": 1}
     assert Counter(r.request_status for r in every) == {
@@ -232,10 +255,15 @@ def test_recorded_statuses_dates_and_withheld_values(results):
     for r in every:
         for d in (r.received_date, r.closed_date, r.agency_updated_date):
             assert d.raw is None or len(d.raw) == 10
-    # DCA (3 rows) and OSE (2) are not on the agency allowlist: withheld and flagged.
-    assert Counter(r.agency for r in every)[WITHHELD_VALUE] == 5
-    withheld = [r for r in every if r.agency == WITHHELD_VALUE]
+    # DCA (3 rows) and OSE (2) were off the step-4 agency allowlist: withheld and flagged.
+    # The reviewed 2020-to-present measurement admits both codes (decision A).
+    before = [r for result, _, _ in step4_results.values() for r in result.records]
+    assert Counter(r.agency for r in before)[WITHHELD_VALUE] == 5
+    withheld = [r for r in before if r.agency == WITHHELD_VALUE]
     assert all(QualityFlag.UNCOMMON_VALUE_WITHHELD in r.quality_flags for r in withheld)
+    assert Counter(r.agency for r in every)[WITHHELD_VALUE] == 0
+    assert Counter(r.agency for r in every)["DCA"] == 3
+    assert Counter(r.agency for r in every)["OSE"] == 2
 
 
 def test_no_private_field_reaches_a_public_record(results):
@@ -247,19 +275,68 @@ def test_no_private_field_reaches_a_public_record(results):
             assert {"unique_key", "incident_address", "location"} <= set(r.withheld_fields)
 
 
-def test_withheld_values_on_the_recordings_are_counted_not_hidden(results):
-    # The allowlists come from a recent window (rows since 2026-09-01) plus the dictionary,
-    # so older wording is withheld (fail closed). Pinned so the effect stays visible.
+_TEXT = {
+    "agency",
+    "complaint_type",
+    "descriptor",
+    "descriptor_2",
+    "location_type",
+    "resolution_description",
+    "redaction",
+}
+# 53 of the 54 rows hold agency templates with a phone number or URL (screened out, never
+# excepted); 1 holds a manually rejected template.
+AFTER = {"resolution_description": 54}
+AFTER_FLAGGED = 54
+
+
+def _withheld(results) -> tuple[dict, int, int]:
     total = Counter()
     flagged = 0
+    rows = 0
     for result, _, _ in results.values():
         total.update(result.summary.withheld_value_counts)
         flagged += result.summary.quality_flag_counts.get("uncommon_value_withheld", 0)
-    assert dict(total) == {
-        "resolution_description": 601,
-        "descriptor": 101,
-        "descriptor_2": 58,
-        "complaint_type": 56,
-        "agency": 5,
-    }
-    assert flagged == 659
+        rows += len(result.records)
+    return dict(total), flagged, rows
+
+
+def test_withheld_values_before_decision_a_are_the_step4_pins(step4_results):
+    # Step 4 allowlists: a recent window (rows since 2026-09-01) plus the dictionary, so
+    # older wording is withheld (fail closed). These are the step-4 numbers, unchanged.
+    assert _withheld(step4_results) == (
+        {
+            "resolution_description": 601,
+            "descriptor": 101,
+            "descriptor_2": 58,
+            "complaint_type": 56,
+            "agency": 5,
+        },
+        659,
+        945,
+    )
+
+
+def test_withheld_values_on_the_recordings_are_counted_not_hidden(results, step4_results):
+    # After decision A (reviewed 2020-to-present admissions), on the same 945 rows.
+    # Pinned so the effect stays visible; what is still withheld stays counted and flagged.
+    assert _withheld(results) == (AFTER, AFTER_FLAGGED, 945)
+    before, _, _ = _withheld(step4_results)
+    for field, n in AFTER.items():
+        assert n <= before[field], field
+    # Only display text changes: the same records, tokens, original digests, statuses and
+    # dates. redacted_sha256 covers the public view, so it changes exactly where text does.
+    drop = {*_TEXT, "withheld_fields", "quality_flags", "fetched_at", "redacted_sha256"}
+    changed = 0
+    for key, (result, _, _) in results.items():
+        old = step4_results[key][0]
+        assert result.status == old.status and result.partial == old.partial
+        assert result.provenance.source_count == old.provenance.source_count
+        assert [r.model_dump(exclude=drop) for r in result.records] == [
+            r.model_dump(exclude=drop) for r in old.records
+        ]
+        for a, b in zip(result.records, old.records, strict=True):
+            text_differs = a.model_dump(include=_TEXT) != b.model_dump(include=_TEXT)
+            assert (a.redacted_sha256 != b.redacted_sha256) is text_differs
+            changed += text_differs
+    assert changed == 633

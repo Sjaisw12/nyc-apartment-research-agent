@@ -1,6 +1,8 @@
 # Phase 2, Task 5, step 1: measurements, fixtures and amendments (for review)
 
-Status: **submitted for the step-1 review gate.** No Task 5 adapter, production model or
+Status: **step 1 accepted 2026-10-23 05:15Z.** The disposition-code mapping was then
+reconciled with DOB's 2021 list (design 18.6; summary in 3.2 below) and awaits approval.
+Earlier status: submitted for the step-1 review gate. No Task 5 adapter, production model or
 migration was written. Step 2 (DOB complaints adapter) waits for separate approval.
 
 Still open, unchanged and separate:
@@ -89,6 +91,13 @@ query log records which version answered each query.
   named in the dataset description) **could not be reached** from this environment (the
   proxy refused the connection, and a fetch attempt failed on DNS). These 39 codes map to
   `unknown_code` until their definitions are obtained.
+- **Update after the 05:15Z review (design 18.6):** Sanyam supplied a copy of that PDF
+  ("BIS Complaint Disposition Codes", Rev. 09/21, SHA-256 `7ee93140...36ba`). It defines
+  **20 of the 39 codes (13,190 rows)**. **19 codes (12,766 rows) still have no official
+  definition** and stay `unknown_code`. The outcome counts and status-disagreement figure
+  below are the step-1 figures; the recomputed ones (same measurements, no new snapshot)
+  are in `docs/task5/proposed_mappings.md`. ACTIVE with a final disposition becomes 897
+  (I2 1, X1 863, X2 33).
 - Rows by proposed outcome: no_violation 1,230,994; violation_served 665,123; no_access
   511,082; other_recorded 286,086; order_event 213,649; unsubstantiated 82,367;
   violation_prepared_not_served 74,607; referred 39,271; unknown_code 25,956; none 9,443;
@@ -216,9 +225,9 @@ seen often enough, so a new free-text value fails closed.
 
 ## 6. What remains unknown or inaccessible
 
-1. **Definitions of the 39 DOB disposition codes** absent from `6v9u-ndjg`: the DOB PDF on
-   nyc.gov is not reachable from here. They stay `unknown_code`. Sanyam could download
-   the PDF from a browser and add it to the project.
+1. **Definitions of 19 DOB disposition codes** (12,766 rows): absent from both the 2017
+   table and DOB's 2021 PDF (design 18.6). They stay `unknown_code`. The other 20 of the
+   original 39 are now defined by the PDF.
 2. **Meaning of ECB hearing statuses** (DEFAULT, POP, WRITTEN OFF, and others): not
    documented in either dictionary. Part D (the OATH cross-check) may help.
 3. **Whether DOB NOW complaints all reach `eabe-havv`**: not verified; Part C will test it.

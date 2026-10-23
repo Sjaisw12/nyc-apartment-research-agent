@@ -1,7 +1,9 @@
 # Phase 2, Task 5: DOB and 311 records (design for approval)
 
 Status: **three-dataset V1 approved in principle (2026-10-23 04:29Z), with four required
-amendments, now written in section 18.** Step 1 (measurement and fixtures) is authorized;
+amendments, now written in section 18.** Step 1 was accepted on 2026-10-23 05:15Z. The
+disposition-code mapping was reconciled with DOB's 2021 code list in section 18.6 and
+awaits approval. Step 1 (measurement and fixtures) is authorized;
 no adapter, production model or migration is written until the step-1 review gate is
 passed and step 2 is separately approved. Written 2026-10-23 on branch
 `claude/project-thread-5d0l0f`. Where section 18 differs from an earlier section,
@@ -251,12 +253,13 @@ The report must keep five kinds of statement apart.
 - 311 request: `reported_allegation`, always. **A 311 request is not proof that a
   violation occurred**, and a "Closed" status is not proof that a condition was fixed.
 
-### 4.2 Status vocabulary (public)
+### 4.2 Status vocabulary (public; DOB outcomes superseded by 18.6)
 
 **DOB complaint `complaint_status`:** `active` (ACTIVE), `closed` (CLOSED), `unknown`
 (anything else, flag `status_unknown`).
 
-**DOB complaint `outcome`** (from `disposition_code`, using `6v9u-ndjg`):
+**DOB complaint `outcome`** (from `disposition_code`, using `6v9u-ndjg`). *This table is
+the first proposal. Section 18.6 replaces it with outcomes taken from DOB's 2021 list.*
 
 | Outcome | Codes (all from `6v9u-ndjg`) |
 |---|---|
@@ -350,7 +353,7 @@ that says so:
 - the complaint `status` is "based on the Disposition Code" and does not track the order;
 - no open dataset of current stop-work orders was found.
 
-### 5.2 What V1 reports
+### 5.2 What V1 reports (U4 and U5 added, and an `order_action` field, in 18.6)
 
 For each DOB complaint whose disposition is an order code, an `OrderEvent`:
 
@@ -1077,6 +1080,100 @@ this snapshot, with the reason, and never presented as covering the full result.
 
 New privacy decision for review: **ECB `violation_description` withheld from public
 output in V1** (18.2), with the infraction codes and their fixed law texts shown instead.
+
+### 18.6 Disposition codes reconciled with DOB's 2021 list (2026-10-23, after 05:15Z)
+
+**Source.** DOB, "BIS Complaint Disposition Codes", Rev. 09/21, 6 pages, PDF created
+2 September 2021, from
+`https://www.nyc.gov/assets/buildings/pdf/bis_complaint_disposition_codes.pdf`. nyc.gov is
+blocked from the cloud environment, so the copy used was downloaded from that URL by
+Sanyam and supplied through the project on 2026-10-23. SHA-256
+`7ee93140b24d56fec2bacddc3c5f6037ab3b377c7d112440c2a322f3efc636ba` (175,729 bytes). The
+PDF is not committed. `backend/scripts/task5_extract_dob_codes.py` extracts its 184 codes
+verbatim (only line wrapping is joined) into `docs/task5/dob_disposition_codes_2021.json`.
+
+**Counts.** All counts come from the recorded step-1 measurements
+(`docs/task5/step1_measurements.json`, 04:39Z). No new snapshot was taken.
+
+**Definition rule.** The 2021 text is used where the PDF has the code. The 2017 table
+(`6v9u-ndjg`) is used only for the 9 codes the PDF no longer lists. Both texts are kept
+side by side. A code in neither stays `unknown_code`, with no guessed meaning.
+
+**Coverage.**
+
+| | Codes | Rows |
+|---|---|---|
+| In use but not in the 2017 table (step 1) | 39 | 25,956 |
+| Now defined by the 2021 PDF | 20 | 13,190 |
+| Still without an official definition (`unknown_code`) | 19 | 12,766 |
+
+Resolved: AA, AB, AC, EF, EG, EJ, EK, J5, J6, U1, U2, U3, U4, U5, UA, UB, V1, V2, X1, X2.
+Still unknown: AD, AE, AF, AG, AH, AI, AJ, D0, EI, H6, H7, H8, L4, N1, N2, N3, Q6, Q7, Y5.
+All 19 are CLOSED except D0 (5 rows) and Q6 (43 rows), which are ACTIVE.
+
+**Outcomes (replaces the table in 4.2).** Five concepts that were mixed before are now kept
+apart, each following DOB's own verb:
+
+| Outcome | Rule | Codes |
+|---|---|---|
+| `violation_served` | text says "Served" | A1, A2, A4, A5, A8, A9, H4, V3, W1 |
+| `violation_issued` | text says "Issued" or "Written", not "Served" | A6, H3, R5, RK, MB to MK (not MA), U3, U6, X2, X7, X8 |
+| `violation_prepared_not_served` | "Prepared and Attempt to Serve will be Made" | B1, B2 |
+| `corrective_action_requested` / `_corrected` / `_not_corrected` | HRP request for corrective action, by stage | AA / AB / AC |
+| `inspection_completed` | "Compliance Inspection Performed" (no result stated) | I3 |
+| `inspection_passed` / `inspection_failed` | "PASS Inspection" / "FAIL Inspection" | V1 / V2 |
+| `inspection_findings_under_review` | sign inspection, findings under review | J5 |
+| `order_event` | an order is recorded (5.2) | A3, H5, K4, K6, L1, L2, L3, P3, P4, RZ, U4, U5, Y1 to Y4 |
+| `no_violation` | no violation or enforcement action | I2, MA, R1, R6, U2, WA, WF, X1 |
+| `unsubstantiated` | I1 | I1 |
+| `no_access` | C1 to C8, WB, U1 | |
+| `referred` | F1 to F9, G1 to G9, WI | |
+| `assigned_or_pending` | D1 to D9, E1 to E9, EA to EH, EJ, EK, EZ, J1, J3, J4, P2, K2, A7 | |
+| `other_recorded` | any other officially defined code (for example ND, J6, UA, UB, RA, RU) | |
+| `unknown_code` | no official definition | the 19 above |
+
+Changes from the step-1 proposal: H3, R5, RK, A6 and MB to MK move from
+`violation_served` to `violation_issued` (their text says issued or written); I3 moves from
+`other_recorded` to `inspection_completed`; the 20 resolved codes leave `unknown_code`.
+A7 and E2 ("Padlock Unit") are assignments, not orders. RA ("Commissioner's Order: Issued
+to Owner") and the emergency declarations stay `other_recorded`: they are not stop-work,
+vacate or padlock orders.
+
+**Order events (amends 5.2).** U4 ("CSC: Full Stop Work Order Issued – On Action
+Complaint", 5 rows) is `stop_work_full_issued`; U5 ("CSC: Partial SWO Issued – On Action
+Complaint", 1 row) is `stop_work_partial_issued`. Each order event also gets an
+`order_action` from DOB's own verb: `served` (A3, Y1, Y3), `issued` (K6, P3, U4, U5),
+`rescinded` (L2, L3, P4, Y2, Y4), `previously_issued` (RZ), `noncompliance_violation`
+(H3, H4, V3, W1) or `not_stated` (H5, K4, L1). ME, MF, MH and MI keep their vacate event
+with action `issued`. The event label names the kind of order; the action says what the
+record says happened. Neither says the order is in effect now (D25 unchanged).
+
+**Status disagreement, recomputed.** ACTIVE complaints whose code is a final outcome: 897
+(I2 1, X1 863, X2 33; step 1 reported 1 because X1 and X2 were unknown then). These keep
+both values and are flagged `status_fields_disagree` (4.3). Every order-code complaint
+is still CLOSED.
+
+**2017 table versus 2021 PDF.** 105 codes have the same wording after normalization; 9
+differ only by "ECB" becoming "OATH" (A8, MC, MD, ME, MF, MG, MH, MI, MK); 37 differ in
+other wording; 33 are new in 2021; 9 appear only in 2017 (A5 55 rows, D8 9, EE 3, F4 2,
+RZ 2, and E7, E8, EA, RT unused). The full side-by-side list is in
+`docs/task5/proposed_mappings.md`. Differences that matter for wording:
+
+| Code | 2017 table (`6v9u-ndjg`, updated 2017) | 2021 PDF (Rev. 09/21) | Effect |
+|---|---|---|---|
+| Y1 | FULL VACATE ORDER ISSUED F | Full Vacate Order Served | action `served` (2021 text) |
+| Y3 | PARTIAL VACATE ORDER ISSUED P | Partial Vacate Order Served | action `served` |
+| H5 | STOP ALL WORK / NO TCAO ISSUED | Stop All Work/No TCAO (Temporary Certificate of Approval and Operation) | action `not_stated` |
+| P4 | CLOSURE/PADLOCK ORDER RESCINDED | Closure/Padlock Order Issued Rescinded | still `padlock_rescinded` |
+| B2 | ECB VIOLATION(S) PREPARED & ATTEMPT TO SERVE WILL BE MADE | OATH Summons Prepared and Attempt to Serve will be Made | still prepared, not served |
+| C2 | INSPECTOR UNABLE TO GAIN ACCESS - 2ND ATTEMPT | Inspector Unable to Gain Access – 2nd Final Attempt | still `no_access` |
+| D4 | COMPLAINT ASSIGNED TO BEST SQUAD | Complaint Assigned to Construction Safety Compliance Unit | unit renamed |
+
+**Tests.** `backend/tests/test_task5_mappings.py` checks the source hash, that every code in
+use and every defined code appears once, that only officially defined codes get an
+outcome, that the wording matches each outcome, the AA/AB/AC stages, U4 and U5, that every
+order event's text names a stop-work, vacate or padlock order, that no label implies an
+order is in effect, and the counts above.
 
 ## Appendix: live queries (2026-10-23, about 03:55 to 04:15 UTC)
 

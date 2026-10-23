@@ -23,6 +23,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field, model_validator
 
+from .admin_models import SourceRowRef
 from .models import (
     Attribution,
     AttributionBasis,
@@ -108,6 +109,15 @@ class BinSource(StrEnum):
     HPD = "hpd"  # a current HPD building record on the resolved lot has this BIN
 
 
+class DobSourceRow(SourceRowRef):
+    """One source row behind a complaint: Socrata :id, keyed digest of that row, and the
+    page it came from. Identical copies collapsed into one complaint each keep their own
+    entry, and each has its own raw row in the evidence store (correction A)."""
+
+    query_url: str
+    fetched_at: str
+
+
 class OrderEvent(BaseModel):
     kind: OrderEventKind
     action: OrderAction
@@ -139,7 +149,8 @@ class NormalizedDobComplaint(BaseModel):
     dataset_id: str
     evidence_kind: Literal[EvidenceKind.REPORTED_ALLEGATION] = EvidenceKind.REPORTED_ALLEGATION
     complaint_number: str  # DOB's own public identifier
-    source_row_ids: list[str]  # Socrata :id of every source row behind this record
+    # Every source row behind this record: itself first, then collapsed identical copies.
+    source_rows: list[DobSourceRow]
     source_bin: str | None
     bin_sources: list[BinSource]  # where this BIN's place on the lot comes from
     resolved_bbl: str
@@ -191,6 +202,8 @@ class NormalizedDobComplaint(BaseModel):
                 raise ValueError("a BIN-lot conflict never yields building attribution")
             if QualityFlag.DUPLICATE_ID_DIFFERENT_CONTENT in self.quality_flags:
                 raise ValueError("conflicting duplicate copies never keep building attribution")
+        if not self.source_rows or self.source_rows[0].original_digest != self.original_digest:
+            raise ValueError("source_rows must start with the record's own source row")
         if self.attribution is Attribution.THIS_BUILDING and (
             self.attribution_basis is not AttributionBasis.ROW_IDENTIFIERS
         ):
@@ -218,6 +231,9 @@ class DobComplaintSummary(BaseModel):
     data_as_of: str | None
     join_scope: JoinScope | None
     building_specific_claims_allowed: bool
+    # Set when the scope is building but requested-building claims are still denied
+    # (correction B: the resolved BIN has conflicting lot evidence).
+    building_claims_denied_reason: str | None = None
     total_complaints: int
     source_rows: int
     by_attribution: dict[Attribution, AttributionBucket]
@@ -269,6 +285,16 @@ class DobComplaintResult(BaseModel):
         )
         if self.join_scope is not JoinScope.BUILDING and (self.search_bins or self.records):
             raise ValueError("DOB complaints are searched by BIN only at building scope")
+        if (
+            self.summary is not None
+            and self.summary.building_specific_claims_allowed
+            and (self.resolved_bin is None or self.resolved_bin in self.bin_lot_conflicts)
+        ):
+            raise ValueError("no requested-building claims when the resolved BIN conflicts")
+        if self.status is RetrievalStatus.RECORDS_FOUND:
+            refs = [ref.source_row_id for r in self.records for ref in r.source_rows]
+            if len(refs) != len(set(refs)) or len(refs) != self.provenance.source_count:
+                raise ValueError("every fetched source row must be listed exactly once")
         searched = set(self.search_bins)
         if set(self.bin_lot_conflicts) & searched - {self.resolved_bin}:
             raise ValueError("a BIN with conflicting lot evidence must not be searched")

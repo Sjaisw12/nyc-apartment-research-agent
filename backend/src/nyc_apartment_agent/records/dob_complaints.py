@@ -55,6 +55,7 @@ from .dob_models import (
     DobComplaintResult,
     DobComplaintStatus,
     DobComplaintSummary,
+    DobSourceRow,
     NormalizedDobComplaint,
     OrderAction,
     OrderEvent,
@@ -505,7 +506,14 @@ def normalize_row(
     return NormalizedDobComplaint(
         dataset_id=DATASET_ID,
         complaint_number=number,
-        source_row_ids=[str(row[ROW_ID])] if _s(row.get(ROW_ID)) else [],
+        source_rows=[
+            DobSourceRow(
+                source_row_id=str(row.get(ROW_ID) or ""),
+                original_digest=original_digest,
+                query_url=query_url,
+                fetched_at=fetched_at,
+            )
+        ],
         source_bin=_s(row.get("bin")),
         bin_sources=bin_sources,
         resolved_bbl=ctx.plan.bbl,
@@ -554,22 +562,22 @@ def normalize_fetch(fetch: PagedFetch, ctx: _Ctx) -> list[NormalizedDobComplaint
         number = _s(row.get("complaint_number")) or "(none)"
         sha = _content(row)
         copies = seen.setdefault(number, {})
+        # Every row is normalized, so every row's original goes to the evidence store
+        # with its own digest and page lineage, even when it is then collapsed.
+        record = normalize_row(
+            row,
+            ctx,
+            query_url=page.url if page else "",
+            fetched_at=page.fetched_at if page else "",
+        )
         if sha in copies:
-            rec = out[copies[sha]]
-            if _s(row.get(ROW_ID)):
-                rec.source_row_ids.append(str(row[ROW_ID]))
-            if QualityFlag.DUPLICATE_ID_SAME_CONTENT not in rec.quality_flags:
-                rec.quality_flags.append(QualityFlag.DUPLICATE_ID_SAME_CONTENT)
+            kept = out[copies[sha]]
+            kept.source_rows.extend(record.source_rows)
+            if QualityFlag.DUPLICATE_ID_SAME_CONTENT not in kept.quality_flags:
+                kept.quality_flags.append(QualityFlag.DUPLICATE_ID_SAME_CONTENT)
             continue
         copies[sha] = len(out)
-        out.append(
-            normalize_row(
-                row,
-                ctx,
-                query_url=page.url if page else "",
-                fetched_at=page.fetched_at if page else "",
-            )
-        )
+        out.append(record)
     for copies in seen.values():
         if len(copies) < 2:
             continue
@@ -596,6 +604,8 @@ def summarize(
     data_as_of: str | None,
     as_of: dt.date,
     source_rows: int,
+    *,
+    resolved_bin_conflict: bool = False,
 ) -> DobComplaintSummary:
     buckets: dict[Attribution, AttributionBucket] = {}
     flags: Counter[str] = Counter()
@@ -643,7 +653,13 @@ def summarize(
     return DobComplaintSummary(
         data_as_of=data_as_of,
         join_scope=scope,
-        building_specific_claims_allowed=scope is JoinScope.BUILDING,
+        building_specific_claims_allowed=scope is JoinScope.BUILDING and not resolved_bin_conflict,
+        building_claims_denied_reason=(
+            "the resolved BIN has conflicting lot evidence (bin_lot_conflict); no complaint "
+            "is attributed to the requested building"
+            if scope is JoinScope.BUILDING and resolved_bin_conflict
+            else None
+        ),
         total_complaints=len(records),
         source_rows=source_rows,
         by_attribution=dict(sorted(buckets.items())),
@@ -787,7 +803,14 @@ def retrieve_dob_complaints(
         status_detail=detail,
         records=records,
         partial=status is RetrievalStatus.INCOMPLETE_PAGINATION,
-        summary=summarize(records, plan.scope, prov.data_as_of, as_of, len(fetch.rows)),
+        summary=summarize(
+            records,
+            plan.scope,
+            prov.data_as_of,
+            as_of,
+            len(fetch.rows),
+            resolved_bin_conflict=plan.building_bin in bins.conflicts,
+        ),
         provenance=prov,
         **common,
     )

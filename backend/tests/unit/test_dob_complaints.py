@@ -556,7 +556,7 @@ def test_identical_duplicate_numbers_collapse_but_keep_every_source_row():
     result, _ = retrieve([a, b])
     assert len(result.records) == 1
     rec = result.records[0]
-    assert rec.source_row_ids == [a[":id"], "row-synthetic-copy"]
+    assert [x.source_row_id for x in rec.source_rows] == [a[":id"], "row-synthetic-copy"]
     assert QualityFlag.DUPLICATE_ID_SAME_CONTENT in rec.quality_flags
     assert result.summary.source_rows == 2 and result.status is RetrievalStatus.RECORDS_FOUND
 
@@ -696,3 +696,70 @@ def test_provenance_records_every_lookup():
     assert result.provenance.dataset_id == DOB and result.provenance.data_as_of
     assert result.coverage_notes and "retired BIN" in result.coverage_notes[0]
     assert json.loads(result.model_dump_json())["bin_evidence_complete"] is True
+
+
+# ---- correction A (07:00Z review): evidence for identical duplicate rows ----------------
+
+
+def test_identical_duplicates_keep_independent_verifiable_evidence_for_every_row():
+    a = dob_row(1)
+    b = {**a, ":id": "row-synthetic-copy"}
+    store = InMemoryEvidenceStore()
+    # page_size=1: the two copies arrive on different pages, so their lineage differs.
+    result, _ = retrieve([a, b], evidence=store, page_size=1)
+    assert result.status is RetrievalStatus.RECORDS_FOUND
+    (rec,) = result.records
+    assert [ref.source_row_id for ref in rec.source_rows] == [a[":id"], b[":id"]]
+    digests = [ref.original_digest for ref in rec.source_rows]
+    assert len(set(digests)) == 2 and digests[0] == rec.original_digest
+    pages = [p for p in result.provenance.pages if p.index >= 0]
+    for ref, original, page in zip(rec.source_rows, (a, b), pages, strict=True):
+        raw = store.get(ref.original_digest)
+        assert raw is not None and verify(raw, KEY)
+        assert raw.original_row == original
+        assert raw.source_record_id == "1"
+        assert (raw.query_url, raw.fetched_at) == (page.url, page.fetched_at)
+        assert (ref.query_url, ref.fetched_at) == (page.url, page.fetched_at)
+    # The public record carries identities and keyed digests only, never the raw rows.
+    dumped = rec.model_dump_json()
+    assert "dobrundate" not in dumped and "20261022000000" not in dumped
+    assert '"original_row":' not in dumped
+
+
+# ---- correction B (07:00Z review): summary permission when the resolved BIN conflicts --
+
+
+def test_conflicting_resolved_bin_denies_requested_building_claims_in_the_summary():
+    result, _ = retrieve(
+        [dob_row(1)], footprints=[fp_row(R, base="2027540099")], hpd=hpd_result(bins=(R,))
+    )
+    assert result.bin_lot_conflicts == [R]
+    assert result.join_scope is JoinScope.BUILDING
+    s = result.summary
+    assert s.building_specific_claims_allowed is False
+    assert "conflicting lot evidence" in s.building_claims_denied_reason
+    assert Attribution.THIS_BUILDING not in s.by_attribution
+    assert all(r.attribution is Attribution.UNATTRIBUTED_ON_LOT for r in result.records)
+    # The model refuses a summary that would allow the claim anyway.
+    data = result.model_dump()
+    data["summary"]["building_specific_claims_allowed"] = True
+    with pytest.raises(ValidationError):
+        type(result).model_validate(data)
+
+
+def test_valid_building_results_still_allow_building_claims():
+    result, _ = retrieve(
+        [dob_row(1), dob_row(2, OTHER)],
+        footprints=[fp_row(R), fp_row(OTHER)],
+        hpd=hpd_result(bins=(R, OTHER)),
+    )
+    assert result.summary.building_specific_claims_allowed is True
+    assert result.summary.building_claims_denied_reason is None
+    # A conflict on another BIN (not searched) leaves the requested building's claims valid.
+    result, _ = retrieve(
+        [dob_row(1)],
+        footprints=[fp_row(R), fp_row(OTHER, base="2027540099")],
+        hpd=hpd_result(bins=(R, OTHER)),
+    )
+    assert result.bin_lot_conflicts == [OTHER]
+    assert result.summary.building_specific_claims_allowed is True

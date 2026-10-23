@@ -404,12 +404,18 @@ class RegistrationContacts(BaseModel):
     persons_named_withheld: int
 
     @model_validator(mode="after")
-    def _distinct_building_ids(self) -> RegistrationContacts:
+    def _canonical_distinct_building_ids(self) -> RegistrationContacts:
         # Sharing and off-lot counts are counts of buildings: a repeated ID must not
         # count twice. Unknown coverage stays None, never an empty or one-ID list.
+        # IDs are compared exactly, so each must be canonical: non-blank and without
+        # leading or trailing whitespace (" 1" and "1" would otherwise count twice).
         for name in ("building_ids_on_lot", "covered_building_ids"):
             ids = getattr(self, name)
-            if ids is not None and len(ids) != len(set(ids)):
+            if ids is None:
+                continue
+            if any(not i or i != i.strip() for i in ids):
+                raise ValueError(f"{name} has a blank or padded building ID")
+            if len(ids) != len(set(ids)):
                 raise ValueError(f"{name} repeats a building ID")
         return self
 

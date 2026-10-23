@@ -1251,3 +1251,93 @@ def test_distinct_coverage_cases_still_store(db):
     (row,) = _coverage_rows(db, saved["hpd_contacts"].fetch_id)
     assert row.covered_building_ids is None and row.shared_registration is None
     assert row.association == "requested_building_sharing_unknown"
+
+
+# ---- step 5 correction 2: blank and padded building IDs in registration coverage --------
+
+BLANK_ID_CASES = {
+    "covered_empty": {
+        "covered_building_ids": ["", "1"],
+        "shared_registration": True,
+        "covered_buildings_off_lot": 1,
+        "association": SHARED,
+    },
+    "covered_whitespace_only": {
+        "covered_building_ids": ["   ", "1"],
+        "shared_registration": True,
+        "covered_buildings_off_lot": 1,
+        "association": SHARED,
+    },
+    "on_lot_empty": {
+        "building_ids_on_lot": ["", "1"],
+        "covered_building_ids": ["", "1"],
+        "shared_registration": True,
+        "covered_buildings_off_lot": 0,
+        "association": SHARED,
+    },
+    # The same building ID, once with a leading space: counted as two buildings.
+    "covered_padded": {
+        "covered_building_ids": [" 1", "1"],
+        "shared_registration": True,
+        "covered_buildings_off_lot": 1,
+        "association": SHARED,
+    },
+    "on_lot_padded": {
+        "building_ids_on_lot": ["1", "1 "],
+        "covered_building_ids": ["1", "1 "],
+        "shared_registration": True,
+        "covered_buildings_off_lot": 0,
+        "association": SHARED,
+    },
+    "unknown_with_blank": {
+        "building_ids_on_lot": ["", "1"],
+        "covered_building_ids": None,
+        "shared_registration": True,
+        "covered_buildings_off_lot": None,
+        "association": SHARED,
+        "coverage_status": "unavailable",
+    },
+}
+
+
+@pytest.mark.parametrize("case", list(BLANK_ID_CASES))
+def test_blank_or_padded_building_ids_cannot_fabricate_coverage(ingest_txn, case):
+    conn, run_id, c = ingest_txn
+    forged = _forged(c, **BLANK_ID_CASES[case])
+    with pytest.raises(DBAPIError, match="building_ids_canonical"):
+        _insert_all(conn, run_id, forged)
+        conn.commit()
+    conn.rollback()
+
+
+@pytest.mark.parametrize("case", list(BLANK_ID_CASES))
+def test_pydantic_refuses_blank_or_padded_building_ids(case):
+    pipe = Pipeline()
+    regs = pipe.registrations([registration_row("r-1", bid=1)])
+    c = pipe.contacts([contact_row("c-01")], regs)
+    with pytest.raises(ValidationError, match="blank or padded building ID"):
+        save_result(
+            None,
+            uuid.uuid4(),
+            _forged(c, **BLANK_ID_CASES[case]),
+            [],
+            digest_key=KEY,
+            retention_days=180,
+        )
+
+
+def test_unidentified_registration_building_round_trips_as_sharing_unknown(db):
+    pipe = Pipeline()
+    regs = pipe.registrations(
+        [registration_row("r-1", bid=1), registration_row("r-2", buildingid=None)]
+    )
+    c = pipe.contacts([contact_row("c-01")], regs)
+    _, saved = snapshot(db, pipe, regs, c)
+    assert load(db, "hpd_contacts", saved["hpd_contacts"].fetch_id).result == c
+    (row,) = _coverage_rows(db, saved["hpd_contacts"].fetch_id)
+    assert (row.building_ids_on_lot, row.covered_building_ids, row.shared_registration) == (
+        ["1"],
+        None,
+        None,
+    )
+    assert row.association == "requested_building_sharing_unknown"

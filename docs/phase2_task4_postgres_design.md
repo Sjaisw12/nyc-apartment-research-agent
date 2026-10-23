@@ -390,6 +390,11 @@ Where step 3 differs from the plan above, and why:
   array cardinalities, so `building_ids_on_lot` and `covered_building_ids` must hold
   distinct, non-NULL IDs (CHECK `building_ids_distinct`; Pydantic refuses repeats too).
   Unknown coverage stays NULL.
+- **Canonical coverage IDs (0009, review correction 2).** Each ID must be non-blank with
+  no leading or trailing whitespace (CHECK `building_ids_canonical`; Pydantic too), so
+  `''`, `'   '` or `' 1'` beside `'1'` cannot count as a second building. The contacts
+  code trims coverage IDs the same way as `building_id`, and a registration row with no
+  building ID makes that registration's coverage unknown instead of adding `''`.
 
 ### 10.3 Privacy
 

@@ -413,3 +413,51 @@ def test_model_rejects_requested_building_only_without_complete_coverage():
     data["summary"]["by_registration"][0]["association"] = "requested_building_only"
     with pytest.raises(ValidationError, match="complete coverage"):
         ContactSourceResult.model_validate(data)
+
+
+# ---- Task 4 step 5 correction 2: canonical building IDs in coverage -------------------
+
+
+def test_padded_coverage_id_is_the_same_building_not_a_shared_registration():
+    regs = registrations([registration_row("r-1", bid=1)])
+    # HPD's coverage row carries the same building ID with stray whitespace.
+    cov = [{"registrationid": "203625", "buildingid": " 1 ", ":id": "v1"}]
+    result, _ = contacts([contact_row("c-01")], regs=regs, coverage=cov)
+    (reg,) = result.summary.by_registration
+    assert reg.covered_building_ids == ["1"] and reg.covered_buildings_off_lot == 0
+    assert reg.association is ContactAssociation.REQUESTED_BUILDING_ONLY
+    assert reg.shared_registration is False
+
+
+def test_registration_row_without_building_id_makes_sharing_unknown():
+    """A row with no building ID is not a second building, and it is not proof that the
+    registration covers only the requested one: coverage is reported unknown."""
+    regs = registrations([registration_row("r-1", bid=1), registration_row("r-2", buildingid=None)])
+    result, _ = contacts([contact_row("c-01")], regs=regs)
+    (reg,) = result.summary.by_registration
+    assert "" not in reg.building_ids_on_lot
+    assert reg.covered_building_ids is None and reg.shared_registration is None
+    assert reg.association is ContactAssociation.REQUESTED_BUILDING_SHARING_UNKNOWN
+
+
+@pytest.mark.parametrize(
+    ("on_lot", "covered"),
+    [
+        (["1"], ["", "1"]),
+        (["1"], ["   ", "1"]),
+        (["", "1"], ["", "1"]),
+        (["1"], [" 1", "1"]),
+        (["1", "1 "], ["1", "1 "]),
+        (["", "1"], None),
+    ],
+)
+def test_model_rejects_blank_or_padded_coverage_ids(on_lot, covered):
+    result, _ = contacts(
+        [contact_row("c-01")], regs=registrations([registration_row("r-1", bid=1)])
+    )
+    data = result.model_dump()
+    data["summary"]["by_registration"][0].update(
+        building_ids_on_lot=on_lot, covered_building_ids=covered
+    )
+    with pytest.raises(ValidationError, match="blank or padded building ID"):
+        ContactSourceResult.model_validate(data)

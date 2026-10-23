@@ -403,3 +403,64 @@ the coverage arrays were wrong. Before 0008:
 - Alembic CLI: base → 0008 → base → 0008.
 - Lint and format: clean.
 - Phase 1 benchmark: unchanged.
+
+## 12. Review correction 2: blank and padded building IDs (migration 0009)
+
+**Correction to section 11 and the closure message.** 0008 refuses repeated and NULL
+IDs, not blank ones. The closure message said "no blanks", which was wrong.
+
+**Reproduced.** As a login holding only `ingest_writer`, with contacts and
+`requested_building` made consistent, all six forged snapshots committed before 0009:
+
+| Forged coverage | Result before 0009 |
+|---|---|
+| covered `['', '1']`, shared, 1 off-lot | committed |
+| covered `['   ', '1']`, shared, 1 off-lot | committed |
+| on lot and covered `['', '1']`, shared | committed |
+| covered `[' 1', '1']`, shared, 1 off-lot | committed |
+| on lot and covered `['1', '1 ']`, shared | committed |
+| on lot `['', '1']`, coverage unknown, shared | committed |
+
+**Two code paths could produce such IDs from real data:**
+- The citywide coverage lookup kept HPD's raw `buildingid` text, while on-lot IDs were
+  trimmed. `' 1'` and `'1'` would then count as two buildings.
+- A registration row with no building ID was listed as `''`, which counted as a second
+  building and made the registration look shared.
+
+**Fix.**
+- **Migration 0009** is additive. It adds `records.text_array_canonical(text[])` and
+  CHECK `building_ids_canonical`: every ID must be non-blank, with no leading or trailing
+  whitespace. IDs are compared exactly and never transformed in SQL. NULL still means
+  unknown coverage.
+- **Pydantic.** `RegistrationContacts` refuses blank or padded IDs, as well as repeated
+  ones.
+- **`hpd_contacts`:**
+  - coverage IDs are trimmed exactly as `building_id` already is (`_s`);
+  - IDs that are empty after trimming are not listed;
+  - a registration with an on-lot row lacking a building ID gets unknown coverage
+    (NULL, `requested_building_sharing_unknown`). It is reported neither as shared nor as
+    requested-building-only.
+
+**Tests.**
+- **Database:** all six cases are refused by `building_ids_canonical`, as
+  `ingest_writer`.
+- **Pydantic:** all six are refused before any SQL.
+- **Unit:** a padded coverage ID is the same building (requested-building-only, 0
+  off-lot); a registration row without a building ID gives "sharing unknown".
+- **Round trip:** the unknown case is stored as NULL.
+- **Unchanged:**
+  - the 0008 repeated-ID cases;
+  - the four genuine cases (same-lot shared, cross-lot shared, requested-only, unknown).
+
+**Recorded data.** The five addresses' stored counts and associations are byte-identical
+to before the code change. Violations still show 87 BuildingID reassignments and
+complaint problems 84, at 220 West 17th. Tax-lot results stay `lot_level`.
+
+**Results.**
+- With PostgreSQL required: 669 passed, 23 live skipped.
+- Offline: 508 passed.
+- Live: 23 passed.
+- Alembic CLI: base → 0009 → base → 0009.
+- Lint and format: clean.
+- Privacy scan tests: pass.
+- Phase 1 benchmark: unchanged (14/14, 0 wrong building, 6/6, 4/4, 2/2).

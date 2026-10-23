@@ -116,8 +116,23 @@ def registration_attribution(registrations: RegistrationSourceResult) -> dict[st
     for reg, blds in by_reg.items():
         attrs = {b.attribution for b in blds}
         attribution = next(a for a in order if a in attrs)
-        out[reg] = (attribution, sorted(b.building_id or "" for b in blds))
+        # Only real HPD building IDs are listed: a registration row without one is not a
+        # second, distinct building (see registrations_with_unidentified_buildings).
+        out[reg] = (attribution, sorted(b.building_id for b in blds if b.building_id))
     return out
+
+
+def registrations_with_unidentified_buildings(registrations: RegistrationSourceResult) -> set[str]:
+    """Registration ids with an on-lot row that carries no building ID. Their citywide
+    coverage cannot be compared with the lot's buildings, so it is reported unknown."""
+    if registrations.summary is None:
+        return set()
+    return {
+        reg
+        for b in registrations.summary.buildings
+        if not b.building_id
+        for reg in b.registration_ids
+    }
 
 
 def normalize_row(
@@ -346,7 +361,9 @@ def retrieve_hpd_contacts(
         coverage, coverage_status, coverage_provs = fetch_coverage(
             client, ids, batch_size=batch_size, page_size=page_size, row_cap=row_cap
         )
-    association_of = associations(attribution_of, coverage, ids)
+    association_of = associations(
+        attribution_of, coverage, ids, registrations_with_unidentified_buildings(registrations)
+    )
     for r in records:
         assoc, shared, _covered = association_of[r.registration_id]
         r.association, r.registration_shared = assoc, shared
@@ -442,7 +459,7 @@ def fetch_coverage(
         for row in fetch.rows:
             reg = str(row.get("registrationid"))
             if reg in covered:
-                covered[reg].add(str(row["buildingid"]))
+                covered[reg].add(_s(row["buildingid"]))  # same trimming as building_id
     if complete_batches == len(batches):
         status = "complete"
     else:
@@ -450,12 +467,13 @@ def fetch_coverage(
     return covered, status, provs
 
 
-def associations(attribution_of, coverage, ids) -> dict[str, tuple]:
+def associations(attribution_of, coverage, ids, unidentified=frozenset()) -> dict[str, tuple]:
     """registration id -> (association, shared or None, covered building ids or None)."""
     out: dict[str, tuple[ContactAssociation, bool | None, list[str] | None]] = {}
     for reg in ids:
         attribution, on_lot = attribution_of.get(reg, (Attribution.UNATTRIBUTED_ON_LOT, []))
-        covered = sorted(coverage[reg] | set(on_lot), key=str) if reg in coverage else None
+        known = reg in coverage and reg not in unidentified
+        covered = sorted(coverage[reg] | set(on_lot), key=str) if known else None
         if len(on_lot) > 1 or (covered is not None and len(covered) > 1):
             shared: bool | None = True
         else:

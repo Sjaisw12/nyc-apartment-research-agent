@@ -229,17 +229,11 @@ class ServiceRequestResult(BaseModel):
             if copies != self.provenance.source_count or self.rows_rejected:
                 raise ValueError("every fetched source row must be accounted for")
         if self.excluded_counts is not None and self.excluded_counts.by_agency.established:
-            other = [
-                r
-                for r in self.provenance.incomplete_reasons
-                if not r.startswith(NULL_AGENCY_REASON)
-            ]
-            if other or self.status not in (
+            if self.provenance.incomplete_reasons or self.status not in (
                 RetrievalStatus.RECORDS_FOUND,
                 RetrievalStatus.NO_RECORDS_FOUND,
-                RetrievalStatus.INCOMPLETE_PAGINATION,
             ):
-                raise ValueError("excluded counts cannot be established for an incomplete fetch")
+                raise ValueError("excluded counts are established only for a complete result")
             if self.accepted_data_version is None or (
                 self.excluded_counts.by_agency.truth_header != self.accepted_data_version
             ):

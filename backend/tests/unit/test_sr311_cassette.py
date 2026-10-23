@@ -180,9 +180,7 @@ def test_no_exclusion_count_is_established(results):
             )
         assert not ex.null_agency.established
         assert ex.null_agency.not_established_reason == "count query failed: SourceConnectionError"
-        assert any(
-            w.startswith("null_agency_count_not_established") for w in result.provenance.warnings
-        )
+        assert any(w.startswith("null_agency_coverage_unknown") for w in result.provenance.warnings)
 
 
 def test_attribution_never_names_a_building(results):

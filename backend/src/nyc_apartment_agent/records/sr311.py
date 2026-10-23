@@ -745,9 +745,22 @@ def retrieve_service_requests(
     )
     null = excluded.null_agency
     if null.established and (null.counts or {}).get("null_agency", 0) > 0:
-        reasons.append(f"{NULL_AGENCY_REASON}: {null.counts['null_agency']}")
+        n = null.counts["null_agency"]
+        reasons.append(f"{NULL_AGENCY_REASON}: {n}")
+        # The result is no longer complete, so the HPD/DOB counts cannot be established for
+        # it. Their observed values and provenance stay (decision B, 2026-10-23 review).
+        by = excluded.by_agency
+        if by.established:
+            by.established = False
+            by.counts = None
+            by.not_established_reason = (
+                f"result incomplete: {n} request(s) with no agency are not retrieved"
+            )
     elif not null.established:
-        prov.warnings.append(f"null_agency_count_not_established: {null.not_established_reason}")
+        prov.warnings.append(
+            "null_agency_coverage_unknown: requests with no agency could not be counted "
+            f"({null.not_established_reason}); the agency coverage is not known to be complete"
+        )
 
     prov.incomplete_reasons = reasons
     if reasons:

@@ -333,8 +333,28 @@ def test_null_agency_rows_found_make_the_result_incomplete():
     result, _ = retrieve(fake=fake)
     assert result.status is RetrievalStatus.INCOMPLETE_PAGINATION
     assert result.provenance.incomplete_reasons == ["null_agency_rows_not_retrieved: 2"]
-    assert result.excluded_counts.null_agency.counts == {"null_agency": 2}
-    assert result.excluded_counts.by_agency.established  # the main fetch itself was complete
+    null = result.excluded_counts.null_agency
+    assert null.established and null.counts == {"null_agency": 2}
+    assert null.query_where == null_agency_where([BBL]) and null.truth_header == TRUTH
+    # Decision B: the HPD/DOB counts are kept as observed, with their provenance, but are
+    # not established for an incomplete result.
+    by = result.excluded_counts.by_agency
+    assert not by.established and by.counts is None
+    assert by.ok and by.counts_observed == {"DOB": 1, "HPD": 3} and by.truth_header == TRUTH
+    assert "with no agency are not retrieved" in by.not_established_reason
+    assert not result.summary.complete
+    assert any("no agency" in n for n in result.coverage_notes)
+
+
+def test_result_model_refuses_established_counts_beside_null_agency_rows():
+    fake = Fake311([sr_row(1)])
+    fake.null = [{"n": "2"}]
+    result, _ = retrieve(fake=fake)
+    data = result.model_dump()
+    data["excluded_counts"]["by_agency"].update(established=True, counts={"DOB": 1, "HPD": 3})
+    data["excluded_counts"]["by_agency"]["not_established_reason"] = None
+    with pytest.raises(ValidationError):
+        ServiceRequestResult.model_validate(data)
 
 
 def test_null_agency_count_failure_is_a_warning_not_silence():
@@ -342,8 +362,11 @@ def test_null_agency_count_failure_is_a_warning_not_silence():
     fake.fail["null"] = {0}
     result, _ = retrieve(fake=fake)
     assert result.status is RetrievalStatus.RECORDS_FOUND
-    assert not result.excluded_counts.null_agency.established
-    assert any("null_agency_count_not_established" in w for w in result.provenance.warnings)
+    null = result.excluded_counts.null_agency
+    assert not null.established and null.counts is None  # never reported as zero
+    assert "count query failed" in null.not_established_reason
+    warning = next(w for w in result.provenance.warnings if "null_agency_coverage_unknown" in w)
+    assert "not known to be complete" in warning
 
 
 # ---- unstable snapshots (D27) ------------------------------------------------------------------

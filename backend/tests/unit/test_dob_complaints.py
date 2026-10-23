@@ -717,7 +717,7 @@ def test_identical_duplicates_keep_independent_verifiable_evidence_for_every_row
         raw = store.get(ref.original_digest)
         assert raw is not None and verify(raw, KEY)
         assert raw.original_row == original
-        assert raw.source_record_id == "1"
+        assert raw.source_record_id == original[":id"]  # each copy under its own :id
         assert (raw.query_url, raw.fetched_at) == (page.url, page.fetched_at)
         assert (ref.query_url, ref.fetched_at) == (page.url, page.fetched_at)
     # The public record carries identities and keyed digests only, never the raw rows.

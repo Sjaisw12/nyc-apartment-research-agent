@@ -183,9 +183,11 @@ def test_recorded_status_disagreements_are_kept(results):
 def test_every_record_has_verifiable_evidence(results):
     for result, store in results.values():
         for r in result.records:
-            raw = store.get(r.original_digest)
-            assert raw is not None and verify(raw, KEY)
-            assert raw.source_record_id == r.complaint_number
+            for ref in r.source_rows:  # every copy, stored under its own Socrata :id
+                raw = store.get(ref.original_digest)
+                assert raw is not None and verify(raw, KEY)
+                assert raw.source_record_id == ref.source_row_id
+                assert raw.original_row["complaint_number"] == r.complaint_number
             assert "dobrundate" not in r.model_dump_json()
 
 

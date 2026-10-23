@@ -486,11 +486,15 @@ def normalize_row(
     # DOB complaint rows are not sanitized in fixtures (nothing personal), so the row is
     # the original as received, live or replayed.
     basis_kind = DigestBasis.ORIGINAL_ROW
+    row_id = str(row.get(ROW_ID) or "")
     if ctx.evidence is not None:
         ctx.evidence.put(
             RawEvidence(
                 dataset_id=DATASET_ID,
-                source_record_id=number,
+                # The raw row is stored under its own Socrata :id, the id its source-row
+                # link carries (identical copies share a complaint number but not an :id).
+                # PostgreSQL checks link and raw row agree (0007 link identity, step 5).
+                source_record_id=row_id,
                 original_sha256=original_sha,
                 original_digest=original_digest,
                 basis=basis_kind,
@@ -508,7 +512,7 @@ def normalize_row(
         complaint_number=number,
         source_rows=[
             DobSourceRow(
-                source_row_id=str(row.get(ROW_ID) or ""),
+                source_row_id=row_id,
                 original_digest=original_digest,
                 query_url=query_url,
                 fetched_at=fetched_at,

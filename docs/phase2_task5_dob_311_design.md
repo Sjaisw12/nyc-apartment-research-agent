@@ -359,8 +359,10 @@ For each DOB complaint whose disposition is an order code, an `OrderEvent`:
 
 | `order_event` | Codes |
 |---|---|
-| `stop_work_full_issued` | A3 |
-| `stop_work_partial_issued` | L1, K6 |
+| `stop_work_full_issued` | A3, U4 |
+| `stop_work_partial_issued` | K6, U5 |
+| `stop_work_partial_recorded` | L1 (DOB's text has no verb) |
+| `stop_work_crane_no_address_recorded` | K4 (no verb) |
 | `stop_work_rescinded_full` | L2 |
 | `stop_work_rescinded_partial` | L3 |
 | `stop_work_noncompliance` | H3, H4, V3 |
@@ -1146,7 +1148,10 @@ Complaint", 1 row) is `stop_work_partial_issued`. Each order event also gets an
 `rescinded` (L2, L3, P4, Y2, Y4), `previously_issued` (RZ), `noncompliance_violation`
 (H3, H4, V3, W1) or `not_stated` (H5, K4, L1). ME, MF, MH and MI keep their vacate event
 with action `issued`. The event label names the kind of order; the action says what the
-record says happened. Neither says the order is in effect now (D25 unchanged).
+record says happened. Neither says the order is in effect now (D25 unchanged). A label
+contains "issued" only when DOB's text says served, issued or previously issued; L1 and
+K4, whose text has no verb, are `stop_work_partial_recorded` and
+`stop_work_crane_no_address_recorded` (corrected after the 06:22Z review).
 
 **Status disagreement, recomputed.** ACTIVE complaints whose code is a final outcome: 897
 (I2 1, X1 863, X2 33; step 1 reported 1 because X1 and X2 were unknown then). These keep

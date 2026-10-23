@@ -44,7 +44,7 @@ Definitions are copied verbatim. A code with no official definition stays `unkno
 
 ## Order events
 
-Recorded events only. No order event means an order is currently in effect.
+Recorded events only. An order event never means that an order is currently in effect, and the absence of an order event does not mean that no order exists.
 
 `order_action` is the verb in the official text: served, issued, rescinded, previously_issued, noncompliance_violation (a violation for disobeying the order), or not_stated.
 
@@ -54,9 +54,9 @@ Recorded events only. No order event means an order is currently in effect.
 | H3 | Building Violation Issued for Failure to Obey Stop Work Order | `stop_work_noncompliance` | noncompliance_violation | `violation_issued` | 7,196 |
 | H4 | Criminal Court Summons Served Due to Failure to Obey SWO | `stop_work_noncompliance` | noncompliance_violation | `violation_served` | 26 |
 | H5 | Stop All Work/No TCAO (Temporary Certificate of Approval and Operation) | `stop_all_work_no_tcao` | not_stated | `order_event` | 44 |
-| K4 | Cranes and Derricks – Stop Work Order (SWO) – No Associated Address | `stop_work_issued_crane_no_address` | not_stated | `order_event` | 1 |
+| K4 | Cranes and Derricks – Stop Work Order (SWO) – No Associated Address | `stop_work_crane_no_address_recorded` | not_stated | `order_event` | 1 |
 | K6 | Letter of Deficiency Issued with Partial SWO | `stop_work_partial_issued` | issued | `order_event` | 0 |
-| L1 | Partial Stop Work Order | `stop_work_partial_issued` | not_stated | `order_event` | 6,786 |
+| L1 | Partial Stop Work Order | `stop_work_partial_recorded` | not_stated | `order_event` | 6,786 |
 | L2 | Stop Work Order Fully Rescinded | `stop_work_rescinded_full` | rescinded | `order_event` | 162,973 |
 | L3 | Stop Work Order Partially Rescinded | `stop_work_rescinded_partial` | rescinded | `order_event` | 1,004 |
 | ME | MARCH: Exit Passage Obstructed/OATH Notice of Violation & Full Vacate Issued | `vacate_full_issued` | issued | `violation_issued` | 17 |
@@ -141,9 +141,9 @@ Recorded events only. No order event means an order is currently in effect.
 | X1 | Compliance Inspection Completed – No Enforcement Action Required | PDF 2021 | `no_violation` |  | 924 | 863 | 61 |
 | A3 | Full Stop Work Order Served | PDF 2021 | `order_event` | stop_work_full_issued | 10,556 | 0 | 10,556 |
 | H5 | Stop All Work/No TCAO (Temporary Certificate of Approval and Operation) | PDF 2021 | `order_event` | stop_all_work_no_tcao | 44 | 0 | 44 |
-| K4 | Cranes and Derricks – Stop Work Order (SWO) – No Associated Address | PDF 2021 | `order_event` | stop_work_issued_crane_no_address | 1 | 0 | 1 |
+| K4 | Cranes and Derricks – Stop Work Order (SWO) – No Associated Address | PDF 2021 | `order_event` | stop_work_crane_no_address_recorded | 1 | 0 | 1 |
 | K6 | Letter of Deficiency Issued with Partial SWO | PDF 2021 | `order_event` | stop_work_partial_issued | 0 | 0 | 0 |
-| L1 | Partial Stop Work Order | PDF 2021 | `order_event` | stop_work_partial_issued | 6,786 | 0 | 6,786 |
+| L1 | Partial Stop Work Order | PDF 2021 | `order_event` | stop_work_partial_recorded | 6,786 | 0 | 6,786 |
 | L2 | Stop Work Order Fully Rescinded | PDF 2021 | `order_event` | stop_work_rescinded_full | 162,973 | 0 | 162,973 |
 | L3 | Stop Work Order Partially Rescinded | PDF 2021 | `order_event` | stop_work_rescinded_partial | 1,004 | 0 | 1,004 |
 | P3 | Closure/Padlock Order Issued | PDF 2021 | `order_event` | padlock_issued | 97 | 0 | 97 |

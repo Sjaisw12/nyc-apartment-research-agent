@@ -1490,7 +1490,7 @@
    "definition_2017_table": "CRANES & DERRICKS - STOP WORK ORDER - NO ASSOCIATED ADDRESS P",
    "wording_comparison": "wording_differs",
    "outcome": "order_event",
-   "order_event": "stop_work_issued_crane_no_address",
+   "order_event": "stop_work_crane_no_address_recorded",
    "order_action": "not_stated",
    "rows_in_use": 1,
    "rows_by_status": {
@@ -1561,7 +1561,7 @@
    "definition_2017_table": "PARTIAL STOP WORK ORDER P",
    "wording_comparison": "same_after_normalization",
    "outcome": "order_event",
-   "order_event": "stop_work_partial_issued",
+   "order_event": "stop_work_partial_recorded",
    "order_action": "not_stated",
    "rows_in_use": 6786,
    "rows_by_status": {

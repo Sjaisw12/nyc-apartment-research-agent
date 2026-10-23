@@ -235,9 +235,24 @@ def test_no_label_claims_an_order_is_in_effect(rows, mapping):
     for r in rows.values():
         for label in (r["outcome"], r["order_event"] or "", r["order_action"] or ""):
             assert not re.search(r"active|in_effect|current|ongoing", label), label
-    assert "No order event means an order is currently in effect" in (
-        DOCS / "proposed_mappings.md"
-    ).read_text(encoding="utf-8")
+    md = (DOCS / "proposed_mappings.md").read_text(encoding="utf-8")
+    assert "An order event never means that an order is currently in effect" in md
+    assert "absence of an order event does not mean that no order exists" in md
+    assert "No order event means an order is currently in effect" not in md
+
+
+def test_labels_assert_issuance_only_when_dob_text_does(rows):
+    for c, r in rows.items():
+        event, action = r["order_event"], r["order_action"]
+        if not event:
+            continue
+        if "issued" in event:
+            assert action in ("served", "issued", "previously_issued"), c
+        if action == "not_stated":
+            assert not re.search(r"issued|served|rescinded", event), c
+    assert rows["L1"]["order_event"] == "stop_work_partial_recorded"
+    assert rows["K4"]["order_event"] == "stop_work_crane_no_address_recorded"
+    assert rows["H5"]["order_action"] == "not_stated"
 
 
 def test_status_disagreement_is_counted_by_code(mapping):

@@ -144,9 +144,10 @@ OUTCOMES: dict[str, tuple[str, ...]] = {
 # Order events (design 5.2). A code can be both an order event and a violation.
 ORDER_EVENTS = {
     "A3": "stop_work_full_issued",
-    "L1": "stop_work_partial_issued",
+    # L1 and K4 have no verb in DOB's text, so their labels say "recorded", not "issued".
+    "L1": "stop_work_partial_recorded",
     "K6": "stop_work_partial_issued",
-    "K4": "stop_work_issued_crane_no_address",
+    "K4": "stop_work_crane_no_address_recorded",
     "L2": "stop_work_rescinded_full",
     "L3": "stop_work_rescinded_partial",
     "H3": "stop_work_noncompliance",
@@ -425,7 +426,8 @@ def main() -> None:
         "",
         "## Order events",
         "",
-        "Recorded events only. No order event means an order is currently in effect.",
+        "Recorded events only. An order event never means that an order is currently in"
+        " effect, and the absence of an order event does not mean that no order exists.",
         "",
         "`order_action` is the verb in the official text: served, issued, rescinded,"
         " previously_issued, noncompliance_violation (a violation for disobeying the order),"

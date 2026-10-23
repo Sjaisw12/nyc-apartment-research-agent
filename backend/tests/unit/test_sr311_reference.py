@@ -20,8 +20,8 @@ DICTIONARY = ROOT / "docs" / "task5" / "sr311_dictionary_values.json"
 REVIEW = ROOT / "docs" / "task5" / "sr311_history_review.json"
 REVIEW_SCRIPT = ROOT / "backend" / "scripts" / "task5_review_311_history.py"
 # Pinned so that any change to the allowlists is deliberate and reviewed.
-REFERENCE_SHA256 = "2f513ee0cc92ad5d9540639d4128ccc07be1627a089139ebcd27bfd7e09033cc"
-REVIEW_SHA256 = "fe5a55163758721ff9468333d3204edacbfd82f286077a3dbda30624f9bb6d71"
+REFERENCE_SHA256 = "b5c07538ff65067d6e6e5da6d4bcfd356f76eac17034e275d3bc93927919b7ee"
+REVIEW_SHA256 = "4586e185169e394001b616dbc0ebfd5fa52596a0052ebbcde9cd80ca5d4e8bba"
 # The step-4 file, before decision A; base() must still rebuild it byte for byte.
 STEP4_SHA256 = "6b2a60553863a09a0f9b72726384aacb2577c644f63fceb964d16b6530ddd532"
 DICTIONARY_SHA256 = "f45d7c2c89ab0c31aec760e112a4b89c279af363cfd5ee33c192cedb8561a256"
@@ -85,7 +85,7 @@ def test_allowlist_sizes_and_exclusions_are_the_measured_ones():
         "descriptor": (1296, 0),
         "descriptor_2": (1029, 0),
         "location_type": (200, 0),
-        "resolution_description": (704, 22),
+        "resolution_description": (688, 22),
     }
 
 
@@ -132,7 +132,7 @@ def test_history_review_provenance_and_counts():
         "descriptor": (303, 0, 0, 303),
         "descriptor_2": (241, 0, 0, 241),
         "location_type": (8, 0, 0, 8),
-        "resolution_description": (559, 96, 5, 458),
+        "resolution_description": (559, 96, 14, 449),
     }
     for f, v in r["fields"].items():
         c = v["counts"]
@@ -177,16 +177,60 @@ def test_rejected_history_values_are_hashes_only():
     assert admitted  # the admitted values are the only grouped text in the file
 
 
+def test_step4_values_withdrawn_by_review_are_removed():
+    step4 = set(_module().base()["allowlists"]["resolution_description"])
+    allowed = set(ref()["allowlists"]["resolution_description"])
+    withdrawn = review()["fields"]["resolution_description"]["step4_withdrawn"]
+    assert sorted(w for _, w in withdrawn) == [
+        "individual_service_outcome",
+        "individual_service_outcome",
+        "person_centered_outreach",
+        "person_centered_outreach",
+        "person_centered_outreach",
+        "person_centered_outreach",
+        "third_party_arrest",
+    ]
+    by_hash = {hashlib.sha256(v.encode()).hexdigest(): v for v in step4}
+    for digest, _ in withdrawn:
+        assert digest in by_hash and by_hash[digest] not in allowed
+    assert len(step4 - allowed) == len(withdrawn)
+    for f, v in review()["fields"].items():
+        if f != "resolution_description":
+            assert v["step4_withdrawn"] == []
+
+
 def test_known_sensitive_and_contact_templates_stay_withheld():
     mod = _module()
     allowed = set(ref()["allowlists"]["resolution_description"])
     for value in (
         "The person has refused services from the mobile outreach response team.",
         "The individual was found and outreach assistance was offered.",
+        "The individual accepted assistance from the mobile outreach response team.",
+        "The mobile outreach response team offered services to the individual, but the "
+        "individual did not accept assistance.",
+        "The mobile outreach response team went to the location provided but could not find "
+        "the individual that you reported.",
+        "The Department of Homeless Services has sent a mobile outreach response team to the "
+        "location.",
+        "The Department for the Aging contacted you and provided the assistance requested.\xa0"
+        " No further updates will be available through 311. If further assistance is needed, "
+        "please open a new Service Request.",
+        "The Police Department made an arrest in response to the complaint.",
+        "The reported condition was inspected and an arrest was made.",
         "Your complaint was referred to the vendor, CityBridge.",
         "Please call (212) 639-9675 for more information.",
     ):
-        assert value not in allowed
+        # by prefix, so a mis-encoded variant of the same template cannot slip through
+        assert not any(a.startswith(value[:60]) for a in allowed), value
+    assert not any(re.search(r"made an arrest|arrest was made", a, re.I) for a in allowed)
+    assert not any("outreach response team" in a for a in allowed)
+    # Generic routing and condition outcomes stay public (not person-centered).
+    for value in (
+        "The Department of Homeless Services (DHS) visited the location but could not find "
+        "the condition you reported. If it still exists, please submit a new Service Request.",
+        "The Police Department visited the location and no Encampment was found.",
+    ):
+        assert value in allowed
     from nyc_apartment_agent.records.sr311 import public_value
     from nyc_apartment_agent.records.sr311_models import WITHHELD_VALUE
 

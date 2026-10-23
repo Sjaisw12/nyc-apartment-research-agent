@@ -284,10 +284,11 @@ _TEXT = {
     "resolution_description",
     "redaction",
 }
-# 53 of the 54 rows hold agency templates with a phone number or URL (screened out, never
-# excepted); 1 holds a manually rejected template.
-AFTER = {"resolution_description": 54}
-AFTER_FLAGGED = 54
+# 53 of the 65 rows hold agency templates with a phone number or URL (screened out, never
+# excepted); 2 hold history templates rejected by review (outreach and service outcomes);
+# 10 hold step-4 outreach and service-outcome templates withdrawn by the same review.
+AFTER = {"resolution_description": 65}
+AFTER_FLAGGED = 65
 
 
 def _withheld(results) -> tuple[dict, int, int]:
@@ -339,4 +340,4 @@ def test_withheld_values_on_the_recordings_are_counted_not_hidden(results, step4
             text_differs = a.model_dump(include=_TEXT) != b.model_dump(include=_TEXT)
             assert (a.redacted_sha256 != b.redacted_sha256) is text_differs
             changed += text_differs
-    assert changed == 633
+    assert changed == 642

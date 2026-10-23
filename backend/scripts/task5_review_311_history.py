@@ -145,6 +145,15 @@ def check(raw: dict, reference: dict) -> None:
             "manually_rejected": len(manual & {sha(v) for v in values}),
             "admitted": len(admitted),
         }
+        base_hashes = {
+            sha(v)
+            for v in (
+                reference["agencies"] if field == "agency" else reference["allowlists"][field]
+            )
+        }
+        for h, why in r["step4_withdrawn"]:
+            if h not in base_hashes or why not in REASONS:
+                problems.append((field, "withdrawn hash is not a step-4 value", h))
         if counts != r["counts"]:
             problems.append((field, f"counts differ: {counts} vs {r['counts']}", ""))
         print(field, counts)
@@ -157,7 +166,16 @@ REASONS = {
     "third_party_social_services": "describes whether an individual accepted or refused "
     "outreach, housing or mental-health services",
     "names_business": "names a private business",
+    "person_centered_outreach": "describes outreach directed at a reported individual "
+    "(a team sent or referred to engage them, or whether they were found)",
+    "individual_service_outcome": "describes a social-service contact with, or service "
+    "delivered to, an individual (for example aging services or outreach assistance)",
+    "third_party_arrest": "states that a person was arrested",
 }
+# Step-5 correction (after the 20:00Z acceptance): the same rules applied to the step-4
+# lists. A step-4 value that a reviewer withdraws is listed by hash in `step4_withdrawn`;
+# the builder removes it from the published reference, while base() still rebuilds the
+# accepted step-4 file byte for byte.
 NOTES = (
     "Picklist fields (agency, complaint_type, descriptor, descriptor_2, location_type) hold "
     "city-maintained categories and codes; every candidate was read. resolution_description "
@@ -172,9 +190,14 @@ NOTES = (
 
 def write(raw: dict, reference: dict, decisions: list[dict]) -> None:
     manual: dict[str, list] = {}
+    withdrawn: dict[str, list] = {}
     for d in decisions:
         assert d["reason"] in REASONS, d["reason"]
-        manual.setdefault(d["field"], []).append((d["value"], d["reason"]))
+        target = withdrawn if d.get("step4") else manual
+        target.setdefault(d["field"], []).append((d["value"], d["reason"]))
+    for field, items in withdrawn.items():
+        listed = set(reference["agencies"] if field == "agency" else reference["allowlists"][field])
+        assert all(v in listed for v, _ in items), field
     fields = {}
     for field, values in candidates(raw, reference).items():
         rejected = {v: why for v, why in manual.get(field, [])}
@@ -199,6 +222,7 @@ def write(raw: dict, reference: dict, decisions: list[dict]) -> None:
             },
             "auto_rejected_by_screen": dict(sorted(Counter(auto.values()).items())),
             "rejected_manual": sorted([sha(v), why] for v, why in rejected.items()),
+            "step4_withdrawn": sorted([sha(v), why] for v, why in withdrawn.get(field, [])),
             "admitted": admitted,
         }
     review = {

@@ -186,6 +186,57 @@ and is in the packaged reference; rejected values appear only as hashes; the rev
 holds no phone, email or URL outside the admitted list; known sensitive templates stay
 withheld.
 
+### 5.1 Correction after the 20:00Z acceptance: person-centered outreach
+
+Every admitted `resolution_description` was audited again, and so was the step-4 base
+list, against one rule. Text that reveals an individual's whereabouts, outreach directed
+at them, a social-service contact or outcome, or an arrest is withheld. Generic routing
+and condition outcomes stay public, for example "DHS visited the location but could not
+find the condition", "referred to DHS", "no Encampment was found" and "not within DHS
+jurisdiction". Rejected and withdrawn values are recorded only as SHA-256 hashes with a
+reason code.
+
+| Where | Reason code | Values | Examples (paraphrased) |
+|---|---|---|---|
+| History admissions | `person_centered_outreach` | 3 | DHS could not find the person you reported; DHS sent a mobile outreach team; DHS referred the request to an outreach provider |
+| History admissions | `individual_service_outcome` | 4 | Department for the Aging contacted you and provided assistance, sent you documents, or tried to reach you |
+| History admissions | `third_party_arrest` | 2 | police made an arrest |
+| Step-4 base list | `person_centered_outreach` | 4 | outreach team could not find the individual; outreach team attempted to engage individuals; DHS will send outreach workers |
+| Step-4 base list | `individual_service_outcome` | 2 | the individual accepted, or did not accept, assistance from the outreach team |
+| Step-4 base list | `third_party_arrest` | 1 | police made an arrest |
+
+The step-4 base list held these texts because they came in through the dictionary and
+step-1 frequency rule. They are withdrawn in `step4_withdrawn`. `base()` still rebuilds
+the accepted step-4 file byte for byte, and the published reference removes them.
+
+Updated counts:
+
+| Item | Before correction | After correction |
+|---|---|---|
+| `resolution_description` rejected by review | 5 | 14 |
+| `resolution_description` admitted | 458 | 449 |
+| Step-4 values withdrawn | 0 | 7 |
+| `resolution_description` allowlist size | 704 | 688 |
+
+On the same 945 recorded rows, withheld values go from 54 to **65**:
+
+| Reason | Rows |
+|---|---|
+| Templates with a phone number | 43 |
+| Templates with a URL | 10 |
+| Withdrawn step-4 outreach texts | 7 |
+| Withdrawn step-4 service-outcome texts | 3 |
+| Rejected history outreach text | 1 |
+| Rejected history service-outcome text | 1 |
+
+Ten of these rows showed an outreach or service-outcome text publicly under the accepted
+step-4 list. The step-4 before-count (659) is unchanged.
+
+Records, tokens, original digests, dates, attribution and counts are unchanged, as are
+the recordings, migration 0011 and the roles. `redacted_sha256` changes on exactly the
+642 rows whose text changed. New hashes: reference `b5c07538...b7ee`, review
+`4586e185...8bba`. The full suite with PostgreSQL gives 1167 passed and 33 skipped.
+
 ## 6. Role matrix (from the catalog; 0011 changed none of it)
 
 | Role | Rights |

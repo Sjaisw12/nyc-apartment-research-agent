@@ -29,6 +29,7 @@ status is never read as "resolved" or "repaired".
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 from pathlib import Path
@@ -127,17 +128,25 @@ def base() -> dict:
     }
 
 
+def _sha(value: str) -> str:
+    return hashlib.sha256(value.encode("utf-8")).hexdigest()
+
+
 def build() -> dict:
-    """The step-4 reference plus the values admitted by the step-5 history review."""
+    """The step-4 reference, less reviewed withdrawals, plus reviewed history admissions."""
     ref = base()
     review = json.loads((DOCS / "sr311_history_review.json").read_text(encoding="utf-8"))
     for field in (*FIELDS, "resolution_description"):
         admitted = review["fields"][field]["admitted"]
         bad = sorted(v for v in admitted if _private(v) or v in ref["allowlists"][field])
         assert not bad, (field, len(bad))
-        ref["allowlists"][field] = sorted(set(ref["allowlists"][field]) | set(admitted))
+        withdrawn = {h for h, _ in review["fields"][field]["step4_withdrawn"]}
+        kept = {v for v in ref["allowlists"][field] if _sha(v) not in withdrawn}
+        assert len(ref["allowlists"][field]) - len(kept) == len(withdrawn), field
+        ref["allowlists"][field] = sorted(kept | set(admitted))
         stats = ref["field_stats"][field]
         stats["history_admitted"] = len(admitted)
+        stats["step4_withdrawn_by_review"] = len(withdrawn)
         stats["allowlisted"] = len(ref["allowlists"][field])
     admitted = review["fields"]["agency"]["admitted"]
     assert not set(admitted) & ({"HPD", "DOB"} | set(ref["agencies"]))
@@ -154,7 +163,8 @@ def build() -> dict:
         "min_count": review["min_count"],
         "truth_header": review["raw_truth_header"],
         "measured_at": review["measured_at"],
-        "rule": "admitted only after manual review; frequency alone admits nothing",
+        "rule": "admitted only after manual review; frequency alone admits nothing; step-4 "
+        "values withdrawn by the same review are removed",
     }
     return ref
 

@@ -20,7 +20,7 @@
    "min_count": 20,
    "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
    "measured_at": "2026-10-23T19:26:06+00:00",
-   "rule": "admitted only after manual review; frequency alone admits nothing"
+   "rule": "admitted only after manual review; frequency alone admits nothing; step-4 values withdrawn by the same review are removed"
   }
  },
  "field_stats": {
@@ -37,7 +37,8 @@
     "truth_header": "Thu, 22 Oct 2026 01:37:36 GMT",
     "at": "2026-10-23T04:40:19+00:00"
    },
-   "history_admitted": 35
+   "history_admitted": 35,
+   "step4_withdrawn_by_review": 0
   },
   "descriptor": {
    "dictionary_values": 902,
@@ -52,7 +53,8 @@
     "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
     "at": "2026-10-23T04:40:18+00:00"
    },
-   "history_admitted": 303
+   "history_admitted": 303,
+   "step4_withdrawn_by_review": 0
   },
   "descriptor_2": {
    "dictionary_values": 725,
@@ -67,7 +69,8 @@
     "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
     "at": "2026-10-23T04:40:17+00:00"
    },
-   "history_admitted": 241
+   "history_admitted": 241,
+   "step4_withdrawn_by_review": 0
   },
   "location_type": {
    "dictionary_values": 185,
@@ -82,12 +85,13 @@
     "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
     "at": "2026-10-23T04:40:21+00:00"
    },
-   "history_admitted": 8
+   "history_admitted": 8,
+   "step4_withdrawn_by_review": 0
   },
   "resolution_description": {
    "dictionary_values": 0,
    "frequent_values": 268,
-   "allowlisted": 704,
+   "allowlisted": 688,
    "excluded_privacy_pattern": 22,
    "window_distinct_values": 491,
    "window_values_below_min_count": 223,
@@ -97,7 +101,8 @@
     "truth_header": "Thu, 22 Oct 2026 01:37:36 GMT",
     "at": "2026-10-23T04:40:22+00:00"
    },
-   "history_admitted": 458
+   "history_admitted": 449,
+   "step4_withdrawn_by_review": 7
   }
  },
  "allowlists": {
@@ -3035,8 +3040,6 @@
    "Service Request status for this request is available on the Department of Transportation's website. Please click the \"Learn More\" link below.",
    "Service Request status for this request is available on the Department of Transportationâs website. Please click the âLearn Moreâ link below.",
    "Thank you for submitting your service request. The NYC Department of Homeless Services (DHS) couldn't respond because they didn't have enough information.  DHS counts on New Yorkers like you to keep our city safe and livable. If the problem still exists, please file a new request. Add more details and your contact information so DHS can reach you if needed.",
-   "Thank you for submitting your service request. The NYC Department of Homeless Services (DHS) reviewed the condition you reported.  What happens next: DHS will send outreach workers to offer shelter and support to people staying on or near the site. Some sites take a few weeks to address, but DHS will keep track of this area until the problem is resolved.   If the conditions pose a health or safety risk, DHS will work with other City agencies to clean the area.  DHS counts on New Yorkers like you to keep our city safe and livable. If you notice a new condition at the site or if it gets much worse, please file a new request.",
-   "Thank you for submitting your service request. The NYC Department of Homeless Services (DHS) reviewed the condition you reported. DHS has received reports about this site before. Outreach teams are working to address the problem.  What happens next: DHS will keep sending outreach workers to offer shelter and support to people staying on or near the site. Some sites take a few weeks to address, but DHS will keep track of this area until the problem is resolved.   If the conditions pose a health or safety risk, DHS will work with other City agencies to clean the area.  DHS counts on New Yorkers like you to keep our city safe and livable. If you notice a new condition at the site or if it gets much worse, please file a new request.",
    "Thank you for your report. It will be used to inform the Cityâs ongoing work to ensure that New Yorkâs phased reopening is happening in a safe manner.",
    "Thank you for your report. It will help the City ensure that the vaccine mandate is being enforced safely.",
    "Thank you for your report. The Department of Health and Mental Hygiene will use the information that you provided to help track and control mosquito populations throughout the City. No further information will be available from 311 on your report.",
@@ -3050,11 +3053,7 @@
    "The DOHMH has investigated the complaint and issued a Notice of Violation. The establishment compied with the orders to correct the condition.",
    "The DOHMH has investigated the complaint and observed a violation.  DOHMH ordered the condition to be corrected. The agency will continue to monitor for compliance.",
    "The Departent of Sanitation found that this is not a vacant lot. There appears to be a business in operation at the location.",
-   "The Department for the Aging attempted to contact you by phone. This was the third and final attempt.",
-   "The Department for the Aging contacted you and provided the assistance requested.Â  No further updates will be available through 311. If further assistance is needed, please open a new Service Request.",
    "The Department for the Aging determined that this issue is not within its jurisdiction. The complaint has been referred to the appropriate organization.",
-   "The Department for the Aging has sent you a letter or mailed the document(s) you requested. Please allow additional time for delivery.",
-   "The Department for the Aging made at least three attempts to contact you.Â  No further contact will be attempted. If further assistance is needed, please open a new Service Request and include the information referenced in the customer notes.",
    "The Department of Consumer Affairs (DCA) received your report. DCA will investigate your request and work with other relevant City agencies to resolve it. If necessary, the City will take enforcement action.   To check the status of your complaint, call 311 with your Service Request Number.",
    "The Department of Consumer Affairs has already mailed you a complaint form. In order for DCA to be able to help, you must complete that form and return it to DCA along with requested documentation. DCA will contact you approximately 30 days after receiving your complete complaint which we must forward to the reported business for its response. If you do not receive the complaint form within 15 days from the date of your initial request, please call 311 back.",
    "The Department of Consumer Affairs has determined that this issue is not within its jurisdiction and should be referred to the Commission on Human Rights. 311 can help you file a complaint or contact the agency for further assistance.",
@@ -3241,17 +3240,13 @@
    "The Department of Health and Mental Hygiene will send official written documentation to the Owner or Landlord warning them of potential violations and instructing them to correct the situation. If the situation persists 21 days after the initial complaint, please submit a new Service Request.",
    "The Department of Health and Mental Hygiene will send official written documentation to the Owner/Landlord warning them of potential violations and instructing them to correct the situation. If the situation persists 21 days after your initial complaint, please log another complaint.",
    "The Department of Homeless Services (DHS) has reviewed your service request and determined that the issue is not within DHS jurisdiction. If the location is private property, please contact the New York City Police Department. If the location is outside the five boroughs, please contact your local police department. Your service request has been closed.",
-   "The Department of Homeless Services (DHS) outreach team attempted to engage the individuals at the reported location. DHS is coordinating with their agency partners. They will determine the best course of action. Your service request has been closed.",
    "The Department of Homeless Services (DHS) reviewed your request and is coordinating with their agency partners to address the condition. No further information will be available with 311.",
    "The Department of Homeless Services (DHS) reviewed your request but could not find the condition you reported.",
    "The Department of Homeless Services (DHS) visited the location and is coordinating with their agency partners to address the condition. No further information will be available with 311.",
    "The Department of Homeless Services (DHS) visited the location but could not find the condition you reported. If it still exists, please submit a new Service Request.",
    "The Department of Homeless Services (DHS) visited the location but could not find the condition you reported. If it still exists, please submit a new service request with more details. Include the specific location and a detailed description of the condition.",
-   "The Department of Homeless Services (DHS) visited the location but could not find the person that you reported. If they are still there, please submit a new service request with more details. Include the specific location and a detailed description of the person.",
    "The Department of Homeless Services did not have enough information to act on your request.",
-   "The Department of Homeless Services has referred your Service Request to an outside homeless outreach provider.",
    "The Department of Homeless Services has reviewed your Service Request and determined that the issue is not within its jurisdiction.",
-   "The Department of Homeless Services has sent a mobile outreach response team to the location.",
    "The Department of Information Technology and Telecommunications investigated the complaint and the issue has been resolved.",
    "The Department of Parks and Recreation attempted to inspect the reported condition, but could not find the location. Please file a new Service Request with adequate site details, including a full street address and descriptive location information.",
    "The Department of Parks and Recreation determined that the requested site is ineligible for the Trees and Sidewalks Program, because the tree is not adjacent to a 1-, 2-, or 3-family home (NYC Tax Class 1 property). You can request a Sidewalk Tree Consultation to get advice on how you can repair the sidewalk on your own.",
@@ -3481,7 +3476,6 @@
    "The New York City Police Department responded to the complaint and their investigation determined another specific tow is required. Please contact the local precinct for more information. Thank you for attention to this matter. We count on New Yorkers like yourself to maintain a safe City, so please let us know if you see other conditions that require our attention.",
    "The New York City Police Department responded to the complaint and their investigation determined that a tow request was not necessary. If the problem persists, please contact 311 to create another complaint.  We count on New Yorkers like yourself to maintain a safe City, so please let us know if you see other conditions that require our attention.",
    "The New York City Police Department responded to the complaint and their investigation determined that a violation of law occurred. Police issued a summons in response to the complaint. Thank you for attention to this matter. We count on New Yorkers like yourself to maintain a safe City, so please let us know if you see other conditions that require our attention.",
-   "The New York City Police Department responded to the complaint and their investigation determined that a violation of law occurred. Police made an arrest in response to the complaint. Thank you for attention to this matter. We count on New Yorkers like yourself to maintain a safe City, so please let us know if you see other conditions that require our attention.",
    "The New York City Police Department responded to the complaint and their investigation determined that no criminal violation existed. The condition was corrected without the need to issue a summons or effect an arrest. If the problem persists, please contact 311 to create another complaint. If possible, provide contact information so responding officers may reach out to you for more details. If necessary, your complaint may be referred to your local precinct's special operations units (Quality of Life, etc.). Thank you for your attention to this matter. We count on New Yorkers like yourself to maintain a safe City, so please let us know if you see other conditions that require our attention.",
    "The New York City Police Department responded to the complaint and their investigation determined that police action was not necessary. If the problem persists, please contact 311 to create another complaint. If possible, provide contact information so responding officers may reach out to you for more details. We count on New Yorkers like yourself to maintain a safe City, so please let us know if you see other conditions that require our attention.",
    "The New York City Police Department responded to the complaint and with the information available observed no evidence of a criminal violation at that time. If the problem persists, please contact 311 to create another complaint. If possible, provide contact information so responding officers may reach out to you for more details. If necessary, your complaint may be referred to your local precinct's special operations units (Quality of Life, etc.). We count on New Yorkers like yourself to maintain a safe City, so please let us know if you see other conditions that require our attention.",
@@ -3512,7 +3506,6 @@
    "The Office of the Sheriff inspected the location and did not find any illegal cannabis products. They did find and seize other unsafe or illegal products. Thank you for reporting your concerns and helping keep your community safe. The Sheriffâs Office is always here to help.",
    "The Office ofÂ Special EnforcementÂ or another agency informed the business of the complaint and issued a warning.",
    "The Police Department issued a summons in response to the complaint.",
-   "The Police Department made an arrest in response to the complaint.",
    "The Police Department responded and upon arrival those responsible for the condition were gone.",
    "The Police Department responded to the complaint and a report was prepared.",
    "The Police Department responded to the complaint and determined that police action was not necessary.",
@@ -3580,15 +3573,12 @@
    "The contractor has reported that the requested work has been completed.",
    "The graffiti has been reported. The property owner will be notified that the City will remove the graffiti after 35 days unless the property owner requests to keep the graffiti or remove it himself or herself.",
    "The graffiti on this property has been scheduled to be removed by the City.",
-   "The individual accepted assistance from the mobile outreach response team.",
    "The issue has been inspected and the offending party has been confronted and informed of their wrongdoing. The situation has been remedied.",
    "The location does not meet the criteria for Litter Basket placement.",
    "The location was inspected and is suitable for tree planting. Barring any unforeseen issues such as underground utilities and based on available funding, the requested tree will be placed on an upcoming contract. Please note that this process can take up to two years, depending on capacity and the location.   To find out where and when trees will be planted, please visit the Tree Work Hub at nyc.gov/parks/treework.  To learn more about the trees in your neighborhood, visit the NYC Street Tree Map at nyc.gov/parks/treemap.",
    "The lot you reported is locked. To clean it, the Department of Sanitation (DSNY) needs an access warrant. The conditions DSNY observed don't meet the criteria for the courts to grant a warrant.   The agency will send cleaning crews to address the conditions they can reach outside the locked area.",
    "The lot you reported is under construction. Your Service Request has been closed because DSNY only clean lots that are vacant.  To report an unclean construction site, please contact the construction project manager.",
    "The lot you reported isn't vacant because it contains an occupied structure. The Department of Sanitation (DSNY) will refer your complaint to their enforcement division for further action.",
-   "The mobile outreach response team offered services to the individual, but the individual did not accept assistance.",
-   "The mobile outreach response team went to the location provided but could not find the individual that you reported.",
    "The owner claimed the bicycle was not abandoned.",
    "The owner claimed the vehicle.Â Your request is now closed and no further action will be taken.",
    "The owner or manager of the property was sent an advisory to correct the condition. If the condition persists, please call 311 or go online to www.nyc.gov/311 and submit another complaint.",
@@ -3598,7 +3588,6 @@
    "The reported condition was inspected and a report has been filed.",
    "The reported condition was inspected and a summons has been issued.",
    "The reported condition was inspected and a work order has been filed to correct it.",
-   "The reported condition was inspected and an arrest was made.",
    "The request submitted did not have sufficient information for the Department of Transportation to respond.",
    "The sidewalk was repaired by the City. After the bill has been recorded, the County Clerk's office will be notified of the violation dismissal. The local Borough County Clerk's office can verify date of dismissal. This process can take up to 30 days.",
    "The sidewalk was repaired by the City. The bill for repair has been recorded at the Dept. of Finance and the County Clerkâs Office. The County Clerkâs office will record the Dismissal. This process may take up to 30 days.",

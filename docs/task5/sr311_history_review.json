@@ -20,7 +20,10 @@
  },
  "manual_reject_reasons": {
   "third_party_social_services": "describes whether an individual accepted or refused outreach, housing or mental-health services",
-  "names_business": "names a private business"
+  "names_business": "names a private business",
+  "person_centered_outreach": "describes outreach directed at a reported individual (a team sent or referred to engage them, or whether they were found)",
+  "individual_service_outcome": "describes a social-service contact with, or service delivered to, an individual (for example aging services or outreach assistance)",
+  "third_party_arrest": "states that a person was arrested"
  },
  "review_notes": "Picklist fields (agency, complaint_type, descriptor, descriptor_2, location_type) hold city-maintained categories and codes; every candidate was read. resolution_description holds agency template text; every candidate that passed the automatic screen was read in full. Admitted: generic agency outcomes that name no person, address, business, vehicle or date and tell no story about the reporter. Agency phone numbers and URLs in templates trip the contact and URL screens; those templates stay withheld rather than carving out exceptions. Mis-encoded characters (for example 'â') are kept verbatim as published.",
  "fields": {
@@ -40,6 +43,7 @@
    },
    "auto_rejected_by_screen": {},
    "rejected_manual": [],
+   "step4_withdrawn": [],
    "admitted": {
     "OSE": 70955,
     "DCA": 27905,
@@ -65,6 +69,7 @@
    },
    "auto_rejected_by_screen": {},
    "rejected_manual": [],
+   "step4_withdrawn": [],
    "admitted": {
     "Request Large Bulky Item Collection": 632148,
     "Water System": 422496,
@@ -119,6 +124,7 @@
    },
    "auto_rejected_by_screen": {},
    "rejected_manual": [],
+   "step4_withdrawn": [],
    "admitted": {
     "Request Large Bulky Item Collection": 632148,
     "Noise: Construction Before/After Hours (NM1)": 128672,
@@ -441,6 +447,7 @@
    },
    "auto_rejected_by_screen": {},
    "rejected_manual": [],
+   "step4_withdrawn": [],
    "admitted": {
     "NM1": 128672,
     "L10": 83811,
@@ -701,6 +708,7 @@
    },
    "auto_rejected_by_screen": {},
    "rejected_manual": [],
+   "step4_withdrawn": [],
    "admitted": {
     "Catch Basin or Sewer": 163,
     "AD3": 94,
@@ -723,8 +731,8 @@
    "counts": {
     "candidates": 559,
     "auto_rejected": 96,
-    "manually_rejected": 5,
-    "admitted": 458
+    "manually_rejected": 14,
+    "admitted": 449
    },
    "auto_rejected_by_screen": {
     "contact_or_honorific": 84,
@@ -738,6 +746,14 @@
      "third_party_social_services"
     ],
     [
+     "263510dc5df8138233746ac0f22a0068e514af3797fc9cb01c2e35ff5c2b2494",
+     "person_centered_outreach"
+    ],
+    [
+     "33301c1fa5ea999745515f27a38f20a449408d5774681619788b348c9626984f",
+     "individual_service_outcome"
+    ],
+    [
      "3b4be12854efc8983b1c7491bb05e9d0ab80fe48bdefe360c2a1627216f86eae",
      "names_business"
     ],
@@ -746,12 +762,70 @@
      "third_party_social_services"
     ],
     [
+     "542bee8981b400919503f63e6847ed26274e9725ccf4fc274a04802613adff44",
+     "individual_service_outcome"
+    ],
+    [
+     "70c51c0b85bb571352bbb3556ad92cda8338e935ba19f0ecccd0b71dde5614d5",
+     "third_party_arrest"
+    ],
+    [
      "a20b114d53b41b5b70602c55ba96fd208fc08ca1b6313e9663b4e26d5e4d78aa",
      "third_party_social_services"
     ],
     [
+     "a3b8d45980bdabc0b5c0eee7f0bc158b02a27f32c14fce480c484113fd803623",
+     "third_party_arrest"
+    ],
+    [
      "b090dc4e9f094204e7cfb28d8245f1d4c18b7fad5744a1cf8782abc4d6c08fa3",
      "third_party_social_services"
+    ],
+    [
+     "b2eb7f8a3cfbebef5945181deacca36959d15a3b99dbf8a08f65ddf4b6601dee",
+     "individual_service_outcome"
+    ],
+    [
+     "c9c73db7eb07ca090df027311b4d2664ee7c586737d3866562d4c661199302c7",
+     "person_centered_outreach"
+    ],
+    [
+     "ebb13f6aaa8bd41bb390147ba18bf97a0d6689aec35f13fa1a059d571537407f",
+     "person_centered_outreach"
+    ],
+    [
+     "f984f38fcd84e55297e0c6eec0ba528f5ace226d87a1059ba492659003f97c26",
+     "individual_service_outcome"
+    ]
+   ],
+   "step4_withdrawn": [
+    [
+     "07b950404a7a94e3e24c3d70a53fe6b351e7efe36196c4d9b3a7f8f47d364e6a",
+     "person_centered_outreach"
+    ],
+    [
+     "128206b938ec1e03fdfdfb8546a7e099ac5177faca34bfc6ec1f0411877749cd",
+     "person_centered_outreach"
+    ],
+    [
+     "3aa0df5ac377285b0e9d9b96a6e25f953226aaaebcc66a5c5b2f0483c885ac5b",
+     "person_centered_outreach"
+    ],
+    [
+     "43d0c69697e3fa510cf832231cf7cf5c404fe6fdfb250c705ed852c2416e3aed",
+     "person_centered_outreach"
+    ],
+    [
+     "66e791bceae698e39d85f1823889fcc6aa55026ab4a106b6965fd1f62de5dd82",
+     "individual_service_outcome"
+    ],
+    [
+     "b461b76c6f2a84cdfe9b034d2b8d08dca1ecb13d710301163e2e02833502fe6f",
+     "third_party_arrest"
+    ],
+    [
+     "bdd7843477799b177d320216d51fc643debafbb2e29fbdc8b5e018f458c4b3b6",
+     "individual_service_outcome"
     ]
    ],
    "admitted": {
@@ -776,7 +850,6 @@
     "The Department of Parks and Recreation performed the work necessary to correct the condition.": 29155,
     "The Department of Sanitation collected the E-waste.": 24939,
     "The Department of Consumer Affairs has already mailed you a complaint form. In order for DCA to be able to help, you must complete that form and return it to DCA along with requested documentation. DCA will contact you approximately 30 days after receiving your complete complaint which we must forward to the reported business for its response. If you do not receive the complaint form within 15 days from the date of your initial request, please call 311 back.": 20610,
-    "The Department of Homeless Services (DHS) visited the location but could not find the person that you reported. If they are still there, please submit a new service request with more details. Include the specific location and a detailed description of the person.": 20423,
     "Based on the information provided by the customer, the Taxi and Limousine Commission has determined that a hearing is not necessary or not possible.": 18919,
     "The Department of Environmental Protection will keep the location under observation for idling commercial vehicles.Â Summonses will be issued when warranted.": 18566,
     "The Police Department responded to the complaint and a report was prepared.": 18550,
@@ -829,7 +902,6 @@
     "The Taxi and Limousine Commission was unable to identify the driver or car service company named in your complaint.": 3255,
     "The Office of Special Enforcement attempted to investigate or referred to another agency which attempted to investigate but the business was not open.": 3182,
     "Based on the nature of this issue, the Department of Homeless Services (DHS) worked with the New York City Police Department (NYPD) and determined that the best course of action was to transfer this issue to the NYPD. Your service request has been closed.": 2837,
-    "The Police Department made an arrest in response to the complaint.": 2768,
     "The Department of Environmental Protection sent a letter to the complainant and/or respondent and the letter was returned as undeliverable.": 2737,
     "The Taxi and Limousine (TLC) reviewed your complaint. The conduct described in your report is not a violation of TLC rules. TLC has sent you a written confirmation of this outcome.": 2694,
     "The Department of Sanitation (DSNY) closed your Service Request. The condition doesn't meet their criteria for a complaint or Service Request.": 2560,
@@ -850,7 +922,6 @@
     "NYC Parks inspected the requested repair site. This site meets the criteria for repair under the Trees & Sidewalks Program. However due to a high number of requests, they are only able to repair the very highest sites at this time, and your site has been waitlisted.": 1444,
     "The New York City Economic Development Corporation received your complaint. You did not provide enough information for the agency to be able to act on your request. Â In the future if you could note the date, time and place of the sighting and the direction the helicopter was travelling, as well as whether it was hovering or not, it would help in our review.Â  We can thenÂ  associate your complaint with a specific flight track from Port Authority or FAA records.": 1427,
     "The Office ofÂ Special EnforcementÂ or another agency informed the business of the complaint and issued a warning.": 1425,
-    "The Department for the Aging contacted you and provided the assistance requested.Â  No further updates will be available through 311. If further assistance is needed, please open a new Service Request.": 1382,
     "The cleaning crew was dispatched, but the owner refused to have the graffiti removed.": 1348,
     "NYC Parks has inspected the location and will perform work to correct the condition.   Under NYC Parksâ Tree Risk Management Program, all trees under the agency's jurisdiction are assessed for risk, and work is prioritized to address the conditions with the highest risk first.  For more information about the program, visit the NYC Urban Forest page on the NYC Parks website at nyc.gov/parks/trees.   To learn more about the trees in your neighborhood, view the NYC Tree Map at nyc.gov/parks/treemap.": 1323,
     "The Department of Transportation inspected this complaint and referred it to the Arterial Division for further action.": 1281,
@@ -897,7 +968,6 @@
     "The complaint does not contains sufficient information to allow an inspection for this complaint type.": 653,
     "The cleaning crew could not locate the property requiring graffiti removal.": 647,
     "NYC Parks determined that this issue is not within its jurisdiction. Please file a Service Request with the Department of Transportation.": 633,
-    "The Department of Homeless Services has sent a mobile outreach response team to the location.": 631,
     "The Department of Environmental Protection investigated this complaint and resolved the issue with the sewer manhole cover.": 630,
     "You were mailed a notice of complaint inactivation because the NYC Health Department tried and could not contact you to schedule a visit.": 628,
     "The Taxi and Limousine Commission (TLC) reviewed your complaint. The conduct described in your report is not a violation of TLC rules. TLC has sent you a written confirmation of this outcome.": 626,
@@ -970,7 +1040,6 @@
     "The Department of Transportation inspected the condition you reported and issued a summons to the responsible party. A re-inspection will be done within 10 days. If the condition still exists, a second summons will be issued. In some cases, the Department of Transportation will make the repairs and charge the responsible party for the costs.": 290,
     "The Department of Transportation recently inspected this site and found it to be in-compliance or took necessary action.": 290,
     "NYC Parks determined that this issue is not within its jurisdiction. Please file a Service Request with the New York City Housing Authority.": 285,
-    "The Department for the Aging has sent you a letter or mailed the document(s) you requested. Please allow additional time for delivery.": 278,
     "The Department of Environmental Protection requires contact with the complainant to investigate this complaint. There was no answer at the phone number provided.": 277,
     "NYC DEP investigated and determined the seepage basin was functioning properly and no further action required.  Seepage  basin typically drain within 72 hours.": 268,
     "The Department of Sanitation picked up the items and determined that the missed collection complaint was not warranted because the items contained recyclables or mixed materials.": 254,
@@ -1071,7 +1140,6 @@
     "The Police Department visited the location and no Homeless Street Condition was found.": 95,
     "The issue has been inspected and the offending party has been confronted and informed of their wrongdoing. The situation has been remedied.": 95,
     "The Department of Consumer Affairs has determined that this issue is not within its jurisdiction and should be referred to the Commission on Human Rights. 311 can help you file a complaint or contact the agency for further assistance.": 94,
-    "The Department for the Aging attempted to contact you by phone. This was the third and final attempt.": 93,
     "The Office of Special Enforcement investigated or referred to another agency for investigation and it was determined that the business is allowed to be open.": 92,
     "This service request has been referred to the Department of Health and Mental Hygiene's Office of Environmental Investigations.": 92,
     "The Department of Environmental Protection investigated this complaint and resolved the issue during a field inspection. The agency flushed the sewer in front of the complainant's address as a courtesy.": 91,
@@ -1123,7 +1191,6 @@
     "The Department of Health and Mental Hygiene has investigated the complaint. Further investigation will be conducted.": 55,
     "The NYC Health Department (DOHMH) closed your service request. They referred your complaint to the Metropolitan Transportation Authority (MTA). To learn more, contact MTA at 511 or mta.info/contact-us.": 55,
     "The Department of Health and Mental Hygiene has reviewed the complaint and has referred it to another Office/Bureau/Agency": 54,
-    "The Department of Homeless Services has referred your Service Request to an outside homeless outreach provider.": 54,
     "Scheduled for lot cleaning. If access is gained, cleaning should be completed within 2 - 4 weeks.": 53,
     "The Department of Sanitation (DSNY) inspected the lot and didn't find any conditions that violate their rules. DSNY will refer the location to the appropriate agency for further action.": 52,
     "The Department of Health and Mental Hygiene has investigated the complaint.Violations of rules and regulations issued resulting in the closure of the of the establishment by DOHMH. The establishment will be re-opened if the violations are corrected.": 51,
@@ -1143,7 +1210,6 @@
     "The Sheriffâs Office inspected the vehicle. They did not find illegal cannabis products or a violation. Thank you for reporting your concerns and helping keep your community safe. The Sheriffâs Office is always here to help.": 44,
     "The Office of Special Enforcement attempted to investigate or referred to another agency which attempted to investigate but could not locate the premises. If the problem still exists, please file a new 311 complaint with additional information about how to locate the school.": 43,
     "The Department of Health and Mental Hygiene could not conduct an inspection at the property you reported because dangerous conditions at that site make it unsafe for inspectors to attempt access.": 42,
-    "The Department for the Aging made at least three attempts to contact you.Â  No further contact will be attempted. If further assistance is needed, please open a new Service Request and include the information referenced in the customer notes.": 41,
     "The Department of Transportation (DOT) has determined that this issue is not within its jurisdiction.": 41,
     "The Department of Transportation inspected the condition and approved your request. Street markings will be painted during this current work season (April - November).": 41,
     "The Department of Transportation inspected the condition. Street markings will be painted in future markings seasons or when contracts are awarded.": 41,
@@ -1208,7 +1274,6 @@
     "The Department of Transportation (DOT) found that the issue you reported is a Department of Parks and Recreation (DPR) issue.  Please file a new service request with the DPR.": 21,
     "The Department of Transportation will inspect the condition you reported and will determine the next action.": 21,
     "The Sheriffâs Office closed your service request (SR). They couldnât find the vehicle you reported. If the problem still exists, please file a new SR with more details about the location and the vehicle. Include this SRâs number in your new request. Thank you for reporting your concerns and helping keep your community safe. The Sheriffâs Office is always here to help.": 21,
-    "The reported condition was inspected and an arrest was made.": 21,
     "No Link kiosk was found at this location. Please confirm the location and submit a new Service Request if the problem has not been resolved.": 20,
     "The Department of Consumer Affairs has determined that this issue is not within its jurisdiction and should be referred to the Taxi and Limousine Commission. 311 can help you file a complaint or contact the agency for further assistance.": 20,
     "The Department of Environmental Protection investigated this complaint and referred it to the New York State Department of Environmental Conservation for further action.": 20,

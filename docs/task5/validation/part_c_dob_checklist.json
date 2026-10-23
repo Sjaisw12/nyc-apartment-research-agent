@@ -1,0 +1,2181 @@
+{
+ "generated_by": "backend/scripts/task5_validation_part_c.py",
+ "status": "PENDING: manual lookup evidence not yet supplied",
+ "recording": "backend/tests/fixtures/dob311/dob_complaints_cassette.json (2026-10-23)",
+ "selection_rule": "every ACTIVE complaint; up to 10 CLOSED per BIN, lowest SHA-256 of 'task5-part-c-sample' + NUL + complaint number; every order-event complaint",
+ "official_sources": {
+  "bis_by_bin": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin={bin}",
+  "dob_now": "https://a810-dobnow.nyc.gov/publish/Index.html#!/"
+ },
+ "addresses": [
+  {
+   "address_key": "west_farms_1134",
+   "address": "1134 West Farms Rd, Bronx, NY 10459",
+   "resolved_bbl": "2027540005",
+   "resolved_bin": "2006185",
+   "dob_result_status": "records_found",
+   "dob_records": 12,
+   "bins_with_complaints": [
+    "2006185",
+    "2117584"
+   ],
+   "data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "note": null
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "resolved_bbl": "1007660055",
+   "resolved_bin": "1081543",
+   "dob_result_status": "records_found",
+   "dob_records": 46,
+   "bins_with_complaints": [
+    "1081543",
+    "1081544",
+    "1081545",
+    "1081546",
+    "1081547",
+    "1081548",
+    "1081549"
+   ],
+   "data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "note": null
+  },
+  {
+   "address_key": "west_farms_1217",
+   "address": "1217 West Farms Road, Bronx",
+   "resolved_bbl": "2029930031",
+   "resolved_bin": null,
+   "dob_result_status": "unsupported_join",
+   "dob_records": 0,
+   "bins_with_complaints": [],
+   "data_as_of": null,
+   "note": "No DOB complaints were requested (tax-lot scope, unsupported_join). Look up the lot's current BIN only to note coverage; nothing is compared."
+  },
+  {
+   "address_key": "fifth_ave_350",
+   "address": "350 5th Avenue, New York, NY 10118",
+   "resolved_bbl": "1008350041",
+   "resolved_bin": "1015862",
+   "dob_result_status": "records_found",
+   "dob_records": 141,
+   "bins_with_complaints": [
+    "1015862"
+   ],
+   "data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "note": null
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "resolved_bbl": "1018227502",
+   "resolved_bin": "1054974",
+   "dob_result_status": "records_found",
+   "dob_records": 231,
+   "bins_with_complaints": [
+    "1054974",
+    "1055002"
+   ],
+   "data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "note": null
+  }
+ ],
+ "rows": [
+  {
+   "address_key": "west_farms_1134",
+   "address": "1134 West Farms Rd, Bronx, NY 10459",
+   "complaint_number": "2003624",
+   "bin": "2006185",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "07/25/1990",
+   "disposition_date": "08/02/1990",
+   "inspection_date": "07/31/1990",
+   "complaint_category": "73",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=2006185"
+  },
+  {
+   "address_key": "west_farms_1134",
+   "address": "1134 West Farms Rd, Bronx, NY 10459",
+   "complaint_number": "2047794",
+   "bin": "2006185",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "09/03/2002",
+   "disposition_date": "09/05/2002",
+   "inspection_date": "09/04/2002",
+   "complaint_category": "10",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=2006185"
+  },
+  {
+   "address_key": "west_farms_1134",
+   "address": "1134 West Farms Rd, Bronx, NY 10459",
+   "complaint_number": "2156003",
+   "bin": "2006185",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "02/23/2011",
+   "disposition_date": "02/23/2011",
+   "inspection_date": "02/23/2011",
+   "complaint_category": "37",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=2006185"
+  },
+  {
+   "address_key": "west_farms_1134",
+   "address": "1134 West Farms Rd, Bronx, NY 10459",
+   "complaint_number": "2400922",
+   "bin": "2006185",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "A8",
+   "disposition_description": "OATH Violation Served",
+   "received_date": "09/19/2024",
+   "disposition_date": "09/20/2024",
+   "inspection_date": "09/20/2024",
+   "complaint_category": "30",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=2006185"
+  },
+  {
+   "address_key": "west_farms_1134",
+   "address": "1134 West Farms Rd, Bronx, NY 10459",
+   "complaint_number": "2406493",
+   "bin": "2006185",
+   "listed_because": [
+    "closed_sample",
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "Y2",
+   "disposition_description": "Vacate Order Fully Rescinded",
+   "received_date": "12/15/2024",
+   "disposition_date": "02/27/2025",
+   "inspection_date": "02/27/2025",
+   "complaint_category": "30",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": {
+    "kind": "vacate_rescinded_full",
+    "action": "rescinded",
+    "our_statement": "DOB recorded disposition Y2 (\"Vacate Order Fully Rescinded\") on 2025-02-27 for complaint 2406493. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=2006185"
+  },
+  {
+   "address_key": "west_farms_1134",
+   "address": "1134 West Farms Rd, Bronx, NY 10459",
+   "complaint_number": "2406498",
+   "bin": "2006185",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "N1",
+   "disposition_description": null,
+   "received_date": "12/15/2024",
+   "disposition_date": "12/15/2024",
+   "inspection_date": "12/15/2024",
+   "complaint_category": "2F",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=2006185"
+  },
+  {
+   "address_key": "west_farms_1134",
+   "address": "1134 West Farms Rd, Bronx, NY 10459",
+   "complaint_number": "2406539",
+   "bin": "2006185",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "12/16/2024",
+   "disposition_date": "12/19/2024",
+   "inspection_date": "12/19/2024",
+   "complaint_category": "1X",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=2006185"
+  },
+  {
+   "address_key": "west_farms_1134",
+   "address": "1134 West Farms Rd, Bronx, NY 10459",
+   "complaint_number": "2436794",
+   "bin": "2006185",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "A8",
+   "disposition_description": "OATH Violation Served",
+   "received_date": "03/19/2026",
+   "disposition_date": "04/08/2026",
+   "inspection_date": "04/03/2026",
+   "complaint_category": "7R",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=2006185"
+  },
+  {
+   "address_key": "west_farms_1134",
+   "address": "1134 West Farms Rd, Bronx, NY 10459",
+   "complaint_number": "2410556",
+   "bin": "2117584",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "A1",
+   "disposition_description": "Buildings Violation(s) Served",
+   "received_date": "02/18/2025",
+   "disposition_date": "02/18/2025",
+   "inspection_date": "02/12/2025",
+   "complaint_category": "73",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=2117584"
+  },
+  {
+   "address_key": "west_farms_1134",
+   "address": "1134 West Farms Rd, Bronx, NY 10459",
+   "complaint_number": "2411142",
+   "bin": "2117584",
+   "listed_because": [
+    "closed_sample",
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "Y3",
+   "disposition_description": "Partial Vacate Order Served",
+   "received_date": "02/27/2025",
+   "disposition_date": "02/27/2025",
+   "inspection_date": "12/15/2024",
+   "complaint_category": "30",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": {
+    "kind": "vacate_partial_issued",
+    "action": "served",
+    "our_statement": "DOB recorded disposition Y3 (\"Partial Vacate Order Served\") on 2025-02-27 for complaint 2411142. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=2117584"
+  },
+  {
+   "address_key": "west_farms_1134",
+   "address": "1134 West Farms Rd, Bronx, NY 10459",
+   "complaint_number": "2411143",
+   "bin": "2117584",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "N1",
+   "disposition_description": null,
+   "received_date": "02/27/2025",
+   "disposition_date": "02/28/2025",
+   "inspection_date": "02/27/2025",
+   "complaint_category": "2F",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=2117584"
+  },
+  {
+   "address_key": "west_farms_1134",
+   "address": "1134 West Farms Rd, Bronx, NY 10459",
+   "complaint_number": "2411188",
+   "bin": "2117584",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I3",
+   "disposition_description": "Compliance Inspection Performed",
+   "received_date": "02/28/2025",
+   "disposition_date": "03/06/2025",
+   "inspection_date": "03/06/2025",
+   "complaint_category": "1X",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=2117584"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1350832",
+   "bin": "1081543",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "06/17/2013",
+   "disposition_date": "09/23/2013",
+   "inspection_date": "09/20/2013",
+   "complaint_category": "4B",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081543"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1408258",
+   "bin": "1081543",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "10/20/2015",
+   "disposition_date": "10/21/2015",
+   "inspection_date": "10/21/2015",
+   "complaint_category": "30",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081543"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1692695",
+   "bin": "1081543",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "04/08/2025",
+   "disposition_date": "04/09/2025",
+   "inspection_date": "04/09/2025",
+   "complaint_category": "7J",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081543"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1692711",
+   "bin": "1081543",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "04/08/2025",
+   "disposition_date": "04/09/2025",
+   "inspection_date": "04/09/2025",
+   "complaint_category": "7J",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081543"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1692713",
+   "bin": "1081543",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "04/08/2025",
+   "disposition_date": "04/09/2025",
+   "inspection_date": "04/09/2025",
+   "complaint_category": "7J",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081543"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1697065",
+   "bin": "1081543",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "06/05/2025",
+   "disposition_date": "06/05/2025",
+   "inspection_date": "06/05/2025",
+   "complaint_category": "7J",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081543"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1701433",
+   "bin": "1081543",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "A8",
+   "disposition_description": "OATH Violation Served",
+   "received_date": "08/04/2025",
+   "disposition_date": "08/04/2025",
+   "inspection_date": "08/04/2025",
+   "complaint_category": "7J",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081543"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1702370",
+   "bin": "1081543",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "C2",
+   "disposition_description": "Inspector Unable to Gain Access – 2nd Final Attempt",
+   "received_date": "08/15/2025",
+   "disposition_date": "09/02/2025",
+   "inspection_date": "09/02/2025",
+   "complaint_category": "83",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081543"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1703206",
+   "bin": "1081543",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "08/27/2025",
+   "disposition_date": "08/27/2025",
+   "inspection_date": "08/27/2025",
+   "complaint_category": "7J",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081543"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1704728",
+   "bin": "1081543",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "09/17/2025",
+   "disposition_date": "09/17/2025",
+   "inspection_date": "09/17/2025",
+   "complaint_category": "5H",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081543"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1739419",
+   "bin": "1081543",
+   "listed_because": [
+    "active"
+   ],
+   "recorded_status": "ACTIVE",
+   "disposition_code": null,
+   "disposition_description": null,
+   "received_date": "10/19/2026",
+   "disposition_date": null,
+   "inspection_date": null,
+   "complaint_category": "58",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081543"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1704720",
+   "bin": "1081544",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "09/17/2025",
+   "disposition_date": "09/17/2025",
+   "inspection_date": "09/17/2025",
+   "complaint_category": "5H",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081544"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1408259",
+   "bin": "1081545",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "10/20/2015",
+   "disposition_date": "10/21/2015",
+   "inspection_date": "10/21/2015",
+   "complaint_category": "30",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081545"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1727925",
+   "bin": "1081545",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "06/11/2026",
+   "disposition_date": "06/12/2026",
+   "inspection_date": "06/12/2026",
+   "complaint_category": "7J",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081545"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1731212",
+   "bin": "1081545",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "07/18/2026",
+   "disposition_date": "09/08/2026",
+   "inspection_date": "09/07/2026",
+   "complaint_category": "04",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081545"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1704729",
+   "bin": "1081546",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "09/17/2025",
+   "disposition_date": "09/17/2025",
+   "inspection_date": "09/17/2025",
+   "complaint_category": "5H",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081546"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1111247",
+   "bin": "1081547",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "08/22/2003",
+   "disposition_date": "09/23/2003",
+   "inspection_date": "09/22/2003",
+   "complaint_category": "85",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081547"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1380405",
+   "bin": "1081547",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "09/19/2014",
+   "disposition_date": "12/11/2014",
+   "inspection_date": "12/10/2014",
+   "complaint_category": "05",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081547"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1489373",
+   "bin": "1081547",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "09/11/2018",
+   "disposition_date": "09/11/2018",
+   "inspection_date": "09/11/2018",
+   "complaint_category": "30",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081547"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1692671",
+   "bin": "1081547",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "04/07/2025",
+   "disposition_date": "04/08/2025",
+   "inspection_date": "04/08/2025",
+   "complaint_category": "30",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081547"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1692846",
+   "bin": "1081547",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "04/09/2025",
+   "disposition_date": "04/10/2025",
+   "inspection_date": "04/10/2025",
+   "complaint_category": "7J",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081547"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1697059",
+   "bin": "1081547",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "06/05/2025",
+   "disposition_date": "06/05/2025",
+   "inspection_date": "06/05/2025",
+   "complaint_category": "7J",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081547"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1699996",
+   "bin": "1081547",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "C2",
+   "disposition_description": "Inspector Unable to Gain Access – 2nd Final Attempt",
+   "received_date": "07/15/2025",
+   "disposition_date": "07/16/2025",
+   "inspection_date": "07/16/2025",
+   "complaint_category": "7J",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081547"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1702071",
+   "bin": "1081547",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "08/12/2025",
+   "disposition_date": "08/13/2025",
+   "inspection_date": "08/12/2025",
+   "complaint_category": "7J",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081547"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1703720",
+   "bin": "1081547",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "09/04/2025",
+   "disposition_date": "09/08/2025",
+   "inspection_date": "09/05/2025",
+   "complaint_category": "7J",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081547"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1704702",
+   "bin": "1081547",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "A8",
+   "disposition_description": "OATH Violation Served",
+   "received_date": "09/17/2025",
+   "disposition_date": "09/18/2025",
+   "inspection_date": "09/17/2025",
+   "complaint_category": "94",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081547"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1739476",
+   "bin": "1081547",
+   "listed_because": [
+    "active"
+   ],
+   "recorded_status": "ACTIVE",
+   "disposition_code": null,
+   "disposition_description": null,
+   "received_date": "10/19/2026",
+   "disposition_date": null,
+   "inspection_date": null,
+   "complaint_category": "58",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081547"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1704730",
+   "bin": "1081548",
+   "listed_because": [
+    "closed_sample",
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "L1",
+   "disposition_description": "Partial Stop Work Order",
+   "received_date": "09/17/2025",
+   "disposition_date": "09/17/2025",
+   "inspection_date": "09/17/2025",
+   "complaint_category": "5H",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": {
+    "kind": "stop_work_partial_recorded",
+    "action": "not_stated",
+    "our_statement": "DOB recorded disposition L1 (\"Partial Stop Work Order\") on 2025-09-17 for complaint 1704730. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081548"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1408257",
+   "bin": "1081549",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "10/20/2015",
+   "disposition_date": "10/21/2015",
+   "inspection_date": "10/21/2015",
+   "complaint_category": "30",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081549"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1699870",
+   "bin": "1081549",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "07/12/2025",
+   "disposition_date": "07/29/2025",
+   "inspection_date": "07/29/2025",
+   "complaint_category": "04",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081549"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1727638",
+   "bin": "1081549",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "C2",
+   "disposition_description": "Inspector Unable to Gain Access – 2nd Final Attempt",
+   "received_date": "06/08/2026",
+   "disposition_date": "06/15/2026",
+   "inspection_date": "06/14/2026",
+   "complaint_category": "30",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081549"
+  },
+  {
+   "address_key": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "complaint_number": "1739418",
+   "bin": "1081549",
+   "listed_because": [
+    "active"
+   ],
+   "recorded_status": "ACTIVE",
+   "disposition_code": null,
+   "disposition_description": null,
+   "received_date": "10/19/2026",
+   "disposition_date": null,
+   "inspection_date": null,
+   "complaint_category": "58",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1081549"
+  },
+  {
+   "address_key": "fifth_ave_350",
+   "address": "350 5th Avenue, New York, NY 10118",
+   "complaint_number": "1017082",
+   "bin": "1015862",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "12/13/1991",
+   "disposition_date": "12/18/1991",
+   "inspection_date": "12/17/1991",
+   "complaint_category": "21",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1015862"
+  },
+  {
+   "address_key": "fifth_ave_350",
+   "address": "350 5th Avenue, New York, NY 10118",
+   "complaint_number": "1103530",
+   "bin": "1015862",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "01/08/2003",
+   "disposition_date": "01/09/2003",
+   "inspection_date": "01/08/2003",
+   "complaint_category": "10",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1015862"
+  },
+  {
+   "address_key": "fifth_ave_350",
+   "address": "350 5th Avenue, New York, NY 10118",
+   "complaint_number": "1220908",
+   "bin": "1015862",
+   "listed_because": [
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "L2",
+   "disposition_description": "Stop Work Order Fully Rescinded",
+   "received_date": "04/04/2008",
+   "disposition_date": "05/06/2008",
+   "inspection_date": "05/06/2008",
+   "complaint_category": "05",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": {
+    "kind": "stop_work_rescinded_full",
+    "action": "rescinded",
+    "our_statement": "DOB recorded disposition L2 (\"Stop Work Order Fully Rescinded\") on 2008-05-06 for complaint 1220908. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1015862"
+  },
+  {
+   "address_key": "fifth_ave_350",
+   "address": "350 5th Avenue, New York, NY 10118",
+   "complaint_number": "1268612",
+   "bin": "1015862",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "10/28/2009",
+   "disposition_date": "11/17/2009",
+   "inspection_date": "11/17/2009",
+   "complaint_category": "52",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1015862"
+  },
+  {
+   "address_key": "fifth_ave_350",
+   "address": "350 5th Avenue, New York, NY 10118",
+   "complaint_number": "1319578",
+   "bin": "1015862",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "03/02/2012",
+   "disposition_date": "03/23/2012",
+   "inspection_date": "03/20/2012",
+   "complaint_category": "4B",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1015862"
+  },
+  {
+   "address_key": "fifth_ave_350",
+   "address": "350 5th Avenue, New York, NY 10118",
+   "complaint_number": "1319600",
+   "bin": "1015862",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "03/02/2012",
+   "disposition_date": "03/23/2012",
+   "inspection_date": "03/20/2012",
+   "complaint_category": "4B",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1015862"
+  },
+  {
+   "address_key": "fifth_ave_350",
+   "address": "350 5th Avenue, New York, NY 10118",
+   "complaint_number": "1328060",
+   "bin": "1015862",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "06/26/2012",
+   "disposition_date": "06/26/2012",
+   "inspection_date": "06/26/2012",
+   "complaint_category": "62",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1015862"
+  },
+  {
+   "address_key": "fifth_ave_350",
+   "address": "350 5th Avenue, New York, NY 10118",
+   "complaint_number": "1330941",
+   "bin": "1015862",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "A8",
+   "disposition_description": "OATH Violation Served",
+   "received_date": "08/07/2012",
+   "disposition_date": "08/07/2012",
+   "inspection_date": "08/07/2012",
+   "complaint_category": "23",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1015862"
+  },
+  {
+   "address_key": "fifth_ave_350",
+   "address": "350 5th Avenue, New York, NY 10118",
+   "complaint_number": "1335922",
+   "bin": "1015862",
+   "listed_because": [
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "L2",
+   "disposition_description": "Stop Work Order Fully Rescinded",
+   "received_date": "10/19/2012",
+   "disposition_date": "10/24/2012",
+   "inspection_date": "10/24/2012",
+   "complaint_category": "4C",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": {
+    "kind": "stop_work_rescinded_full",
+    "action": "rescinded",
+    "our_statement": "DOB recorded disposition L2 (\"Stop Work Order Fully Rescinded\") on 2012-10-24 for complaint 1335922. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1015862"
+  },
+  {
+   "address_key": "fifth_ave_350",
+   "address": "350 5th Avenue, New York, NY 10118",
+   "complaint_number": "1350213",
+   "bin": "1015862",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "C2",
+   "disposition_description": "Inspector Unable to Gain Access – 2nd Final Attempt",
+   "received_date": "06/06/2013",
+   "disposition_date": "06/27/2013",
+   "inspection_date": "06/25/2013",
+   "complaint_category": "4B",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1015862"
+  },
+  {
+   "address_key": "fifth_ave_350",
+   "address": "350 5th Avenue, New York, NY 10118",
+   "complaint_number": "1359924",
+   "bin": "1015862",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "H1",
+   "disposition_description": "Please See Complaint Number",
+   "received_date": "11/06/2013",
+   "disposition_date": "11/14/2013",
+   "inspection_date": "11/14/2013",
+   "complaint_category": "05",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1015862"
+  },
+  {
+   "address_key": "fifth_ave_350",
+   "address": "350 5th Avenue, New York, NY 10118",
+   "complaint_number": "1363166",
+   "bin": "1015862",
+   "listed_because": [
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "L2",
+   "disposition_description": "Stop Work Order Fully Rescinded",
+   "received_date": "01/07/2014",
+   "disposition_date": "01/13/2014",
+   "inspection_date": "01/13/2014",
+   "complaint_category": "4L",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": {
+    "kind": "stop_work_rescinded_full",
+    "action": "rescinded",
+    "our_statement": "DOB recorded disposition L2 (\"Stop Work Order Fully Rescinded\") on 2014-01-13 for complaint 1363166. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1015862"
+  },
+  {
+   "address_key": "fifth_ave_350",
+   "address": "350 5th Avenue, New York, NY 10118",
+   "complaint_number": "1364096",
+   "bin": "1015862",
+   "listed_because": [
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "L2",
+   "disposition_description": "Stop Work Order Fully Rescinded",
+   "received_date": "01/23/2014",
+   "disposition_date": "09/10/2014",
+   "inspection_date": "09/08/2014",
+   "complaint_category": "05",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": {
+    "kind": "stop_work_rescinded_full",
+    "action": "rescinded",
+    "our_statement": "DOB recorded disposition L2 (\"Stop Work Order Fully Rescinded\") on 2014-09-10 for complaint 1364096. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1015862"
+  },
+  {
+   "address_key": "fifth_ave_350",
+   "address": "350 5th Avenue, New York, NY 10118",
+   "complaint_number": "1518120",
+   "bin": "1015862",
+   "listed_because": [
+    "closed_sample",
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "L2",
+   "disposition_description": "Stop Work Order Fully Rescinded",
+   "received_date": "08/06/2019",
+   "disposition_date": "08/07/2019",
+   "inspection_date": "08/07/2019",
+   "complaint_category": "94",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": {
+    "kind": "stop_work_rescinded_full",
+    "action": "rescinded",
+    "our_statement": "DOB recorded disposition L2 (\"Stop Work Order Fully Rescinded\") on 2019-08-07 for complaint 1518120. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1015862"
+  },
+  {
+   "address_key": "fifth_ave_350",
+   "address": "350 5th Avenue, New York, NY 10118",
+   "complaint_number": "1732302",
+   "bin": "1015862",
+   "listed_because": [
+    "active"
+   ],
+   "recorded_status": "ACTIVE",
+   "disposition_code": "C1",
+   "disposition_description": "Inspector Unable to Gain Access – 1st Attempt Made",
+   "received_date": "08/01/2026",
+   "disposition_date": "08/21/2026",
+   "inspection_date": "08/21/2026",
+   "complaint_category": "45",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1015862"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1114582",
+   "bin": "1054974",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "11/03/2003",
+   "disposition_date": "11/13/2003",
+   "inspection_date": "11/10/2003",
+   "complaint_category": "05",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1054974"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1117440",
+   "bin": "1054974",
+   "listed_because": [
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "L2",
+   "disposition_description": "Stop Work Order Fully Rescinded",
+   "received_date": "01/17/2004",
+   "disposition_date": "05/31/2006",
+   "inspection_date": "03/27/2006",
+   "complaint_category": "05",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": {
+    "kind": "stop_work_rescinded_full",
+    "action": "rescinded",
+    "our_statement": "DOB recorded disposition L2 (\"Stop Work Order Fully Rescinded\") on 2006-05-31 for complaint 1117440. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1054974"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1129056",
+   "bin": "1054974",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "C2",
+   "disposition_description": "Inspector Unable to Gain Access – 2nd Final Attempt",
+   "received_date": "09/17/2004",
+   "disposition_date": "06/17/2005",
+   "inspection_date": "06/13/2005",
+   "complaint_category": "59",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1054974"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1154124",
+   "bin": "1054974",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "A1",
+   "disposition_description": "Buildings Violation(s) Served",
+   "received_date": "11/05/2005",
+   "disposition_date": "08/11/2006",
+   "inspection_date": "08/08/2006",
+   "complaint_category": "58",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1054974"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1190253",
+   "bin": "1054974",
+   "listed_because": [
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "L2",
+   "disposition_description": "Stop Work Order Fully Rescinded",
+   "received_date": "04/03/2007",
+   "disposition_date": "04/25/2007",
+   "inspection_date": "04/25/2007",
+   "complaint_category": "05",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": {
+    "kind": "stop_work_rescinded_full",
+    "action": "rescinded",
+    "our_statement": "DOB recorded disposition L2 (\"Stop Work Order Fully Rescinded\") on 2007-04-25 for complaint 1190253. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1054974"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1219691",
+   "bin": "1054974",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "03/24/2008",
+   "disposition_date": "03/24/2008",
+   "inspection_date": "03/24/2008",
+   "complaint_category": "23",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1054974"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1241238",
+   "bin": "1054974",
+   "listed_because": [
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "L2",
+   "disposition_description": "Stop Work Order Fully Rescinded",
+   "received_date": "11/05/2008",
+   "disposition_date": "06/22/2009",
+   "inspection_date": "11/22/2008",
+   "complaint_category": "23",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": {
+    "kind": "stop_work_rescinded_full",
+    "action": "rescinded",
+    "our_statement": "DOB recorded disposition L2 (\"Stop Work Order Fully Rescinded\") on 2009-06-22 for complaint 1241238. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1054974"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1284520",
+   "bin": "1054974",
+   "listed_because": [
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "L2",
+   "disposition_description": "Stop Work Order Fully Rescinded",
+   "received_date": "07/01/2010",
+   "disposition_date": "10/05/2012",
+   "inspection_date": "10/05/2012",
+   "complaint_category": "30",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": {
+    "kind": "stop_work_rescinded_full",
+    "action": "rescinded",
+    "our_statement": "DOB recorded disposition L2 (\"Stop Work Order Fully Rescinded\") on 2012-10-05 for complaint 1284520. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1054974"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1286091",
+   "bin": "1054974",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "K1",
+   "disposition_description": "Insufficient Information/Unable to Locate Address",
+   "received_date": "07/28/2010",
+   "disposition_date": "07/28/2010",
+   "inspection_date": "07/28/2010",
+   "complaint_category": "01",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1054974"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1293818",
+   "bin": "1054974",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "12/01/2010",
+   "disposition_date": "01/03/2011",
+   "inspection_date": "12/28/2010",
+   "complaint_category": "83",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1054974"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1370564",
+   "bin": "1054974",
+   "listed_because": [
+    "closed_sample",
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "L2",
+   "disposition_description": "Stop Work Order Fully Rescinded",
+   "received_date": "05/01/2014",
+   "disposition_date": "08/14/2014",
+   "inspection_date": "08/14/2014",
+   "complaint_category": "12",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": {
+    "kind": "stop_work_rescinded_full",
+    "action": "rescinded",
+    "our_statement": "DOB recorded disposition L2 (\"Stop Work Order Fully Rescinded\") on 2014-08-14 for complaint 1370564. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1054974"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1372440",
+   "bin": "1054974",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "C2",
+   "disposition_description": "Inspector Unable to Gain Access – 2nd Final Attempt",
+   "received_date": "05/28/2014",
+   "disposition_date": "06/06/2014",
+   "inspection_date": "06/05/2014",
+   "complaint_category": "86",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1054974"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1687381",
+   "bin": "1054974",
+   "listed_because": [
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "L1",
+   "disposition_description": "Partial Stop Work Order",
+   "received_date": "01/28/2025",
+   "disposition_date": "01/29/2025",
+   "inspection_date": "01/29/2025",
+   "complaint_category": "1X",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": {
+    "kind": "stop_work_partial_recorded",
+    "action": "not_stated",
+    "our_statement": "DOB recorded disposition L1 (\"Partial Stop Work Order\") on 2025-01-29 for complaint 1687381. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1054974"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1705233",
+   "bin": "1054974",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "A1",
+   "disposition_description": "Buildings Violation(s) Served",
+   "received_date": "09/24/2025",
+   "disposition_date": "09/24/2025",
+   "inspection_date": "09/18/2025",
+   "complaint_category": "73",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1054974"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1725089",
+   "bin": "1054974",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "C2",
+   "disposition_description": "Inspector Unable to Gain Access – 2nd Final Attempt",
+   "received_date": "05/12/2026",
+   "disposition_date": "06/12/2026",
+   "inspection_date": "06/12/2026",
+   "complaint_category": "94",
+   "expected_attribution": "this_building",
+   "attribution_basis": "row_identifiers",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1054974"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1073317",
+   "bin": "1055002",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "A1",
+   "disposition_description": "Buildings Violation(s) Served",
+   "received_date": "02/03/2000",
+   "disposition_date": "02/11/2000",
+   "inspection_date": "02/09/2000",
+   "complaint_category": "63",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1055002"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1121624",
+   "bin": "1055002",
+   "listed_because": [
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "L2",
+   "disposition_description": "Stop Work Order Fully Rescinded",
+   "received_date": "04/21/2004",
+   "disposition_date": "02/10/2006",
+   "inspection_date": "10/29/2004",
+   "complaint_category": "73",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": {
+    "kind": "stop_work_rescinded_full",
+    "action": "rescinded",
+    "our_statement": "DOB recorded disposition L2 (\"Stop Work Order Fully Rescinded\") on 2006-02-10 for complaint 1121624. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1055002"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1184449",
+   "bin": "1055002",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "A1",
+   "disposition_description": "Buildings Violation(s) Served",
+   "received_date": "01/24/2007",
+   "disposition_date": "03/01/2007",
+   "inspection_date": "02/16/2007",
+   "complaint_category": "58",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1055002"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1233593",
+   "bin": "1055002",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "A1",
+   "disposition_description": "Buildings Violation(s) Served",
+   "received_date": "08/13/2008",
+   "disposition_date": "10/01/2008",
+   "inspection_date": "09/30/2008",
+   "complaint_category": "63",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1055002"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1246147",
+   "bin": "1055002",
+   "listed_because": [
+    "closed_sample",
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "L2",
+   "disposition_description": "Stop Work Order Fully Rescinded",
+   "received_date": "01/09/2009",
+   "disposition_date": "01/14/2009",
+   "inspection_date": "01/13/2009",
+   "complaint_category": "03",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": {
+    "kind": "stop_work_rescinded_full",
+    "action": "rescinded",
+    "our_statement": "DOB recorded disposition L2 (\"Stop Work Order Fully Rescinded\") on 2009-01-14 for complaint 1246147. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1055002"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1287329",
+   "bin": "1055002",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "08/17/2010",
+   "disposition_date": "08/24/2010",
+   "inspection_date": "08/21/2010",
+   "complaint_category": "05",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1055002"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1287981",
+   "bin": "1055002",
+   "listed_because": [
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "L2",
+   "disposition_description": "Stop Work Order Fully Rescinded",
+   "received_date": "08/26/2010",
+   "disposition_date": "10/03/2011",
+   "inspection_date": "10/03/2011",
+   "complaint_category": "05",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": {
+    "kind": "stop_work_rescinded_full",
+    "action": "rescinded",
+    "our_statement": "DOB recorded disposition L2 (\"Stop Work Order Fully Rescinded\") on 2011-10-03 for complaint 1287981. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1055002"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1288649",
+   "bin": "1055002",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "09/03/2010",
+   "disposition_date": "10/02/2010",
+   "inspection_date": "09/29/2010",
+   "complaint_category": "09",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1055002"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1289974",
+   "bin": "1055002",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "H1",
+   "disposition_description": "Please See Complaint Number",
+   "received_date": "09/27/2010",
+   "disposition_date": "11/05/2010",
+   "inspection_date": "11/01/2010",
+   "complaint_category": "73",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1055002"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1319689",
+   "bin": "1055002",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "03/03/2012",
+   "disposition_date": "03/11/2012",
+   "inspection_date": "03/10/2012",
+   "complaint_category": "04",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1055002"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1372400",
+   "bin": "1055002",
+   "listed_because": [
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "L2",
+   "disposition_description": "Stop Work Order Fully Rescinded",
+   "received_date": "05/28/2014",
+   "disposition_date": "06/04/2014",
+   "inspection_date": "06/03/2014",
+   "complaint_category": "05",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": {
+    "kind": "stop_work_rescinded_full",
+    "action": "rescinded",
+    "our_statement": "DOB recorded disposition L2 (\"Stop Work Order Fully Rescinded\") on 2014-06-04 for complaint 1372400. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1055002"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1372403",
+   "bin": "1055002",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "H1",
+   "disposition_description": "Please See Complaint Number",
+   "received_date": "05/28/2014",
+   "disposition_date": "05/28/2014",
+   "inspection_date": "05/28/2014",
+   "complaint_category": "30",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1055002"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1381092",
+   "bin": "1055002",
+   "listed_because": [
+    "closed_sample"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "I2",
+   "disposition_description": "No Violation Warranted for Complaint at Time of Inspection",
+   "received_date": "09/29/2014",
+   "disposition_date": "10/02/2014",
+   "inspection_date": "10/01/2014",
+   "complaint_category": "04",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": null,
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1055002"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1685892",
+   "bin": "1055002",
+   "listed_because": [
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "L1",
+   "disposition_description": "Partial Stop Work Order",
+   "received_date": "01/07/2025",
+   "disposition_date": "01/09/2025",
+   "inspection_date": "01/09/2025",
+   "complaint_category": "1X",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": {
+    "kind": "stop_work_partial_recorded",
+    "action": "not_stated",
+    "our_statement": "DOB recorded disposition L1 (\"Partial Stop Work Order\") on 2025-01-09 for complaint 1685892. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1055002"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1686670",
+   "bin": "1055002",
+   "listed_because": [
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "L1",
+   "disposition_description": "Partial Stop Work Order",
+   "received_date": "01/16/2025",
+   "disposition_date": "01/17/2025",
+   "inspection_date": "01/17/2025",
+   "complaint_category": "1X",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": {
+    "kind": "stop_work_partial_recorded",
+    "action": "not_stated",
+    "our_statement": "DOB recorded disposition L1 (\"Partial Stop Work Order\") on 2025-01-17 for complaint 1686670. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1055002"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1687379",
+   "bin": "1055002",
+   "listed_because": [
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "L1",
+   "disposition_description": "Partial Stop Work Order",
+   "received_date": "01/28/2025",
+   "disposition_date": "01/29/2025",
+   "inspection_date": "01/29/2025",
+   "complaint_category": "1X",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": {
+    "kind": "stop_work_partial_recorded",
+    "action": "not_stated",
+    "our_statement": "DOB recorded disposition L1 (\"Partial Stop Work Order\") on 2025-01-29 for complaint 1687379. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1055002"
+  },
+  {
+   "address_key": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "complaint_number": "1687380",
+   "bin": "1055002",
+   "listed_because": [
+    "order_event"
+   ],
+   "recorded_status": "CLOSED",
+   "disposition_code": "L1",
+   "disposition_description": "Partial Stop Work Order",
+   "received_date": "01/28/2025",
+   "disposition_date": "01/29/2025",
+   "inspection_date": "01/29/2025",
+   "complaint_category": "1X",
+   "expected_attribution": "other_building_on_lot",
+   "attribution_basis": "bin_lot_mapping",
+   "order_event": {
+    "kind": "stop_work_partial_recorded",
+    "action": "not_stated",
+    "our_statement": "DOB recorded disposition L1 (\"Partial Stop Work Order\") on 2025-01-29 for complaint 1687380. This dataset does not show whether the order is still in effect. Check DOB's own records."
+   },
+   "source_data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+   "source_dataset": "eabe-havv",
+   "bis_lookup": "https://a810-bisweb.nyc.gov/bisweb/ComplaintsByAddressServlet?requestid=2&allbin=1055002"
+  }
+ ]
+}

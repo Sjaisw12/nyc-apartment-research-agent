@@ -1367,6 +1367,45 @@ takes precedence over sections 1 to 17.
 - **Not in step 4:** storage (migration 0011, step 5), freshness from catalog metadata,
   validation part E.
 
+### 18.10 Step 5 as built (PostgreSQL integration, 2026-10-23, after 18:37Z)
+
+Section 18 still takes precedence over sections 1 to 17. The full evidence is in
+`docs/phase2_task5_step5_report.md`.
+
+- **Migration 0011 (additive, reversible).** No new table, role, grant or reader
+  privilege. It widens the vocabulary CHECKs (result types, record kinds, evidence kind
+  `enforcement_action`, lot membership `via_bin_mapping`, attribution basis
+  `bin_lot_mapping`), adds the Task 5 private keys to `forbidden_keys_absent`, and adds
+  per-dataset CHECKs, two row triggers and one deferred constraint trigger for DOB
+  complaints, ECB violations and 311. The upgrade refuses to run if a stored payload
+  already holds a newly forbidden key. The downgrade refuses while any Task 5 fetch,
+  record or raw row exists, and otherwise restores every 0010 definition exactly.
+- **Two constraint changes, each shown by a failing case first.** (1) A DOB tax-lot
+  `unsupported_join` result keeps `join_scope = tax_lot` and its resolved BBL; the 0010
+  CHECK required both to be null. The relaxed CHECK applies only to that case and still
+  requires no pages, no records and no BIN. (2) DOB complaint raw rows were stored under
+  `complaint_number`, but the record link names the Socrata `:id`; the link-identity
+  rule refused the save. The adapter now stores the raw row under the `:id`; the
+  database rule was not weakened, and the old form is a refusal test.
+- **ECB identical copies.** The ECB-only records_found branch in the commit-time check
+  was removed; ECB follows the stricter default rule. The adapter already made such a
+  result incomplete.
+- **311 in the database.** `request_ref` and `source_record_id` must match
+  `^k311_[0-9a-f]{32}$` and equal each other; `source_row_id` is null; no source rows;
+  dates are date-only; no string may hold `:id`, a `unique_key` filter or a 7-to-9-digit
+  number; the raw row's `source_record_id` must be a token. Fetch pages for 311 may not
+  carry `:id` or a `unique_key` filter. Footprints `lot_family_provenance` URLs contain
+  `:id` (Footprints, not 311) and are excluded from the 311 ID scan only.
+- **NULL agency in the database.** A NULL-agency count above 0 forces an incomplete
+  result with the reason and no established exclusion counts; an unknown count requires
+  the warning.
+- **Allowlist decision A.** The 311 reference keeps the step-4 lists as its base
+  (`base()` rebuilds them byte for byte) and adds only values admitted by a manual review
+  of a 2020-to-present grouped measurement (`docs/task5/sr311_history_review.json`).
+  Frequency alone admits nothing; templates with phone numbers or URLs stay withheld;
+  outreach-outcome texts about an individual and one naming a private business were
+  rejected by review. On the 945 recorded rows, withheld values fall from 659 to 54.
+
 ## Appendix: live queries (2026-10-23, about 03:55 to 04:15 UTC)
 
 All against `https://data.cityofnewyork.us/resource/<id>.json`, metadata from

@@ -1,0 +1,2542 @@
+{
+ "status": "PROPOSED, not approved",
+ "dob_disposition": [
+  {
+   "code": "A1",
+   "dob_definition": "BUILDINGS VIOLATION(S) SERVED",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": null,
+   "violation_served": true,
+   "rows_in_use": 151072,
+   "rows_by_status": {
+    "CLOSED": 151072
+   }
+  },
+  {
+   "code": "A2",
+   "dob_definition": "CRIMINAL COURT SUMMONS SERVED",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": null,
+   "violation_served": true,
+   "rows_in_use": 346,
+   "rows_by_status": {
+    "CLOSED": 346
+   }
+  },
+  {
+   "code": "A3",
+   "dob_definition": "FULL STOP WORK ORDER SERVED F",
+   "in_reference_table": true,
+   "outcome": "order_event",
+   "order_event": "stop_work_full_issued",
+   "violation_served": false,
+   "rows_in_use": 10556,
+   "rows_by_status": {
+    "CLOSED": 10556
+   }
+  },
+  {
+   "code": "A4",
+   "dob_definition": "BUILDINGS VIOLATION(S) & CRIMINAL COURT SUMMONS SERVED",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": null,
+   "violation_served": true,
+   "rows_in_use": 246,
+   "rows_by_status": {
+    "CLOSED": 246
+   }
+  },
+  {
+   "code": "A5",
+   "dob_definition": "BUILDINGS VIOLATION(S) & CRIMINAL COURT SUMMONS SERVED",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": null,
+   "violation_served": true,
+   "rows_in_use": 55,
+   "rows_by_status": {
+    "CLOSED": 55
+   }
+  },
+  {
+   "code": "A6",
+   "dob_definition": "VACANT/OPEN/UNGUARDED STRUCTURE - VIOLATION(S) ISSUED",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": null,
+   "violation_served": true,
+   "rows_in_use": 7616,
+   "rows_by_status": {
+    "CLOSED": 7616
+   }
+  },
+  {
+   "code": "A7",
+   "dob_definition": "COMPLAINT ACCEPTED BY PADLOCK UNIT",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 3394,
+   "rows_by_status": {
+    "CLOSED": 3394
+   }
+  },
+  {
+   "code": "A8",
+   "dob_definition": "ECB VIOLATION SERVED",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": null,
+   "violation_served": true,
+   "rows_in_use": 351464,
+   "rows_by_status": {
+    "CLOSED": 351464
+   }
+  },
+  {
+   "code": "A9",
+   "dob_definition": "ECB & BUILDINGS VIOLATIONS SERVED",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": null,
+   "violation_served": true,
+   "rows_in_use": 141640,
+   "rows_by_status": {
+    "CLOSED": 141640
+   }
+  },
+  {
+   "code": "AA",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 3692,
+   "rows_by_status": {
+    "CLOSED": 3692
+   }
+  },
+  {
+   "code": "AB",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 6283,
+   "rows_by_status": {
+    "CLOSED": 6283
+   }
+  },
+  {
+   "code": "AC",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 46,
+   "rows_by_status": {
+    "CLOSED": 46
+   }
+  },
+  {
+   "code": "AD",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 393,
+   "rows_by_status": {
+    "CLOSED": 393
+   }
+  },
+  {
+   "code": "AE",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 798,
+   "rows_by_status": {
+    "CLOSED": 798
+   }
+  },
+  {
+   "code": "AF",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 3744,
+   "rows_by_status": {
+    "CLOSED": 3744
+   }
+  },
+  {
+   "code": "AG",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 860,
+   "rows_by_status": {
+    "CLOSED": 860
+   }
+  },
+  {
+   "code": "AH",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 254,
+   "rows_by_status": {
+    "CLOSED": 254
+   }
+  },
+  {
+   "code": "AI",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 381,
+   "rows_by_status": {
+    "CLOSED": 381
+   }
+  },
+  {
+   "code": "AJ",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 17,
+   "rows_by_status": {
+    "CLOSED": 17
+   }
+  },
+  {
+   "code": "B1",
+   "dob_definition": "BUILDINGS VIOLATION(S) PREPARED & ATTEMPT TO SERVE WILL BE MADE",
+   "in_reference_table": true,
+   "outcome": "violation_prepared_not_served",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 70919,
+   "rows_by_status": {
+    "CLOSED": 70919
+   }
+  },
+  {
+   "code": "B2",
+   "dob_definition": "ECB VIOLATION(S) PREPARED & ATTEMPT TO SERVE WILL BE MADE",
+   "in_reference_table": true,
+   "outcome": "violation_prepared_not_served",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 3688,
+   "rows_by_status": {
+    "CLOSED": 3688
+   }
+  },
+  {
+   "code": "C1",
+   "dob_definition": "INSPECTOR UNABLE TO GAIN ACCESS - 1ST ATTEMPT",
+   "in_reference_table": true,
+   "outcome": "no_access",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 6416,
+   "rows_by_status": {
+    "ACTIVE": 5924,
+    "CLOSED": 492
+   }
+  },
+  {
+   "code": "C2",
+   "dob_definition": "INSPECTOR UNABLE TO GAIN ACCESS - 2ND ATTEMPT",
+   "in_reference_table": true,
+   "outcome": "no_access",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 440620,
+   "rows_by_status": {
+    "CLOSED": 440620
+   }
+  },
+  {
+   "code": "C3",
+   "dob_definition": "ACCESS DENIED - 1ST ATTEMPT",
+   "in_reference_table": true,
+   "outcome": "no_access",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1358,
+   "rows_by_status": {
+    "ACTIVE": 1344,
+    "CLOSED": 14
+   }
+  },
+  {
+   "code": "C4",
+   "dob_definition": "ACCESS DENIED - 2ND ATTEMPT",
+   "in_reference_table": true,
+   "outcome": "no_access",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 54861,
+   "rows_by_status": {
+    "CLOSED": 54861
+   }
+  },
+  {
+   "code": "C5",
+   "dob_definition": "AW: NO ACCESS - 1ST ATTEMPT",
+   "in_reference_table": true,
+   "outcome": "no_access",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 258,
+   "rows_by_status": {
+    "ACTIVE": 238,
+    "CLOSED": 20
+   }
+  },
+  {
+   "code": "C6",
+   "dob_definition": "AW: ACCESS DENIED - 1ST ATTEMPT",
+   "in_reference_table": true,
+   "outcome": "no_access",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 145,
+   "rows_by_status": {
+    "ACTIVE": 141,
+    "CLOSED": 4
+   }
+  },
+  {
+   "code": "C7",
+   "dob_definition": "AW: NO ACCESS - 2ND ATTEMPT",
+   "in_reference_table": true,
+   "outcome": "no_access",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 5359,
+   "rows_by_status": {
+    "CLOSED": 5359
+   }
+  },
+  {
+   "code": "C8",
+   "dob_definition": "AW: ACCESS DENIED - 2ND ATTEMPT",
+   "in_reference_table": true,
+   "outcome": "no_access",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1874,
+   "rows_by_status": {
+    "CLOSED": 1874
+   }
+  },
+  {
+   "code": "D0",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 5,
+   "rows_by_status": {
+    "ACTIVE": 5
+   }
+  },
+  {
+   "code": "D1",
+   "dob_definition": "COMPLAINT ASSIGNED TO CONSTRUCTION UNIT",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 65,
+   "rows_by_status": {
+    "ACTIVE": 49,
+    "CLOSED": 16
+   }
+  },
+  {
+   "code": "D2",
+   "dob_definition": "COMPLAINT ASSIGNED TO PLUMBING UNIT",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 4,
+   "rows_by_status": {
+    "ACTIVE": 2,
+    "CLOSED": 2
+   }
+  },
+  {
+   "code": "D3",
+   "dob_definition": "COMPLAINT ASSIGNED TO ELEVATOR UNIT",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 16,
+   "rows_by_status": {
+    "ACTIVE": 14,
+    "CLOSED": 2
+   }
+  },
+  {
+   "code": "D4",
+   "dob_definition": "COMPLAINT ASSIGNED TO BEST SQUAD",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "D5",
+   "dob_definition": "COMPLAINT ASSIGNED TO EMERGENCY RESPONSE TEAM",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 9,
+   "rows_by_status": {
+    "ACTIVE": 6,
+    "CLOSED": 3
+   }
+  },
+  {
+   "code": "D6",
+   "dob_definition": "COMPLAINT ASSIGNED TO BOILER UNIT",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 127,
+   "rows_by_status": {
+    "ACTIVE": 125,
+    "CLOSED": 2
+   }
+  },
+  {
+   "code": "D7",
+   "dob_definition": "COMPLAINT ASSIGNED TO CRANES AND DERRICKS UNIT",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "D8",
+   "dob_definition": "COMPLAINT ASSIGNED TO EXECUTIVE INSPECTIONS",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 9,
+   "rows_by_status": {
+    "ACTIVE": 3,
+    "CLOSED": 6
+   }
+  },
+  {
+   "code": "D9",
+   "dob_definition": "COMPLAINT ASSIGNED TO ELECTRICAL UNIT",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 2,
+   "rows_by_status": {
+    "ACTIVE": 1,
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "E1",
+   "dob_definition": "COMPLAINT ASSIGNED TO BUILDING MARSHAL'S OFFICE",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 27,
+   "rows_by_status": {
+    "ACTIVE": 12,
+    "CLOSED": 15
+   }
+  },
+  {
+   "code": "E2",
+   "dob_definition": "COMPLAINT ASSIGNED TO LEGAL AFFAIRS/PADLOCK UNIT",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 3,
+   "rows_by_status": {
+    "CLOSED": 3
+   }
+  },
+  {
+   "code": "E3",
+   "dob_definition": "COMPLAINT ASSIGNED TO BORO OFFICE FOR FINAL INSPECTION",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "E4",
+   "dob_definition": "COMPLAINT ASSIGNED TO LL58/87 UNIT (HANDICAP ACCESS)",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "E5",
+   "dob_definition": "COMPLAINT ASSIGNED TO CENTER FOR RE-EVALUATION",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "E6",
+   "dob_definition": "COMPLAINT ASSIGNED TO SPECIAL OPERATIONS UNIT",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 80,
+   "rows_by_status": {
+    "ACTIVE": 80
+   }
+  },
+  {
+   "code": "E7",
+   "dob_definition": "COMPLAINT ASSIGNED TO SCAFFOLD SAFETY TEAM",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "E8",
+   "dob_definition": "COMPLAINT ASSIGNED TO EXCAVATION INSPECTION & AUDITS TEAM",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "E9",
+   "dob_definition": "COMPLAINT ASSIGNED TO STALLED SITES UNIT",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "EA",
+   "dob_definition": "COMPLAINT ASSIGNED TO INTERIOR DEMOLITION UNIT",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "EB",
+   "dob_definition": "COMPLAINT ASSIGNED TO FACADE INSPECTION SAFETY PROGRAM",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "ACTIVE": 1
+   }
+  },
+  {
+   "code": "EC",
+   "dob_definition": "COMPLAINT ASSIGNED TO STRUCT COMPROMISED BUILDINGS UNIT",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "ED",
+   "dob_definition": "COMPLAINT ASSIGNED TO RETAINING WALLS UNIT",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "EE",
+   "dob_definition": "COMPLAINT REASSIGNED FOR REVIEW",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 3,
+   "rows_by_status": {
+    "ACTIVE": 2,
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "EF",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 140,
+   "rows_by_status": {
+    "ACTIVE": 140
+   }
+  },
+  {
+   "code": "EG",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 39,
+   "rows_by_status": {
+    "ACTIVE": 33,
+    "CLOSED": 6
+   }
+  },
+  {
+   "code": "EI",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "EJ",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 17,
+   "rows_by_status": {
+    "CLOSED": 17
+   }
+  },
+  {
+   "code": "EK",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 20,
+   "rows_by_status": {
+    "ACTIVE": 12,
+    "CLOSED": 8
+   }
+  },
+  {
+   "code": "EZ",
+   "dob_definition": "COMPLAINT ASSIGNED TO DEPT. OF INVESTIGATION",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "F1",
+   "dob_definition": "COMPLAINT REFERRED TO DEPARTMENT OF ENVIRONMENTAL PROTECTION(DEP)",
+   "in_reference_table": true,
+   "outcome": "referred",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 4231,
+   "rows_by_status": {
+    "CLOSED": 4231
+   }
+  },
+  {
+   "code": "F2",
+   "dob_definition": "COMPLAINT REFERRED TO NYS DIV. OF HOUSING & COMMUNITY RENEWAL (DHCR)",
+   "in_reference_table": true,
+   "outcome": "referred",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 149,
+   "rows_by_status": {
+    "CLOSED": 149
+   }
+  },
+  {
+   "code": "F3",
+   "dob_definition": "COMPLAINT REFERRED TO DEPARTMENT OF HEALTH",
+   "in_reference_table": true,
+   "outcome": "referred",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1469,
+   "rows_by_status": {
+    "CLOSED": 1469
+   }
+  },
+  {
+   "code": "F4",
+   "dob_definition": "COMPLAINT REFERRED FOR REVIEW",
+   "in_reference_table": true,
+   "outcome": "referred",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 2,
+   "rows_by_status": {
+    "CLOSED": 2
+   }
+  },
+  {
+   "code": "F5",
+   "dob_definition": "COMPLAINT REFERRED TO DEPARTMENT OF SANITATION (DOS)",
+   "in_reference_table": true,
+   "outcome": "referred",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1177,
+   "rows_by_status": {
+    "CLOSED": 1177
+   }
+  },
+  {
+   "code": "F6",
+   "dob_definition": "COMPLAINT REFERRED TO DEPARTMENT OF TRANSPORTATION (DOT)",
+   "in_reference_table": true,
+   "outcome": "referred",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 10686,
+   "rows_by_status": {
+    "CLOSED": 10686
+   }
+  },
+  {
+   "code": "F7",
+   "dob_definition": "COMPLAINT REFERRED TO NYS OFFICE OF REAL PROPERTIES SERVICES",
+   "in_reference_table": true,
+   "outcome": "referred",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 122,
+   "rows_by_status": {
+    "CLOSED": 122
+   }
+  },
+  {
+   "code": "F8",
+   "dob_definition": "COMPLAINT REFERRED TO HOUSING PRESERVATION AND DEVELOPMENT (HPD)",
+   "in_reference_table": true,
+   "outcome": "referred",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 7007,
+   "rows_by_status": {
+    "CLOSED": 7007
+   }
+  },
+  {
+   "code": "F9",
+   "dob_definition": "COMPLAINT REFERRED TO HOUSING AND URBAN DEVELOPMENT - FEDERAL (HUD)",
+   "in_reference_table": true,
+   "outcome": "referred",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 43,
+   "rows_by_status": {
+    "CLOSED": 43
+   }
+  },
+  {
+   "code": "G1",
+   "dob_definition": "COMPLAINT REFERRED TO INSPECTOR GENERAL'S OFFICE (IGO)",
+   "in_reference_table": true,
+   "outcome": "referred",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 22,
+   "rows_by_status": {
+    "CLOSED": 22
+   }
+  },
+  {
+   "code": "G2",
+   "dob_definition": "COMPLAINT REFERRED TO DEPARTMENT OF PARKS AND RECREATION",
+   "in_reference_table": true,
+   "outcome": "referred",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1016,
+   "rows_by_status": {
+    "CLOSED": 1016
+   }
+  },
+  {
+   "code": "G3",
+   "dob_definition": "COMPLAINT REFERRED TO TAXI AND LIMOUSINE COMMISSION (TLC)",
+   "in_reference_table": true,
+   "outcome": "referred",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 5,
+   "rows_by_status": {
+    "CLOSED": 5
+   }
+  },
+  {
+   "code": "G4",
+   "dob_definition": "COMPLAINT REFERRED TO DEPARTMENT OF CONSUMER AFFAIRS",
+   "in_reference_table": true,
+   "outcome": "referred",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1386,
+   "rows_by_status": {
+    "CLOSED": 1386
+   }
+  },
+  {
+   "code": "G5",
+   "dob_definition": "COMPLAINT REFERRED TO NEW YORK POLICE DEPARTMENT",
+   "in_reference_table": true,
+   "outcome": "referred",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 2958,
+   "rows_by_status": {
+    "CLOSED": 2958
+   }
+  },
+  {
+   "code": "G6",
+   "dob_definition": "COMPLAINT REFERRED TO FIRE DEPARTMENT OF NEW YORK (FDNY)",
+   "in_reference_table": true,
+   "outcome": "referred",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1088,
+   "rows_by_status": {
+    "CLOSED": 1088
+   }
+  },
+  {
+   "code": "G7",
+   "dob_definition": "COMPLAINT REFERRED TO MAYOR'S OFFICE OF SPECIAL ENFORCEMENT",
+   "in_reference_table": true,
+   "outcome": "referred",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "G8",
+   "dob_definition": "COMPLAINT REFERRED TO NYC HOUSING AUTHORITY (NYCHA)",
+   "in_reference_table": true,
+   "outcome": "referred",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 7779,
+   "rows_by_status": {
+    "CLOSED": 7779
+   }
+  },
+  {
+   "code": "G9",
+   "dob_definition": "COMPLAINT REFERRED TO DEPT CITYWIDE ADMINISTRATIVE SERVICES",
+   "in_reference_table": true,
+   "outcome": "referred",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 131,
+   "rows_by_status": {
+    "CLOSED": 131
+   }
+  },
+  {
+   "code": "H1",
+   "dob_definition": "PLEASE SEE COMPLAINT NUMBER",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 223229,
+   "rows_by_status": {
+    "CLOSED": 223229
+   }
+  },
+  {
+   "code": "H2",
+   "dob_definition": "PREVIOUSLY INSPECTED COMPLAINT - PRE-BIS COMPLAINT NUMBER",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 86,
+   "rows_by_status": {
+    "CLOSED": 86
+   }
+  },
+  {
+   "code": "H3",
+   "dob_definition": "BUILDING VIOLATION ISSUED FOR FAILURE TO OBEY STOP WORK ORDER",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": "stop_work_noncompliance",
+   "violation_served": true,
+   "rows_in_use": 7196,
+   "rows_by_status": {
+    "CLOSED": 7196
+   }
+  },
+  {
+   "code": "H4",
+   "dob_definition": "CRIMINAL COURT SUMMONS SERVED DUE TO FAILURE TO OBEY SWO",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": "stop_work_noncompliance",
+   "violation_served": true,
+   "rows_in_use": 26,
+   "rows_by_status": {
+    "CLOSED": 26
+   }
+  },
+  {
+   "code": "H5",
+   "dob_definition": "STOP ALL WORK / NO TCAO ISSUED",
+   "in_reference_table": true,
+   "outcome": "order_event",
+   "order_event": "stop_all_work_no_tcao",
+   "violation_served": false,
+   "rows_in_use": 44,
+   "rows_by_status": {
+    "CLOSED": 44
+   }
+  },
+  {
+   "code": "H6",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 48,
+   "rows_by_status": {
+    "CLOSED": 48
+   }
+  },
+  {
+   "code": "H7",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1679,
+   "rows_by_status": {
+    "CLOSED": 1679
+   }
+  },
+  {
+   "code": "H8",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 504,
+   "rows_by_status": {
+    "CLOSED": 504
+   }
+  },
+  {
+   "code": "I1",
+   "dob_definition": "COMPLAINT UNSUBSTANTIATED BASED ON DEPARTMENT RECORDS",
+   "in_reference_table": true,
+   "outcome": "unsubstantiated",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 82367,
+   "rows_by_status": {
+    "CLOSED": 82367
+   }
+  },
+  {
+   "code": "I2",
+   "dob_definition": "NO VIOLATION WARRANTED FOR COMPLAINT AT TIME OF INSPECTION",
+   "in_reference_table": true,
+   "outcome": "no_violation",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1229070,
+   "rows_by_status": {
+    "ACTIVE": 1,
+    "CLOSED": 1229069
+   }
+  },
+  {
+   "code": "I3",
+   "dob_definition": "COMPLIANCE INSPECTION PERFORMED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 12348,
+   "rows_by_status": {
+    "CLOSED": 12348
+   }
+  },
+  {
+   "code": "J1",
+   "dob_definition": "FOLLOW-UP INSPECTION TO BE SCHEDULED UPON FURTHER RESEARCH",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 171,
+   "rows_by_status": {
+    "ACTIVE": 131,
+    "CLOSED": 40
+   }
+  },
+  {
+   "code": "J2",
+   "dob_definition": "COMPLAINT RESOLVED BY PERIODIC INSPECTION",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 10199,
+   "rows_by_status": {
+    "CLOSED": 10199
+   }
+  },
+  {
+   "code": "J3",
+   "dob_definition": "REVIEWED - INSPECTION TO BE SCHEDULED",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 2438,
+   "rows_by_status": {
+    "CLOSED": 2438
+   }
+  },
+  {
+   "code": "J4",
+   "dob_definition": "FOLLOW-UP INSPECTION SCHEDULED FOR HAZARDOUS CONDITION",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "J5",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 51,
+   "rows_by_status": {
+    "ACTIVE": 51
+   }
+  },
+  {
+   "code": "J6",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1874,
+   "rows_by_status": {
+    "ACTIVE": 1105,
+    "CLOSED": 769
+   }
+  },
+  {
+   "code": "K1",
+   "dob_definition": "INSUFFICIENT INFORMATION/UNABLE TO LOCATE ADDRESS",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 13529,
+   "rows_by_status": {
+    "CLOSED": 13529
+   }
+  },
+  {
+   "code": "K2",
+   "dob_definition": "ADDRESS INVALID - PENDING BUILDINGS VERIFICATION",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1012,
+   "rows_by_status": {
+    "CLOSED": 1012
+   }
+  },
+  {
+   "code": "K3",
+   "dob_definition": "CRANES & DERRICKS - NO ADDRESS - SEE COMMENTS",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 4,
+   "rows_by_status": {
+    "CLOSED": 4
+   }
+  },
+  {
+   "code": "K4",
+   "dob_definition": "CRANES & DERRICKS - STOP WORK ORDER - NO ASSOCIATED ADDRESS P",
+   "in_reference_table": true,
+   "outcome": "order_event",
+   "order_event": "stop_work_issued_crane_no_address",
+   "violation_served": false,
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "K5",
+   "dob_definition": "LETTER OF DEFICIENCY ISSUED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "K6",
+   "dob_definition": "LETTER OF DEFICIENCY ISSUED WITH PARTIAL SWO",
+   "in_reference_table": true,
+   "outcome": "order_event",
+   "order_event": "stop_work_partial_issued",
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "K7",
+   "dob_definition": "NOTIFICATION OF CORRECTION RECEIVED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "K8",
+   "dob_definition": "CORRECTION VERIFIED BY DOB",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 164,
+   "rows_by_status": {
+    "CLOSED": 164
+   }
+  },
+  {
+   "code": "L1",
+   "dob_definition": "PARTIAL STOP WORK ORDER P",
+   "in_reference_table": true,
+   "outcome": "order_event",
+   "order_event": "stop_work_partial_issued",
+   "violation_served": false,
+   "rows_in_use": 6786,
+   "rows_by_status": {
+    "CLOSED": 6786
+   }
+  },
+  {
+   "code": "L2",
+   "dob_definition": "STOP WORK ORDER FULLY RESCINDED N",
+   "in_reference_table": true,
+   "outcome": "order_event",
+   "order_event": "stop_work_rescinded_full",
+   "violation_served": false,
+   "rows_in_use": 162973,
+   "rows_by_status": {
+    "CLOSED": 162973
+   }
+  },
+  {
+   "code": "L3",
+   "dob_definition": "STOP WORK ORDER PARTIALLY RESCINDED P",
+   "in_reference_table": true,
+   "outcome": "order_event",
+   "order_event": "stop_work_rescinded_partial",
+   "violation_served": false,
+   "rows_in_use": 1004,
+   "rows_by_status": {
+    "CLOSED": 1004
+   }
+  },
+  {
+   "code": "L4",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 201,
+   "rows_by_status": {
+    "CLOSED": 201
+   }
+  },
+  {
+   "code": "M1",
+   "dob_definition": "BICYCLE ACCESS PLAN: ELEVATOR USE ACCEPTABLE",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 7,
+   "rows_by_status": {
+    "CLOSED": 7
+   }
+  },
+  {
+   "code": "M3",
+   "dob_definition": "BICYCLE ACCESS PLAN: ALTERNATE USE PARKING REQUIREMENT MET",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 3,
+   "rows_by_status": {
+    "CLOSED": 3
+   }
+  },
+  {
+   "code": "M4",
+   "dob_definition": "BICYCLE ACCESS PLAN: ALTERNATE USE PARKING REQUIREMENT NOT MET",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 3,
+   "rows_by_status": {
+    "CLOSED": 3
+   }
+  },
+  {
+   "code": "MA",
+   "dob_definition": "MARCH: NO ENFORCEMENT ACTION TAKEN",
+   "in_reference_table": true,
+   "outcome": "no_violation",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1705,
+   "rows_by_status": {
+    "CLOSED": 1705
+   }
+  },
+  {
+   "code": "MB",
+   "dob_definition": "MARCH: FAILURE TO MAINTAIN BLDG/ECB NOV ISSUED",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": null,
+   "violation_served": true,
+   "rows_in_use": 222,
+   "rows_by_status": {
+    "CLOSED": 222
+   }
+  },
+  {
+   "code": "MC",
+   "dob_definition": "MARCH: CONTRARY TO APPROVED PLANS/ECB NOV ISSUED",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": null,
+   "violation_served": true,
+   "rows_in_use": 73,
+   "rows_by_status": {
+    "CLOSED": 73
+   }
+  },
+  {
+   "code": "MD",
+   "dob_definition": "MARCH: EXIT PASSAGE OBSTRUCTED/ECB NOV ISSUED",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": null,
+   "violation_served": true,
+   "rows_in_use": 71,
+   "rows_by_status": {
+    "CLOSED": 71
+   }
+  },
+  {
+   "code": "ME",
+   "dob_definition": "MARCH: EXIT PASSAGE OBSTRUCTED/ECB NOV & FULL VACATE ISSUED F",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": "vacate_full_issued",
+   "violation_served": true,
+   "rows_in_use": 17,
+   "rows_by_status": {
+    "CLOSED": 17
+   }
+  },
+  {
+   "code": "MF",
+   "dob_definition": "MARCH: EXIT PASSAGE OBSTRUCTED/ECB NOV & PARTIAL VACATE ISSUED P",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": "vacate_partial_issued",
+   "violation_served": true,
+   "rows_in_use": 40,
+   "rows_by_status": {
+    "CLOSED": 40
+   }
+  },
+  {
+   "code": "MG",
+   "dob_definition": "MARCH: OCCUPANCY CONTRARY TO C OF O/NONE/ECB NOV ISSUED",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": null,
+   "violation_served": true,
+   "rows_in_use": 410,
+   "rows_by_status": {
+    "CLOSED": 410
+   }
+  },
+  {
+   "code": "MH",
+   "dob_definition": "MARCH: NO PA PERMIT/ECB NOV & FULL VACATE ISSUED F",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": "vacate_full_issued",
+   "violation_served": true,
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "MI",
+   "dob_definition": "MARCH: NO PA PERMIT/ECB NOV & PARTIAL VACATE ISSUED P",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": "vacate_partial_issued",
+   "violation_served": true,
+   "rows_in_use": 16,
+   "rows_by_status": {
+    "CLOSED": 16
+   }
+  },
+  {
+   "code": "MJ",
+   "dob_definition": "MARCH: WORK WITHOUT PERMIT/ECB NOV ISSUED",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": null,
+   "violation_served": true,
+   "rows_in_use": 135,
+   "rows_by_status": {
+    "CLOSED": 135
+   }
+  },
+  {
+   "code": "MK",
+   "dob_definition": "MARCH: NO PA PERMIT/ECB NOV ISSUED",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": null,
+   "violation_served": true,
+   "rows_in_use": 212,
+   "rows_by_status": {
+    "CLOSED": 212
+   }
+  },
+  {
+   "code": "N1",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 2131,
+   "rows_by_status": {
+    "CLOSED": 2131
+   }
+  },
+  {
+   "code": "N2",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1078,
+   "rows_by_status": {
+    "CLOSED": 1078
+   }
+  },
+  {
+   "code": "N3",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 170,
+   "rows_by_status": {
+    "CLOSED": 170
+   }
+  },
+  {
+   "code": "ND",
+   "dob_definition": "NOTICE OF DEFICIENCY ISSUED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 6079,
+   "rows_by_status": {
+    "CLOSED": 6079
+   }
+  },
+  {
+   "code": "P1",
+   "dob_definition": "JOB VESTED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 83,
+   "rows_by_status": {
+    "CLOSED": 83
+   }
+  },
+  {
+   "code": "P2",
+   "dob_definition": "FOLLOW UP INSPECTION REQUIRED PENDING ADOPTION",
+   "in_reference_table": true,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "P3",
+   "dob_definition": "CLOSURE/PADLOCK ORDER ISSUED",
+   "in_reference_table": true,
+   "outcome": "order_event",
+   "order_event": "padlock_issued",
+   "violation_served": false,
+   "rows_in_use": 97,
+   "rows_by_status": {
+    "CLOSED": 97
+   }
+  },
+  {
+   "code": "P4",
+   "dob_definition": "CLOSURE/PADLOCK ORDER RESCINDED",
+   "in_reference_table": true,
+   "outcome": "order_event",
+   "order_event": "padlock_rescinded",
+   "violation_served": false,
+   "rows_in_use": 303,
+   "rows_by_status": {
+    "CLOSED": 303
+   }
+  },
+  {
+   "code": "P5",
+   "dob_definition": "POTENTIAL ORDINARY PLUMBING WORK",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 114,
+   "rows_by_status": {
+    "CLOSED": 114
+   }
+  },
+  {
+   "code": "P6",
+   "dob_definition": "INITIAL NOTIFICATION ACCEPTED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 17424,
+   "rows_by_status": {
+    "CLOSED": 17424
+   }
+  },
+  {
+   "code": "Q1",
+   "dob_definition": "COMPROMISED STRUCTURE: OWNER PROF REPORT REQUIRED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "Q4",
+   "dob_definition": "COMPROMISED STRUCTURE: CONDITION REMEDIED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "Q6",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 43,
+   "rows_by_status": {
+    "ACTIVE": 43
+   }
+  },
+  {
+   "code": "Q7",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 199,
+   "rows_by_status": {
+    "CLOSED": 199
+   }
+  },
+  {
+   "code": "R1",
+   "dob_definition": "INSPECTION - NO IMMEDIATE ACTION/NO FOLLOW-UP REQUIRED",
+   "in_reference_table": true,
+   "outcome": "no_violation",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "R3",
+   "dob_definition": "INSPECTION - NO IMMEDIATE ACTION/MONTHLY INSPECTION",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "R4",
+   "dob_definition": "INSPECTION - ENGINEERING ASSESSMENT REQUIRED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "R5",
+   "dob_definition": "INSPECTION - CLASS 1 ECB(S) WRITTEN/ORDER TO CORRECT",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": null,
+   "violation_served": true,
+   "rows_in_use": 16,
+   "rows_by_status": {
+    "CLOSED": 16
+   }
+  },
+  {
+   "code": "R6",
+   "dob_definition": "ENGINEERING - NO IMMEDIATE ACTION/NO FOLLOW-UP REQUIRED",
+   "in_reference_table": true,
+   "outcome": "no_violation",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 11,
+   "rows_by_status": {
+    "CLOSED": 11
+   }
+  },
+  {
+   "code": "R7",
+   "dob_definition": "ENGINEERING - NO IMMEDIATE ACTION/WEEKLY ASSESSMENT",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "R8",
+   "dob_definition": "ENGINEERING - NO IMMEDIATE ACTION/MONTHLY ASSESSMENT",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "R9",
+   "dob_definition": "BUILDING AT RISK PROGRAM - NO IMMEDIATE DANGER",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 60,
+   "rows_by_status": {
+    "CLOSED": 60
+   }
+  },
+  {
+   "code": "RA",
+   "dob_definition": "COMMISSIONER'S ORDER - ISSUED TO OWNER",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 15,
+   "rows_by_status": {
+    "ACTIVE": 4,
+    "CLOSED": 11
+   }
+  },
+  {
+   "code": "RB",
+   "dob_definition": "COMMISSIONER'S ORDER - OWNER REMEDIATION PLANS ACCEPTED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RE",
+   "dob_definition": "COMMISSIONER'S ORDER - WEEKLY MONITORING",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RG",
+   "dob_definition": "COMMISSIONER'S ORDER - OWNER REMEDIATION COMPLETED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "RH",
+   "dob_definition": "EMERGENCY DECLARATION - ISSUED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 4,
+   "rows_by_status": {
+    "CLOSED": 4
+   }
+  },
+  {
+   "code": "RI",
+   "dob_definition": "IMMEDIATE EMERGENCY DECLARATION - ISSUED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 3,
+   "rows_by_status": {
+    "CLOSED": 3
+   }
+  },
+  {
+   "code": "RJ",
+   "dob_definition": "IMMEDIATE/EMERGENCY DECLARATION - ACTION COMPLETED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RK",
+   "dob_definition": "UNSAFE BUILDING - VIOLATION ISSUED",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": null,
+   "violation_served": true,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RL",
+   "dob_definition": "UNSAFE BUILDING - ACTION COMPLETED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RM",
+   "dob_definition": "STRUCTURAL MONITORING: OWNER PROFESSIONAL REPORT REQUIRED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RN",
+   "dob_definition": "STRUCTURAL MONITORING: OWNER PROFESSIONAL REPORT DEADLINE PASSED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RT",
+   "dob_definition": "COMPROMISED STRUCTURE: ACTION COMPLETED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RU",
+   "dob_definition": "LL11 UNSAFE - INITIATED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1157,
+   "rows_by_status": {
+    "ACTIVE": 1146,
+    "CLOSED": 11
+   }
+  },
+  {
+   "code": "RV",
+   "dob_definition": "LL11 UNSAFE - ACTION COMPLETED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 37,
+   "rows_by_status": {
+    "ACTIVE": 3,
+    "CLOSED": 34
+   }
+  },
+  {
+   "code": "RW",
+   "dob_definition": "IMMEDIATE/EMERGENCY DEC - PREVIOUSLY ISSUED/UNDERWAY",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "RX",
+   "dob_definition": "UNSAFE BUILDING - PRECEPT PREVIOUSLY ISSUED/UNDERWAY",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RY",
+   "dob_definition": "FACADE REPORT - PREVIOUSLY ISSUED/UNDERWAY",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RZ",
+   "dob_definition": "VACATE - PREVIOUSLY ISSUED/UNDERWAY",
+   "in_reference_table": true,
+   "outcome": "order_event",
+   "order_event": "vacate_previously_issued",
+   "violation_served": false,
+   "rows_in_use": 2,
+   "rows_by_status": {
+    "CLOSED": 2
+   }
+  },
+  {
+   "code": "S0",
+   "dob_definition": "STALLED: ALL WORK COMPLETED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 330,
+   "rows_by_status": {
+    "CLOSED": 330
+   }
+  },
+  {
+   "code": "S1",
+   "dob_definition": "STALLED: EXCAVATION - NO IMMEDIATE THREAT",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 10,
+   "rows_by_status": {
+    "ACTIVE": 8,
+    "CLOSED": 2
+   }
+  },
+  {
+   "code": "S2",
+   "dob_definition": "STALLED: EXCAVATION DETERIORATING - NO IMMEDIATE THREAT",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 4,
+   "rows_by_status": {
+    "ACTIVE": 4
+   }
+  },
+  {
+   "code": "S3",
+   "dob_definition": "STALLED: EXCAVATION - UNSAFE",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "S4",
+   "dob_definition": "STALLED: SUPERSTRUCTURE - NO IMMEDIATE THREAT",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 27,
+   "rows_by_status": {
+    "ACTIVE": 21,
+    "CLOSED": 6
+   }
+  },
+  {
+   "code": "S5",
+   "dob_definition": "STALLED: SUPERSTRUCTURE DETERIORATING - NO IMMEDIATE THREAT",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 10,
+   "rows_by_status": {
+    "ACTIVE": 8,
+    "CLOSED": 2
+   }
+  },
+  {
+   "code": "S6",
+   "dob_definition": "STALLED: SUPERSTRUCTURE - UNSAFE",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "ACTIVE": 1
+   }
+  },
+  {
+   "code": "S7",
+   "dob_definition": "STALLED: NO IMMEDIATE THREAT - GRADED & FENCED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 121,
+   "rows_by_status": {
+    "ACTIVE": 105,
+    "CLOSED": 16
+   }
+  },
+  {
+   "code": "S8",
+   "dob_definition": "STALLED: CONSTRUCTION IN PROGRESS",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1001,
+   "rows_by_status": {
+    "CLOSED": 1001
+   }
+  },
+  {
+   "code": "S9",
+   "dob_definition": "STALLED: EMERGENCY DECLARATION FILED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "U1",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 4,
+   "rows_by_status": {
+    "CLOSED": 4
+   }
+  },
+  {
+   "code": "U2",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 10,
+   "rows_by_status": {
+    "CLOSED": 10
+   }
+  },
+  {
+   "code": "U3",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 7,
+   "rows_by_status": {
+    "CLOSED": 7
+   }
+  },
+  {
+   "code": "U4",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 5,
+   "rows_by_status": {
+    "CLOSED": 5
+   }
+  },
+  {
+   "code": "U5",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "UA",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 16,
+   "rows_by_status": {
+    "CLOSED": 16
+   }
+  },
+  {
+   "code": "UB",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 19,
+   "rows_by_status": {
+    "CLOSED": 19
+   }
+  },
+  {
+   "code": "V1",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 5,
+   "rows_by_status": {
+    "CLOSED": 5
+   }
+  },
+  {
+   "code": "V2",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 2,
+   "rows_by_status": {
+    "CLOSED": 2
+   }
+  },
+  {
+   "code": "V3",
+   "dob_definition": "STOP WORK ORDER VIOLATION SERVED FOR NON-COMPLIANT AFTER HOURS WORK",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": "stop_work_noncompliance",
+   "violation_served": true,
+   "rows_in_use": 1658,
+   "rows_by_status": {
+    "CLOSED": 1658
+   }
+  },
+  {
+   "code": "W1",
+   "dob_definition": "VIOLATION SERVED FOR DISOBEYING VACATE ORDER",
+   "in_reference_table": true,
+   "outcome": "violation_served",
+   "order_event": "vacate_noncompliance",
+   "violation_served": true,
+   "rows_in_use": 2591,
+   "rows_by_status": {
+    "CLOSED": 2591
+   }
+  },
+  {
+   "code": "WA",
+   "dob_definition": "WEATHER RELATED: NO ACTION NECESSARY",
+   "in_reference_table": true,
+   "outcome": "no_violation",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 148,
+   "rows_by_status": {
+    "CLOSED": 148
+   }
+  },
+  {
+   "code": "WB",
+   "dob_definition": "WEATHER RELATED: NO ACCESS",
+   "in_reference_table": true,
+   "outcome": "no_access",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 191,
+   "rows_by_status": {
+    "CLOSED": 191
+   }
+  },
+  {
+   "code": "WC",
+   "dob_definition": "WEATHER RLT: NOD ISSUED/UNSAFE/RED TAG REMAINS/ENG.EVALUATION REQUIRED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "WD",
+   "dob_definition": "WEATHER RLT: NOD ISSUED/RESTRICTED/YLW TAG REMAINS/ENG.EVALUATION REQD",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "WE",
+   "dob_definition": "WEATHER RLT: NOD ISSUED/DWNGRD TO YLW/RESTRICTED/ENG.EVALUATION REQUIRED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "WF",
+   "dob_definition": "WEATHER RELATED: NO FURTHER ACTION NECESSARY/DOWNGRADED TO GREEN",
+   "in_reference_table": true,
+   "outcome": "no_violation",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 60,
+   "rows_by_status": {
+    "CLOSED": 60
+   }
+  },
+  {
+   "code": "WG",
+   "dob_definition": "WEATHER RELATED: GREEN TAG RESCINDED/NO OCCUPANCY RESTRICTIONS",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 24,
+   "rows_by_status": {
+    "CLOSED": 24
+   }
+  },
+  {
+   "code": "WH",
+   "dob_definition": "WEATHER RLT: GREEN TAG RESCINDED/STRUCTURALLY SOUND/UTILITIES UNRESOLVED",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "WI",
+   "dob_definition": "WEATHER RLT: NO ACTION WARRANTED BY DOB/REFER TO OTHER AGENCY/CALL 311",
+   "in_reference_table": true,
+   "outcome": "referred",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "WJ",
+   "dob_definition": "WEATHER RELATED: ENFORCEMENT ORDER TO BE ISSUED/SEE REFERENCED COMPLAINT",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 4,
+   "rows_by_status": {
+    "CLOSED": 4
+   }
+  },
+  {
+   "code": "X1",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 924,
+   "rows_by_status": {
+    "ACTIVE": 863,
+    "CLOSED": 61
+   }
+  },
+  {
+   "code": "X2",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 35,
+   "rows_by_status": {
+    "ACTIVE": 33,
+    "CLOSED": 2
+   }
+  },
+  {
+   "code": "XX",
+   "dob_definition": "ADMINISTRATIVE CLOSURE NN",
+   "in_reference_table": true,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "Y1",
+   "dob_definition": "FULL VACATE ORDER ISSUED F",
+   "in_reference_table": true,
+   "outcome": "order_event",
+   "order_event": "vacate_full_issued",
+   "violation_served": false,
+   "rows_in_use": 2802,
+   "rows_by_status": {
+    "CLOSED": 2802
+   }
+  },
+  {
+   "code": "Y2",
+   "dob_definition": "VACATE ORDER FULLY RESCINDED N",
+   "in_reference_table": true,
+   "outcome": "order_event",
+   "order_event": "vacate_rescinded_full",
+   "violation_served": false,
+   "rows_in_use": 18679,
+   "rows_by_status": {
+    "CLOSED": 18679
+   }
+  },
+  {
+   "code": "Y3",
+   "dob_definition": "PARTIAL VACATE ORDER ISSUED P",
+   "in_reference_table": true,
+   "outcome": "order_event",
+   "order_event": "vacate_partial_issued",
+   "violation_served": false,
+   "rows_in_use": 10108,
+   "rows_by_status": {
+    "CLOSED": 10108
+   }
+  },
+  {
+   "code": "Y4",
+   "dob_definition": "VACATE ORDER PARTIALLY RESCINDED P",
+   "in_reference_table": true,
+   "outcome": "order_event",
+   "order_event": "vacate_rescinded_partial",
+   "violation_served": false,
+   "rows_in_use": 294,
+   "rows_by_status": {
+    "CLOSED": 294
+   }
+  },
+  {
+   "code": "Y5",
+   "dob_definition": null,
+   "in_reference_table": false,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "violation_served": false,
+   "rows_in_use": 260,
+   "rows_by_status": {
+    "CLOSED": 260
+   }
+  }
+ ],
+ "dob_summary": {
+  "complaints_total": 3145939,
+  "active_with_final_disposition": 1,
+  "closed_with_no_disposition": 1,
+  "active_with_no_disposition": 9442,
+  "codes_in_use": 160,
+  "codes_in_use_not_in_reference_table": 39,
+  "rows_with_codes_not_in_reference_table": 25956,
+  "rows_by_outcome": {
+   "violation_served": 665123,
+   "order_event": 213649,
+   "assigned_or_pending": 7361,
+   "unknown_code": 25956,
+   "violation_prepared_not_served": 74607,
+   "no_access": 511082,
+   "referred": 39271,
+   "other_recorded": 286086,
+   "unsubstantiated": 82367,
+   "no_violation": 1230994,
+   "none": 9443
+  }
+ },
+ "ecb_adjudication": [
+  {
+   "hearing_status": "IN VIOLATION",
+   "adjudication": "upheld",
+   "rows": 683127
+  },
+  {
+   "hearing_status": "DISMISSED",
+   "adjudication": "dismissed",
+   "rows": 299625
+  },
+  {
+   "hearing_status": "WRITTEN OFF",
+   "adjudication": "other",
+   "rows": 246116
+  },
+  {
+   "hearing_status": "CURED/IN-VIO",
+   "adjudication": "upheld",
+   "rows": 215187
+  },
+  {
+   "hearing_status": "DEFAULT",
+   "adjudication": "upheld_by_default",
+   "rows": 165027
+  },
+  {
+   "hearing_status": "STIPULATION/IN-VIO",
+   "adjudication": "upheld",
+   "rows": 92246
+  },
+  {
+   "hearing_status": "POP/IN-VIO",
+   "adjudication": "upheld",
+   "rows": 57993
+  },
+  {
+   "hearing_status": "ADMIT/IN-VIO",
+   "adjudication": "upheld",
+   "rows": 38205
+  },
+  {
+   "hearing_status": "PENDING",
+   "adjudication": "pending",
+   "rows": 23600
+  },
+  {
+   "hearing_status": "None",
+   "adjudication": "unknown",
+   "rows": 20451
+  }
+ ],
+ "ecb_status_x_hearing": [
+  {
+   "ecb_violation_status": "ACTIVE",
+   "hearing_status": "ADMIT/IN-VIO",
+   "n": 10104
+  },
+  {
+   "ecb_violation_status": "ACTIVE",
+   "hearing_status": "DEFAULT",
+   "n": 59268
+  },
+  {
+   "ecb_violation_status": "ACTIVE",
+   "hearing_status": "IN VIOLATION",
+   "n": 101154
+  },
+  {
+   "ecb_violation_status": "ACTIVE",
+   "hearing_status": "PENDING",
+   "n": 23128
+  },
+  {
+   "ecb_violation_status": "ACTIVE",
+   "hearing_status": "POP/IN-VIO",
+   "n": 14215
+  },
+  {
+   "ecb_violation_status": "ACTIVE",
+   "hearing_status": "STIPULATION/IN-VIO",
+   "n": 14278
+  },
+  {
+   "ecb_violation_status": "ACTIVE",
+   "hearing_status": "WRITTEN OFF",
+   "n": 58959
+  },
+  {
+   "ecb_violation_status": "ACTIVE",
+   "hearing_status": null,
+   "n": 91
+  },
+  {
+   "ecb_violation_status": "RESOLVE",
+   "hearing_status": "ADMIT/IN-VIO",
+   "n": 28101
+  },
+  {
+   "ecb_violation_status": "RESOLVE",
+   "hearing_status": "CURED/IN-VIO",
+   "n": 215187
+  },
+  {
+   "ecb_violation_status": "RESOLVE",
+   "hearing_status": "DEFAULT",
+   "n": 105759
+  },
+  {
+   "ecb_violation_status": "RESOLVE",
+   "hearing_status": "DISMISSED",
+   "n": 299625
+  },
+  {
+   "ecb_violation_status": "RESOLVE",
+   "hearing_status": "IN VIOLATION",
+   "n": 581973
+  },
+  {
+   "ecb_violation_status": "RESOLVE",
+   "hearing_status": "PENDING",
+   "n": 472
+  },
+  {
+   "ecb_violation_status": "RESOLVE",
+   "hearing_status": "POP/IN-VIO",
+   "n": 43778
+  },
+  {
+   "ecb_violation_status": "RESOLVE",
+   "hearing_status": "STIPULATION/IN-VIO",
+   "n": 77968
+  },
+  {
+   "ecb_violation_status": "RESOLVE",
+   "hearing_status": "WRITTEN OFF",
+   "n": 187155
+  },
+  {
+   "ecb_violation_status": "RESOLVE",
+   "hearing_status": null,
+   "n": 20359
+  },
+  {
+   "ecb_violation_status": "Unknown",
+   "hearing_status": "WRITTEN OFF",
+   "n": 2
+  },
+  {
+   "ecb_violation_status": "Unknown",
+   "hearing_status": null,
+   "n": 1
+  }
+ ],
+ "ecb_disagreement": {
+  "active_but_dismissed": 0,
+  "resolve_but_pending": 472
+ },
+ "ecb_certification_status": {
+  "CERTIFICATE ACCEPTED": 1006515,
+  "CERTIFICATE DISAPPROVED": 2692,
+  "CERTIFICATE PENDING": 985,
+  "COMPLIANCE-INSP/DOC": 58221,
+  "CURE ACCEPTED": 215177,
+  "N/A - DISMISSED": 278124,
+  "NO COMPLIANCE RECORDED": 167621,
+  "REINSPECTION SHOWS STILL IN VIOLATION": 34,
+  "REINSPECTION SHOWS VIOLATION GOOD": 657,
+  "None": 111551
+ },
+ "ecb_severity": {
+  "CLASS - 1": 496420,
+  "CLASS - 2": 621813,
+  "CLASS - 3": 55391,
+  "Hazardous": 205452,
+  "Non-Hazardous": 458994,
+  "Unknown": 3507
+ }
+}

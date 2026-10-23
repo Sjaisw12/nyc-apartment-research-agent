@@ -301,7 +301,7 @@ def test_database_errors_are_scrubbed_of_row_content(db, caplog):
         write(db["ingest_writer"], [bad])
     assert "CheckViolation" in str(info.value)
     assert SENTINEL not in str(info.value) and info.value.__cause__ is None
-    assert info.value.__suppress_context__
+    assert info.value.__cause__ is None and info.value.__context__ is None
     assert SENTINEL not in caplog.text
 
 

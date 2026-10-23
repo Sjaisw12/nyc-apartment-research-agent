@@ -425,7 +425,7 @@ def test_public_constraint_violation_rolls_back_evidence_and_records(db, caplog)
     bad = result.model_copy(update={"records": [*result.records[:-1], bad_last]})
     with pytest.raises(RecordWriteError, match=r"CheckViolation \(23514\)") as info:
         save(db["writer"], bad, buffer)
-    assert info.value.__cause__ is None and info.value.__suppress_context__
+    assert info.value.__cause__ is None and info.value.__context__ is None
     assert counts(db["owner"]) == dict.fromkeys([*TABLES, "raw_row"], 0)
     for s in SENTINELS:
         assert s not in str(info.value) and s not in caplog.text

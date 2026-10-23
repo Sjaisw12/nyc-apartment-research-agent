@@ -166,7 +166,11 @@ def save_run(
     try:
         conn.execute(_INSERT_RUN, params)
     except DBAPIError as exc:
-        raise _scrubbed(exc) from None
+        error = _scrubbed(exc)
+    else:
+        error = None
+    if error is not None:  # raised outside the handler: no chained DB error
+        raise error
     return run_id
 
 
@@ -591,7 +595,11 @@ def save_result(
                     "supplied nor stored"
                 )
     except DBAPIError as exc:
-        raise _scrubbed(exc) from None
+        error = _scrubbed(exc)
+    else:
+        error = None
+    if error is not None:  # raised outside the handler: no chained DB error
+        raise error
 
     report = write_raw_rows(
         conn, items, digest_key=digest_key, retention_days=retention_days, now=now
@@ -641,7 +649,11 @@ def save_result(
             conn.execute(_INSERT_RECORD, records)
             conn.execute(_INSERT_LINK, links)
     except DBAPIError as exc:
-        raise _scrubbed(exc) from None
+        error = _scrubbed(exc)
+    else:
+        error = None
+    if error is not None:  # raised outside the handler: no chained DB error
+        raise error
     return SavedResult(fetch_id=fetch_id, created=True, evidence=report)
 
 
@@ -658,7 +670,11 @@ def commit_checked(conn: Connection) -> None:
     try:
         conn.commit()
     except DBAPIError as exc:
-        raise _scrubbed(exc) from None
+        error = _scrubbed(exc)
+    else:
+        error = None
+    if error is not None:  # raised outside the handler: no chained DB error
+        raise error
 
 
 def save_with_run(

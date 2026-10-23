@@ -3,9 +3,16 @@
 Parameters will carry raw source rows and digests, so `hide_parameters=True` keeps them
 out of SQLAlchemy's statement logging and out of exception text. The URL itself can hold
 a password: it is read from the environment and never logged.
+
+Result rows: when the `sqlalchemy.engine` logger is set to DEBUG, SQLAlchemy logs every
+fetched row, and hide_parameters does not cover that, so an evidence_admin read would
+put raw rows in the log (reproduced in step 6). A filter on the engine logger drops its
+DEBUG records; statement logging at INFO still works, with parameters hidden.
 """
 
 from __future__ import annotations
+
+import logging
 
 from sqlalchemy import Engine, create_engine
 
@@ -31,6 +38,18 @@ SCHEMAS = ("records", "evidence")
 
 class DatabaseNotConfiguredError(RuntimeError):
     pass
+
+
+class _NoRowLogging(logging.Filter):
+    """Drop SQLAlchemy's DEBUG engine records (result rows and column names)."""
+
+    def filter(self, record: logging.LogRecord) -> bool:
+        return record.levelno > logging.DEBUG
+
+
+ENGINE_LOGGER = logging.getLogger("sqlalchemy.engine.Engine")
+if not any(isinstance(f, _NoRowLogging) for f in ENGINE_LOGGER.filters):
+    ENGINE_LOGGER.addFilter(_NoRowLogging())
 
 
 def sqlalchemy_url(url: str) -> str:

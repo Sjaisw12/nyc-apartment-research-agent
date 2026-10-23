@@ -80,7 +80,8 @@ class EvidenceWriteError(RuntimeError):
     """A database error during an evidence write, with row content removed.
 
     PostgreSQL's error DETAIL can quote the failing row ("Failing row contains ..."),
-    so the original exception is not chained (raise ... from None) and only the error
+    so the original exception is not kept (raised outside the handler, so neither
+    __cause__ nor __context__ refers to it) and only the error
     class and SQLSTATE are kept. The caller's transaction must still be rolled back.
     """
 
@@ -209,7 +210,11 @@ def write_raw_rows(
         for item in restorable:
             conn.execute(_RESTORE, params[item.original_digest])
     except DBAPIError as exc:
-        raise _scrubbed(exc) from None
+        error = _scrubbed(exc)
+    else:
+        error = None
+    if error is not None:  # raised outside the handler: no chained DB error
+        raise error
     held = sum(1 for i in batch if i.original_digest in state and state[i.original_digest].held)
     return EvidenceWriteReport(
         inserted=len(absent),

@@ -1,5 +1,6 @@
 """Persist and load source-result snapshots (Task 4: HPD violations, step 3; complaints,
-step 4; HPD building records, registrations and registration contacts, step 5).
+step 4; HPD building records, registrations and registration contacts, step 5. Task 5,
+step 5: DOB complaints, DOB ECB violations and 311 service requests, migration 0011).
 
 One save is one transaction on the caller's connection, as a login holding ingest_writer
 (plus evidence_restorer, only needed when an expired raw row comes back):
@@ -55,6 +56,8 @@ from ..records.complaint_models import (
     ComplaintSourceResult,
     NormalizedComplaintProblem,
 )
+from ..records.dob_models import DobComplaintResult, NormalizedDobComplaint
+from ..records.ecb_models import EcbViolationResult, NormalizedEcbViolation
 from ..records.join_policy import UnsupportedJoinError, plan_lot_query
 from ..records.models import (
     AttributionBasis,
@@ -65,6 +68,7 @@ from ..records.models import (
     SourceResult,
 )
 from ..records.redaction import canonical_json, canonical_sha256
+from ..records.sr311_models import NormalizedServiceRequest, ServiceRequestResult
 from ..resolver.models import Outcome, ResolutionResult
 from .evidence_pg import EvidenceWriteReport, require_digest_key, write_raw_rows
 
@@ -74,6 +78,9 @@ RESULT_TYPE_COMPLAINTS = "hpd_complaints"
 RESULT_TYPE_BUILDINGS = "hpd_buildings"
 RESULT_TYPE_REGISTRATIONS = "hpd_registrations"
 RESULT_TYPE_CONTACTS = "hpd_contacts"
+RESULT_TYPE_DOB_COMPLAINTS = "dob_complaints"
+RESULT_TYPE_ECB_VIOLATIONS = "dob_ecb_violations"
+RESULT_TYPE_SERVICE_REQUESTS = "service_requests_311"
 
 
 class RecordWriteError(RuntimeError):
@@ -182,6 +189,9 @@ AnyResult = (
     | BuildingSourceResult
     | RegistrationSourceResult
     | ContactSourceResult
+    | DobComplaintResult
+    | EcbViolationResult
+    | ServiceRequestResult
 )
 AnyRecord = (
     NormalizedViolation
@@ -189,6 +199,9 @@ AnyRecord = (
     | HpdBuildingRecord
     | HpdRegistrationRecord
     | HpdRegistrationContact
+    | NormalizedDobComplaint
+    | NormalizedEcbViolation
+    | NormalizedServiceRequest
 )
 
 
@@ -241,12 +254,42 @@ CONTACTS = _Kind(
     "registration_coverage",
 )
 
+# Task 5. DOB complaints and ECB summonses carry row-level lineage (source_rows): the
+# record's source id is its first source row's id, as for registrations. DOB: the
+# Socrata :id (complaint_number repeats across identical copies and stays in the
+# payload); ECB: the ISN. A 311 request is single-row; its source id is the k311_ token,
+# never the unique_key (design 18.1).
+DOB_COMPLAINTS = _Kind(
+    RESULT_TYPE_DOB_COMPLAINTS,
+    "dob_complaint",
+    DobComplaintResult,
+    lambda r: r.source_rows[0].source_row_id,
+    lambda r: None,
+)
+ECB_VIOLATIONS = _Kind(
+    RESULT_TYPE_ECB_VIOLATIONS,
+    "ecb_violation",
+    EcbViolationResult,
+    lambda r: r.isn_dob_bis_extract,
+    lambda r: None,
+)
+SERVICE_REQUESTS = _Kind(
+    RESULT_TYPE_SERVICE_REQUESTS,
+    "service_request_311",
+    ServiceRequestResult,
+    lambda r: r.request_ref,
+    lambda r: None,
+)
+
 _KINDS = (
     (ComplaintSourceResult | NormalizedComplaintProblem, COMPLAINTS),
     (SourceResult | NormalizedViolation, VIOLATIONS),
     (BuildingSourceResult | HpdBuildingRecord, BUILDINGS),
     (RegistrationSourceResult | HpdRegistrationRecord, REGISTRATIONS),
     (ContactSourceResult | HpdRegistrationContact, CONTACTS),
+    (DobComplaintResult | NormalizedDobComplaint, DOB_COMPLAINTS),
+    (EcbViolationResult | NormalizedEcbViolation, ECB_VIOLATIONS),
+    (ServiceRequestResult | NormalizedServiceRequest, SERVICE_REQUESTS),
 )
 
 
@@ -405,9 +448,11 @@ _INSERT_LINK = text(
 def _links(fetch_id, record_id, record: AnyRecord, source_record_id: str) -> list[dict]:
     """One link per source row the record stands for.
 
-    Registrations and contacts list every source row in `source_rows` (itself first, then
-    identical copies collapsed into it), each with its own Socrata :id and raw row. Every
-    other record stands for exactly one source row: its own.
+    Registrations, contacts and DOB complaints list every source row in `source_rows`
+    (itself first, then identical copies collapsed into it), each with its own Socrata
+    :id and raw row; ECB summonses likewise, by ISN (identical ECB copies share one ISN
+    and one raw row, and keep their own row_index in the payload). Every other record,
+    311 requests included, stands for exactly one source row: its own.
     """
     refs = getattr(record, "source_rows", None)
     if refs is None:
@@ -708,7 +753,16 @@ def save_with_run(
 save_violations = save_with_run
 save_complaints = save_with_run
 
-_SNAPSHOT_ORDER = (BUILDINGS, REGISTRATIONS, CONTACTS, VIOLATIONS, COMPLAINTS)
+_SNAPSHOT_ORDER = (
+    BUILDINGS,
+    REGISTRATIONS,
+    CONTACTS,
+    VIOLATIONS,
+    COMPLAINTS,
+    DOB_COMPLAINTS,
+    ECB_VIOLATIONS,
+    SERVICE_REQUESTS,
+)
 
 
 def save_research_snapshot(
@@ -888,6 +942,18 @@ def load_contact_result(conn: Connection, fetch_id: uuid.UUID) -> StoredResult:
     return _load(conn, fetch_id, CONTACTS)
 
 
+def load_dob_complaint_result(conn: Connection, fetch_id: uuid.UUID) -> StoredResult:
+    return _load(conn, fetch_id, DOB_COMPLAINTS)
+
+
+def load_ecb_violation_result(conn: Connection, fetch_id: uuid.UUID) -> StoredResult:
+    return _load(conn, fetch_id, ECB_VIOLATIONS)
+
+
+def load_service_request_result(conn: Connection, fetch_id: uuid.UUID) -> StoredResult:
+    return _load(conn, fetch_id, SERVICE_REQUESTS)
+
+
 __all__ = [
     "EvidenceState",
     "RecordWriteError",
@@ -900,7 +966,10 @@ __all__ = [
     "load_building_result",
     "load_complaint_result",
     "load_contact_result",
+    "load_dob_complaint_result",
+    "load_ecb_violation_result",
     "load_registration_result",
+    "load_service_request_result",
     "load_violation_result",
     "resolution_projection",
     "save_complaint_result",

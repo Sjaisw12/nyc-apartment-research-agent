@@ -1180,6 +1180,42 @@ outcome, that the wording matches each outcome, the AA/AB/AC stages, U4 and U5, 
 order event's text names a stop-work, vacate or padlock order, that no label implies an
 order is in effect, and the counts above.
 
+### 18.7 Step 2 as built (DOB complaints, 2026-10-23, after 06:22Z)
+
+Where the built adapter differs from, or adds to, earlier sections:
+
+- **Order key.** `$order=:id` with `$select=*, :id`, as in the step-1 recording, not
+  `complaint_number, :id` (8.2). `complaint_number` is not unique (6 numbers repeat), so
+  `:id` is the pager's unique key; duplicates are handled after the fetch (section 9).
+  The Socrata `:id` of every source row is kept on the record (`source_row_ids`); DOB
+  complaint rows hold nothing personal.
+- **Duplicates.** Copies are compared without `:id`. Identical copies collapse into one
+  record that keeps every `:id`; differing copies are all kept, flagged
+  `duplicate_id_different_content`, and lose building attribution.
+- **BIN evidence.** Footprints by lot (`base_bbl` or `mappluto_bbl`); HPD building records
+  from the Task 3 adapter (current records on the confirmed lot, assigned BIN). A BIN
+  that only the resolver or HPD knows is looked up in Footprints by BIN: no row means
+  silence (`bin_single_source`), a row on a lot outside the lot family means
+  `bin_lot_conflict`. HPD is never queried by BIN. If Footprints or HPD cannot be checked,
+  only the resolved BIN is searched and the result is `incomplete_pagination` with reason
+  `bin_evidence_incomplete`.
+- **Categories.** DOB's "Complaint Category Description" (Rev. 12/18), the PDF attached to
+  `eabe-havv` on NYC Open Data, SHA-256 `e8751c6c...fa0974d`, 97 codes, extracted verbatim
+  into `docs/task5/dob_complaint_categories_2018.json`. 100 codes in use (477,755 of
+  3,145,939 rows, recorded measurements) are not in that list: their records keep the
+  raw code with no description and flag `complaint_category_unknown`.
+- **Reference file.** `records/data/dob_complaints_reference.json` is generated from the
+  approved mapping and the category list by `scripts/task5_build_dob_reference.py`; a
+  test rebuilds it and compares.
+- **Schema.** A required field absent from every row gives `source_unavailable` with
+  `schema_changed` and no records (8.1).
+- **Order wording.** `DOB recorded disposition {code} ("{DOB text}") on {date} for
+  complaint {number}. This dataset does not show whether the order is still in effect.
+  Check DOB's own records.` DOB's own text replaces the event label, so a code with no
+  verb is never described as issued.
+- **Not in step 2:** storage (needs migration 0011, step 5), the retired-BIN note from
+  ECB rows (step 3), freshness from catalog metadata, ECB and 311.
+
 ## Appendix: live queries (2026-10-23, about 03:55 to 04:15 UTC)
 
 All against `https://data.cityofnewyork.us/resource/<id>.json`, metadata from

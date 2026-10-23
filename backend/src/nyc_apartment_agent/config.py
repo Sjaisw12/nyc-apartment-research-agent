@@ -40,6 +40,9 @@ class Settings(BaseSettings):
     # PostgreSQL connection URL (Phase 2 Task 4). A secret: it can hold a password, so it
     # is never logged. Unset: nothing is stored and the offline suite still runs.
     database_url: SecretStr | None = None
+    # A separate login for the retention job (storage/retention.py) that holds ONLY the
+    # evidence_retention role. A secret for the same reason; never logged.
+    retention_database_url: SecretStr | None = None
     # Raw evidence is held this long after it was fetched, then reduced to a tombstone.
     # D15 sets 180 days as the maximum; the database refuses anything longer.
     evidence_retention_days: int = Field(default=180, ge=1, le=180)
@@ -49,7 +52,13 @@ class Settings(BaseSettings):
         "(+https://github.com/Sjaisw12/nyc-apartment-research-agent)"
     )
 
-    @field_validator("socrata_app_token", "evidence_digest_key", "database_url", mode="before")
+    @field_validator(
+        "socrata_app_token",
+        "evidence_digest_key",
+        "database_url",
+        "retention_database_url",
+        mode="before",
+    )
     @classmethod
     def _blank_token_is_none(cls, value: object) -> object:
         # An empty SOCRATA_APP_TOKEN= line means "no token", not an empty header.

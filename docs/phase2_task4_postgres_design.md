@@ -133,7 +133,8 @@ Columns: `fetch_id`, `complaint_id`, `attribution` (including `mixed`),
 | `expired_at` | |
 
 A CHECK requires that `original_row` and `original_sha256` are both null exactly when
-`expired_at` is set.
+`expired_at` is set. Since migration 0010 a trigger allows only two updates: expiry of a
+due row and restore through the restore function (section 10.4c).
 
 ### 3.8 `records.evidence_availability` (view)
 Columns: `original_digest`, `basis`, `held` (bool), `retain_until`, `expired_at`. The view
@@ -154,7 +155,7 @@ All group roles are NOLOGIN. Deployments grant them to login users.
 | `app_reader` | `USAGE` on `records`; `SELECT` on `records` tables and views. **No** `USAGE` on `evidence`. |
 | `ingest_writer` | `USAGE` on both schemas; `SELECT, INSERT` on `records`; `INSERT` on `evidence.raw_row`. No `UPDATE` or `DELETE` anywhere. |
 | `evidence_admin` | `USAGE` and `SELECT` on `evidence` (audits and validation only) |
-| `evidence_retention` | `USAGE` on `evidence`; `SELECT, UPDATE` on `evidence.raw_row` (the expiry job only) |
+| `evidence_retention` | `USAGE` on `evidence`; column-level `SELECT (original_digest, retain_until, expired_at)` and `UPDATE (original_row, original_sha256, expired_at)` on `evidence.raw_row` (the expiry job only; what it may write is limited by the 0010 trigger) |
 | `evidence_restorer` | `USAGE` on `evidence`; `EXECUTE` on `evidence.restore_expired_raw_row` only. Granted with `ingest_writer` to the server-side writer (migration 0003). |
 
 **Hardening:**
@@ -200,7 +201,9 @@ roles (they may serve other databases). This is documented and tested.
 
 ## 7. Retention summary (D15)
 
-Raw evidence is kept for 180 days. Section 10.4 covers expiry, lineage and backups.
+Raw evidence is kept for at most 180 days after the fetch whose copy is held. Sections
+10.4 to 10.4c cover expiry, lineage, restoration and backups; the retention job and its
+operation are in `docs/operations/evidence_retention_runbook.md`.
 
 ## 8. Implementation steps (separate commits, each reported)
 
@@ -462,15 +465,15 @@ Where step 3 differs from the plan above, and why:
   migration 0003, only `evidence_restorer` may call it (see 10.4b).
 - **Retention on a repeat sighting.** Seeing a held row again does **not** extend its
   retention: `retain_until` comes from its first fetch. A restored row gets a new
-  `retain_until`, set from the new fetch. Whether a repeat sighting should extend
-  retention is left for review in step 6.
+  `retain_until`, set from the new fetch. Reviewed in step 6 and kept (section 10.4c).
 - **Expiry rights.** `evidence_retention` has column-level rights only: `SELECT` on
   digest, `retain_until` and `expired_at`, and `UPDATE` on `original_row`,
   `original_sha256` and `expired_at`. It cannot read row content.
 - **Error text.** Database errors during evidence writes are re-raised without the
   original exception, because PostgreSQL's DETAIL can quote the failing row. The server
   log can do the same, so production should set `log_error_verbosity = terse` for this
-  database. That is a deployment setting, needs a superuser, and is not testable here.
+  database. That is a deployment setting and needs a superuser. Step 6 measured it on
+  the local cluster and tests the per-login form (section 10.4c).
 
 ### 10.4b Step 2 hardening (migration 0003, 2026-10-22)
 
@@ -515,6 +518,78 @@ The resulting guarantee, stated exactly:
   stored and then immediately expired.
 - Raw evidence is therefore held for at most 180 days after the fetch it came from, plus
   the gap until the next expiry run (scheduling arrives in step 6).
+
+### 10.4c Step 6 decisions (migration 0010 and the retention job, 2026-10-23)
+
+**Finding: the retention role could do more than expire.** Its column grants (UPDATE on
+`original_row`, `original_sha256`, `expired_at`) cannot say "only to NULL" or "only when
+due". As a real `evidence_retention` login, all four of these committed:
+
+- expiring a row that was not due (any WHERE clause, or a clock ahead of the database);
+- overwriting held evidence with other JSON;
+- turning a tombstone back into held evidence with invented content, around the restore
+  function;
+- rewriting a tombstone's `expired_at`.
+
+**Migration 0010** adds a BEFORE UPDATE trigger, `lifecycle`, on `evidence.raw_row`. It
+applies to every role and allows exactly:
+
+- **expiry** (held to tombstone): only the three expiry columns change;
+  `retain_until <= now()` by the database clock; `expired_at` between `retain_until` and
+  `now()`;
+- **restore** (tombstone to held): `restore_count` rises by exactly one (a column only
+  the restore function writes), identity columns unchanged, and the restoring copy was
+  fetched **after** `expired_at`.
+
+Anything else is refused: held rows and tombstones are otherwise immutable. No grants
+changed. The HMAC key is still not in the database.
+
+**Retention on a repeat sighting (reviewed, not changed).** Seeing a held digest again
+does not extend its retention. Trade-off:
+
+- *Kept policy (no extension):* the strict reading of D15. No original is held more than
+  180 days after the fetch whose copy is held, however often it is seen. Cost: a newer
+  snapshot can cite a digest whose original expires sooner than 180 days after that
+  snapshot's fetch, and reports it as not held once it does. A later fetch after the
+  expiry restores it with a fresh window.
+- *Alternative (extend on each sighting):* newer snapshots stay verifiable for a full
+  window, but an original seen regularly would be held indefinitely, which D15 does not
+  allow without a new decision.
+
+The policy is now enforced in the database too: a copy fetched **before** the expiry is a
+repeat sighting from while the row was held, so it cannot restore the tombstone (this was
+a gap: such a copy, written after the expiry, used to restart the window). The Python
+writer leaves the tombstone in place and counts it as `not_restored`, rather than failing
+the whole snapshot. Changing the policy needs explicit approval.
+
+**The retention job** (`storage/retention.py`, `scripts/run_retention.py`):
+
+- runs as a login holding only `evidence_retention`, and refuses a login that can read
+  `original_row` or lacks the role;
+- one cutoff per run: the database clock, or an injected clock for tests that may not be
+  ahead of the database;
+- bounded batches (`batch_size`, `max_batches`), each its own transaction, rows taken with
+  `FOR UPDATE SKIP LOCKED` (allowed by the role's column UPDATE right), with lock and
+  statement timeouts;
+- returns and logs a report with counts only; database errors become class and SQLSTATE;
+- idempotent: a rerun with the same cutoff expires nothing more.
+
+Tests move rows into the past (`age_raw_rows`, a superuser connection with triggers off
+for one statement) instead of passing a future clock, which the database now refuses.
+
+**Privacy audit findings (fixed in step 6):**
+
+- With the `sqlalchemy.engine` logger at DEBUG, SQLAlchemy logged result rows, which
+  `hide_parameters` does not cover, so an `evidence_admin` read logged raw rows. The
+  engine logger now drops its DEBUG records.
+- Scrubbed write errors were raised inside the `except` block, so `__context__` still held
+  the database error whose DETAIL quotes the failing row (visible to any error reporter
+  that walks the chain). They are now raised outside it.
+
+**Server logs** are a deployment concern the application cannot scrub. Measured on the
+local cluster: with the default `log_error_verbosity` a failed raw-row insert logs the
+row in DETAIL; with `terse` it does not. `log_statement = all` logs bound values unless
+`log_parameter_max_length = 0`. Required settings are in the runbook.
 
 ### 10.5 Round-trip and digest correctness
 

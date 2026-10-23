@@ -21,7 +21,7 @@ two transitions, whoever runs the UPDATE:
            must go up by exactly one (evidence_retention cannot write that column), the
            identity columns stay the same, and the restored copy must have been fetched
            AFTER the row expired. A copy fetched while the row was still held is a repeat
-           sighting, and repeat sightings never extend retention (design doc 10.2d).
+           sighting, and repeat sightings never extend retention (design doc 10.4c).
 
 Everything else is refused: held rows and tombstones are otherwise immutable. The
 existing CHECKs and the 0003 retention-window trigger still apply on top.

@@ -51,11 +51,17 @@ class AttributionBasis(StrEnum):
     # The row's HPD BuildingID maps to exactly one current HPD building record on the
     # same lot, with an assigned BIN. Only ever applied to rows that were unattributed.
     HPD_BUILDING_ID = "hpd_building_id"
+    # DOB complaints (Task 5): the row has only a BIN; the BIN's place on the lot comes
+    # from Footprints and/or HPD building records, not from the row itself.
+    BIN_LOT_MAPPING = "bin_lot_mapping"
 
 
 class LotMembership(StrEnum):
     CONFIRMED = "confirmed"  # source BBL and/or boro-block-lot agree with the resolved lot
     CONFLICTING = "conflicting"  # source BBL and boro-block-lot point at different lots
+    # Task 5: the row has no lot identifiers; membership is inferred from its BIN through
+    # the resolver, Footprints or HPD building records.
+    VIA_BIN_MAPPING = "via_bin_mapping"
 
 
 class LocationScope(StrEnum):
@@ -125,6 +131,12 @@ class QualityFlag(StrEnum):
     DATE_ORDER = "date_order"  # a status date earlier than the received date
     COMPLAINT_FIELDS_DISAGREE = "complaint_fields_disagree"  # differs between problems
     UNIT_DETAIL_REDACTED = "unit_detail_redacted"  # description had unit/floor detail
+    # DOB complaints (Task 5, design 18.3 and 18.6)
+    BIN_SINGLE_SOURCE = "bin_single_source"  # one source places the BIN on the lot; other silent
+    BIN_LOT_CONFLICT = "bin_lot_conflict"  # two sources place the BIN on different lots
+    BIN_NOT_ON_CURRENT_LOT = "bin_not_on_current_lot"  # row BIN in no current lot list
+    DISPOSITION_CODE_UNKNOWN = "disposition_code_unknown"  # no official definition found
+    COMPLAINT_CATEGORY_UNKNOWN = "complaint_category_unknown"  # not in DOB's category list
 
 
 CONFLICT_FLAGS = frozenset(

@@ -89,6 +89,9 @@ class EvidenceKind(StrEnum):
     # e.g. an HPD building or registration record: what HPD has on file, not a finding
     # about conditions, and not independent proof of title or actual management.
     ADMINISTRATIVE_RECORD = "administrative_record"
+    # e.g. a DOB ECB summons: a charge the agency issued, not a finding that a violation
+    # occurred. Whether a tribunal upheld it is a separate field (Task 5, design 4.1).
+    ENFORCEMENT_ACTION = "enforcement_action"
 
 
 class DigestBasis(StrEnum):
@@ -137,6 +140,14 @@ class QualityFlag(StrEnum):
     BIN_NOT_ON_CURRENT_LOT = "bin_not_on_current_lot"  # row BIN in no current lot list
     DISPOSITION_CODE_UNKNOWN = "disposition_code_unknown"  # no official definition found
     COMPLAINT_CATEGORY_UNKNOWN = "complaint_category_unknown"  # not in DOB's category list
+    # DOB ECB violations (Task 5 step 3, design 18.2 and 18.3)
+    BIN_RETIRED_OR_UNKNOWN = "bin_retired_or_unknown"  # row BIN in no current source
+    BIN_ON_OTHER_LOT = "bin_on_other_lot"  # Footprints places the row BIN on another lot
+    CONDO_LOT_FAMILY = "condo_lot_family"  # row lot in the lot family, not the resolved lot
+    SEVERITY_UNDOCUMENTED_VALUE = "severity_undocumented_value"  # e.g. CLASS - 2
+    UNCOMMON_VALUE_WITHHELD = "uncommon_value_withheld"  # value not on the measured list
+    AMOUNT_UNPARSEABLE = "amount_unparseable"  # a money field is not a plain number
+    IDENTIFIER_WITHHELD = "identifier_withheld"  # an id did not match its expected format
 
 
 CONFLICT_FLAGS = frozenset(

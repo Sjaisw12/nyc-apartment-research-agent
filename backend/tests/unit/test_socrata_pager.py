@@ -149,3 +149,66 @@ def test_select_is_sent_on_pages_for_row_id_paging():
     )
     count = fake.calls[0].url.params["$select"]
     assert "count(" in count  # the count call keeps its own select
+
+
+# ---- retries and attempt records (Task 5 step 4, design 18.4) ---------------------------------
+
+
+def run_retry(fake, **kw):
+    with fake.client() as c:
+        return fetch_all(
+            c,
+            "erm2-nwe9",
+            where="bbl in ('2027540005')",
+            order_by="violationid",
+            unique_key="violationid",
+            page_size=kw.pop("page_size", 100),
+            row_cap=10_000,
+            **kw,
+        )
+
+
+def test_every_attempt_is_recorded_even_when_rejected():
+    fake = FakeSocrata(ROWS)
+    fake.truth_at = {1: NEWER_TRUTH, 2: TRUTH}  # count TRUTH, data NEWER, then both TRUTH
+    f = run_retry(fake, max_restarts=2)
+    assert f.complete and f.provenance.restarts == 1
+    assert [(a.count_header, a.page_headers, a.accepted) for a in f.attempts] == [
+        (TRUTH, [NEWER_TRUTH], False),
+        (TRUTH, [TRUTH], True),
+    ]
+    assert f.attempts[0].reasons == ["dataset_changed_during_retrieval"]
+    assert f.provenance.data_as_of == TRUTH
+
+
+def test_retry_on_other_reasons_is_opt_in():
+    fake = FakeSocrata(ROWS)
+    fake.short_at = {1}  # the first data response is one row short
+    default = run_retry(fake, max_restarts=2)
+    assert default.provenance.restarts == 0 and not default.complete
+    fake = FakeSocrata(ROWS)
+    fake.short_at = {1}
+    f = run_retry(fake, max_restarts=2, retry_on=("short_page",))
+    assert f.complete and f.provenance.restarts == 1 and len(f.attempts) == 2
+
+
+def test_retries_stop_after_max_restarts_and_rows_are_never_merged():
+    fake = FakeSocrata(ROWS)
+    fake.short_at = {1, 3, 5}
+    f = run_retry(fake, max_restarts=2, retry_on=("short_page",))
+    assert f.provenance.restarts == 2 and len(f.attempts) == 3
+    assert not any(a.accepted for a in f.attempts)
+    assert len(f.rows) == 22  # only the last attempt's rows
+    assert f.provenance.incomplete_reasons == ["short_page at offset 0: 22 < 23"]
+
+
+def test_a_failed_retry_keeps_the_previous_attempt_and_says_so():
+    fake = FakeSocrata(ROWS)
+    fake.truth_at = {1: NEWER_TRUTH}
+    fake.fail_at = {2: 500, 3: 500}  # the retry's count call fails (2 HTTP attempts)
+    f = run_retry(fake, max_restarts=2)
+    assert len(f.rows) == 23 and len(f.attempts) == 1
+    assert f.provenance.incomplete_reasons == [
+        "dataset_changed_during_retrieval",
+        "retry_failed: SourceServerError",
+    ]

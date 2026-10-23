@@ -250,3 +250,27 @@ def keyed_digest(obj: Any, key: bytes) -> str:
     recovered by trying each and comparing hashes. Without the key that is not possible.
     """
     return hmac.new(key, canonical_json(obj), hashlib.sha256).hexdigest()
+
+
+# ---- 311 identifier token (Task 5, design 18.1, D20) -----------------------------------
+
+K311_DOMAIN = b"nyc311-unique-key\x00"
+K311_PATTERN = re.compile(r"^k311_[0-9a-f]{32}$")
+_K311_KEY = re.compile(r"^\d{1,12}$")
+
+
+def k311_token(unique_key: str, key: bytes) -> str:
+    """The public stand-in for a 311 `unique_key`.
+
+    `k311_` + the first 32 lowercase hex characters of HMAC-SHA256(key, K311_DOMAIN +
+    unique_key as UTF-8), where `key` is EVIDENCE_DIGEST_KEY as UTF-8 bytes. The domain
+    prefix keeps tokens apart from original-row digests made with the same key. The
+    unique_key must be the source's decimal identifier; anything else is refused, and the
+    refusal never repeats the value.
+    """
+    if not isinstance(unique_key, str) or not _K311_KEY.match(unique_key):
+        raise ValueError("unique_key is missing or not a decimal identifier")
+    if not key:
+        raise ValueError("a non-empty key is required")
+    mac = hmac.new(key, K311_DOMAIN + unique_key.encode("utf-8"), hashlib.sha256)
+    return "k311_" + mac.hexdigest()[:32]

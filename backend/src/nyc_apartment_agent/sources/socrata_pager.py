@@ -10,7 +10,10 @@ A fetch is called complete only when all of these hold:
    offsets would no longer line up).
 
 If (5) fails, the whole fetch restarts once; if it fails again, the result is
-incomplete. Rows beyond `row_cap` are never fetched; the result says so.
+incomplete. Callers may allow more restarts and restart on other reasons too (`retry_on`,
+e.g. a count that the data does not match); every attempt's headers are kept in
+`PagedFetch.attempts`, and rows from different attempts are never combined. Rows beyond
+`row_cap` are never fetched; the result says so.
 
 A failure on the count call raises (nothing was retrieved: "source unavailable").
 A failure on a later page returns the partial rows with a reason (never silently).
@@ -32,11 +35,25 @@ TRUTH_HEADER = "x-soda2-truth-last-modified"
 
 
 @dataclass
+class FetchAttempt:
+    """One count-then-pages attempt, kept even when it was rejected and retried."""
+
+    attempt: int
+    count_header: str | None
+    page_headers: list[str | None]
+    source_count: int | None
+    rows: int
+    reasons: list[str]
+    accepted: bool = False
+
+
+@dataclass
 class PagedFetch:
     rows: list[dict[str, Any]]
     provenance: RetrievalProvenance
     page_urls: list[str] = field(default_factory=list)  # URL that returned rows[i]'s page
     row_page: list[int] = field(default_factory=list)  # page index for each row
+    attempts: list[FetchAttempt] = field(default_factory=list)  # every attempt, in order
 
     @property
     def complete(self) -> bool:
@@ -86,6 +103,7 @@ def fetch_all(
     required_fields: tuple[str, ...] = (),
     max_restarts: int = 1,
     select: str | None = None,
+    retry_on: tuple[str, ...] = ("dataset_changed_during_retrieval",),
 ) -> PagedFetch:
     """Fetch every row matching `where`, ordered by `order_by` (must be unique).
 
@@ -97,26 +115,62 @@ def fetch_all(
         raise ValueError("page_size and row_cap must be positive")
     resource = f"/resource/{dataset_id}.json"
     restarts = 0
+    attempts: list[FetchAttempt] = []
+    previous: PagedFetch | None = None
     while True:
-        result = _fetch_once(
-            client, resource, dataset_id, where, order_by, unique_key, page_size, row_cap, select
-        )
-        changed = "dataset_changed_during_retrieval" in result.provenance.incomplete_reasons
-        if changed and restarts < max_restarts:
+        try:
+            result = _fetch_once(
+                client,
+                resource,
+                dataset_id,
+                where,
+                order_by,
+                unique_key,
+                page_size,
+                row_cap,
+                select,
+            )
+        except SourceError as exc:
+            if previous is None:
+                raise  # nothing retrieved at all: the caller reports "source unavailable"
+            # A retry failed before its count: keep the last attempt, marked incomplete.
+            result = previous
+            result.provenance.incomplete_reasons.append(f"retry_failed: {type(exc).__name__}")
+            break
+        attempts.append(_attempt(len(attempts) + 1, result))
+        retry = any(r.startswith(retry_on) for r in result.provenance.incomplete_reasons)
+        if retry and restarts < max_restarts:
             restarts += 1
+            previous = result
             logger.warning("%s changed during retrieval; restarting (%d)", dataset_id, restarts)
             continue
-        result.provenance.restarts = restarts
-        _check_schema(result, required_fields)
-        logger.info(
-            "%s: count=%s fetched=%d pages=%d complete=%s",
-            dataset_id,
-            result.provenance.source_count,
-            len(result.rows),
-            len(result.provenance.pages) - 1,
-            result.complete,
-        )
-        return result
+        break
+    if attempts:
+        attempts[-1].accepted = not result.provenance.incomplete_reasons
+    result.attempts = attempts
+    result.provenance.restarts = restarts
+    _check_schema(result, required_fields)
+    logger.info(
+        "%s: count=%s fetched=%d pages=%d complete=%s",
+        dataset_id,
+        result.provenance.source_count,
+        len(result.rows),
+        len(result.provenance.pages) - 1,
+        result.complete,
+    )
+    return result
+
+
+def _attempt(n: int, fetch: PagedFetch) -> FetchAttempt:
+    pages = fetch.provenance.pages
+    return FetchAttempt(
+        attempt=n,
+        count_header=pages[0].truth_last_modified if pages else None,
+        page_headers=[p.truth_last_modified for p in pages[1:]],
+        source_count=fetch.provenance.source_count,
+        rows=len(fetch.rows),
+        reasons=list(fetch.provenance.incomplete_reasons),
+    )
 
 
 def _fetch_once(

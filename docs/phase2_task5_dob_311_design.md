@@ -1,9 +1,11 @@
 # Phase 2, Task 5: DOB and 311 records (design for approval)
 
-Status: **design only, no implementation.** Written 2026-10-23 on branch
-`claude/project-thread-5d0l0f`, after Task 4 was approved and closed (2026-10-23 03:53Z).
-No adapter, model, migration or test code is written for Task 5 until this design is
-approved.
+Status: **three-dataset V1 approved in principle (2026-10-23 04:29Z), with four required
+amendments, now written in section 18.** Step 1 (measurement and fixtures) is authorized;
+no adapter, production model or migration is written until the step-1 review gate is
+passed and step 2 is separately approved. Written 2026-10-23 on branch
+`claude/project-thread-5d0l0f`. Where section 18 differs from an earlier section,
+section 18 wins; the earlier sections carry a pointer.
 
 All numbers come from live queries against `data.cityofnewyork.us` on 2026-10-23, about
 03:55 to 04:15 UTC, and from the official data dictionaries attached to each dataset.
@@ -149,11 +151,16 @@ Same five addresses as the Phase 1 benchmark and Tasks 1 to 3.
 
 | Address (BBL / resolved BIN) | DOB complaints | ECB | 311 by BBL since 2020 | Notes |
 |---|---|---|---|---|
-| 1134 West Farms Rd (2027540005 / 2006185) | 8 on 2006185; 4 on 2117584 | 0 | 399 (HPD 309, NYPD 76) | Footprints lists BINs 2006185 and 2117584; HPD lists only 2006185 |
-| 220 W 17th St (1007660055 / 1081543; lot BINs 1081542 to 1081549) | 17 on 1081543 (1 active); 19 on 1081547; 4 on 1081549; others | 0 | 165 | 311 addresses on this lot: 224 W 17 (42), 218 FRONT W 17 (29), 220 (26), 218 (23) |
-| 1217 West Farms Rd (tax lot 2029930031, no verified BIN; Footprints BIN 2128717) | 6 on 2128717; 1 on retired BIN 2010717 | 0 | 77 | BIN 2010717 is not in Footprints but has 14 DOB violations and 1 DOB complaint. 311 rows mostly addressed "1017 HOME STREET" (75) |
+| 1134 West Farms Rd (2027540005 / 2006185) | 8 on 2006185; 4 on 2117584 | 3 (corrected, see note) | 399 (HPD 309, NYPD 76) | Footprints lists BINs 2006185 and 2117584; HPD lists only 2006185 |
+| 220 W 17th St (1007660055 / 1081543; lot BINs 1081542 to 1081549) | 17 on 1081543 (1 active); 19 on 1081547; 4 on 1081549; others | 4 (corrected) | 165 | 311 addresses on this lot: 224 W 17 (42), 218 FRONT W 17 (29), 220 (26), 218 (23) |
+| 1217 West Farms Rd (tax lot 2029930031, no verified BIN; Footprints BIN 2128717) | 6 on 2128717; 1 on retired BIN 2010717 | 12 (corrected) | 77 | BIN 2010717 is not in Footprints but has 14 DOB violations and 1 DOB complaint. 311 rows mostly addressed "1017 HOME STREET" (75) |
 | 350 5th Ave (1008350041 / 1015862) | 141 (1 active), addressed "350 5 AVENUE" (92), "338 5 AVENUE" (24), "350 FIFTH AVENUE" (13), "348 5 AVENUE" (2) | 241 | 504 | Lot format split above |
-| 1845 Adam Clayton Powell Jr Blvd (condo lot 1018227502 / 1054974 and 1055002) | 111 on 1054974 (74 addressed "1845 7 AVENUE"); 120 on 1055002 | 0 | 435 | Condo billing lot |
+| 1845 Adam Clayton Powell Jr Blvd (condo lot 1018227502 / 1054974 and 1055002) | 111 on 1054974 (74 addressed "1845 7 AVENUE"); 120 on 1055002 | 52 (corrected; 23 of them on the condo base lot 0001) | 435 | Condo billing lot |
+
+**Correction (step 1, 04:39Z):** the ECB column first showed 0 for four addresses. Those
+counts came from queries that used only the five-digit lot, which is exactly the
+lot-format gap in 3.1. With both formats the counts are 3, 4, 12, 241 and 52. Details
+in `docs/phase2_task5_step1_report.md`.
 
 What this shows:
 
@@ -395,7 +402,7 @@ rescissions. HPD vacate orders stay in the HPD violation results (Task 1), uncha
 
 No new `Attribution` value is needed.
 
-### 6.3 BIN search set for DOB complaints (D24)
+### 6.3 BIN search set for DOB complaints (D24; amended in 18.3)
 
 At **building scope** only:
 
@@ -420,7 +427,7 @@ only a BIN, and the Phase 1 rule says tax-lot resolution never authorizes a BIN 
 1217 West Farms therefore gets no DOB complaints in V1; it still gets ECB (by lot) and
 311 (by BBL).
 
-### 6.4 Decision table
+### 6.4 Decision table (amended in 18.3)
 
 `R` = resolved BIN. `L` = current lot BIN set (Footprints ∪ HPD). Building scope unless
 stated.
@@ -464,7 +471,7 @@ the street, or another structure. `location_type` (for example `RESIDENTIAL BUIL
 `Street/Sidewalk`) is shown as reported, mapped to a `LocationScope`-style hint, and
 never upgrades attribution.
 
-### 6.5 Condo lots
+### 6.5 Condo lots (measured; see 18.3)
 
 1845 ACP is a condominium billing lot (lot 7502). 311 returned 435 rows for the billing
 BBL. Whether some 311 rows use unit-lot BBLs instead (lots 1001 and up on the same block)
@@ -612,7 +619,7 @@ New `EvidenceKind`: `enforcement_action`.
 - Values in `$where` come only from the resolver (digits) and are checked against
   `^\d+$` before building the clause, as today.
 
-### 8.2 Per dataset
+### 8.2 Per dataset (311 query amended in 18.4)
 
 **DOB complaints**
 
@@ -646,7 +653,7 @@ All agencies are fetched, then HPD and DOB rows are counted and dropped before
 normalization (D19), so the excluded counts are exact. The 2020 floor is the dataset's
 own start; 2010 to 2019 is out of V1 (D28).
 
-### 8.3 Unstable truth header on 311 (D27)
+### 8.3 Unstable truth header on 311 (D27; amended in 18.4)
 
 Five identical-style 311 calls returned two different `X-SODA2-Truth-Last-Modified`
 values, alternating between "Thu, 22 Oct 2026 01:37:36 GMT" and "Fri, 23 Oct 2026
@@ -683,7 +690,7 @@ applies.
 
 ## 10. Privacy, evidence and retention
 
-### 10.1 Field classification
+### 10.1 Field classification (amended in 18.2)
 
 | Field | Public record | Private evidence (`original_row`, 180 days) | Never stored |
 |---|---|---|---|
@@ -787,7 +794,7 @@ step 1, reviewed by Sanyam, then frozen.
 
 The live tests stay opt-in and never run in CI, as today.
 
-## 12. Planned PostgreSQL changes (not written yet)
+## 12. Planned PostgreSQL changes (not written yet; corrected in 18.1)
 
 Migration 0011 (one migration, planned for step 5):
 
@@ -854,7 +861,7 @@ counts not reduced.
 5. Is the 311 timestamp New York local time? (not verified; only the date is public, so
    the effect is limited to rows near midnight)
 
-## 16. Decisions requested
+## 16. Decisions requested (D19, D20, D21, D24, D27, D31 revised in 18.5)
 
 | # | Decision | Recommended | Alternatives |
 |---|---|---|---|
@@ -878,6 +885,198 @@ counts not reduced.
 Unchanged from earlier tasks: rate limiting, CORS, apartment and unit parsing, GitHub
 Actions upgrades, NYC API terms of use, a privacy notice stating retention and backup
 periods, and deployment of the retention job (not authorized).
+
+## 18. Required amendments (2026-10-23, after the 04:29Z review)
+
+Sanyam accepted D18 to D31 subject to four amendments. Each is written here against the
+Task 4 schema as built (migrations 0004 to 0010 and `storage/repository.py`), and checked
+against the step-1 measurements (`docs/phase2_task5_step1_report.md`).
+
+### 18.1 Amendment 1: the `k311_` token and lineage contract
+
+**Correction.** Section 12 named a `source_row_id` column on `records.normalized_record`.
+There is none. As built:
+
+- `records.normalized_record` has `source_record_id text NOT NULL` (0004), and its
+  payload is checked by `payload_has_no_private_keys`, which calls
+  `records.forbidden_keys_absent` and already rejects a `unique_key` key at any depth
+  (0004). `source_fetch.result_payload` has the same check.
+- `records.record_source_row` has `source_record_id text NOT NULL` and a nullable
+  `source_row_id`. 0006 requires that a record **without** `source_rows` in its payload
+  has exactly one link, with `source_row_id` NULL, and that every link's
+  `source_record_id` equals `coalesce(source_row_id, record.source_record_id)`.
+- `records.evidence_identity` (0007) exposes `original_digest`, `dataset_id`,
+  `source_record_id` from `evidence.raw_row` to `ingest_writer` only, and the commit-time
+  trigger `check_link_identity` requires each link's `source_record_id` to equal its raw
+  row's `source_record_id`.
+- Row-level lineage (`source_rows`, `source_row_id`) is used only by HPD registrations and
+  contacts, where `source_row_id` is the Socrata `:id`.
+
+**Contract.**
+
+| Place | Value for a 311 record | Enforced by |
+|---|---|---|
+| Token | `k311_` + first 32 hex characters of HMAC-SHA256(`EVIDENCE_DIGEST_KEY`, `b"nyc311-unique-key\x00" + unique_key`) | Python, one function, unit-tested |
+| `normalized_record.source_record_id` | the token | new 0011 CHECK: for `record_kind = 'service_request_311'`, `dataset_id = 'erm2-nwe9'`, `source_record_id ~ '^k311_[0-9a-f]{32}$'` and `payload ->> 'request_ref' = source_record_id` |
+| record payload | `request_ref` = token; no `unique_key`, no `:id` | existing `forbidden_keys_absent` (unique_key); new 0011 CHECK that a 311 payload has no `source_rows` and no `:id` key |
+| `record_source_row` | exactly one link per record; `source_row_id` NULL; `source_record_id` = token | existing 0006 rules (single-row record) and `check_link_identity`; nothing new |
+| `evidence.raw_row.source_record_id` | the token | new 0011 CHECK: `dataset_id <> 'erm2-nwe9' OR source_record_id ~ '^k311_[0-9a-f]{32}$'` |
+| `records.evidence_identity` | shows the token only | follows from the raw-row CHECK; grants unchanged |
+| `evidence.raw_row.original_row` | the full original row, plain `unique_key` included | `evidence_admin` only; 180-day expiry; 0010 trigger |
+| `fetch_page.url`, `source_fetch.where_clause`, provenance | `bbl in (...) AND created_date >= ... AND agency not in ('HPD','DOB')`; offset paging; `$order=unique_key` names the field only | no value of `unique_key` or `:id` is ever placed in a query |
+| `incomplete_reasons`, warnings | field names only (`duplicate_unique_key_across_pages`); a record is named by its token | adapter code and the privacy audit |
+| logs and errors | counts and dataset ids only (the pager logs nothing else); Task 4 scrubbed write errors | existing; the runbook's `log_error_verbosity = terse` covers a raw-row `DETAIL` line on the server |
+
+**Why no `:id` for 311.** The Socrata `:id` is also a row locator: anyone can fetch the full
+public row with it, which is exactly what keeping `unique_key` private prevents. So 311
+never selects `:id`, never pages by it, and never uses row-level lineage. The dictionary
+says `unique_key` is unique, and the measurements found no repeat, so it is a valid
+ordering key for the pager.
+
+**Duplicate source rows.**
+
+| Case | What happens | Constraint effect |
+|---|---|---|
+| Same `unique_key`, identical content | identical keyed digest, one raw row; one record flagged `duplicate_id_same_content` | existing 0006 rule: fewer links than `source_count` only when collapsed |
+| Same `unique_key`, different content | two records with the same token and different digests, both flagged `duplicate_id_different_content`; the pager adds `duplicate_unique_key_across_pages`, so the fetch is `incomplete_pagination` | none needed: no uniqueness on `source_record_id`; raw rows are keyed by digest |
+| Same row twice through offset paging (snapshot moved) | as the first case, and the fetch is already incomplete | existing rule: a raw row may be linked twice only in an incomplete fetch |
+
+**What the token does not do.** It keeps the 311 identifier out of everything public. It
+does not make the public record unlinkable to the open dataset: a lot, a date and a
+complaint type can often be matched back to the public row by anyone. The public record
+holds only what the open dataset already publishes, minus identifiers, location detail
+and exact times.
+
+**Key rotation.** A new `EVIDENCE_DIGEST_KEY` gives new tokens. Old snapshots keep their
+old tokens, so the same request is no longer linkable across the rotation. Acceptable and
+documented.
+
+### 18.2 Amendment 2: free-text privacy
+
+Measured on 2026-10-23 (311: rows created since 2026-09-01, agencies other than HPD and
+DOB, 423,189 rows; ECB: the 5,000 newest rows issued since 2024). Text was scanned
+locally; only counts were written.
+
+| Field | Measured | Classification | Public rule |
+|---|---|---|---|
+| 311 `complaint_type` | 149 values; 31 values (175 rows) seen fewer than 20 times | agency picklist ("Problem", defined by the responding agencies) | **allowlist** (below) |
+| 311 `descriptor` | 683 values; 264 rare values (1,714 rows) | agency picklist ("Problem Detail") | allowlist |
+| 311 `descriptor_2` | 508 values; 263 rare values (1,528 rows); longest rare value 59 characters; rare values are category names (e.g. "Tenant Refused Repair Request") | agency picklist ("Additional Details, a third level of detail") | allowlist |
+| 311 `location_type` | 148 values; 63 rare (368 rows) | agency picklist | allowlist |
+| 311 `resolution_description` | 497 values; 228 rare (1,306 rows); all inspected values are agency template sentences; 15 of 5,000 contain a phone number, all agency numbers (311, DCWP) | agency template | allowlist, then unit and floor redaction |
+| 311 `landmark` | 7,121 values; 4,503 rare | place name | withheld |
+| 311 `incident_zip` | | location | withheld (the lot is already known) |
+| ECB `violation_description` | unit-id redactor fired on 193 of 5,000 rows, floor on 875; 19 emails (all DOB addresses seen); 5 phone numbers (one a private business number); 13 honorific patterns, mostly "MR" for machine room, but **at least one names a person** | inspector free text | **withheld in V1** (changes 10.1) |
+| ECB `section_law_description1..10` | 980 code-text pairs, every infraction code has exactly one text | fixed code list | shown only when the code and text match the measured list; otherwise withheld |
+| ECB `violation_type` | 15 values | picklist | shown |
+| DOB `house_number`, `house_street` | agency-entered building address | administrative address | shown after the unit and floor redaction pass |
+
+**Allowlist rule (311).** A picklist or template value is shown only if it is in a committed
+allowlist built from (a) the 311 dictionary's complaint-detail tab and (b) values seen at
+least 20 times citywide in a fixed reference window. Any other value becomes
+`[UNCOMMON VALUE WITHHELD]` with flag `uncommon_value_withheld`. The dictionary tab alone
+covers too little (59.5% of `complaint_type` rows, 33.5% of `descriptor`, 75.7% of
+`descriptor_2`, 98.4% of `location_type`), so both sources are needed. The allowlist is a
+reviewed data file, built in step 4.
+
+**D31 resolved.** The redactor's unit pattern requires APT, APARTMENT or UNIT before the
+identifier, so "NOV # 38167719M" is not redacted. The question no longer matters,
+because ECB descriptions are withheld.
+
+**Privacy test matrix additions** (replace rows 24 and 25 of 11.2). Sentinel values for a
+person's name ("MR. JOHN SENTINEL"), a unit ("APT 4B-SENTINEL"), a floor, a phone number,
+an email, an exact location (coordinates, cross streets) and a personal detail ("injured
+SENTINEL") are placed in **every** public text field: 311 `complaint_type`, `descriptor`,
+`descriptor_2`, `location_type`, `resolution_description`; ECB `violation_description`,
+`section_law_description1..10`, `violation_type`; DOB `house_street`. The test asserts
+none of them appears in record payloads, `source_fetch.result_payload`, API output, logs,
+error text, `fetch_page.url` or `evidence_identity`, and that each is present only in
+`original_row`.
+
+### 18.3 Amendment 3: conflicting BIN and lot evidence (D24 clarified)
+
+Sources that can place a BIN on a lot: the resolver (for the resolved BIN only),
+Footprints (`base_bbl`, `mappluto_bbl`), HPD buildings (`boroid`/`block`/`lot`), and an
+ECB row's own `boro`/`block`/`lot`. The **lot family** of the resolved lot is the resolved
+BBL plus every `base_bbl` and `mappluto_bbl` that Footprints gives for the lot's BINs.
+Measured: for the 1845 ACP condo, Footprints gives `base_bbl` 1018220001 and
+`mappluto_bbl` 1018227502 (the billing lot) for both BINs, and DOB recorded 23 ECB rows
+for BIN 1054974 on lot 0001.
+
+| BIN evidence | Example (measured) | DOB complaints | ECB rows on the lot family |
+|---|---|---|---|
+| All sources that know the BIN agree | 220 W 17th, 8 BINs | `this_building` (R) or `other_building_on_lot` | same |
+| One source places the BIN on the lot; the other is **silent** | 1134 West Farms BIN 2117584: Footprints yes, HPD has no record | `other_building_on_lot`, flag `bin_single_source`, provenance listed. Silence is not a conflict (HPD covers only buildings under its jurisdiction) | same |
+| Two sources place the BIN on **different** lots outside the lot family | none at the test lots; synthetic | BIN not searched; reported in a `bin_lot_conflicts` list. If it is R: every row `unattributed_on_lot`, `lot_membership = conflicting`, flag `bin_lot_conflict`. **Never** `this_building` or `other_building_on_lot` | `unattributed_on_lot`, `conflicting`, `bin_lot_conflict` |
+| Row lot inside the lot family but not the resolved lot (condo base lot) | ACP: BIN 1054974 on lot 0001 | n/a | attribution by BIN as usual, `lot_membership = confirmed`, flag `condo_lot_family` |
+| Row lot outside the family for a lot BIN (often a lot that no longer exists) | ACP BIN 1055002: 28 ECB rows from 1990 to 2009 on lot 0061, which is in neither Footprints nor HPD today | not fetched unless the BIN is R; if R: `unattributed_on_lot`, `conflicting`, `lot_identifier_conflict` | |
+| BIN on the lot family's rows, in no current source | 1217 West Farms BIN 2010717 (BIS violations; 1 DOB complaint) | not searched; coverage note | `unattributed_on_lot`, flag `bin_retired_or_unknown` |
+| BIN on the lot family's rows, Footprints places it on another lot | synthetic | not searched | `unattributed_on_lot`, flag `bin_on_other_lot` |
+| Placeholder or missing BIN | synthetic | never searched | `unattributed_on_lot`, `bin_placeholder` or `bin_missing` |
+| Tax-lot scope | 1217 West Farms | `unsupported_join` | `lot_level` for every row |
+
+To tell "retired" from "on another lot", the adapter looks up the unknown BINs from ECB
+rows in Footprints by BIN (one extra query, recorded in provenance). New flags:
+`bin_single_source` (replaces `bin_sets_disagree`), `bin_lot_conflict`,
+`bin_retired_or_unknown`, `bin_on_other_lot`, `condo_lot_family`.
+
+Tests added to 11.2: resolved BIN, other lot BINs, single-source BIN, explicit two-source
+conflict (on R and on another BIN), condo base lot, historical lot, retired BIN, BIN on
+another lot, missing and placeholder BIN, and tax-lot scope, using the fixtures where
+they exist (draft ground truth in the step-1 report) and synthetic rows otherwise.
+
+### 18.4 Amendment 4: incomplete counts and unstable snapshots
+
+**Measured.** Ten identical citywide 311 counts returned two truth headers ("Thu, 22 Oct
+2026 01:37:36 GMT" and "Fri, 23 Oct 2026 01:38:29 GMT") and **two counts, 22,879,856 and
+22,892,475**. The two versions differ by 12,619 rows. In ten count-then-data pairs at
+350 5th Ave, 4 pairs had different headers on the count and the data, yet all 10 had
+count = rows (504). During the committed fixture recording (04:52Z) the existing pager
+restarted on a header change, and two of the five 311 fetches still ended
+`dataset_changed_during_retrieval`; different addresses landed on different versions. The DOB complaint
+and ECB datasets each returned one header and one count over ten calls.
+
+**D19, revised: excluded rows are counted, not retrieved.** The HPD and DOB filter moves
+into `$where` (`agency not in ('HPD', 'DOB')`; no 311 row with a null agency was found
+since 2026-09-01). The retrieved set is then exactly what is normalized, so the Task 4
+lineage rule (links equal `source_count`) holds unchanged. The excluded numbers come from
+a separate `count(*) ... group by agency` query and are reported as
+`excluded_source_counts` with that query's own truth header and time, labelled "source
+count, not retrieved". If that query fails, or its header differs from the main fetch's
+header, or the main fetch is incomplete, the numbers are shown as not established for
+this snapshot, with the reason, and never presented as covering the full result.
+
+**D27, revised: what the one-page strategy establishes.**
+
+- Established when complete: every returned row came from one HTTP response carrying one
+  truth header; the count came from a response carrying the **same** header; rows equal
+  the count; keys are distinct.
+- Not established: that the count and the data were served by the same replica (two
+  replicas could carry the same header; not verified either way); that the version
+  served is the newest (the other version may be a day newer); that the row set equals
+  what another version would return. Equal counts across different headers prove
+  nothing: the two versions' totals differ.
+- Rule: a count and a data response with different headers are not a complete pair.
+  Retry the pair up to twice; if no attempt yields matching headers and counts:
+  `incomplete_pagination`, reason `source_snapshot_unstable`, rows kept and marked.
+  Multi-page 311 results keep the existing rule (one header across count and all pages).
+- Provenance keeps every header seen, including those of discarded attempts
+  (`attempt_headers`), and `data_as_of` is the header of the accepted pair. When two
+  versions were seen, the result says so.
+
+### 18.5 Revised decisions
+
+| # | Revised recommendation |
+|---|---|
+| D19 | Filter HPD and DOB rows in `$where`; report their numbers from a separate count query as source counts, with header and time, and only when consistent with the main fetch (18.4) |
+| D20 | The token contract in 18.1, including no `:id` and no row-level lineage for 311 |
+| D21 | Public 311 fields: agency, allowlisted `complaint_type`, `descriptor`, `descriptor_2`, `location_type`, allowlisted and redacted `resolution_description`, status, dates (date only), BBL. Withheld: address as typed, street names, cross and intersection streets, landmark, zip, coordinates, location, channel, due date |
+| D24 | The evidence table in 18.3: silence is not conflict; explicit two-source conflict never yields a building attribution; condo lot family from Footprints; historical lots and retired BINs preserved as uncertain |
+| D27 | Header-matched count and data, two retries, then `source_snapshot_unstable` (18.4) |
+| D31 | Resolved: ECB descriptions withheld in V1; the redactor does not touch "NOV #" |
+
+New privacy decision for review: **ECB `violation_description` withheld from public
+output in V1** (18.2), with the infraction codes and their fixed law texts shown instead.
 
 ## Appendix: live queries (2026-10-23, about 03:55 to 04:15 UTC)
 

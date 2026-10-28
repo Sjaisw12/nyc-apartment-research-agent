@@ -9,6 +9,7 @@ src/nyc_apartment_agent/records/data/ecb_reference.json:
   2026-10-23 06:22Z), with the documented uncertainty for each value;
 - docs/task5/step1_measurements.json: the measured vocabularies (hearing status,
   certification status, severity, correction status, violation type);
+- docs/task5/ecb_adjudication_history.json: the groupings stored by earlier commits;
 - docs/task5/ecb_reference_measurements.json: the infraction code list, the allowlisted
   (code, section/law text) pairs and the aggravated-level vocabulary.
 
@@ -75,8 +76,12 @@ _NOT_A_DECISION = " It is not presented as a hearing officer's decision after a 
 # What the sources say and do NOT say, per value. Never a guess at the meaning.
 ADJUDICATION_NOTES = {
     "IN VIOLATION": (
-        "Recorded as IN VIOLATION, read as OATH's finding that the violation occurred. The "
-        "dataset does not say how the hearing was held or whether the charge was contested."
+        "Recorded by DOB as IN VIOLATION: DOB's copy of the hearing outcome, read as a "
+        "finding that the violation occurred. The dataset does not say how the hearing was "
+        "held or whether the charge was contested. In the project's OATH cross-check "
+        "(2026-10-23), 113 of the 135 recorded IN VIOLATION summonses were found in OATH "
+        "with the same result and 22 were not in the OATH dataset, so OATH does not "
+        "independently confirm every IN VIOLATION record."
     ),
     "CURED/IN-VIO": (
         "Recorded as CURED/IN-VIO. The dataset does not define CURED. OATH and DOB guidance "
@@ -142,7 +147,11 @@ def _vocab(counts: dict) -> list[str]:
     return sorted(k for k in counts if k != "None")
 
 
+ADJUDICATION_VERSION = "2026-10-28"
+
+
 def build() -> dict:
+    history = json.loads((DOCS / "ecb_adjudication_history.json").read_text(encoding="utf-8"))
     mapping = json.loads((DOCS / "proposed_mappings.json").read_text(encoding="utf-8"))
     step1 = json.loads((DOCS / "step1_measurements.json").read_text(encoding="utf-8"))
     meas = json.loads((DOCS / "ecb_reference_measurements.json").read_text(encoding="utf-8"))
@@ -182,7 +191,10 @@ def build() -> dict:
             },
         },
         "hearing_status_definition": HEARING_DEFINITION,
+        "adjudication_version": ADJUDICATION_VERSION,
         "adjudication": dict(sorted(adjudication.items())),
+        # groupings stored by earlier commits, to recognize older snapshots on load
+        "adjudication_history": history["versions"],
         "correction_status": CORRECTION_STATUS,
         "severity": SEVERITY,
         "severity_note": SEVERITY_NOTE,

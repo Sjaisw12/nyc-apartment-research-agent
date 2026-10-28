@@ -57,6 +57,7 @@ from ..records.complaint_models import (
     NormalizedComplaintProblem,
 )
 from ..records.dob_models import DobComplaintResult, NormalizedDobComplaint
+from ..records.ecb_compat import AdjudicationReading, read_stored
 from ..records.ecb_models import EcbViolationResult, NormalizedEcbViolation
 from ..records.join_policy import UnsupportedJoinError, plan_lot_query
 from ..records.models import (
@@ -833,6 +834,9 @@ class StoredResult:
     result: AnyResult
     evidence: dict[str, EvidenceState]  # original_digest -> state of its raw row
     buildings_fetch_id: uuid.UUID | None = None  # D9: the building records used
+    # ECB only: the adjudication grouping the snapshot was saved under, and whether the
+    # groups shown were derived again on load (the stored JSON is never rewritten).
+    adjudication_reading: AdjudicationReading | None = None
 
 
 StoredViolationResult = StoredResult
@@ -897,6 +901,9 @@ def _load(conn: Connection, fetch_id: uuid.UUID, kind: _Kind) -> StoredResult:
             **payload["summary"],
             "by_registration": list(conn.execute(_LOAD_COVERAGE, {"id": fetch_id}).scalars()),
         }
+    reading = None
+    if kind is ECB_VIOLATIONS:
+        payload, reading = read_stored(payload)
     result = kind.model.model_validate(payload)
     evidence = {
         e.original_digest: EvidenceState(
@@ -919,6 +926,7 @@ def _load(conn: Connection, fetch_id: uuid.UUID, kind: _Kind) -> StoredResult:
         result=result,
         evidence=evidence,
         buildings_fetch_id=row.buildings_fetch_id,
+        adjudication_reading=reading,
     )
 
 

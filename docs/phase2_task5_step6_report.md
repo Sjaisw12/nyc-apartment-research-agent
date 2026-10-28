@@ -4,7 +4,8 @@ Status: **submitted for independent review.** Task 5 is **not** fully independen
 validated. DOB manual validation (Part C), the five manual OATH lookups (part of Part
 D) and HPD validations A and B are pending. The attribution ground truth is proposed,
 not frozen. The 2026-10-28 follow-up changed only the ECB adjudication grouping, its enum
-values, notes and summary statement (section 3.1). No migration (no 0012), role, recorded
+values, notes and summary statement (section 3.1), and how older ECB snapshots are read
+(section 3.2). No migration (no 0012), role, recorded
 fixture, cross-check output, fixture count, LangGraph, frontend or deployment change. No
 PR, merge, history rewrite, branch rename or deletion.
 
@@ -161,6 +162,66 @@ error. A match with no difference in any field: 144 of 223.
 The five summonses for manual lookup (OATH ticket finder or DOB BIS) are in
 `part_d_oath_crosscheck.md`. **Pending.**
 
+### 3.2 Snapshots saved before the revision (2026-10-28, compatibility)
+
+**Reproduction.** The code at `7445fb8` (2026-10-23 grouping) was checked out and saved
+the five recorded addresses to a disposable PostgreSQL 16 database. Loading those ECB
+snapshots with `0127027`:
+
+| Address | Stored groups | `load_ecb_violation_result` at 0127027 |
+|---|---|---|
+| 1134 West Farms | DEFAULT as `upheld_by_default` | **fails**: `upheld_by_default` is not an `Adjudication` |
+| 350 5th Ave | 1 DEFAULT; 36 stipulation, 69 cure, 1 admission as `upheld` | **fails** (same reason) |
+| 1845 ACP | 2 DEFAULT; 6 stipulation, 1 cure, 2 admission as `upheld` | **fails** (same reason) |
+| 220 W 17th | 1 CURED/IN-VIO as `upheld` | loads, and **silently still counts the cure as upheld** |
+| 1217 West Farms | 2 CURED/IN-VIO as `upheld` | loads, and **silently still counts the cures as upheld** |
+
+**Correction (read side only).** The stored JSON cannot carry a version marker without a
+migration: the 0011 constraints allow only listed keys. So the loader recognizes the
+grouping from what was stored. Each record's group and note for its raw hearing status,
+and the summary statement, are compared with the groupings committed so far. Those are
+kept in `docs/task5/ecb_adjudication_history.json`, taken from the committed files at
+`7445fb8` and `0127027`, and packaged in `ecb_reference.json`.
+
+- **Current snapshot:** returned unchanged.
+- **2026-10-23 snapshot:**
+  - each record's group and note are derived again from its recorded raw hearing
+    status;
+  - the summary's adjudication counts and notes are recounted;
+  - the statement says the snapshot was saved under the 2026-10-23 grouping and that the
+    groups were derived again on load;
+  - `StoredResult.adjudication_reading` holds the stored version and, unchanged, the
+    stored groups, notes, counts and statement.
+- **A snapshot that matches no single grouping:** refused (an edited note, or old
+  records under a new statement). Nothing is guessed.
+- **Not changed:** loading never writes. The stored JSON, `redacted_sha256`, original
+  digests, evidence rows and audit history are unchanged. There is no migration.
+
+**After the fix:** all five old snapshots load. 350 5th Ave shows 99 `upheld`, 36
+stipulation, 69 cure, 1 admission and 1 default, beside the stored 205 `upheld` and 1
+`upheld_by_default`.
+
+**IN VIOLATION note.** It now says that DOB recorded the outcome, and that 113 of the 135
+recorded IN VIOLATION summonses were found in OATH with the same result while 22 were not
+in OATH. OATH therefore does not confirm every IN VIOLATION record.
+
+**Tests.**
+- `tests/db/test_ecb_legacy_snapshots.py` (6, PostgreSQL), using
+  `tests/fixtures/dob311/ecb_snapshots_2026-10-23.json`. That file holds the JSON that
+  `7445fb8` actually stored for 1134 West Farms and 220 W 17th. Each test:
+  - checks that the old JSON differs from a current save only in the grouping fields and
+    replay times, with the same `redacted_sha256` and digests;
+  - stores the old JSON in its place, loads it, and checks the derived groups, the
+    recorded groups and the statement;
+  - checks that the stored JSON is unchanged after loading.
+
+  New snapshots load exactly as saved. Edited or mixed snapshots are refused.
+- `tests/unit/test_ecb_compat.py` (4) covers recognition offline.
+- Two reference tests cover the history and the IN VIOLATION note.
+
+The 312 summonses, the 223 OATH matches, the 89 unmatched summonses and the recorded
+disagreement counts are unchanged.
+
 ## 4. Part E: independent 311 aggregates
 
 Script `backend/scripts/task5_validation_part_e.py`. It uses plain HTTP and grouped SoQL
@@ -221,11 +282,11 @@ The draft is kept unchanged.
 
 | Run | Result |
 |---|---|
-| Full suite with PostgreSQL 16 (`REQUIRE_DB_TESTS=1`) | 1177 passed, 33 skipped (live); 1186 after the 3.1 revision |
-| PostgreSQL-marked tests | 231 passed (also after 3.1) |
-| Offline | 956 passed, 254 skipped; 965 after 3.1 |
-| Live (`RUN_LIVE_TESTS=1 -m live`) | 33 passed (also after 3.1) |
-| Resolver benchmark | 14/14 correct, 0 wrong building, ambiguity 6/6, abstentions 4/4, BIN preserved 2/2 (also after 3.1) |
+| Full suite with PostgreSQL 16 (`REQUIRE_DB_TESTS=1`) | 1177 passed, 33 skipped (live); 1186 after 3.1; 1198 after 3.2 |
+| PostgreSQL-marked tests | 231 passed (also after 3.1); 237 after 3.2 |
+| Offline | 956 passed, 254 skipped; 965 after 3.1; 972 after 3.2 |
+| Live (`RUN_LIVE_TESTS=1 -m live`) | 33 passed (also after 3.1 and 3.2) |
+| Resolver benchmark | 14/14 correct, 0 wrong building, ambiguity 6/6, abstentions 4/4, BIN preserved 2/2 (also after 3.1 and 3.2) |
 | ruff check and format | clean |
 | New: `tests/unit/test_task5_validation.py` | 10 passed (Part C rebuilt byte for byte; D and E completeness, privacy, exact re-render; matching rules) |
 | CI | see the thread for the run at this commit |

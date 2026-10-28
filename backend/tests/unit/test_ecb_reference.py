@@ -85,3 +85,28 @@ def test_vocabularies_are_the_measured_ones():
         "MULTIPLE OFFENSE",
         "NO",
     ]
+
+
+def test_in_violation_note_does_not_claim_oath_confirmed_every_record():
+    note = ref()["adjudication"]["IN VIOLATION"]["note"]
+    assert note.startswith("Recorded by DOB as IN VIOLATION")
+    assert "113 of the 135" in note and "22 were not in the OATH dataset" in note
+    assert "does not independently confirm every" in note
+
+
+def test_history_keeps_the_groupings_earlier_commits_stored():
+    approved = json.loads((ROOT / "docs" / "task5" / "proposed_mappings.json").read_text())
+    history = {v["version"]: v for v in ref()["adjudication_history"]}
+    assert [(v["version"], v["commit"]) for v in ref()["adjudication_history"]] == [
+        ("2026-10-23", "7445fb8"),
+        ("2026-10-28", "0127027"),
+    ]
+    old = history["2026-10-23"]
+    assert {k: v["adjudication"] for k, v in old["adjudication"].items()} == {
+        r["hearing_status"]: r["adjudication"] for r in approved["ecb_adjudication"]
+    }
+    assert "Only an IN VIOLATION" not in old["statement"]
+    new = history["2026-10-28"]
+    current = {k: v["adjudication"] for k, v in ref()["adjudication"].items()}
+    assert {k: v["adjudication"] for k, v in new["adjudication"].items()} == current
+    assert ref()["adjudication_version"] == "2026-10-28"

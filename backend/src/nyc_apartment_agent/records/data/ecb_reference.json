@@ -44,6 +44,7 @@
   }
  },
  "hearing_status_definition": "The ECB dictionary defines hearing_status only as \"Status of the hearing\" and gives no value list. The grouping is the project's, not DOB's or OATH's. It was revised on 2026-10-28 after the step 6 OATH cross-check (validation part D): only IN VIOLATION is grouped as upheld. Stipulation, admission, cure, default and POP outcomes are kept apart, because they are not shown to be a hearing officer's decision on the merits.",
+ "adjudication_version": "2026-10-28",
  "adjudication": {
   "ADMIT/IN-VIO": {
    "adjudication": "in_violation_by_admission",
@@ -68,7 +69,7 @@
   "IN VIOLATION": {
    "adjudication": "upheld",
    "approved_2026_10_23": "upheld",
-   "note": "Recorded as IN VIOLATION, read as OATH's finding that the violation occurred. The dataset does not say how the hearing was held or whether the charge was contested."
+   "note": "Recorded by DOB as IN VIOLATION: DOB's copy of the hearing outcome, read as a finding that the violation occurred. The dataset does not say how the hearing was held or whether the charge was contested. In the project's OATH cross-check (2026-10-23), 113 of the 135 recorded IN VIOLATION summonses were found in OATH with the same result and 22 were not in the OATH dataset, so OATH does not independently confirm every IN VIOLATION record."
   },
   "None": {
    "adjudication": "unknown",
@@ -96,6 +97,102 @@
    "note": "Recorded as WRITTEN OFF. The meaning is not documented. It is not read as upheld or dismissed."
   }
  },
+ "adjudication_history": [
+  {
+   "version": "2026-10-23",
+   "commit": "7445fb8",
+   "adjudication": {
+    "ADMIT/IN-VIO": {
+     "adjudication": "upheld",
+     "note": "Recorded as ADMIT/IN-VIO. The IN-VIO suffix is read as in violation; the dataset does not define the ADMIT prefix."
+    },
+    "CURED/IN-VIO": {
+     "adjudication": "upheld",
+     "note": "Recorded as CURED/IN-VIO. The IN-VIO suffix is read as in violation; the dataset does not define the CURED prefix."
+    },
+    "DEFAULT": {
+     "adjudication": "upheld_by_default",
+     "note": "Recorded as DEFAULT. The meaning of DEFAULT is not documented in the ECB or OATH dataset dictionaries. It is grouped as upheld_by_default, kept apart from upheld, and is not presented as a decision on the merits."
+    },
+    "DISMISSED": {
+     "adjudication": "dismissed",
+     "note": "Recorded as DISMISSED."
+    },
+    "IN VIOLATION": {
+     "adjudication": "upheld",
+     "note": "Recorded as IN VIOLATION."
+    },
+    "None": {
+     "adjudication": "unknown",
+     "note": "No hearing status recorded."
+    },
+    "PENDING": {
+     "adjudication": "pending",
+     "note": "Recorded as PENDING."
+    },
+    "POP/IN-VIO": {
+     "adjudication": "upheld",
+     "note": "Recorded as POP/IN-VIO. The IN-VIO suffix is read as in violation; the meaning of POP is not documented."
+    },
+    "STIPULATION/IN-VIO": {
+     "adjudication": "upheld",
+     "note": "Recorded as STIPULATION/IN-VIO. The IN-VIO suffix is read as in violation; the dataset does not define the STIPULATION prefix."
+    },
+    "WRITTEN OFF": {
+     "adjudication": "other",
+     "note": "Recorded as WRITTEN OFF. The meaning is not documented. It is not read as upheld or dismissed."
+    }
+   },
+   "statement": "An ECB summons is a charge that DOB issued. It is not by itself a finding that a violation occurred. The correction status is DOB's; the hearing status is OATH's record as published by DOB, grouped by this project's mapping (not DOB's or OATH's), and the certification status is the respondent's certification with DOB. They are shown separately and never combined."
+  },
+  {
+   "version": "2026-10-28",
+   "commit": "0127027",
+   "adjudication": {
+    "ADMIT/IN-VIO": {
+     "adjudication": "in_violation_by_admission",
+     "note": "Recorded as ADMIT/IN-VIO. The dataset does not define ADMIT. OATH and DOB guidance describe admitting the violation and paying the penalty before the hearing. It is not presented as a hearing officer's decision after a contested hearing."
+    },
+    "CURED/IN-VIO": {
+     "adjudication": "in_violation_cured",
+     "note": "Recorded as CURED/IN-VIO. The dataset does not define CURED. OATH and DOB guidance describe a cure as correcting the condition and filing a certificate of correction before the hearing, which admits the charge, with no penalty. It is not presented as a hearing officer's decision after a contested hearing."
+    },
+    "DEFAULT": {
+     "adjudication": "in_violation_by_default",
+     "note": "Recorded as DEFAULT. Its meaning is not documented in the ECB or OATH dataset dictionaries. OATH's rules and guidance say a party who misses the hearing is found in violation by default, with a higher penalty, and may ask OATH to vacate the default. The record does not say whether a default was later vacated. It is not a decision on the merits."
+    },
+    "DISMISSED": {
+     "adjudication": "dismissed",
+     "note": "Recorded as DISMISSED."
+    },
+    "IN VIOLATION": {
+     "adjudication": "upheld",
+     "note": "Recorded as IN VIOLATION, read as OATH's finding that the violation occurred. The dataset does not say how the hearing was held or whether the charge was contested."
+    },
+    "None": {
+     "adjudication": "unknown",
+     "note": "No hearing status recorded."
+    },
+    "PENDING": {
+     "adjudication": "pending",
+     "note": "Recorded as PENDING."
+    },
+    "POP/IN-VIO": {
+     "adjudication": "in_violation_basis_not_documented",
+     "note": "Recorded as POP/IN-VIO. The meaning of POP is not documented, so how the IN-VIO outcome was reached is unknown. It is not presented as a hearing officer's decision after a contested hearing."
+    },
+    "STIPULATION/IN-VIO": {
+     "adjudication": "in_violation_by_stipulation",
+     "note": "Recorded as STIPULATION/IN-VIO. The dataset does not define STIPULATION. In the project's OATH cross-check (33 summonses, 2026-10-23), OATH recorded each as STIPULATED, not IN VIOLATION. OATH and DOB guidance describe a stipulation as an agreement with DOB before the hearing that admits the violation, usually for a reduced penalty and time to correct. It is not presented as a hearing officer's decision after a contested hearing."
+    },
+    "WRITTEN OFF": {
+     "adjudication": "other",
+     "note": "Recorded as WRITTEN OFF. The meaning is not documented. It is not read as upheld or dismissed."
+    }
+   },
+   "statement": "An ECB summons is a charge that DOB issued. It is not by itself a finding that a violation occurred. The correction status is DOB's; the hearing status is OATH's record as published by DOB, grouped by this project's mapping (not DOB's or OATH's), and the certification status is the respondent's certification with DOB. They are shown separately and never combined. Only an IN VIOLATION hearing status is counted as upheld; outcomes reached by stipulation, admission, cure, default or an undocumented route are counted separately and are not hearing decisions on the merits."
+  }
+ ],
  "correction_status": {
   "definition": "\"whether or not the violation has been corrected. This is the status of the violation with DOB, not the status of the hearing with OATH. ACTIVE - still needs to be addressed; RESOLVE - the issue was either fixed with DOB or dismissed by OATH\"",
   "source": "ECB data dictionary DD_DOB_ECB_Violations_2019-07-10.xlsx",

@@ -128,7 +128,9 @@ STATEMENT = (
     "violation occurred. The correction status is DOB's; the hearing status is OATH's "
     "record as published by DOB, grouped by this project's mapping (not DOB's or OATH's), "
     "and the certification status is the respondent's certification with DOB. They are "
-    "shown separately and never combined."
+    "shown separately and never combined. Only an IN VIOLATION hearing status is counted "
+    "as upheld; outcomes reached by stipulation, admission, cure, default or an "
+    "undocumented route are counted separately and are not hearing decisions on the merits."
 )
 FINANCIAL_NOTE = (
     "Amounts as DOB recorded them for summonses attributed to the requested building. "

@@ -26,9 +26,22 @@ def test_packaged_reference_matches_the_approved_sources():
     assert ref() == _build()
 
 
-def test_adjudication_mapping_is_the_approved_one_with_its_uncertainty():
+def test_adjudication_mapping_is_the_revised_one_with_its_uncertainty():
     adj = {k: v["adjudication"] for k, v in ref()["adjudication"].items()}
     assert adj == {
+        "ADMIT/IN-VIO": "in_violation_by_admission",
+        "CURED/IN-VIO": "in_violation_cured",
+        "DEFAULT": "in_violation_by_default",
+        "DISMISSED": "dismissed",
+        "IN VIOLATION": "upheld",
+        "None": "unknown",
+        "PENDING": "pending",
+        "POP/IN-VIO": "in_violation_basis_not_documented",
+        "STIPULATION/IN-VIO": "in_violation_by_stipulation",
+        "WRITTEN OFF": "other",
+    }
+    approved = {k: v["approved_2026_10_23"] for k, v in ref()["adjudication"].items()}
+    assert approved == {
         "ADMIT/IN-VIO": "upheld",
         "CURED/IN-VIO": "upheld",
         "DEFAULT": "upheld_by_default",
@@ -43,7 +56,11 @@ def test_adjudication_mapping_is_the_approved_one_with_its_uncertainty():
     notes = {k: v["note"] for k, v in ref()["adjudication"].items()}
     for value in ("DEFAULT", "POP/IN-VIO", "WRITTEN OFF"):
         assert "not documented" in notes[value]
+    assert "STIPULATED" in notes["STIPULATION/IN-VIO"]
     assert "the project's" in ref()["hearing_status_definition"]
+    rev = ref()["sources"]["adjudication_revision"]
+    assert rev["date"] == "2026-10-28" and "33" in rev["reason"] and "2 ADMIT" in rev["reason"]
+    assert "not reachable" in rev["oath_sources"]["verification"]
 
 
 def test_infraction_allowlist_counts_are_the_measured_ones():

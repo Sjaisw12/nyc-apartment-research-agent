@@ -412,28 +412,36 @@ def test_repeated_summons_number_under_two_extract_ids_is_never_collapsed():
 # ---- statuses: correction, adjudication, certification ------------------------------------
 
 
-@pytest.mark.parametrize(
-    "hearing,adjudication",
-    [
-        ("IN VIOLATION", Adjudication.UPHELD),
-        ("CURED/IN-VIO", Adjudication.UPHELD),
-        ("STIPULATION/IN-VIO", Adjudication.UPHELD),
-        ("POP/IN-VIO", Adjudication.UPHELD),
-        ("ADMIT/IN-VIO", Adjudication.UPHELD),
-        ("DEFAULT", Adjudication.UPHELD_BY_DEFAULT),
-        ("DISMISSED", Adjudication.DISMISSED),
-        ("WRITTEN OFF", Adjudication.OTHER),
-        ("PENDING", Adjudication.PENDING),
-        (None, Adjudication.UNKNOWN),
-    ],
-)
-def test_adjudication_follows_the_approved_mapping(hearing, adjudication):
+# Exact regression for every measured hearing status (revision of 2026-10-28): only
+# IN VIOLATION is upheld; the IN-VIO routes and DEFAULT stay apart from it.
+HEARING_TO_ADJUDICATION = [
+    ("IN VIOLATION", Adjudication.UPHELD),
+    ("CURED/IN-VIO", Adjudication.IN_VIOLATION_CURED),
+    ("STIPULATION/IN-VIO", Adjudication.IN_VIOLATION_BY_STIPULATION),
+    ("POP/IN-VIO", Adjudication.IN_VIOLATION_BASIS_NOT_DOCUMENTED),
+    ("ADMIT/IN-VIO", Adjudication.IN_VIOLATION_BY_ADMISSION),
+    ("DEFAULT", Adjudication.IN_VIOLATION_BY_DEFAULT),
+    ("DISMISSED", Adjudication.DISMISSED),
+    ("WRITTEN OFF", Adjudication.OTHER),
+    ("PENDING", Adjudication.PENDING),
+    (None, Adjudication.UNKNOWN),
+]
+
+
+@pytest.mark.parametrize("hearing,adjudication", HEARING_TO_ADJUDICATION)
+def test_adjudication_follows_the_revised_mapping(hearing, adjudication):
     rec = one_of_two(ecb_row(1, hearing_status=hearing, ecb_violation_status="ACTIVE"))
     assert rec.adjudication is adjudication and rec.hearing_status_raw == hearing
     assert (QualityFlag.STATUS_UNKNOWN in rec.quality_flags) is (hearing is None)
 
 
-def test_mapping_matches_the_approved_file_value_by_value():
+def test_unlisted_hearing_status_is_withheld_and_never_upheld():
+    rec = one_of_two(ecb_row(1, hearing_status="STIPULATED"))
+    assert rec.adjudication is Adjudication.UNKNOWN
+    assert QualityFlag.STATUS_UNKNOWN in rec.quality_flags
+
+
+def test_mapping_keeps_the_approved_value_and_revises_only_the_listed_statuses():
     approved = json.loads(
         (
             __import__("pathlib").Path(__file__).resolve().parents[3]
@@ -442,9 +450,41 @@ def test_mapping_matches_the_approved_file_value_by_value():
             / "proposed_mappings.json"
         ).read_text()
     )["ecb_adjudication"]
+    revised = reference()["sources"]["adjudication_revision"]["revised"]
+    assert set(revised) == {
+        "STIPULATION/IN-VIO",
+        "ADMIT/IN-VIO",
+        "CURED/IN-VIO",
+        "POP/IN-VIO",
+        "DEFAULT",
+    }
     for row in approved:
+        entry = reference()["adjudication"][row["hearing_status"]]
+        assert entry["approved_2026_10_23"] == row["adjudication"]  # approved record kept
         raw = None if row["hearing_status"] == "None" else row["hearing_status"]
-        assert classify_hearing(raw)[0].value == row["adjudication"]
+        expected = revised.get(row["hearing_status"], row["adjudication"])
+        assert classify_hearing(raw)[0].value == expected
+
+
+def test_only_in_violation_is_upheld():
+    upheld = [k for k, v in reference()["adjudication"].items() if v["adjudication"] == "upheld"]
+    assert upheld == ["IN VIOLATION"]
+
+
+@pytest.mark.parametrize(
+    "hearing", ["STIPULATION/IN-VIO", "ADMIT/IN-VIO", "CURED/IN-VIO", "POP/IN-VIO", "DEFAULT"]
+)
+def test_non_hearing_routes_are_never_called_a_decision(hearing):
+    note = reference()["adjudication"][hearing]["note"]
+    assert "not presented as a hearing officer's decision" in note or (
+        "not a decision on the merits" in note
+    )
+    assert "upheld" not in note.lower()
+
+
+def test_default_note_states_the_vacatur_uncertainty():
+    note = reference()["adjudication"]["DEFAULT"]["note"]
+    assert "vacate" in note and "not documented" in note and "higher penalty" in note
 
 
 @pytest.mark.parametrize("hearing", ["DEFAULT", "POP/IN-VIO", "WRITTEN OFF"])
@@ -515,13 +555,40 @@ def test_summary_crosstab_keeps_statuses_separate():
     result, _ = retrieve(rows)
     b = result.summary.by_attribution[THIS]
     assert b.by_correction_and_adjudication == {
-        "open_with_dob|upheld_by_default": 1,
+        "open_with_dob|in_violation_by_default": 1,
         "resolved_with_dob|pending": 1,
         "resolved_with_dob|upheld": 1,
     }
     assert result.summary.status_fields_disagree == 1
     assert "DEFAULT" in result.summary.adjudication_notes
     assert "not by itself a finding" in result.summary.statement
+
+
+def test_summary_cannot_count_a_stipulation_admission_cure_or_default_as_upheld():
+    rows = [ecb_row(i + 1, hearing_status=h) for i, (h, _) in enumerate(HEARING_TO_ADJUDICATION)]
+    result, _ = retrieve(rows)
+    b = result.summary.by_attribution[THIS]
+    assert b.by_adjudication == {
+        "dismissed": 1,
+        "in_violation_basis_not_documented": 1,
+        "in_violation_by_admission": 1,
+        "in_violation_by_default": 1,
+        "in_violation_by_stipulation": 1,
+        "in_violation_cured": 1,
+        "other": 1,
+        "pending": 1,
+        "unknown": 1,
+        "upheld": 1,
+    }
+    assert sum(v for k, v in b.by_correction_and_adjudication.items() if "|upheld" in k) == 1
+    upheld = [r for r in result.records if r.adjudication is Adjudication.UPHELD]
+    assert [r.hearing_status_raw for r in upheld] == ["IN VIOLATION"]
+    # every raw value is kept beside its group, and its note is in the summary
+    assert {r.hearing_status_raw for r in result.records} == {h for h, _ in HEARING_TO_ADJUDICATION}
+    assert set(result.summary.adjudication_notes) == {
+        h or "None" for h, _ in HEARING_TO_ADJUDICATION
+    }
+    assert "not hearing decisions on the merits" in result.summary.statement
 
 
 @pytest.mark.parametrize(

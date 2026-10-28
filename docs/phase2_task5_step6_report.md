@@ -3,8 +3,10 @@
 Status: **submitted for independent review.** Task 5 is **not** fully independently
 validated. DOB manual validation (Part C), the five manual OATH lookups (part of Part
 D) and HPD validations A and B are pending. The attribution ground truth is proposed,
-not frozen. No adapter, model, migration (no 0012), role, fixture count, LangGraph,
-frontend or deployment change. No PR, merge, history rewrite, branch rename or deletion.
+not frozen. The 2026-10-28 follow-up changed only the ECB adjudication grouping, its enum
+values, notes and summary statement (section 3.1). No migration (no 0012), role, recorded
+fixture, cross-check output, fixture count, LangGraph, frontend or deployment change. No
+PR, merge, history rewrite, branch rename or deletion.
 
 Branch `feat/phase-2-dob-311`. Before this step: the Step 5 privacy correction, `48acda9`
 (see `docs/phase2_task5_step5_report.md` section 5.1).
@@ -14,7 +16,7 @@ Branch `feat/phase-2-dob-311`. Before this step: the Step 5 privacy correction, 
 | Check | 1. Automated cross-check PASSED | 2. FAILED or DISAGREED | 3. Manual PENDING | 4. SOURCE UNAVAILABLE / INCONCLUSIVE |
 |---|---|---|---|---|
 | C: DOB BIS / DOB NOW | | | 91 complaints to look up (4 active, 71 closed sample, 22 order events) | BIS and DOB NOW are unreachable from the cloud environment |
-| D: OATH, automated | 223 of 312 summonses found; 153 outcomes identical; 32 same outcome, different wording; 213 of 223 on the same block and lot | 33 STIPULATION/IN-VIO vs STIPULATED; 2 ADMIT/IN-VIO vs blank; 2 paid amounts differ by $1; 10 on a different lot (historical lot identity) | | 89 not in OATH, all with hearings 1988 to 1999; 3 DEFAULT/DEFAULTED outcomes (meaning not documented) |
+| D: OATH, automated | 223 of 312 summonses found; 153 outcomes identical; 32 same outcome, different wording; 213 of 223 on the same block and lot | 33 STIPULATION/IN-VIO vs STIPULATED and 2 ADMIT/IN-VIO vs blank (both still listed; grouping revised in 3.1); 2 paid amounts differ by $1; 10 on a different lot (historical lot identity) | | 89 not in OATH, all with hearings 1988 to 1999; 3 DEFAULT/DEFAULTED outcomes (meaning not documented) |
 | D: OATH, manual | | | 5 summonses (one per address) | |
 | E: 311 aggregates | independent count = live adapter at 5/5 addresses, 0 agency × month cells differ; lot families agree; HPD/DOB exclusions and NULL agency (0) agree | | | |
 | E: HPD key match | 294/309, 17/47, 44/44, 8/8, 173/173 found on the lot | 15 HPD-routed keys at 1134 WF and 1 at 220 W 17 not in HPD complaints | | 29 at 220 W 17 found in HPD complaints only on rows with no BBL |
@@ -85,8 +87,70 @@ tests this directly.
 | WRITTEN OFF | WRITTEN OFF | 1 | agree, meaning not documented |
 
 DEFAULT, DEFAULTED and WRITTEN OFF are never read as an established legal conclusion.
-The 33 stipulations show that grouping DOB's STIPULATION/IN-VIO as "upheld" goes beyond
-what OATH records. This is noted as a mapping question for review, not changed here.
+The 33 stipulations showed that grouping DOB's STIPULATION/IN-VIO as "upheld" went beyond
+what OATH records. The grouping was revised on 2026-10-28 (section 3.1). The committed
+cross-check files are unchanged: their `adjudication` column is the value under the
+2026-10-23 mapping in force when they were produced.
+
+### 3.1 Adjudication revision (2026-10-28, follow-up correction)
+
+**Decision.** Only DOB's `IN VIOLATION` is grouped as `upheld`. Outcomes that DOB records
+with an IN-VIO suffix but that OATH guidance describes as reached without a decision after
+a contested hearing are kept apart, and DEFAULT is renamed. No schema change, no
+migration: migration 0011 constrains only `unknown` adjudications.
+
+| DOB `hearing_status` | Approved 2026-10-23 | Now | Our summonses (312) | OATH's own result (matched) |
+|---|---|---|---|---|
+| IN VIOLATION | upheld | `upheld` | 135 | IN VIOLATION 113; 22 not in OATH |
+| CURED/IN-VIO | upheld | `in_violation_cured` | 73 | IN VIOLATION 29; 44 not in OATH |
+| STIPULATION/IN-VIO | upheld | `in_violation_by_stipulation` | 42 | **STIPULATED 33**; 9 not in OATH |
+| ADMIT/IN-VIO | upheld | `in_violation_by_admission` | 3 | ADMIT IN-VIO 1; **blank 2** |
+| POP/IN-VIO | upheld | `in_violation_basis_not_documented` | 0 | n/a |
+| DEFAULT | upheld_by_default | `in_violation_by_default` | 4 | DEFAULTED 3; DEFAULT 1 |
+| DISMISSED, PENDING, WRITTEN OFF, none | unchanged | unchanged | 49, 2, 4, 0 | see table above |
+
+**What the sources say.** The OATH dataset dictionary (`jz4z-kudi`) defines Hearing
+Result only as "Outcome or result of the hearing", with no values. OATH and DOB guidance
+(nyc.gov pages and 48 RCNY §6-08 and §6-21, listed in `ecb_reference.json` under
+`sources.adjudication_revision`) describes:
+
+- **stipulation:** an agreement with DOB before the hearing that admits the violation,
+  usually for a reduced penalty and time to correct; no hearing is attended, and a
+  decision based on a stipulation cannot be appealed;
+- **admit and pay:** admitting the violation and paying the standard penalty before
+  the hearing;
+- **cure:** correcting the condition and filing a certificate of correction by the cure
+  date, which admits the charge, with no penalty;
+- **default:** missing the hearing, which leads to a finding of violation by default with
+  a higher penalty; the party may ask OATH to vacate it (within 75 days, or later with a
+  reasonable excuse);
+- **hearing decision:** a hearing officer's decision after the party appears;
+- **POP, WRITTEN OFF:** no definition found.
+
+**Uncertainty that remains.**
+
+- nyc.gov and the NYC rules library are blocked from this environment (a direct fetch
+  failed on DNS). The wording above was read in web search excerpts of those pages, not
+  in the pages themselves. The reference file says so. A manual check of the pages is
+  still needed.
+- IN VIOLATION is read as OATH's finding. The dataset does not say how the hearing was held
+  or whether it was contested.
+- A DEFAULT record does not say whether the default was later vacated.
+- The 2 ADMIT/IN-VIO summonses with a blank OATH result are unexplained. They stay listed
+  as a disagreement in Part D, and their DOB value is kept as recorded.
+- The 33 stipulations stay a Part D disagreement. The revision changes how they are
+  grouped, not what either source recorded.
+
+**What a reader sees.** Every record keeps DOB's raw `hearing_status` beside the group
+and a note per value. The summary statement now says that only IN VIOLATION is counted as
+upheld and that the other routes are not hearing decisions on the merits. The reference
+keeps the approved 2026-10-23 value beside each revised one (`approved_2026_10_23`).
+
+**Tests.** Every measured status maps exactly (10 cases, plus an unlisted value that is
+withheld). Only IN VIOLATION is `upheld`. No note for a stipulation, admission, cure, POP
+or default calls it upheld or a decision. A summary with one summons per status counts
+exactly 1 as upheld. On the recordings, 135 summonses are upheld out of 312 (73 cured,
+42 stipulation, 3 admission, 4 default counted apart).
 
 **Other fields.** Penalty imposed and hearing date agree on every matched summons. Two
 paid amounts differ by $1 (6097 vs 6098; 624 vs 625). Ten ACP summonses are on another
@@ -157,11 +221,11 @@ The draft is kept unchanged.
 
 | Run | Result |
 |---|---|
-| Full suite with PostgreSQL 16 (`REQUIRE_DB_TESTS=1`) | 1177 passed, 33 skipped (live) |
-| PostgreSQL-marked tests | 231 passed |
-| Offline | 956 passed, 254 skipped |
-| Live (`RUN_LIVE_TESTS=1 -m live`) | 33 passed |
-| Resolver benchmark | 14/14 correct, 0 wrong building, ambiguity 6/6, abstentions 4/4, BIN preserved 2/2 |
+| Full suite with PostgreSQL 16 (`REQUIRE_DB_TESTS=1`) | 1177 passed, 33 skipped (live); 1186 after the 3.1 revision |
+| PostgreSQL-marked tests | 231 passed (also after 3.1) |
+| Offline | 956 passed, 254 skipped; 965 after 3.1 |
+| Live (`RUN_LIVE_TESTS=1 -m live`) | 33 passed (also after 3.1) |
+| Resolver benchmark | 14/14 correct, 0 wrong building, ambiguity 6/6, abstentions 4/4, BIN preserved 2/2 (also after 3.1) |
 | ruff check and format | clean |
 | New: `tests/unit/test_task5_validation.py` | 10 passed (Part C rebuilt byte for byte; D and E completeness, privacy, exact re-render; matching rules) |
 | CI | see the thread for the run at this commit |
@@ -173,15 +237,18 @@ The draft is kept unchanged.
   10 of the 945 recorded rows had shown one publicly (Step 5 report 5.1, `48acda9`).
 - **Validation tooling:** grouped Socrata answers arrive in any row order; OATH answered
   from two replicas. Both are handled in the scripts and recorded in the query logs.
-- **No adapter defect** was found by Parts D or E. The STIPULATION/IN-VIO grouping is
-  raised as a mapping question, not changed.
+- **Mapping (corrected 2026-10-28):** grouping STIPULATION/IN-VIO, ADMIT/IN-VIO,
+  CURED/IN-VIO and POP/IN-VIO as `upheld`, and calling DEFAULT `upheld_by_default`,
+  overstated them as hearing decisions. Revised in section 3.1. No other adapter defect
+  was found by Parts D or E.
 
 ## 8. Limitations and pending
 
 - Part C (DOB), the five manual OATH lookups, and HPD A and B are pending. No result is
   invented.
-- 19 DOB disposition codes still lack official definitions. DEFAULT, WRITTEN OFF and
-  POP-style OATH outcomes have no documented meaning here.
+- 19 DOB disposition codes still lack official definitions. WRITTEN OFF and POP have no
+  documented meaning. The OATH wording behind section 3.1 was read in search excerpts,
+  not in the pages themselves.
 - OATH has no BIN, so it confirms a lot, never a building.
 - OATH coverage appears to start around 2000. This is inferred from the data, not from
   an official statement.

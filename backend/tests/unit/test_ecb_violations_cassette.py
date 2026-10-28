@@ -182,10 +182,17 @@ def test_recorded_rows_need_no_extra_footprints_lookup(results):
 def test_recorded_statuses_stay_separate_and_use_the_approved_mapping(results):
     every = [r for result, _ in results.values() for r in result.records]
     by_hearing = Counter((r.hearing_status_raw, r.adjudication) for r in every)
-    assert by_hearing[("DEFAULT", Adjudication.UPHELD_BY_DEFAULT)] == 4
+    assert by_hearing[("DEFAULT", Adjudication.IN_VIOLATION_BY_DEFAULT)] == 4
     assert by_hearing[("WRITTEN OFF", Adjudication.OTHER)] == 4
     assert by_hearing[("DISMISSED", Adjudication.DISMISSED)] == 49
     assert by_hearing[("IN VIOLATION", Adjudication.UPHELD)] == 135
+    # revision of 2026-10-28: the IN-VIO routes are counted apart from upheld
+    assert by_hearing[("CURED/IN-VIO", Adjudication.IN_VIOLATION_CURED)] == 73
+    assert by_hearing[("STIPULATION/IN-VIO", Adjudication.IN_VIOLATION_BY_STIPULATION)] == 42
+    assert by_hearing[("ADMIT/IN-VIO", Adjudication.IN_VIOLATION_BY_ADMISSION)] == 3
+    assert by_hearing[("PENDING", Adjudication.PENDING)] == 2
+    assert sum(by_hearing.values()) == 312
+    assert sum(v for (_, a), v in by_hearing.items() if a is Adjudication.UPHELD) == 135
     assert Counter(r.correction_status.value for r in every) == {
         "resolved_with_dob": 307,
         "open_with_dob": 5,

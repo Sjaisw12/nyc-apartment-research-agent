@@ -52,10 +52,19 @@ class CorrectionStatus(StrEnum):
 
 
 class Adjudication(StrEnum):
-    """The project's grouping of `hearing_status` (approved mapping, not OATH's)."""
+    """The project's grouping of `hearing_status` (approved mapping, not OATH's).
 
-    UPHELD = "upheld"
-    UPHELD_BY_DEFAULT = "upheld_by_default"  # DEFAULT; meaning not documented
+    Revised 2026-10-28: only IN VIOLATION is `upheld`. Outcomes reached by stipulation,
+    admission, cure, default or an undocumented route stay separate, so that none of them
+    reads as a hearing officer's decision after a contested hearing.
+    """
+
+    UPHELD = "upheld"  # IN VIOLATION
+    IN_VIOLATION_BY_STIPULATION = "in_violation_by_stipulation"  # STIPULATION/IN-VIO
+    IN_VIOLATION_BY_ADMISSION = "in_violation_by_admission"  # ADMIT/IN-VIO
+    IN_VIOLATION_CURED = "in_violation_cured"  # CURED/IN-VIO
+    IN_VIOLATION_BASIS_NOT_DOCUMENTED = "in_violation_basis_not_documented"  # POP/IN-VIO
+    IN_VIOLATION_BY_DEFAULT = "in_violation_by_default"  # DEFAULT; not a merits decision
     DISMISSED = "dismissed"
     PENDING = "pending"
     OTHER = "other"  # WRITTEN OFF; meaning not documented

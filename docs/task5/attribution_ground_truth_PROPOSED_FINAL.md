@@ -80,7 +80,7 @@ values are not changed.
 | 350 5th rows 15 and 16, ACP row 21 | 89 summonses not in OATH, all with hearings 1988 to 1999 | source unavailable (OATH coverage) | none; reported, not excluded |
 | 220 W 17 row 9 | 29 HPD complaint rows for HPD-routed 311 keys have no BBL | source freshness or completeness (HPD side) | none |
 | 1134 WF row 4 | 15 of 309 HPD-routed keys not found in HPD complaints | missing evidence (HPD side) | none |
-| Outcome wording | OATH STIPULATED vs DOB STIPULATION/IN-VIO (33); ADMIT/IN-VIO with blank OATH result (2) | mapping, not attribution | none for attribution; listed in the Step 6 report |
+| Outcome wording | OATH STIPULATED vs DOB STIPULATION/IN-VIO (33); ADMIT/IN-VIO with blank OATH result (2) | mapping, not attribution | none for attribution; grouping revised 2026-10-28 (Step 6 report 3.1), both counts still listed |
 
 ## Change log (draft → proposed final)
 

@@ -126,7 +126,8 @@ public output.
 - **Limitations:**
   - 3 of the 5 originally listed OATH summonses were not individually checked.
   - The optional blank-ADMIT lookup was not done.
-  - HPD violation statuses for the sampled IDs were not reported.
+  - The current status was not independently reported for six of the seven sampled HPD
+    violations. Those six were matched on identifier, class, date and building only.
 
 ### Criterion 7. The report states the scope
 
@@ -148,8 +149,10 @@ and 75 are NOT INDIVIDUALLY VERIFIED.
 | 2b | 1685892, 1686670, 1687379, 1687380 | BIN 1055002, condo lot | 4/4 VERIFIED on block 1822, lot 7502 |
 | 3a | 1121624, 1246147, 1287981, 1372400 | Stop-work served, then rescinded | 4/4 VERIFIED. BIS shows historical lot 61. |
 
-- **2406493.** The vacate order was rescinded as issued to the wrong property. BIS places
-  it at 1135 Bryant Ave, BIN 2117584.
+- **2406493 and 2411142.** BIS shows complaint 2406493 at 1134 West Farms Road, BIN
+  2006185. It records the historical rescission of a vacate order that was issued to the
+  incorrect property, and it references complaint 2411142. BIS shows complaint 2411142 at
+  1135 Bryant Ave, BIN 2117584.
 - **Order status.** Current order status is INCONCLUSIVE for every order checked.
 - **Not individually checked.** The other 75 complaints in
   `docs/task5/validation/part_c_dob_checklist.md`.
@@ -343,8 +346,10 @@ no HPD rows.
   hash-ordered closed sample in Part C stays available for a later random check.
 - **Snapshots.** Records are snapshots from 21 to 23 Oct 2026, and agency data changes
   daily, so current figures will differ.
-- **HPD scope.** HPD Online shows only the last two years. All-time HPD counts and the
-  sampled violation statuses were not independently verified.
+- **HPD scope.** HPD Online's complaints overview shows a last-two-years reporting window.
+  This does not mean all of HPD Online's historical data, or its violations page, uses the
+  same limit. All-time HPD complaint counts and the current status of six of the seven
+  sampled violations were not independently verified.
 - **Evidence form.** Manual evidence is a text transcription. No screenshots are archived.
 - **Historical coverage.** The OATH open dataset is incomplete for older summonses. ECB
   attribution is confirmed at lot level, not BIN level.

@@ -68,6 +68,7 @@ class Settings(BaseSettings):
     llm_max_calls_per_process: int = Field(default=200, ge=0)
     # Comma-separated origins allowed to call the API from a browser.
     cors_origins: str = "http://localhost:3000,http://127.0.0.1:3000"
+    investigate_rate_per_minute: int = Field(default=20, ge=1, le=10_000)
 
     user_agent: str = (
         "nyc-apartment-research-agent/0.1 "

@@ -23,4 +23,19 @@ personal information beyond what is needed to cite a record.
 | certifi | MPL-2.0 |
 | pytest, ruff (development only) | MIT |
 
-Licenses were read from installed package metadata on 2026-10-21.
+| fastapi, langgraph, langchain-core, sqlalchemy, alembic | MIT |
+| starlette, uvicorn | BSD-3-Clause |
+| anthropic (optional LLM client) | Apache-2.0 |
+| psycopg | LGPL-3.0-only (used unmodified as a library) |
+
+## Frontend dependencies (locked in `frontend/package-lock.json`)
+
+| Package | License |
+|---|---|
+| next, react, react-dom, tailwindcss | MIT |
+| typescript, @playwright/test (development only) | Apache-2.0 |
+
+Fonts Inter and Source Serif 4 are served via `next/font` under the SIL Open Font License.
+
+Licenses were read from installed package metadata on 2026-10-21 (backend core) and
+2026-11-22 (MVP additions).

@@ -4,6 +4,15 @@
 #   export TEST_DATABASE_ADMIN_URL=postgresql://postgres:local-dev-only@localhost:5432/postgres
 #   cd backend && uv run pytest -m db
 services:
+  # Research API in offline demo mode: docker compose up api  (http://localhost:8000)
+  api:
+    build: ./backend
+    environment:
+      DATA_MODE: ${DATA_MODE:-demo}
+      LLM_ENABLED: ${LLM_ENABLED:-0}
+      CORS_ORIGINS: http://localhost:3000,http://127.0.0.1:3000
+    ports:
+      - "127.0.0.1:8000:8000"
   db:
     image: postgres:16
     environment:

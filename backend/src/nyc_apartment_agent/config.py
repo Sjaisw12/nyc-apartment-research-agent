@@ -47,6 +47,28 @@ class Settings(BaseSettings):
     # D15 sets 180 days as the maximum; the database refuses anything longer.
     evidence_retention_days: int = Field(default=180, ge=1, le=180)
 
+    # ---- Phase 3: investigation workflow and optional LLM analysis -------------------
+    # "demo" replays the committed, sanitized fixtures (no network, no keys); "live" calls
+    # GeoSearch and NYC Open Data.
+    data_mode: str = Field(default="demo", pattern="^(demo|live)$")
+    investigation_max_seconds: float = Field(default=90.0, gt=0, le=600)
+    # Most HTTP requests one live investigation may make (resolver + every source).
+    investigation_max_requests: int = Field(default=150, ge=1, le=2000)
+    # LLM analysis is OFF unless explicitly enabled AND a key for the provider is set.
+    llm_enabled: bool = False
+    llm_provider: str = Field(default="anthropic", pattern="^(anthropic|openai)$")
+    llm_model: str | None = None  # provider default when unset
+    anthropic_api_key: SecretStr | None = None
+    openai_api_key: SecretStr | None = None
+    llm_max_calls: int = Field(default=2, ge=0, le=2)
+    llm_max_output_tokens: int = Field(default=900, ge=64, le=4000)
+    llm_max_context_chars: int = Field(default=24_000, ge=1000, le=200_000)
+    llm_timeout_seconds: float = Field(default=45.0, gt=0, le=120)
+    # Spend protection: a process-wide cap on LLM calls (resets on restart).
+    llm_max_calls_per_process: int = Field(default=200, ge=0)
+    # Comma-separated origins allowed to call the API from a browser.
+    cors_origins: str = "http://localhost:3000,http://127.0.0.1:3000"
+
     user_agent: str = (
         "nyc-apartment-research-agent/0.1 "
         "(+https://github.com/Sjaisw12/nyc-apartment-research-agent)"
@@ -57,6 +79,9 @@ class Settings(BaseSettings):
         "evidence_digest_key",
         "database_url",
         "retention_database_url",
+        "anthropic_api_key",
+        "openai_api_key",
+        "llm_model",
         mode="before",
     )
     @classmethod

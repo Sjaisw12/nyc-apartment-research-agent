@@ -1,0 +1,517 @@
+{
+ "summary": {
+  "cases": 9,
+  "identity_correct": 9,
+  "wrong_building_attributions": 0,
+  "missing_citations": 0,
+  "facts_rechecked": 81,
+  "citations_rechecked": 6533,
+  "all_reports_verified": true,
+  "incomplete_sources_flagged": true,
+  "orders_presented_as_current": 0,
+  "privacy_violations": 0,
+  "agent_known_bad_offered": 20,
+  "agent_known_bad_kept": 0,
+  "agent_faithful_kept": 5,
+  "agent_faithful_offered": 5,
+  "max_llm_calls_per_run": 2,
+  "agent_findings_identical_to_baseline": true,
+  "baseline_seconds_max": 0.832
+ },
+ "rows": [
+  {
+   "id": "west_farms_1134",
+   "address": "1134 West Farms Rd, Bronx, NY 10459",
+   "baseline": {
+    "identity_correct": true,
+    "identity": [
+     "verified",
+     "building",
+     "2027540005",
+     "2006185"
+    ],
+    "findings": 28,
+    "facts_checked": 16,
+    "citations_checked": 1663,
+    "verification_passed": true,
+    "missing_citations": 0,
+    "wrong_building_attributions": 0,
+    "ground_truth_this_building_ok": true,
+    "incomplete_sources": [
+     "sr311"
+    ],
+    "incomplete_sources_flagged": true,
+    "orders_presented_as_current": 0,
+    "privacy_violations": 0,
+    "seconds": 0.606
+   },
+   "agent": {
+    "identity_correct": true,
+    "identity": [
+     "verified",
+     "building",
+     "2027540005",
+     "2006185"
+    ],
+    "findings": 28,
+    "facts_checked": 16,
+    "citations_checked": 1663,
+    "verification_passed": true,
+    "missing_citations": 0,
+    "wrong_building_attributions": 0,
+    "ground_truth_this_building_ok": true,
+    "incomplete_sources": [
+     "sr311"
+    ],
+    "incomplete_sources_flagged": true,
+    "orders_presented_as_current": 0,
+    "privacy_violations": 0,
+    "seconds": 0.329,
+    "agent_status": "completed",
+    "llm_calls": 2,
+    "tool_calls": 1,
+    "paragraphs_offered": 5,
+    "known_bad_offered": 4,
+    "paragraphs_kept": 1,
+    "known_bad_kept": 0,
+    "findings_identical_to_baseline": true
+   }
+  },
+  {
+   "id": "west_17_220",
+   "address": "220 West 17th Street, Manhattan",
+   "baseline": {
+    "identity_correct": true,
+    "identity": [
+     "verified",
+     "building",
+     "1007660055",
+     "1081543"
+    ],
+    "findings": 35,
+    "facts_checked": 21,
+    "citations_checked": 440,
+    "verification_passed": true,
+    "missing_citations": 0,
+    "wrong_building_attributions": 0,
+    "ground_truth_this_building_ok": true,
+    "incomplete_sources": [],
+    "incomplete_sources_flagged": true,
+    "orders_presented_as_current": 0,
+    "privacy_violations": 0,
+    "seconds": 0.095
+   },
+   "agent": {
+    "identity_correct": true,
+    "identity": [
+     "verified",
+     "building",
+     "1007660055",
+     "1081543"
+    ],
+    "findings": 35,
+    "facts_checked": 21,
+    "citations_checked": 440,
+    "verification_passed": true,
+    "missing_citations": 0,
+    "wrong_building_attributions": 0,
+    "ground_truth_this_building_ok": true,
+    "incomplete_sources": [],
+    "incomplete_sources_flagged": true,
+    "orders_presented_as_current": 0,
+    "privacy_violations": 0,
+    "seconds": 0.093,
+    "agent_status": "completed",
+    "llm_calls": 2,
+    "tool_calls": 1,
+    "paragraphs_offered": 5,
+    "known_bad_offered": 4,
+    "paragraphs_kept": 1,
+    "known_bad_kept": 0,
+    "findings_identical_to_baseline": true
+   }
+  },
+  {
+   "id": "west_farms_1217",
+   "address": "1217 West Farms Road, Bronx",
+   "baseline": {
+    "identity_correct": true,
+    "identity": [
+     "verified",
+     "tax_lot",
+     "2029930031",
+     null
+    ],
+    "findings": 16,
+    "facts_checked": 10,
+    "citations_checked": 149,
+    "verification_passed": true,
+    "missing_citations": 0,
+    "wrong_building_attributions": 0,
+    "ground_truth_this_building_ok": true,
+    "incomplete_sources": [],
+    "incomplete_sources_flagged": true,
+    "orders_presented_as_current": 0,
+    "privacy_violations": 0,
+    "seconds": 0.039
+   },
+   "agent": {
+    "identity_correct": true,
+    "identity": [
+     "verified",
+     "tax_lot",
+     "2029930031",
+     null
+    ],
+    "findings": 16,
+    "facts_checked": 10,
+    "citations_checked": 149,
+    "verification_passed": true,
+    "missing_citations": 0,
+    "wrong_building_attributions": 0,
+    "ground_truth_this_building_ok": true,
+    "incomplete_sources": [],
+    "incomplete_sources_flagged": true,
+    "orders_presented_as_current": 0,
+    "privacy_violations": 0,
+    "seconds": 0.041,
+    "agent_status": "completed",
+    "llm_calls": 2,
+    "tool_calls": 1,
+    "paragraphs_offered": 5,
+    "known_bad_offered": 4,
+    "paragraphs_kept": 1,
+    "known_bad_kept": 0,
+    "findings_identical_to_baseline": true
+   }
+  },
+  {
+   "id": "fifth_ave_350",
+   "address": "350 5th Avenue, New York, NY 10118",
+   "baseline": {
+    "identity_correct": true,
+    "identity": [
+     "verified",
+     "building",
+     "1008350041",
+     "1015862"
+    ],
+    "findings": 25,
+    "facts_checked": 13,
+    "citations_checked": 1210,
+    "verification_passed": true,
+    "missing_citations": 0,
+    "wrong_building_attributions": 0,
+    "ground_truth_this_building_ok": true,
+    "incomplete_sources": [],
+    "incomplete_sources_flagged": true,
+    "orders_presented_as_current": 0,
+    "privacy_violations": 0,
+    "seconds": 0.147
+   },
+   "agent": {
+    "identity_correct": true,
+    "identity": [
+     "verified",
+     "building",
+     "1008350041",
+     "1015862"
+    ],
+    "findings": 25,
+    "facts_checked": 13,
+    "citations_checked": 1210,
+    "verification_passed": true,
+    "missing_citations": 0,
+    "wrong_building_attributions": 0,
+    "ground_truth_this_building_ok": true,
+    "incomplete_sources": [],
+    "incomplete_sources_flagged": true,
+    "orders_presented_as_current": 0,
+    "privacy_violations": 0,
+    "seconds": 0.147,
+    "agent_status": "completed",
+    "llm_calls": 2,
+    "tool_calls": 1,
+    "paragraphs_offered": 5,
+    "known_bad_offered": 4,
+    "paragraphs_kept": 1,
+    "known_bad_kept": 0,
+    "findings_identical_to_baseline": true
+   }
+  },
+  {
+   "id": "acp_1845",
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "baseline": {
+    "identity_correct": true,
+    "identity": [
+     "verified",
+     "building",
+     "1018227502",
+     "1054974"
+    ],
+    "findings": 48,
+    "facts_checked": 21,
+    "citations_checked": 3071,
+    "verification_passed": true,
+    "missing_citations": 0,
+    "wrong_building_attributions": 0,
+    "ground_truth_this_building_ok": true,
+    "incomplete_sources": [
+     "sr311"
+    ],
+    "incomplete_sources_flagged": true,
+    "orders_presented_as_current": 0,
+    "privacy_violations": 0,
+    "seconds": 0.832
+   },
+   "agent": {
+    "identity_correct": true,
+    "identity": [
+     "verified",
+     "building",
+     "1018227502",
+     "1054974"
+    ],
+    "findings": 48,
+    "facts_checked": 21,
+    "citations_checked": 3071,
+    "verification_passed": true,
+    "missing_citations": 0,
+    "wrong_building_attributions": 0,
+    "ground_truth_this_building_ok": true,
+    "incomplete_sources": [
+     "sr311"
+    ],
+    "incomplete_sources_flagged": true,
+    "orders_presented_as_current": 0,
+    "privacy_violations": 0,
+    "seconds": 0.749,
+    "agent_status": "completed",
+    "llm_calls": 2,
+    "tool_calls": 1,
+    "paragraphs_offered": 5,
+    "known_bad_offered": 4,
+    "paragraphs_kept": 1,
+    "known_bad_kept": 0,
+    "findings_identical_to_baseline": true
+   }
+  },
+  {
+   "id": "ambiguous_100_broadway",
+   "address": "100 Broadway",
+   "baseline": {
+    "identity_correct": true,
+    "identity": [
+     "ambiguous",
+     null,
+     null,
+     null
+    ],
+    "findings": 0,
+    "facts_checked": 0,
+    "citations_checked": 0,
+    "verification_passed": true,
+    "missing_citations": 0,
+    "wrong_building_attributions": 0,
+    "ground_truth_this_building_ok": true,
+    "incomplete_sources": [],
+    "incomplete_sources_flagged": true,
+    "orders_presented_as_current": 0,
+    "privacy_violations": 0,
+    "seconds": 0.017
+   },
+   "agent": {
+    "identity_correct": true,
+    "identity": [
+     "ambiguous",
+     null,
+     null,
+     null
+    ],
+    "findings": 0,
+    "facts_checked": 0,
+    "citations_checked": 0,
+    "verification_passed": true,
+    "missing_citations": 0,
+    "wrong_building_attributions": 0,
+    "ground_truth_this_building_ok": true,
+    "incomplete_sources": [],
+    "incomplete_sources_flagged": true,
+    "orders_presented_as_current": 0,
+    "privacy_violations": 0,
+    "seconds": 0.016,
+    "agent_status": "not_applicable",
+    "llm_calls": 0,
+    "tool_calls": 0,
+    "paragraphs_offered": 0,
+    "known_bad_offered": 0,
+    "paragraphs_kept": 0,
+    "known_bad_kept": 0,
+    "findings_identical_to_baseline": true
+   }
+  },
+  {
+   "id": "wrong_borough_west_farms",
+   "address": "1134 West Farms Rd, Brooklyn",
+   "baseline": {
+    "identity_correct": true,
+    "identity": [
+     "ambiguous",
+     null,
+     null,
+     null
+    ],
+    "findings": 0,
+    "facts_checked": 0,
+    "citations_checked": 0,
+    "verification_passed": true,
+    "missing_citations": 0,
+    "wrong_building_attributions": 0,
+    "ground_truth_this_building_ok": true,
+    "incomplete_sources": [],
+    "incomplete_sources_flagged": true,
+    "orders_presented_as_current": 0,
+    "privacy_violations": 0,
+    "seconds": 0.009
+   },
+   "agent": {
+    "identity_correct": true,
+    "identity": [
+     "ambiguous",
+     null,
+     null,
+     null
+    ],
+    "findings": 0,
+    "facts_checked": 0,
+    "citations_checked": 0,
+    "verification_passed": true,
+    "missing_citations": 0,
+    "wrong_building_attributions": 0,
+    "ground_truth_this_building_ok": true,
+    "incomplete_sources": [],
+    "incomplete_sources_flagged": true,
+    "orders_presented_as_current": 0,
+    "privacy_violations": 0,
+    "seconds": 0.009,
+    "agent_status": "not_applicable",
+    "llm_calls": 0,
+    "tool_calls": 0,
+    "paragraphs_offered": 0,
+    "known_bad_offered": 0,
+    "paragraphs_kept": 0,
+    "known_bad_kept": 0,
+    "findings_identical_to_baseline": true
+   }
+  },
+  {
+   "id": "nonsense",
+   "address": "zzqx qqzz nowhere",
+   "baseline": {
+    "identity_correct": true,
+    "identity": [
+     "no_reliable_match",
+     null,
+     null,
+     null
+    ],
+    "findings": 0,
+    "facts_checked": 0,
+    "citations_checked": 0,
+    "verification_passed": true,
+    "missing_citations": 0,
+    "wrong_building_attributions": 0,
+    "ground_truth_this_building_ok": true,
+    "incomplete_sources": [],
+    "incomplete_sources_flagged": true,
+    "orders_presented_as_current": 0,
+    "privacy_violations": 0,
+    "seconds": 0.007
+   },
+   "agent": {
+    "identity_correct": true,
+    "identity": [
+     "no_reliable_match",
+     null,
+     null,
+     null
+    ],
+    "findings": 0,
+    "facts_checked": 0,
+    "citations_checked": 0,
+    "verification_passed": true,
+    "missing_citations": 0,
+    "wrong_building_attributions": 0,
+    "ground_truth_this_building_ok": true,
+    "incomplete_sources": [],
+    "incomplete_sources_flagged": true,
+    "orders_presented_as_current": 0,
+    "privacy_violations": 0,
+    "seconds": 0.007,
+    "agent_status": "not_applicable",
+    "llm_calls": 0,
+    "tool_calls": 0,
+    "paragraphs_offered": 0,
+    "known_bad_offered": 0,
+    "paragraphs_kept": 0,
+    "known_bad_kept": 0,
+    "findings_identical_to_baseline": true
+   }
+  },
+  {
+   "id": "outside_nyc",
+   "address": "1600 Pennsylvania Avenue NW, Washington, DC 20500",
+   "baseline": {
+    "identity_correct": true,
+    "identity": [
+     "no_reliable_match",
+     null,
+     null,
+     null
+    ],
+    "findings": 0,
+    "facts_checked": 0,
+    "citations_checked": 0,
+    "verification_passed": true,
+    "missing_citations": 0,
+    "wrong_building_attributions": 0,
+    "ground_truth_this_building_ok": true,
+    "incomplete_sources": [],
+    "incomplete_sources_flagged": true,
+    "orders_presented_as_current": 0,
+    "privacy_violations": 0,
+    "seconds": 0.007
+   },
+   "agent": {
+    "identity_correct": true,
+    "identity": [
+     "no_reliable_match",
+     null,
+     null,
+     null
+    ],
+    "findings": 0,
+    "facts_checked": 0,
+    "citations_checked": 0,
+    "verification_passed": true,
+    "missing_citations": 0,
+    "wrong_building_attributions": 0,
+    "ground_truth_this_building_ok": true,
+    "incomplete_sources": [],
+    "incomplete_sources_flagged": true,
+    "orders_presented_as_current": 0,
+    "privacy_violations": 0,
+    "seconds": 0.007,
+    "agent_status": "not_applicable",
+    "llm_calls": 0,
+    "tool_calls": 0,
+    "paragraphs_offered": 0,
+    "known_bad_offered": 0,
+    "paragraphs_kept": 0,
+    "known_bad_kept": 0,
+    "findings_identical_to_baseline": true
+   }
+  }
+ ]
+}

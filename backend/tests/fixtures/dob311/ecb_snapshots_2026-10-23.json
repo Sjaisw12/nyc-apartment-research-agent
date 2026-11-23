@@ -1,0 +1,1171 @@
+{
+ "commit": "7445fb8",
+ "description": "ECB snapshots exactly as the code at commit 7445fb8 (the 2026-10-23 adjudication grouping) stored them in PostgreSQL 16, for two recorded addresses. Produced on 2026-10-28 by checking out 7445fb8 and calling tests/db/task5_recorded.save_recorded(build(key)) against a disposable database migrated to 0011, then reading records.source_fetch.result_payload and records.normalized_record (payload, redacted_sha256, original_digest) by ordinal. Test key task5-step5-recorded-key; nothing here is production evidence. Never edit by hand.",
+ "snapshots": {
+  "west_17_220": {
+   "content_sha256": "e97efdac73414b2a03bd98a86b1c3c9595d34465c682383e340dda8523e8965c",
+   "records": [
+    {
+     "ordinal": 0,
+     "original_digest": "8b853e57b35d3651b74ef445abc46af5147db578c300e9a315e04ccc68862fee",
+     "payload": {
+      "adjudication": "upheld",
+      "adjudication_note": "Recorded as IN VIOLATION.",
+      "aggravated_level": "NO",
+      "amount_paid": "150",
+      "attribution": "this_building",
+      "attribution_basis": "row_identifiers",
+      "balance_due": "0",
+      "certification_status": "CERTIFICATE ACCEPTED",
+      "correction_status": "resolved_with_dob",
+      "correction_status_raw": "RESOLVE",
+      "data_as_of": "Thu, 22 Oct 2026 17:04:42 GMT",
+      "dataset_id": "6bgk-3dad",
+      "digest_basis": "sanitized_row",
+      "dob_violation_number": null,
+      "ecb_violation_number": "39155951P",
+      "evidence_kind": "enforcement_action",
+      "fetched_at": "2026-10-28T22:18:12.755939+00:00",
+      "hearing_date": {
+       "raw": "20251120",
+       "value": "2025-11-20"
+      },
+      "hearing_status_raw": "IN VIOLATION",
+      "infractions": [
+       {
+        "code": "220",
+        "law_description": "§28-105.11                                                                  FAILURE TO POST PERMIT FOR WORK AT PREMISES",
+        "position": 1,
+        "text_withheld": false
+       }
+      ],
+      "isn_dob_bis_extract": "1675604",
+      "issue_date": {
+       "raw": "20250804",
+       "value": "2025-08-04"
+      },
+      "lot_format": "four_digit",
+      "lot_membership": "confirmed",
+      "matched_by": [
+       "lot",
+       "resolved_bin"
+      ],
+      "original_digest": "8b853e57b35d3651b74ef445abc46af5147db578c300e9a315e04ccc68862fee",
+      "penalty_imposed": "150",
+      "quality_flags": [
+       "severity_undocumented_value"
+      ],
+      "query_url": "https://data.cityofnewyork.us/resource/6bgk-3dad.json?%24where=%28boro%3D%271%27+AND+block%3D%2700766%27+AND+lot+in+%28%270055%27%2C+%2700055%27%29%29+OR+bin%3D%271081543%27&%24order=isn_dob_bis_extract&%24limit=4&%24offset=0",
+      "redacted_sha256": "cde6937f8e79a144d45d4333efac58036daf18850246645193e52d0c1d3b9ab5",
+      "resolved_bbl": "1007660055",
+      "row_bbl": "1007660055",
+      "served_date": {
+       "raw": "20250804",
+       "value": "2025-08-04"
+      },
+      "severity": "class_2",
+      "severity_raw": "CLASS - 2",
+      "source_bin": "1081543",
+      "source_block": "00766",
+      "source_boro": "1",
+      "source_lot": "0055",
+      "source_rows": [
+       {
+        "fetched_at": "2026-10-28T22:18:12.755939+00:00",
+        "original_digest": "8b853e57b35d3651b74ef445abc46af5147db578c300e9a315e04ccc68862fee",
+        "query_url": "https://data.cityofnewyork.us/resource/6bgk-3dad.json?%24where=%28boro%3D%271%27+AND+block%3D%2700766%27+AND+lot+in+%28%270055%27%2C+%2700055%27%29%29+OR+bin%3D%271081543%27&%24order=isn_dob_bis_extract&%24limit=4&%24offset=0",
+        "row_index": 0,
+        "source_row_id": "1675604"
+       }
+      ],
+      "violation_type": "Construction",
+      "withheld_fields": [
+       "hearing_time",
+       "respondent_city",
+       "respondent_house_number",
+       "respondent_name",
+       "respondent_street",
+       "respondent_zip",
+       "violation_description"
+      ]
+     },
+     "redacted_sha256": "cde6937f8e79a144d45d4333efac58036daf18850246645193e52d0c1d3b9ab5",
+     "source_record_id": "1675604"
+    },
+    {
+     "ordinal": 1,
+     "original_digest": "42e13212f8dc69c20029657bb3c2be1b7452ea42a63caa9de2b755ad1d87167c",
+     "payload": {
+      "adjudication": "upheld",
+      "adjudication_note": "Recorded as CURED/IN-VIO. The IN-VIO suffix is read as in violation; the dataset does not define the CURED prefix.",
+      "aggravated_level": "NO",
+      "amount_paid": "0",
+      "attribution": "other_building_on_lot",
+      "attribution_basis": "row_identifiers",
+      "balance_due": "0",
+      "certification_status": "CURE ACCEPTED",
+      "correction_status": "resolved_with_dob",
+      "correction_status_raw": "RESOLVE",
+      "data_as_of": "Thu, 22 Oct 2026 17:04:42 GMT",
+      "dataset_id": "6bgk-3dad",
+      "digest_basis": "sanitized_row",
+      "dob_violation_number": null,
+      "ecb_violation_number": "39159947K",
+      "evidence_kind": "enforcement_action",
+      "fetched_at": "2026-10-28T22:18:12.755939+00:00",
+      "hearing_date": {
+       "raw": "20251120",
+       "value": "2025-11-20"
+      },
+      "hearing_status_raw": "CURED/IN-VIO",
+      "infractions": [
+       {
+        "code": "238",
+        "law_description": "28-301.1                                                                    FAILURE TO MAINTAIN BUILDING IN CODE-COMPLIANT MANNER: LACK OF EMERGEN",
+        "position": 1,
+        "text_withheld": false
+       }
+      ],
+      "isn_dob_bis_extract": "1714332",
+      "issue_date": {
+       "raw": "20250910",
+       "value": "2025-09-10"
+      },
+      "lot_format": "four_digit",
+      "lot_membership": "confirmed",
+      "matched_by": [
+       "lot"
+      ],
+      "original_digest": "42e13212f8dc69c20029657bb3c2be1b7452ea42a63caa9de2b755ad1d87167c",
+      "penalty_imposed": "0",
+      "quality_flags": [
+       "severity_undocumented_value"
+      ],
+      "query_url": "https://data.cityofnewyork.us/resource/6bgk-3dad.json?%24where=%28boro%3D%271%27+AND+block%3D%2700766%27+AND+lot+in+%28%270055%27%2C+%2700055%27%29%29+OR+bin%3D%271081543%27&%24order=isn_dob_bis_extract&%24limit=4&%24offset=0",
+      "redacted_sha256": "7997418be992593969b9ff9f1395ef4c5b1da9ced4c40ed9ad6a0ab5103ba85d",
+      "resolved_bbl": "1007660055",
+      "row_bbl": "1007660055",
+      "served_date": {
+       "raw": "20250910",
+       "value": "2025-09-10"
+      },
+      "severity": "class_2",
+      "severity_raw": "CLASS - 2",
+      "source_bin": "1081547",
+      "source_block": "00766",
+      "source_boro": "1",
+      "source_lot": "0055",
+      "source_rows": [
+       {
+        "fetched_at": "2026-10-28T22:18:12.755939+00:00",
+        "original_digest": "42e13212f8dc69c20029657bb3c2be1b7452ea42a63caa9de2b755ad1d87167c",
+        "query_url": "https://data.cityofnewyork.us/resource/6bgk-3dad.json?%24where=%28boro%3D%271%27+AND+block%3D%2700766%27+AND+lot+in+%28%270055%27%2C+%2700055%27%29%29+OR+bin%3D%271081543%27&%24order=isn_dob_bis_extract&%24limit=4&%24offset=0",
+        "row_index": 1,
+        "source_row_id": "1714332"
+       }
+      ],
+      "violation_type": "Construction",
+      "withheld_fields": [
+       "hearing_time",
+       "respondent_city",
+       "respondent_house_number",
+       "respondent_name",
+       "respondent_street",
+       "respondent_zip",
+       "violation_description"
+      ]
+     },
+     "redacted_sha256": "7997418be992593969b9ff9f1395ef4c5b1da9ced4c40ed9ad6a0ab5103ba85d",
+     "source_record_id": "1714332"
+    },
+    {
+     "ordinal": 2,
+     "original_digest": "5d218996152510f2b309117f5366ac5fa5e76b3099b9b5e7ee8ed3bce8d1a286",
+     "payload": {
+      "adjudication": "upheld",
+      "adjudication_note": "Recorded as IN VIOLATION.",
+      "aggravated_level": "NO",
+      "amount_paid": "625",
+      "attribution": "other_building_on_lot",
+      "attribution_basis": "row_identifiers",
+      "balance_due": "0",
+      "certification_status": "CERTIFICATE ACCEPTED",
+      "correction_status": "resolved_with_dob",
+      "correction_status_raw": "RESOLVE",
+      "data_as_of": "Thu, 22 Oct 2026 17:04:42 GMT",
+      "dataset_id": "6bgk-3dad",
+      "digest_basis": "sanitized_row",
+      "dob_violation_number": null,
+      "ecb_violation_number": "39160765H",
+      "evidence_kind": "enforcement_action",
+      "fetched_at": "2026-10-28T22:18:12.755939+00:00",
+      "hearing_date": {
+       "raw": "20251204",
+       "value": "2025-12-04"
+      },
+      "hearing_status_raw": "IN VIOLATION",
+      "infractions": [
+       {
+        "code": "202",
+        "law_description": "28-301.1                                                                    FAILURE TO MAINTAIN BLDG IN CODE-COMPLIANT MANNER",
+        "position": 1,
+        "text_withheld": false
+       }
+      ],
+      "isn_dob_bis_extract": "1774709",
+      "issue_date": {
+       "raw": "20250910",
+       "value": "2025-09-10"
+      },
+      "lot_format": "four_digit",
+      "lot_membership": "confirmed",
+      "matched_by": [
+       "lot"
+      ],
+      "original_digest": "5d218996152510f2b309117f5366ac5fa5e76b3099b9b5e7ee8ed3bce8d1a286",
+      "penalty_imposed": "625",
+      "quality_flags": [
+       "severity_undocumented_value"
+      ],
+      "query_url": "https://data.cityofnewyork.us/resource/6bgk-3dad.json?%24where=%28boro%3D%271%27+AND+block%3D%2700766%27+AND+lot+in+%28%270055%27%2C+%2700055%27%29%29+OR+bin%3D%271081543%27&%24order=isn_dob_bis_extract&%24limit=4&%24offset=0",
+      "redacted_sha256": "61245b3e89a604cc97df0eaa36914ad8d4d7e14a849b635bd334ab866d3111d1",
+      "resolved_bbl": "1007660055",
+      "row_bbl": "1007660055",
+      "served_date": {
+       "raw": "20250917",
+       "value": "2025-09-17"
+      },
+      "severity": "class_2",
+      "severity_raw": "CLASS - 2",
+      "source_bin": "1081547",
+      "source_block": "00766",
+      "source_boro": "1",
+      "source_lot": "0055",
+      "source_rows": [
+       {
+        "fetched_at": "2026-10-28T22:18:12.755939+00:00",
+        "original_digest": "5d218996152510f2b309117f5366ac5fa5e76b3099b9b5e7ee8ed3bce8d1a286",
+        "query_url": "https://data.cityofnewyork.us/resource/6bgk-3dad.json?%24where=%28boro%3D%271%27+AND+block%3D%2700766%27+AND+lot+in+%28%270055%27%2C+%2700055%27%29%29+OR+bin%3D%271081543%27&%24order=isn_dob_bis_extract&%24limit=4&%24offset=0",
+        "row_index": 2,
+        "source_row_id": "1774709"
+       }
+      ],
+      "violation_type": "Construction",
+      "withheld_fields": [
+       "hearing_time",
+       "respondent_city",
+       "respondent_house_number",
+       "respondent_name",
+       "respondent_street",
+       "respondent_zip",
+       "violation_description"
+      ]
+     },
+     "redacted_sha256": "61245b3e89a604cc97df0eaa36914ad8d4d7e14a849b635bd334ab866d3111d1",
+     "source_record_id": "1774709"
+    },
+    {
+     "ordinal": 3,
+     "original_digest": "76dd340883ee786981fcd99658856cd2816dee007828a6613bb1438a2677b009",
+     "payload": {
+      "adjudication": "pending",
+      "adjudication_note": "Recorded as PENDING.",
+      "aggravated_level": "NO",
+      "amount_paid": "0",
+      "attribution": "other_building_on_lot",
+      "attribution_basis": "row_identifiers",
+      "balance_due": "2500",
+      "certification_status": null,
+      "correction_status": "open_with_dob",
+      "correction_status_raw": "ACTIVE",
+      "data_as_of": "Thu, 22 Oct 2026 17:04:42 GMT",
+      "dataset_id": "6bgk-3dad",
+      "digest_basis": "sanitized_row",
+      "dob_violation_number": null,
+      "ecb_violation_number": "39160773H",
+      "evidence_kind": "enforcement_action",
+      "fetched_at": "2026-10-28T22:18:12.755939+00:00",
+      "hearing_date": {
+       "raw": "20270128",
+       "value": "2027-01-28"
+      },
+      "hearing_status_raw": "PENDING",
+      "infractions": [
+       {
+        "code": "101",
+        "law_description": "28-105.1                                                                    WORK WITHOUT A PERMIT",
+        "position": 1,
+        "text_withheld": false
+       }
+      ],
+      "isn_dob_bis_extract": "1818063",
+      "issue_date": {
+       "raw": "20250917",
+       "value": "2025-09-17"
+      },
+      "lot_format": "four_digit",
+      "lot_membership": "confirmed",
+      "matched_by": [
+       "lot"
+      ],
+      "original_digest": "76dd340883ee786981fcd99658856cd2816dee007828a6613bb1438a2677b009",
+      "penalty_imposed": "2500",
+      "quality_flags": [
+       "severity_undocumented_value"
+      ],
+      "query_url": "https://data.cityofnewyork.us/resource/6bgk-3dad.json?%24where=%28boro%3D%271%27+AND+block%3D%2700766%27+AND+lot+in+%28%270055%27%2C+%2700055%27%29%29+OR+bin%3D%271081543%27&%24order=isn_dob_bis_extract&%24limit=4&%24offset=0",
+      "redacted_sha256": "ee488510a4d7efeadd84396ac043e2ca378084944ec28a064f8920d10f23a17b",
+      "resolved_bbl": "1007660055",
+      "row_bbl": "1007660055",
+      "served_date": {
+       "raw": "20250917",
+       "value": "2025-09-17"
+      },
+      "severity": "class_1",
+      "severity_raw": "CLASS - 1",
+      "source_bin": "1081548",
+      "source_block": "00766",
+      "source_boro": "1",
+      "source_lot": "0055",
+      "source_rows": [
+       {
+        "fetched_at": "2026-10-28T22:18:12.755939+00:00",
+        "original_digest": "76dd340883ee786981fcd99658856cd2816dee007828a6613bb1438a2677b009",
+        "query_url": "https://data.cityofnewyork.us/resource/6bgk-3dad.json?%24where=%28boro%3D%271%27+AND+block%3D%2700766%27+AND+lot+in+%28%270055%27%2C+%2700055%27%29%29+OR+bin%3D%271081543%27&%24order=isn_dob_bis_extract&%24limit=4&%24offset=0",
+        "row_index": 3,
+        "source_row_id": "1818063"
+       }
+      ],
+      "violation_type": "Construction",
+      "withheld_fields": [
+       "hearing_time",
+       "respondent_city",
+       "respondent_house_number",
+       "respondent_name",
+       "respondent_street",
+       "respondent_zip",
+       "violation_description"
+      ]
+     },
+     "redacted_sha256": "ee488510a4d7efeadd84396ac043e2ca378084944ec28a064f8920d10f23a17b",
+     "source_record_id": "1818063"
+    }
+   ],
+   "result_payload": {
+    "bin_clause": "1081543",
+    "bin_evidence": [
+     {
+      "bin": "1081542",
+      "flags": [],
+      "footprints_lots_for_bin": [],
+      "is_resolved_bin": false,
+      "note": null,
+      "searched": true,
+      "sources": [
+       "footprints",
+       "hpd"
+      ]
+     },
+     {
+      "bin": "1081543",
+      "flags": [],
+      "footprints_lots_for_bin": [],
+      "is_resolved_bin": true,
+      "note": null,
+      "searched": true,
+      "sources": [
+       "footprints",
+       "hpd",
+       "resolver"
+      ]
+     },
+     {
+      "bin": "1081544",
+      "flags": [],
+      "footprints_lots_for_bin": [],
+      "is_resolved_bin": false,
+      "note": null,
+      "searched": true,
+      "sources": [
+       "footprints",
+       "hpd"
+      ]
+     },
+     {
+      "bin": "1081545",
+      "flags": [],
+      "footprints_lots_for_bin": [],
+      "is_resolved_bin": false,
+      "note": null,
+      "searched": true,
+      "sources": [
+       "footprints",
+       "hpd"
+      ]
+     },
+     {
+      "bin": "1081546",
+      "flags": [],
+      "footprints_lots_for_bin": [],
+      "is_resolved_bin": false,
+      "note": null,
+      "searched": true,
+      "sources": [
+       "footprints",
+       "hpd"
+      ]
+     },
+     {
+      "bin": "1081547",
+      "flags": [],
+      "footprints_lots_for_bin": [],
+      "is_resolved_bin": false,
+      "note": null,
+      "searched": true,
+      "sources": [
+       "footprints",
+       "hpd"
+      ]
+     },
+     {
+      "bin": "1081548",
+      "flags": [],
+      "footprints_lots_for_bin": [],
+      "is_resolved_bin": false,
+      "note": null,
+      "searched": true,
+      "sources": [
+       "footprints",
+       "hpd"
+      ]
+     },
+     {
+      "bin": "1081549",
+      "flags": [],
+      "footprints_lots_for_bin": [],
+      "is_resolved_bin": false,
+      "note": null,
+      "searched": true,
+      "sources": [
+       "footprints",
+       "hpd"
+      ]
+     }
+    ],
+    "bin_evidence_complete": true,
+    "bin_evidence_provenance": [
+     {
+      "data_as_of": "Mon, 19 Oct 2026 18:36:49 GMT",
+      "dataset_id": "5zhs-2jue",
+      "error": null,
+      "incomplete_reasons": [],
+      "order_by": "bin, :id",
+      "page_size": 1000,
+      "pages": [
+       {
+        "attempts": 1,
+        "fetched_at": "2026-10-28T22:18:12.754502+00:00",
+        "index": -1,
+        "last_modified": "Mon, 19 Oct 2026 18:36:49 GMT",
+        "request_id": "58ba0f02355a8d5b76db4aa72d875d27",
+        "rows": 0,
+        "truth_last_modified": "Mon, 19 Oct 2026 18:36:49 GMT",
+        "url": "https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=count%28%2A%29+AS+n&%24where=base_bbl%3D%271007660055%27+OR+mappluto_bbl%3D%271007660055%27"
+       },
+       {
+        "attempts": 1,
+        "fetched_at": "2026-10-28T22:18:12.754844+00:00",
+        "index": 0,
+        "last_modified": "Mon, 19 Oct 2026 18:36:49 GMT",
+        "request_id": "870ec7de2a31c18a4f23c63405a49d3a",
+        "rows": 8,
+        "truth_last_modified": "Mon, 19 Oct 2026 18:36:49 GMT",
+        "url": "https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=bin%2C+base_bbl%2C+mappluto_bbl%2C+%3Aid&%24where=base_bbl%3D%271007660055%27+OR+mappluto_bbl%3D%271007660055%27&%24order=bin%2C+%3Aid&%24limit=8&%24offset=0"
+       }
+      ],
+      "restarts": 0,
+      "row_cap": 5000,
+      "rows_fetched": 8,
+      "source_count": 8,
+      "warnings": [],
+      "where": "base_bbl='1007660055' OR mappluto_bbl='1007660055'"
+     },
+     {
+      "data_as_of": "Wed, 12 Aug 2026 14:57:58 GMT",
+      "dataset_id": "kj4p-ruqc",
+      "error": null,
+      "incomplete_reasons": [],
+      "order_by": "buildingid",
+      "page_size": 5,
+      "pages": [
+       {
+        "attempts": 1,
+        "fetched_at": "2026-10-28T22:18:12.747458+00:00",
+        "index": -1,
+        "last_modified": "Wed, 12 Aug 2026 14:57:58 GMT",
+        "request_id": "de0bdd4a2fac9021defe20d0c4dce786",
+        "rows": 0,
+        "truth_last_modified": "Wed, 12 Aug 2026 14:57:58 GMT",
+        "url": "https://data.cityofnewyork.us/resource/kj4p-ruqc.json?%24select=count%28%2A%29+AS+n&%24where=boroid%3D1+AND+block%3D766+AND+lot%3D55"
+       },
+       {
+        "attempts": 1,
+        "fetched_at": "2026-10-28T22:18:12.747769+00:00",
+        "index": 0,
+        "last_modified": "Wed, 12 Aug 2026 14:57:58 GMT",
+        "request_id": "484ea7712ee3fb6a100735d043311992",
+        "rows": 5,
+        "truth_last_modified": "Wed, 12 Aug 2026 14:57:58 GMT",
+        "url": "https://data.cityofnewyork.us/resource/kj4p-ruqc.json?%24where=boroid%3D1+AND+block%3D766+AND+lot%3D55&%24order=buildingid&%24limit=5&%24offset=0"
+       },
+       {
+        "attempts": 1,
+        "fetched_at": "2026-10-28T22:18:12.748124+00:00",
+        "index": 1,
+        "last_modified": "Wed, 12 Aug 2026 14:57:58 GMT",
+        "request_id": "24f7039a336d7b8f56dde88c06eb8c00",
+        "rows": 3,
+        "truth_last_modified": "Wed, 12 Aug 2026 14:57:58 GMT",
+        "url": "https://data.cityofnewyork.us/resource/kj4p-ruqc.json?%24where=boroid%3D1+AND+block%3D766+AND+lot%3D55&%24order=buildingid&%24limit=3&%24offset=5"
+       }
+      ],
+      "restarts": 0,
+      "row_cap": 10000,
+      "rows_fetched": 8,
+      "source_count": 8,
+      "warnings": [],
+      "where": "boroid=1 AND block=766 AND lot=55"
+     }
+    ],
+    "bin_lot_conflicts": [],
+    "coverage_notes": [
+     "ECB summonses are searched by every lot in the lot family, in both lot formats (4-digit and 5-digit), and at building scope also by the resolved BIN.",
+     "A BIN seen only on ECB rows (for example a retired BIN) is reported and never added to the DOB complaint BIN search; DOB complaints filed under such a BIN are not found."
+    ],
+    "dataset_id": "6bgk-3dad",
+    "join_scope": "building",
+    "lot_family": [
+     "1007660055"
+    ],
+    "lot_formats_queried": [
+     "1007660055:0055",
+     "1007660055:00055"
+    ],
+    "partial": false,
+    "provenance": {
+     "data_as_of": "Thu, 22 Oct 2026 17:04:42 GMT",
+     "dataset_id": "6bgk-3dad",
+     "error": null,
+     "incomplete_reasons": [],
+     "order_by": "isn_dob_bis_extract",
+     "page_size": 1000,
+     "restarts": 0,
+     "row_cap": 10000,
+     "rows_fetched": 4,
+     "source_count": 4,
+     "warnings": [],
+     "where": "(boro='1' AND block='00766' AND lot in ('0055', '00055')) OR bin='1081543'"
+    },
+    "resolved_bbl": "1007660055",
+    "resolved_bin": "1081543",
+    "row_bins_not_on_lot": [],
+    "source": "nyc_open_data",
+    "status": "records_found",
+    "status_detail": "4 summonses from 4 source rows for 1 lot(s); matches the source count",
+    "summary": {
+     "adjudication_notes": {
+      "CURED/IN-VIO": "Recorded as CURED/IN-VIO. The IN-VIO suffix is read as in violation; the dataset does not define the CURED prefix.",
+      "IN VIOLATION": "Recorded as IN VIOLATION.",
+      "PENDING": "Recorded as PENDING."
+     },
+     "building_claims_denied_reason": null,
+     "building_specific_claims_allowed": true,
+     "by_attribution": {
+      "other_building_on_lot": {
+       "by_adjudication": {
+        "pending": 1,
+        "upheld": 2
+       },
+       "by_bin": {
+        "1081547": 2,
+        "1081548": 1
+       },
+       "by_certification_status": {
+        "CERTIFICATE ACCEPTED": 1,
+        "CURE ACCEPTED": 1,
+        "none": 1
+       },
+       "by_correction_and_adjudication": {
+        "open_with_dob|pending": 1,
+        "resolved_with_dob|upheld": 2
+       },
+       "by_correction_status": {
+        "open_with_dob": 1,
+        "resolved_with_dob": 2
+       },
+       "by_lot_format": {
+        "four_digit": 3
+       },
+       "by_severity": {
+        "class_1": 1,
+        "class_2": 2
+       },
+       "by_violation_type": {
+        "Construction": 3
+       },
+       "issued_last_12_months": 0,
+       "issued_last_36_months": 3,
+       "summonses": 3
+      },
+      "this_building": {
+       "by_adjudication": {
+        "upheld": 1
+       },
+       "by_bin": {
+        "1081543": 1
+       },
+       "by_certification_status": {
+        "CERTIFICATE ACCEPTED": 1
+       },
+       "by_correction_and_adjudication": {
+        "resolved_with_dob|upheld": 1
+       },
+       "by_correction_status": {
+        "resolved_with_dob": 1
+       },
+       "by_lot_format": {
+        "four_digit": 1
+       },
+       "by_severity": {
+        "class_2": 1
+       },
+       "by_violation_type": {
+        "Construction": 1
+       },
+       "issued_last_12_months": 0,
+       "issued_last_36_months": 1,
+       "summonses": 1
+      }
+     },
+     "conflict_counts": {
+      "bin_lot_conflict": 0,
+      "bin_on_other_lot": 0,
+      "duplicate_id_different_content": 0,
+      "lot_identifier_conflict": 0,
+      "status_fields_disagree": 0
+     },
+     "data_as_of": "Thu, 22 Oct 2026 17:04:42 GMT",
+     "join_scope": "building",
+     "lot_format_counts": {
+      "four_digit": 4
+     },
+     "matched_by_counts": {
+      "lot": 3,
+      "lot+resolved_bin": 1
+     },
+     "quality_flag_counts": {
+      "severity_undocumented_value": 4
+     },
+     "requested_building_financials": {
+      "amount_paid_total": "150",
+      "attribution": "this_building",
+      "balance_due_total": "0",
+      "note": "Amounts as DOB recorded them for summonses attributed to the requested building. Not reconciled with OATH or DOB payment records. Negative balances are recorded by DOB; their meaning is not documented. Summonses with unparseable amounts are counted but excluded from the totals.",
+      "penalty_imposed_total": "150",
+      "summonses": 1,
+      "summonses_with_negative_balance": 0,
+      "summonses_with_positive_balance": 0,
+      "summonses_with_unparseable_amounts": 0
+     },
+     "source_rows": 4,
+     "statement": "An ECB summons is a charge that DOB issued. It is not by itself a finding that a violation occurred. The correction status is DOB's; the hearing status is OATH's record as published by DOB, grouped by this project's mapping (not DOB's or OATH's), and the certification status is the respondent's certification with DOB. They are shown separately and never combined.",
+     "status_fields_disagree": 0,
+     "total_summonses": 4
+    }
+   }
+  },
+  "west_farms_1134": {
+   "content_sha256": "4064977593ffc47f947c79a1de0665e6b96f0db63f651bad6aff430e8ea6487d",
+   "records": [
+    {
+     "ordinal": 0,
+     "original_digest": "b5986d27f08ac7688456f75857d352988f081437ba66e67ae6819602607a4cbc",
+     "payload": {
+      "adjudication": "dismissed",
+      "adjudication_note": "Recorded as DISMISSED.",
+      "aggravated_level": "AGGRAVATED OFFENSE LEVEL 2",
+      "amount_paid": "0",
+      "attribution": "this_building",
+      "attribution_basis": "row_identifiers",
+      "balance_due": "0",
+      "certification_status": "N/A - DISMISSED",
+      "correction_status": "resolved_with_dob",
+      "correction_status_raw": "RESOLVE",
+      "data_as_of": "Thu, 22 Oct 2026 17:04:42 GMT",
+      "dataset_id": "6bgk-3dad",
+      "digest_basis": "sanitized_row",
+      "dob_violation_number": null,
+      "ecb_violation_number": "39132924H",
+      "evidence_kind": "enforcement_action",
+      "fetched_at": "2026-10-28T22:18:12.519720+00:00",
+      "hearing_date": {
+       "raw": "20250221",
+       "value": "2025-02-21"
+      },
+      "hearing_status_raw": "DISMISSED",
+      "infractions": [
+       {
+        "code": "102",
+        "law_description": "28-301.1                                                                    FAILURE TO MAINTAIN BLDG IN CODE-COMPLIANT MANNER",
+        "position": 1,
+        "text_withheld": false
+       }
+      ],
+      "isn_dob_bis_extract": "1621660",
+      "issue_date": {
+       "raw": "20241215",
+       "value": "2024-12-15"
+      },
+      "lot_format": "four_digit",
+      "lot_membership": "confirmed",
+      "matched_by": [
+       "lot",
+       "resolved_bin"
+      ],
+      "original_digest": "b5986d27f08ac7688456f75857d352988f081437ba66e67ae6819602607a4cbc",
+      "penalty_imposed": "0",
+      "quality_flags": [
+       "severity_undocumented_value"
+      ],
+      "query_url": "https://data.cityofnewyork.us/resource/6bgk-3dad.json?%24where=%28boro%3D%272%27+AND+block%3D%2702754%27+AND+lot+in+%28%270005%27%2C+%2700005%27%29%29+OR+bin%3D%272006185%27&%24order=isn_dob_bis_extract&%24limit=3&%24offset=0",
+      "redacted_sha256": "7e0287acd59396ff762aeb7207484ca3e88c9bd88906bb5e37c4e320ab611757",
+      "resolved_bbl": "2027540005",
+      "row_bbl": "2027540005",
+      "served_date": {
+       "raw": "20241215",
+       "value": "2024-12-15"
+      },
+      "severity": "class_1",
+      "severity_raw": "CLASS - 1",
+      "source_bin": "2006185",
+      "source_block": "02754",
+      "source_boro": "2",
+      "source_lot": "0005",
+      "source_rows": [
+       {
+        "fetched_at": "2026-10-28T22:18:12.519720+00:00",
+        "original_digest": "b5986d27f08ac7688456f75857d352988f081437ba66e67ae6819602607a4cbc",
+        "query_url": "https://data.cityofnewyork.us/resource/6bgk-3dad.json?%24where=%28boro%3D%272%27+AND+block%3D%2702754%27+AND+lot+in+%28%270005%27%2C+%2700005%27%29%29+OR+bin%3D%272006185%27&%24order=isn_dob_bis_extract&%24limit=3&%24offset=0",
+        "row_index": 0,
+        "source_row_id": "1621660"
+       }
+      ],
+      "violation_type": "Construction",
+      "withheld_fields": [
+       "hearing_time",
+       "respondent_city",
+       "respondent_name",
+       "respondent_street",
+       "respondent_zip",
+       "violation_description"
+      ]
+     },
+     "redacted_sha256": "7e0287acd59396ff762aeb7207484ca3e88c9bd88906bb5e37c4e320ab611757",
+     "source_record_id": "1621660"
+    },
+    {
+     "ordinal": 1,
+     "original_digest": "17c4f2dbd5d9149f2a652024d5edc862d9e4263c6f6fcb2259ce6165cc9cf47d",
+     "payload": {
+      "adjudication": "upheld_by_default",
+      "adjudication_note": "Recorded as DEFAULT. The meaning of DEFAULT is not documented in the ECB or OATH dataset dictionaries. It is grouped as upheld_by_default, kept apart from upheld, and is not presented as a decision on the merits.",
+      "aggravated_level": "NO",
+      "amount_paid": "0",
+      "attribution": "this_building",
+      "attribution_basis": "row_identifiers",
+      "balance_due": "12500",
+      "certification_status": "NO COMPLIANCE RECORDED",
+      "correction_status": "open_with_dob",
+      "correction_status_raw": "ACTIVE",
+      "data_as_of": "Thu, 22 Oct 2026 17:04:42 GMT",
+      "dataset_id": "6bgk-3dad",
+      "digest_basis": "sanitized_row",
+      "dob_violation_number": "09202024CERCM01",
+      "ecb_violation_number": "35668152R",
+      "evidence_kind": "enforcement_action",
+      "fetched_at": "2026-10-28T22:18:12.519720+00:00",
+      "hearing_date": {
+       "raw": "20241129",
+       "value": "2024-11-29"
+      },
+      "hearing_status_raw": "DEFAULT",
+      "infractions": [
+       {
+        "code": "104",
+        "law_description": "28-302.1                                                                    FAILURE TO MAINTAIN BLDG WALL(S) OR APPURTENANCES",
+        "position": 1,
+        "text_withheld": false
+       }
+      ],
+      "isn_dob_bis_extract": "1777749",
+      "issue_date": {
+       "raw": "20240920",
+       "value": "2024-09-20"
+      },
+      "lot_format": "four_digit",
+      "lot_membership": "confirmed",
+      "matched_by": [
+       "lot",
+       "resolved_bin"
+      ],
+      "original_digest": "17c4f2dbd5d9149f2a652024d5edc862d9e4263c6f6fcb2259ce6165cc9cf47d",
+      "penalty_imposed": "12500",
+      "quality_flags": [
+       "severity_undocumented_value"
+      ],
+      "query_url": "https://data.cityofnewyork.us/resource/6bgk-3dad.json?%24where=%28boro%3D%272%27+AND+block%3D%2702754%27+AND+lot+in+%28%270005%27%2C+%2700005%27%29%29+OR+bin%3D%272006185%27&%24order=isn_dob_bis_extract&%24limit=3&%24offset=0",
+      "redacted_sha256": "bf7fee8434e52b01612ff576e6385255ebd5fe26e8656f8f2d64f6fda1f44af6",
+      "resolved_bbl": "2027540005",
+      "row_bbl": "2027540005",
+      "served_date": {
+       "raw": "20240920",
+       "value": "2024-09-20"
+      },
+      "severity": "class_1",
+      "severity_raw": "CLASS - 1",
+      "source_bin": "2006185",
+      "source_block": "02754",
+      "source_boro": "2",
+      "source_lot": "0005",
+      "source_rows": [
+       {
+        "fetched_at": "2026-10-28T22:18:12.519720+00:00",
+        "original_digest": "17c4f2dbd5d9149f2a652024d5edc862d9e4263c6f6fcb2259ce6165cc9cf47d",
+        "query_url": "https://data.cityofnewyork.us/resource/6bgk-3dad.json?%24where=%28boro%3D%272%27+AND+block%3D%2702754%27+AND+lot+in+%28%270005%27%2C+%2700005%27%29%29+OR+bin%3D%272006185%27&%24order=isn_dob_bis_extract&%24limit=3&%24offset=0",
+        "row_index": 1,
+        "source_row_id": "1777749"
+       }
+      ],
+      "violation_type": "Construction",
+      "withheld_fields": [
+       "hearing_time",
+       "respondent_city",
+       "respondent_name",
+       "respondent_street",
+       "violation_description"
+      ]
+     },
+     "redacted_sha256": "bf7fee8434e52b01612ff576e6385255ebd5fe26e8656f8f2d64f6fda1f44af6",
+     "source_record_id": "1777749"
+    },
+    {
+     "ordinal": 2,
+     "original_digest": "9ea016c2c60e164c8fad9395cb4f44d2425e1152e5e119a20b20be87b7117128",
+     "payload": {
+      "adjudication": "pending",
+      "adjudication_note": "Recorded as PENDING.",
+      "aggravated_level": "AGGRAVATED OFFENSE LEVEL 1",
+      "amount_paid": "0",
+      "attribution": "this_building",
+      "attribution_basis": "row_identifiers",
+      "balance_due": "12500",
+      "certification_status": null,
+      "correction_status": "open_with_dob",
+      "correction_status_raw": "ACTIVE",
+      "data_as_of": "Thu, 22 Oct 2026 17:04:42 GMT",
+      "dataset_id": "6bgk-3dad",
+      "digest_basis": "sanitized_row",
+      "dob_violation_number": null,
+      "ecb_violation_number": "39183247J",
+      "evidence_kind": "enforcement_action",
+      "fetched_at": "2026-10-28T22:18:12.519720+00:00",
+      "hearing_date": {
+       "raw": "20270115",
+       "value": "2027-01-15"
+      },
+      "hearing_status_raw": "PENDING",
+      "infractions": [
+       {
+        "code": "104",
+        "law_description": "28-302.1                                                                    FAILURE TO MAINTAIN BLDG WALL(S) OR APPURTENANCES",
+        "position": 1,
+        "text_withheld": false
+       }
+      ],
+      "isn_dob_bis_extract": "878579",
+      "issue_date": {
+       "raw": "20260403",
+       "value": "2026-04-03"
+      },
+      "lot_format": "four_digit",
+      "lot_membership": "confirmed",
+      "matched_by": [
+       "lot",
+       "resolved_bin"
+      ],
+      "original_digest": "9ea016c2c60e164c8fad9395cb4f44d2425e1152e5e119a20b20be87b7117128",
+      "penalty_imposed": "12500",
+      "quality_flags": [
+       "severity_undocumented_value"
+      ],
+      "query_url": "https://data.cityofnewyork.us/resource/6bgk-3dad.json?%24where=%28boro%3D%272%27+AND+block%3D%2702754%27+AND+lot+in+%28%270005%27%2C+%2700005%27%29%29+OR+bin%3D%272006185%27&%24order=isn_dob_bis_extract&%24limit=3&%24offset=0",
+      "redacted_sha256": "0a099da0122759aac2767204491ee2c98a1ef2279a6e11fb08dbb134800fae21",
+      "resolved_bbl": "2027540005",
+      "row_bbl": "2027540005",
+      "served_date": {
+       "raw": "20260403",
+       "value": "2026-04-03"
+      },
+      "severity": "class_1",
+      "severity_raw": "CLASS - 1",
+      "source_bin": "2006185",
+      "source_block": "02754",
+      "source_boro": "2",
+      "source_lot": "0005",
+      "source_rows": [
+       {
+        "fetched_at": "2026-10-28T22:18:12.519720+00:00",
+        "original_digest": "9ea016c2c60e164c8fad9395cb4f44d2425e1152e5e119a20b20be87b7117128",
+        "query_url": "https://data.cityofnewyork.us/resource/6bgk-3dad.json?%24where=%28boro%3D%272%27+AND+block%3D%2702754%27+AND+lot+in+%28%270005%27%2C+%2700005%27%29%29+OR+bin%3D%272006185%27&%24order=isn_dob_bis_extract&%24limit=3&%24offset=0",
+        "row_index": 2,
+        "source_row_id": "878579"
+       }
+      ],
+      "violation_type": "Construction",
+      "withheld_fields": [
+       "hearing_time",
+       "respondent_city",
+       "respondent_name",
+       "respondent_street",
+       "respondent_zip",
+       "violation_description"
+      ]
+     },
+     "redacted_sha256": "0a099da0122759aac2767204491ee2c98a1ef2279a6e11fb08dbb134800fae21",
+     "source_record_id": "878579"
+    }
+   ],
+   "result_payload": {
+    "bin_clause": "2006185",
+    "bin_evidence": [
+     {
+      "bin": "2006185",
+      "flags": [],
+      "footprints_lots_for_bin": [],
+      "is_resolved_bin": true,
+      "note": null,
+      "searched": true,
+      "sources": [
+       "footprints",
+       "hpd",
+       "resolver"
+      ]
+     },
+     {
+      "bin": "2117584",
+      "flags": [
+       "bin_single_source"
+      ],
+      "footprints_lots_for_bin": [],
+      "is_resolved_bin": false,
+      "note": null,
+      "searched": true,
+      "sources": [
+       "footprints"
+      ]
+     }
+    ],
+    "bin_evidence_complete": true,
+    "bin_evidence_provenance": [
+     {
+      "data_as_of": "Mon, 19 Oct 2026 18:36:49 GMT",
+      "dataset_id": "5zhs-2jue",
+      "error": null,
+      "incomplete_reasons": [],
+      "order_by": "bin, :id",
+      "page_size": 1000,
+      "pages": [
+       {
+        "attempts": 1,
+        "fetched_at": "2026-10-28T22:18:12.518660+00:00",
+        "index": -1,
+        "last_modified": "Mon, 19 Oct 2026 18:36:49 GMT",
+        "request_id": "d99c9bd0fe020f8f37eda92e64c60d65",
+        "rows": 0,
+        "truth_last_modified": "Mon, 19 Oct 2026 18:36:49 GMT",
+        "url": "https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=count%28%2A%29+AS+n&%24where=base_bbl%3D%272027540005%27+OR+mappluto_bbl%3D%272027540005%27"
+       },
+       {
+        "attempts": 1,
+        "fetched_at": "2026-10-28T22:18:12.519005+00:00",
+        "index": 0,
+        "last_modified": "Mon, 19 Oct 2026 18:36:49 GMT",
+        "request_id": "b00257c97e23cded89314225757a0202",
+        "rows": 2,
+        "truth_last_modified": "Mon, 19 Oct 2026 18:36:49 GMT",
+        "url": "https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=bin%2C+base_bbl%2C+mappluto_bbl%2C+%3Aid&%24where=base_bbl%3D%272027540005%27+OR+mappluto_bbl%3D%272027540005%27&%24order=bin%2C+%3Aid&%24limit=2&%24offset=0"
+       }
+      ],
+      "restarts": 0,
+      "row_cap": 5000,
+      "rows_fetched": 2,
+      "source_count": 2,
+      "warnings": [],
+      "where": "base_bbl='2027540005' OR mappluto_bbl='2027540005'"
+     },
+     {
+      "data_as_of": "Wed, 12 Aug 2026 14:57:58 GMT",
+      "dataset_id": "kj4p-ruqc",
+      "error": null,
+      "incomplete_reasons": [],
+      "order_by": "buildingid",
+      "page_size": 5,
+      "pages": [
+       {
+        "attempts": 1,
+        "fetched_at": "2026-10-28T22:18:12.513512+00:00",
+        "index": -1,
+        "last_modified": "Wed, 12 Aug 2026 14:57:58 GMT",
+        "request_id": "f0bc74ee31ff148de6784c5d4102102a",
+        "rows": 0,
+        "truth_last_modified": "Wed, 12 Aug 2026 14:57:58 GMT",
+        "url": "https://data.cityofnewyork.us/resource/kj4p-ruqc.json?%24select=count%28%2A%29+AS+n&%24where=boroid%3D2+AND+block%3D2754+AND+lot%3D5"
+       },
+       {
+        "attempts": 1,
+        "fetched_at": "2026-10-28T22:18:12.513865+00:00",
+        "index": 0,
+        "last_modified": "Wed, 12 Aug 2026 14:57:58 GMT",
+        "request_id": "dc2664fc43db409e3ca1d729b651b4c9",
+        "rows": 1,
+        "truth_last_modified": "Wed, 12 Aug 2026 14:57:58 GMT",
+        "url": "https://data.cityofnewyork.us/resource/kj4p-ruqc.json?%24where=boroid%3D2+AND+block%3D2754+AND+lot%3D5&%24order=buildingid&%24limit=1&%24offset=0"
+       }
+      ],
+      "restarts": 0,
+      "row_cap": 10000,
+      "rows_fetched": 1,
+      "source_count": 1,
+      "warnings": [],
+      "where": "boroid=2 AND block=2754 AND lot=5"
+     }
+    ],
+    "bin_lot_conflicts": [],
+    "coverage_notes": [
+     "ECB summonses are searched by every lot in the lot family, in both lot formats (4-digit and 5-digit), and at building scope also by the resolved BIN.",
+     "A BIN seen only on ECB rows (for example a retired BIN) is reported and never added to the DOB complaint BIN search; DOB complaints filed under such a BIN are not found."
+    ],
+    "dataset_id": "6bgk-3dad",
+    "join_scope": "building",
+    "lot_family": [
+     "2027540005"
+    ],
+    "lot_formats_queried": [
+     "2027540005:0005",
+     "2027540005:00005"
+    ],
+    "partial": false,
+    "provenance": {
+     "data_as_of": "Thu, 22 Oct 2026 17:04:42 GMT",
+     "dataset_id": "6bgk-3dad",
+     "error": null,
+     "incomplete_reasons": [],
+     "order_by": "isn_dob_bis_extract",
+     "page_size": 1000,
+     "restarts": 0,
+     "row_cap": 10000,
+     "rows_fetched": 3,
+     "source_count": 3,
+     "warnings": [],
+     "where": "(boro='2' AND block='02754' AND lot in ('0005', '00005')) OR bin='2006185'"
+    },
+    "resolved_bbl": "2027540005",
+    "resolved_bin": "2006185",
+    "row_bins_not_on_lot": [],
+    "source": "nyc_open_data",
+    "status": "records_found",
+    "status_detail": "3 summonses from 3 source rows for 1 lot(s); matches the source count",
+    "summary": {
+     "adjudication_notes": {
+      "DEFAULT": "Recorded as DEFAULT. The meaning of DEFAULT is not documented in the ECB or OATH dataset dictionaries. It is grouped as upheld_by_default, kept apart from upheld, and is not presented as a decision on the merits.",
+      "DISMISSED": "Recorded as DISMISSED.",
+      "PENDING": "Recorded as PENDING."
+     },
+     "building_claims_denied_reason": null,
+     "building_specific_claims_allowed": true,
+     "by_attribution": {
+      "this_building": {
+       "by_adjudication": {
+        "dismissed": 1,
+        "pending": 1,
+        "upheld_by_default": 1
+       },
+       "by_bin": {
+        "2006185": 3
+       },
+       "by_certification_status": {
+        "N/A - DISMISSED": 1,
+        "NO COMPLIANCE RECORDED": 1,
+        "none": 1
+       },
+       "by_correction_and_adjudication": {
+        "open_with_dob|pending": 1,
+        "open_with_dob|upheld_by_default": 1,
+        "resolved_with_dob|dismissed": 1
+       },
+       "by_correction_status": {
+        "open_with_dob": 2,
+        "resolved_with_dob": 1
+       },
+       "by_lot_format": {
+        "four_digit": 3
+       },
+       "by_severity": {
+        "class_1": 3
+       },
+       "by_violation_type": {
+        "Construction": 3
+       },
+       "issued_last_12_months": 1,
+       "issued_last_36_months": 3,
+       "summonses": 3
+      }
+     },
+     "conflict_counts": {
+      "bin_lot_conflict": 0,
+      "bin_on_other_lot": 0,
+      "duplicate_id_different_content": 0,
+      "lot_identifier_conflict": 0,
+      "status_fields_disagree": 0
+     },
+     "data_as_of": "Thu, 22 Oct 2026 17:04:42 GMT",
+     "join_scope": "building",
+     "lot_format_counts": {
+      "four_digit": 3
+     },
+     "matched_by_counts": {
+      "lot+resolved_bin": 3
+     },
+     "quality_flag_counts": {
+      "severity_undocumented_value": 3
+     },
+     "requested_building_financials": {
+      "amount_paid_total": "0",
+      "attribution": "this_building",
+      "balance_due_total": "25000",
+      "note": "Amounts as DOB recorded them for summonses attributed to the requested building. Not reconciled with OATH or DOB payment records. Negative balances are recorded by DOB; their meaning is not documented. Summonses with unparseable amounts are counted but excluded from the totals.",
+      "penalty_imposed_total": "25000",
+      "summonses": 3,
+      "summonses_with_negative_balance": 0,
+      "summonses_with_positive_balance": 2,
+      "summonses_with_unparseable_amounts": 0
+     },
+     "source_rows": 3,
+     "statement": "An ECB summons is a charge that DOB issued. It is not by itself a finding that a violation occurred. The correction status is DOB's; the hearing status is OATH's record as published by DOB, grouped by this project's mapping (not DOB's or OATH's), and the certification status is the respondent's certification with DOB. They are shown separately and never combined.",
+     "status_fields_disagree": 0,
+     "total_summonses": 3
+    }
+   }
+  }
+ }
+}

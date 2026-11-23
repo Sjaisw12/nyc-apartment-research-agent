@@ -1,0 +1,57 @@
+{
+ "recorded_at": "2026-10-22T01:05:59.914692+00:00",
+ "page_size": 5,
+ "addresses": {
+  "west_farms_1134": {
+   "address": "1134 West Farms Rd, Bronx, NY 10459",
+   "why": "Project test building; building-level resolution; 600+ rows over several pages.",
+   "resolution_level": "building",
+   "buildings_status": "records_found",
+   "status": "records_found",
+   "source_count": 1,
+   "rows": 1,
+   "data_as_of": "Wed, 12 Aug 2026 15:00:38 GMT"
+  },
+  "west_17_220": {
+   "address": "220 West 17th Street, Manhattan",
+   "why": "Lot 1007660055 holds 8 buildings; rows on other BINs and rows with no BBL/BIN.",
+   "resolution_level": "building",
+   "buildings_status": "records_found",
+   "status": "records_found",
+   "source_count": 8,
+   "rows": 8,
+   "data_as_of": "Wed, 12 Aug 2026 15:00:38 GMT"
+  },
+  "west_farms_1217": {
+   "address": "1217 West Farms Road, Bronx",
+   "why": "Tax-lot-level resolution (PAD gives placeholder BIN 2000000).",
+   "resolution_level": "tax_lot",
+   "buildings_status": "records_found",
+   "status": "records_found",
+   "source_count": 1,
+   "rows": 1,
+   "data_as_of": "Wed, 12 Aug 2026 15:00:38 GMT"
+  },
+  "fifth_ave_350": {
+   "address": "350 5th Avenue, New York, NY 10118",
+   "why": "Empire State Building; building-level resolution; zero HPD violations.",
+   "resolution_level": "building",
+   "buildings_status": "records_found",
+   "status": "no_records_found",
+   "source_count": 0,
+   "rows": 0,
+   "data_as_of": "Wed, 12 Aug 2026 15:00:38 GMT"
+  },
+  "acp_1845": {
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "why": "Condo: HPD files these violations under billing lot 7502.",
+   "resolution_level": "building",
+   "buildings_status": "records_found",
+   "status": "records_found",
+   "source_count": 2,
+   "rows": 2,
+   "data_as_of": "Wed, 12 Aug 2026 15:00:38 GMT"
+  }
+ },
+ "note": "kj4p-ruqc and tesw-yqqr have no personal fields; rows saved as received."
+}

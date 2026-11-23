@@ -1,0 +1,116 @@
+{
+ "entries": {
+  "https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=bin%2C+base_bbl%2C+mappluto_bbl%2C+%3Aid&%24where=base_bbl%3D%271007660055%27+OR+mappluto_bbl%3D%271007660055%27&%24order=bin%2C+%3Aid&%24limit=8&%24offset=0": {
+   "body": "[{\"bin\":\"1081542\",\"base_bbl\":\"1007660055\",\"mappluto_bbl\":\"1007660055\",\":id\":\"row-v9r2~xe5x_n4j3\"}\n,{\"bin\":\"1081543\",\"base_bbl\":\"1007660055\",\"mappluto_bbl\":\"1007660055\",\":id\":\"row-mfem-2idj.qm5c\"}\n,{\"bin\":\"1081544\",\"base_bbl\":\"1007660055\",\"mappluto_bbl\":\"1007660055\",\":id\":\"row-cn3n_wrcc_ve9j\"}\n,{\"bin\":\"1081545\",\"base_bbl\":\"1007660055\",\"mappluto_bbl\":\"1007660055\",\":id\":\"row-5wnu~8m89~jvik\"}\n,{\"bin\":\"1081546\",\"base_bbl\":\"1007660055\",\"mappluto_bbl\":\"1007660055\",\":id\":\"row-w3u6.76qp.wn8i\"}\n,{\"bin\":\"1081547\",\"base_bbl\":\"1007660055\",\"mappluto_bbl\":\"1007660055\",\":id\":\"row-vx36.m6vq.p868\"}\n,{\"bin\":\"1081548\",\"base_bbl\":\"1007660055\",\"mappluto_bbl\":\"1007660055\",\":id\":\"row-ku9z.cbij-d4j3\"}\n,{\"bin\":\"1081549\",\"base_bbl\":\"1007660055\",\"mappluto_bbl\":\"1007660055\",\":id\":\"row-tsp8.6rwh~ka8a\"}]\n",
+   "headers": {
+    "content-type": "application/json;charset=utf-8",
+    "last-modified": "Mon, 19 Oct 2026 18:36:49 GMT",
+    "x-socrata-requestid": "870ec7de2a31c18a4f23c63405a49d3a",
+    "x-soda2-fields": "[\"bin\",\"base_bbl\",\"mappluto_bbl\",\":id\"]",
+    "x-soda2-truth-last-modified": "Mon, 19 Oct 2026 18:36:49 GMT"
+   },
+   "status": 200
+  },
+  "https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=bin%2C+base_bbl%2C+mappluto_bbl%2C+%3Aid&%24where=base_bbl%3D%271008350041%27+OR+mappluto_bbl%3D%271008350041%27&%24order=bin%2C+%3Aid&%24limit=1&%24offset=0": {
+   "body": "[{\"bin\":\"1015862\",\"base_bbl\":\"1008350041\",\"mappluto_bbl\":\"1008350041\",\":id\":\"row-ezn5-dahk.6jmj\"}]\n",
+   "headers": {
+    "content-type": "application/json;charset=utf-8",
+    "last-modified": "Mon, 19 Oct 2026 18:36:49 GMT",
+    "x-socrata-requestid": "41f06e7183cf6336948648f24a6cc064",
+    "x-soda2-fields": "[\"bin\",\"base_bbl\",\"mappluto_bbl\",\":id\"]",
+    "x-soda2-truth-last-modified": "Mon, 19 Oct 2026 18:36:49 GMT"
+   },
+   "status": 200
+  },
+  "https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=bin%2C+base_bbl%2C+mappluto_bbl%2C+%3Aid&%24where=base_bbl%3D%271018227502%27+OR+mappluto_bbl%3D%271018227502%27&%24order=bin%2C+%3Aid&%24limit=2&%24offset=0": {
+   "body": "[{\"bin\":\"1054974\",\"base_bbl\":\"1018220001\",\"mappluto_bbl\":\"1018227502\",\":id\":\"row-29yd_n6d7.aemq\"}\n,{\"bin\":\"1055002\",\"base_bbl\":\"1018220001\",\"mappluto_bbl\":\"1018227502\",\":id\":\"row-b5bt-8z84~26pe\"}]\n",
+   "headers": {
+    "content-type": "application/json;charset=utf-8",
+    "last-modified": "Mon, 19 Oct 2026 18:36:49 GMT",
+    "x-socrata-requestid": "ade229c7e9c8b6b953fae057b8411688",
+    "x-soda2-fields": "[\"bin\",\"base_bbl\",\"mappluto_bbl\",\":id\"]",
+    "x-soda2-truth-last-modified": "Mon, 19 Oct 2026 18:36:49 GMT"
+   },
+   "status": 200
+  },
+  "https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=bin%2C+base_bbl%2C+mappluto_bbl%2C+%3Aid&%24where=base_bbl%3D%272027540005%27+OR+mappluto_bbl%3D%272027540005%27&%24order=bin%2C+%3Aid&%24limit=2&%24offset=0": {
+   "body": "[{\"bin\":\"2006185\",\"base_bbl\":\"2027540005\",\"mappluto_bbl\":\"2027540005\",\":id\":\"row-7bjf.weub.qvjz\"}\n,{\"bin\":\"2117584\",\"base_bbl\":\"2027540005\",\"mappluto_bbl\":\"2027540005\",\":id\":\"row-vs53_sdc8.xx8u\"}]\n",
+   "headers": {
+    "content-type": "application/json;charset=utf-8",
+    "last-modified": "Mon, 19 Oct 2026 18:36:49 GMT",
+    "x-socrata-requestid": "b00257c97e23cded89314225757a0202",
+    "x-soda2-fields": "[\"bin\",\"base_bbl\",\"mappluto_bbl\",\":id\"]",
+    "x-soda2-truth-last-modified": "Mon, 19 Oct 2026 18:36:49 GMT"
+   },
+   "status": 200
+  },
+  "https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=bin%2C+base_bbl%2C+mappluto_bbl%2C+%3Aid&%24where=base_bbl%3D%272029930031%27+OR+mappluto_bbl%3D%272029930031%27&%24order=bin%2C+%3Aid&%24limit=1&%24offset=0": {
+   "body": "[{\"bin\":\"2128717\",\"base_bbl\":\"2029930031\",\"mappluto_bbl\":\"2029930031\",\":id\":\"row-i6e7~y5ci-qjv9\"}]\n",
+   "headers": {
+    "content-type": "application/json;charset=utf-8",
+    "last-modified": "Mon, 19 Oct 2026 18:36:49 GMT",
+    "x-socrata-requestid": "97dba1b9ff9b6c176f39f3e92353e71c",
+    "x-soda2-fields": "[\"bin\",\"base_bbl\",\"mappluto_bbl\",\":id\"]",
+    "x-soda2-truth-last-modified": "Mon, 19 Oct 2026 18:36:49 GMT"
+   },
+   "status": 200
+  },
+  "https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=count%28%2A%29+AS+n&%24where=base_bbl%3D%271007660055%27+OR+mappluto_bbl%3D%271007660055%27": {
+   "body": "[{\"n\":\"8\"}]\n",
+   "headers": {
+    "content-type": "application/json;charset=utf-8",
+    "last-modified": "Mon, 19 Oct 2026 18:36:49 GMT",
+    "x-socrata-requestid": "58ba0f02355a8d5b76db4aa72d875d27",
+    "x-soda2-fields": "[\"n\"]",
+    "x-soda2-truth-last-modified": "Mon, 19 Oct 2026 18:36:49 GMT"
+   },
+   "status": 200
+  },
+  "https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=count%28%2A%29+AS+n&%24where=base_bbl%3D%271008350041%27+OR+mappluto_bbl%3D%271008350041%27": {
+   "body": "[{\"n\":\"1\"}]\n",
+   "headers": {
+    "content-type": "application/json;charset=utf-8",
+    "last-modified": "Mon, 19 Oct 2026 18:36:49 GMT",
+    "x-socrata-requestid": "656a7b109bfac108dd6605e0ae0217b5",
+    "x-soda2-fields": "[\"n\"]",
+    "x-soda2-truth-last-modified": "Mon, 19 Oct 2026 18:36:49 GMT"
+   },
+   "status": 200
+  },
+  "https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=count%28%2A%29+AS+n&%24where=base_bbl%3D%271018227502%27+OR+mappluto_bbl%3D%271018227502%27": {
+   "body": "[{\"n\":\"2\"}]\n",
+   "headers": {
+    "content-type": "application/json;charset=utf-8",
+    "last-modified": "Mon, 19 Oct 2026 18:36:49 GMT",
+    "x-socrata-requestid": "9332192163dabbd8eeb54eb2e84249aa",
+    "x-soda2-fields": "[\"n\"]",
+    "x-soda2-truth-last-modified": "Mon, 19 Oct 2026 18:36:49 GMT"
+   },
+   "status": 200
+  },
+  "https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=count%28%2A%29+AS+n&%24where=base_bbl%3D%272027540005%27+OR+mappluto_bbl%3D%272027540005%27": {
+   "body": "[{\"n\":\"2\"}]\n",
+   "headers": {
+    "content-type": "application/json;charset=utf-8",
+    "last-modified": "Mon, 19 Oct 2026 18:36:49 GMT",
+    "x-socrata-requestid": "d99c9bd0fe020f8f37eda92e64c60d65",
+    "x-soda2-fields": "[\"n\"]",
+    "x-soda2-truth-last-modified": "Mon, 19 Oct 2026 18:36:49 GMT"
+   },
+   "status": 200
+  },
+  "https://data.cityofnewyork.us/resource/5zhs-2jue.json?%24select=count%28%2A%29+AS+n&%24where=base_bbl%3D%272029930031%27+OR+mappluto_bbl%3D%272029930031%27": {
+   "body": "[{\"n\":\"1\"}]\n",
+   "headers": {
+    "content-type": "application/json;charset=utf-8",
+    "last-modified": "Mon, 19 Oct 2026 18:36:49 GMT",
+    "x-socrata-requestid": "3d389bed246f0457d77fced1bd5e5f9d",
+    "x-soda2-fields": "[\"n\"]",
+    "x-soda2-truth-last-modified": "Mon, 19 Oct 2026 18:36:49 GMT"
+   },
+   "status": 200
+  }
+ },
+ "recorded_at": "2026-10-23T04:51:59.126548+00:00",
+ "sha256": "383a96f0eb71d97e1b0ca0f4ccc4d3fe447f2264b90eb2cb7990dcdd7a3f7cde"
+}

@@ -1,0 +1,145 @@
+{
+  "checks": [
+    {
+      "candidates": 5,
+      "elapsed_s": 0.483,
+      "name": "geosearch:west_farms_1134",
+      "ok": true,
+      "sha256": "6132c8929594",
+      "top": [
+        [
+          "1134 WEST FARMS ROAD, Bronx, NY, USA",
+          "2027540005",
+          "2006185",
+          "assigned"
+        ],
+        [
+          "1217 WEST FARMS ROAD, Bronx, NY, USA",
+          "2029930031",
+          "2000000",
+          "unassigned_placeholder"
+        ],
+        [
+          "1223 WEST FARMS ROAD, Bronx, NY, USA",
+          "2029930031",
+          "2000000",
+          "unassigned_placeholder"
+        ]
+      ]
+    },
+    {
+      "candidates": 5,
+      "elapsed_s": 0.101,
+      "name": "geosearch:east_228_873",
+      "ok": true,
+      "sha256": "97c21cc99d59",
+      "top": [
+        [
+          "873 EAST 228 STREET, Bronx, NY, USA",
+          "2048530011",
+          "2130638",
+          "assigned"
+        ],
+        [
+          "873 GARAGE EAST 228 STREET, Bronx, NY, USA",
+          "2048530011",
+          "2000000",
+          "unassigned_placeholder"
+        ],
+        [
+          "702 EAST 228 STREET, Bronx, NY, USA",
+          "2048410050",
+          "2063523",
+          "assigned"
+        ]
+      ]
+    },
+    {
+      "candidates": 5,
+      "elapsed_s": 0.111,
+      "name": "geosearch:centre_st_1",
+      "ok": true,
+      "sha256": "14b8c5026b4c",
+      "top": [
+        [
+          "1 CENTER STREET, New York, NY, USA",
+          "1001210001",
+          "1001394",
+          "assigned"
+        ],
+        [
+          "1 CENTRE STREET, New York, NY, USA",
+          "1001210001",
+          "1001394",
+          "assigned"
+        ],
+        [
+          "1 CENTER STREET, Bronx, NY, USA",
+          "2056270046",
+          "2103477",
+          "assigned"
+        ]
+      ]
+    },
+    {
+      "candidates": 5,
+      "elapsed_s": 0.107,
+      "name": "geosearch:broadway_100_no_borough",
+      "ok": true,
+      "sha256": "86afa3113b07",
+      "top": [
+        [
+          "100 B'WAY, Brooklyn, NY, USA",
+          "3021310001",
+          "3324734",
+          "assigned"
+        ],
+        [
+          "100 BROADWAY, Brooklyn, NY, USA",
+          "3021310001",
+          "3324734",
+          "assigned"
+        ],
+        [
+          "100 B'WAY, New York, NY, USA",
+          "1000460003",
+          "1001024",
+          "assigned"
+        ]
+      ]
+    },
+    {
+      "candidates": 0,
+      "elapsed_s": 0.055,
+      "name": "geosearch:nonsense",
+      "ok": true,
+      "sha256": "577187aa7001",
+      "top": []
+    },
+    {
+      "count": 666,
+      "elapsed_s": 0.475,
+      "last_modified": "Tue, 20 Oct 2026 14:55:26 GMT",
+      "missing_fields": [],
+      "name": "hpd:hpd_violations",
+      "ok": true,
+      "rate_limit_headers": {},
+      "rows": 5,
+      "rows_with_other_bbl": [],
+      "sha256": "6b7ab9628dbd"
+    },
+    {
+      "count": 912,
+      "elapsed_s": 1.298,
+      "last_modified": "Tue, 20 Oct 2026 14:10:50 GMT",
+      "missing_fields": [],
+      "name": "hpd:hpd_complaint_problems",
+      "ok": true,
+      "rate_limit_headers": {},
+      "rows": 5,
+      "rows_with_other_bbl": [],
+      "sha256": "bd71141a65ef"
+    }
+  ],
+  "run_at": "2026-10-21T06:05:39.737637+00:00"
+}

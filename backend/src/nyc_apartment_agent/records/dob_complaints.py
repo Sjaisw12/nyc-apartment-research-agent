@@ -43,7 +43,7 @@ from ..errors import InvalidIdentifierError, SourceError
 from ..http_client import SourceHttpClient
 from ..identifiers import BinStatus, classify_bin
 from ..resolver.models import ResolutionResult
-from ..sources.socrata_pager import PagedFetch, fetch_all
+from ..sources.socrata_pager import PagedFetch, _count, fetch_all
 from .admin_models import BuildingSourceResult
 from .attribution import bin_flags
 from .dob_models import (
@@ -103,6 +103,33 @@ COVERAGE_NOTE = (
     "the current Footprints or HPD lists for this lot (for example a retired BIN) is not "
     "found."
 )
+
+
+RECENT_GAP_REASON = (
+    "upstream_recent_gap: the DOB dataset currently holds no complaints entered in {years} "
+    "anywhere in NYC, so recent complaints are missing upstream"
+)
+
+
+def recent_upstream_gap(client: SourceHttpClient, today: dt.date) -> str | None:
+    """Detect a dataset that has lost its recent rows (seen on 2026-11-22).
+
+    DOB writes date_entered as MM/DD/YYYY text, so the check counts citywide rows whose
+    date ends in this year or last year. Zero rows citywide for two years cannot be a
+    quiet building: it means the published dataset no longer covers recent complaints, and
+    every count from it is a lower bound. Returns the reason, or None when recent rows
+    exist or the check itself could not run (the main retrieval is unaffected).
+    """
+    years = (today.year - 1, today.year)
+    where = " OR ".join(f"date_entered like '%/{y}'" for y in years)
+    try:
+        n, _ = _count(client, f"/resource/{DATASET_ID}.json", where)
+    except SourceError as exc:
+        logger.info("%s recency check skipped: %s", DATASET_ID, type(exc).__name__)
+        return None
+    if n > 0:
+        return None
+    return RECENT_GAP_REASON.format(years=f"{years[0]} or {years[1]}")
 
 
 # ---- Reference data -------------------------------------------------------------------
@@ -696,6 +723,7 @@ def retrieve_dob_complaints(
     page_size: int | None = None,
     row_cap: int | None = None,
     today: dt.date | None = None,
+    check_upstream_recency: bool = False,
 ) -> DobComplaintResult:
     """DOB complaints for a building-level resolution.
 
@@ -790,6 +818,9 @@ def retrieve_dob_complaints(
     ctx = _Ctx(plan, bins, as_of, digest_key, prov.data_as_of, evidence)
     records = normalize_fetch(fetch, ctx)
     prov.incomplete_reasons = prov.incomplete_reasons + bins.incomplete_reasons
+    gap = recent_upstream_gap(client, today or dt.date.today()) if check_upstream_recency else None
+    if gap:
+        prov.incomplete_reasons = [*prov.incomplete_reasons, gap]
     if prov.incomplete_reasons:
         status = RetrievalStatus.INCOMPLETE_PAGINATION
         detail = "; ".join(prov.incomplete_reasons)

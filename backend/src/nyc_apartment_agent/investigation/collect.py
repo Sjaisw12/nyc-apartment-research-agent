@@ -377,7 +377,9 @@ def gather_live(bundle: EvidenceBundle, *, settings: Settings | None = None) -> 
             ),
             (
                 "dob_complaints",
-                lambda: retrieve_dob_complaints(resolution, s, hpd_buildings=bundle.hpd_buildings),
+                lambda: retrieve_dob_complaints(
+                    resolution, s, hpd_buildings=bundle.hpd_buildings, check_upstream_recency=True
+                ),
             ),
             (
                 "ecb_violations",

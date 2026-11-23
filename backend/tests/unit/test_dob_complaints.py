@@ -86,10 +86,18 @@ def fp_row(bin_: str, base: str = BBL, mappluto: str | None = None, rid: str = "
 
 
 class DobFake(FakeSocrata):
-    """Honours the two Footprints filters and `bin in (...)`. Synthetic."""
+    """Honours the two Footprints filters and `bin in (...)`. Synthetic.
+
+    The citywide recency check (`date_entered like ...`) sees `citywide_recent` rows, so
+    a test can model the 2026-11-22 upstream reload that dropped every recent complaint.
+    """
+
+    citywide_recent = 1
 
     @staticmethod
     def _filtered(where: str, rows: list[dict]) -> list[dict]:
+        if "date_entered like" in where:
+            return [{"date_entered": "01/01/2026"}] * DobFake.citywide_recent
         m = re.fullmatch(r"base_bbl='(\d+)' OR mappluto_bbl='(\d+)'", where)
         if m:
             return [r for r in rows if m.group(1) in (r.get("base_bbl"), r.get("mappluto_bbl"))]
@@ -132,7 +140,9 @@ def where_of(fake, dataset=DOB):
     return [
         c.url.params["$where"]
         for c in fake.calls
-        if dataset in c.url.path and "count(" in c.url.params.get("$select", "")
+        if dataset in c.url.path
+        and "count(" in c.url.params.get("$select", "")
+        and "date_entered like" not in c.url.params["$where"]  # upstream recency check
     ]
 
 
@@ -763,3 +773,31 @@ def test_valid_building_results_still_allow_building_claims():
     )
     assert result.bin_lot_conflicts == [OTHER]
     assert result.summary.building_specific_claims_allowed is True
+
+
+# ---- upstream recency gap (2026-11-22 reload of eabe-havv) ---------------------------------
+
+
+def test_citywide_recent_gap_makes_counts_lower_bounds(monkeypatch):
+    # Regression: on 2026-11-22 the published dataset was reloaded without any complaint
+    # entered after 2022. Stoop must not present the shorter list as complete history.
+    fake = DobFake([], datasets={DOB: [dob_row(1, date_entered="03/02/2004")], FP: [fp_row(R)]})
+    monkeypatch.setattr(DobFake, "citywide_recent", 0)
+    result, _ = retrieve([], fake=fake, check_upstream_recency=True)
+    assert result.status is RetrievalStatus.INCOMPLETE_PAGINATION and result.partial
+    assert any(r.startswith("upstream_recent_gap") for r in result.provenance.incomplete_reasons)
+    assert "2025 or 2026" in result.status_detail
+
+
+def test_recent_rows_citywide_leave_status_unchanged():
+    result, fake = retrieve([dob_row(1)], check_upstream_recency=True)
+    assert result.status is RetrievalStatus.RECORDS_FOUND and not result.partial
+    checks = [c for c in fake.calls if "date_entered like" in c.url.params.get("$where", "")]
+    assert len(checks) == 1  # one citywide count, no address or BIN in it
+    assert "bin" not in checks[0].url.params["$where"]
+    assert checks[0].url.path == "/resource/eabe-havv.json"  # same endpoint as the main query
+
+
+def test_recorded_replays_send_no_recency_check():
+    _, fake = retrieve([dob_row(1)])
+    assert not [c for c in fake.calls if "date_entered like" in c.url.params.get("$where", "")]

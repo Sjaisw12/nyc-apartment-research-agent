@@ -4,7 +4,7 @@ export const CATEGORY: Record<Category, { label: string; cls: string; help: stri
   identity: { label: "Identity", cls: "bg-slate-100 text-slate-700 ring-slate-200", help: "How the building was identified." },
   verified_record: {
     label: "Verified record",
-    cls: "bg-emerald-50 text-emerald-800 ring-emerald-200",
+    cls: "bg-brand-50 text-brand-dark ring-brand/20",
     help: "An agency's own finding, for example an HPD violation issued after an inspection.",
   },
   complaint_allegation: {
@@ -29,7 +29,7 @@ export const CATEGORY: Record<Category, { label: string; cls: string; help: stri
   },
   uncertain: {
     label: "Uncertain",
-    cls: "bg-stone-100 text-stone-700 ring-stone-300",
+    cls: "bg-slate-100 text-slate-700 ring-slate-300",
     help: "The data is partial, conflicting, or cannot settle the question.",
   },
   unavailable: {
@@ -57,10 +57,10 @@ export const ATTRIBUTION: Record<string, string> = {
 };
 
 export const AGENCY_COLOR: Record<string, string> = {
-  HPD: "#1f5f5b",
-  DOB: "#c2410c",
-  "DOB / ECB": "#7c3aed",
-  "311": "#2563eb",
+  HPD: "#2563EB",
+  DOB: "#EA580C",
+  "DOB / ECB": "#7C3AED",
+  "311": "#0EA5E9",
 };
 
 export function fmtDate(iso?: string | null) {
@@ -75,4 +75,37 @@ export function fmtSourceDate(raw?: string | null) {
   const d = new Date(raw);
   if (Number.isNaN(d.getTime())) return raw;
   return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+}
+
+const CODE_TEXT: Record<string, string> = {
+  dataset_changed_during_retrieval: "the dataset changed while it was being read",
+  source_snapshot_unstable: "the source kept changing, so the count could not be confirmed",
+  page_cap_reached: "more rows exist than this report retrieves",
+  row_cap_reached: "more rows exist than this report retrieves",
+  count_mismatch: "the rows retrieved did not match the source's own count",
+  timeout: "the source took too long to respond",
+  http_error: "the source returned an error",
+  upstream_recent_gap: "Known gap in the city's published data",
+};
+
+/** Turn internal status codes (snake_case) in source notes into plain language. */
+export function humanize(text?: string | null) {
+  if (!text) return "";
+  return text
+    .replace(/\b[a-z]+(?:_[a-z0-9]+)+\b/g, (code) => CODE_TEXT[code] ?? code.replace(/_/g, " "))
+    .replace(/\b1 (building|record|complaint)\(s\)/g, "1 $1")
+    .replace(/\((\w+)\)\(s\)/g, "$1s")
+    .replace(/(\d+) ([A-Za-z]+)\(s\)/g, (_, n, w) => `${n} ${w}${n === "1" ? "" : "s"}`)
+    .replace(/;\s*/g, "; ");
+}
+
+/** Latest data date across sources, for the report header. */
+export function latestDataDate(dates: (string | null | undefined)[]) {
+  let best: Date | null = null;
+  for (const raw of dates) {
+    if (!raw) continue;
+    const d = new Date(raw);
+    if (!Number.isNaN(d.getTime()) && (!best || d > best)) best = d;
+  }
+  return best;
 }

@@ -174,6 +174,54 @@ export interface RunStep {
   detail?: string | null;
 }
 
+export type AttentionLabel =
+  | "priority_follow_up"
+  | "some_items_to_check"
+  | "no_priority_items"
+  | "insufficient_information";
+
+export interface AttentionPoint {
+  id: string;
+  kind: string;
+  level: "priority" | "check" | "info";
+  heading: string;
+  text: string;
+  ask?: string | null;
+  section?: string | null;
+  evidence_ids: string[];
+  finding_ids: string[];
+  facts: { name: string; fact: { metric: string; value: number; where: Record<string, unknown> }; evidence_ids: string[] }[];
+}
+
+export interface CoverageSource {
+  source: string;
+  name: string;
+  state: "complete" | "partial" | "unavailable" | "not_applicable" | "not_checked";
+  note: string;
+}
+
+export interface AttentionSummary {
+  label: AttentionLabel;
+  label_text: string;
+  label_meaning: string;
+  headline: string;
+  reasons: string[];
+  points: AttentionPoint[];
+  coverage: {
+    level: "complete" | "partial" | "limited";
+    label: string;
+    detail: string;
+    sources: CoverageSource[];
+    oldest_data_as_of?: string | null;
+    newest_data_as_of?: string | null;
+  };
+  next_steps: string[];
+  verify_links: OfficialLink[];
+  rules: string[];
+  generated_by: string;
+  disclaimer: string;
+}
+
 export interface ResearchReport {
   schema_version: string;
   report_id: string;
@@ -192,6 +240,7 @@ export interface ResearchReport {
   timeline: TimelineEvent[];
   sources: SourceStatus[];
   questions_to_ask: string[];
+  attention?: AttentionSummary | null;
   limitations: string[];
   agent?: AgentAnalysis | null;
   verification: {

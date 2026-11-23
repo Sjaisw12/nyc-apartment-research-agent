@@ -7,24 +7,56 @@
 }
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 body {
   @apply bg-paper text-ink antialiased;
+  font-feature-settings: "cv11", "ss01";
 }
-.card {
-  @apply rounded-2xl border border-stone-200/80 bg-white shadow-card;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }
-.chip {
-  @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset;
+:focus-visible {
+  outline: 2px solid #14253D;
+  outline-offset: 2px;
 }
-.btn {
-  @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:opacity-50;
-}
-.btn-primary {
-  @apply btn bg-brand text-white hover:bg-brand-dark;
-}
-.btn-ghost {
-  @apply btn border border-stone-300 bg-white text-ink hover:bg-stone-50;
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-site px-5 sm:px-8;
+  }
+  .card {
+    @apply rounded-2xl border border-line bg-white shadow-card;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset;
+  }
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.14em] text-ink-faint;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-brand text-white shadow-sm hover:bg-brand-dark;
+  }
+  .btn-dark {
+    @apply btn bg-ink text-white shadow-sm hover:bg-ink/90;
+  }
+  .btn-ghost {
+    @apply btn border border-line bg-white text-ink hover:border-slate-300 hover:bg-paper;
+  }
+  .link {
+    @apply font-medium text-brand underline decoration-brand/30 underline-offset-2 hover:decoration-brand;
+  }
 }
 
 @media print {
@@ -33,13 +65,17 @@ body {
   }
   body {
     background: white;
+    font-size: 11pt;
   }
   .card {
-    box-shadow: none;
+    box-shadow: none !important;
     break-inside: avoid;
   }
   .print-expand {
     display: block !important;
+  }
+  .print-full {
+    grid-template-columns: 1fr !important;
   }
   a {
     text-decoration: none;
@@ -47,5 +83,48 @@ body {
   }
   @page {
     margin: 14mm;
+  }
+}
+
+/* Long-form trust pages */
+@layer components {
+  .prose-stoop {
+    @apply text-[16px] leading-relaxed text-ink-soft;
+  }
+  .prose-stoop h2 {
+    @apply mt-12 scroll-mt-24 font-display text-2xl font-semibold tracking-tight text-ink first:mt-0;
+  }
+  .prose-stoop h3 {
+    @apply mt-8 text-base font-semibold text-ink;
+  }
+  .prose-stoop p {
+    @apply mt-4;
+  }
+  .prose-stoop ul {
+    @apply mt-4 list-disc space-y-2 pl-5;
+  }
+  .prose-stoop ol {
+    @apply mt-4 list-decimal space-y-2 pl-5;
+  }
+  .prose-stoop a {
+    @apply font-medium text-brand underline decoration-brand/30 underline-offset-2 hover:decoration-brand;
+  }
+  .prose-stoop strong {
+    @apply font-semibold text-ink;
+  }
+  .prose-stoop dl {
+    @apply mt-4 divide-y divide-line rounded-2xl border border-line bg-white;
+  }
+  .prose-stoop dl > div {
+    @apply grid gap-1 px-5 py-4 sm:grid-cols-[160px_1fr] sm:gap-6;
+  }
+  .prose-stoop dt {
+    @apply font-semibold text-ink;
+  }
+  .prose-stoop dd {
+    @apply text-ink-soft;
+  }
+  .prose-stoop .not-prose {
+    @apply mt-6;
   }
 }

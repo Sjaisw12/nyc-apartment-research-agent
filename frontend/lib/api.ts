@@ -71,3 +71,27 @@ export async function investigate(
 export function markdownUrl(reportId: string) {
   return `${API_BASE}/reports/${reportId}.md`;
 }
+
+export interface CorrectionInput {
+  kind: "wrong_building" | "record_incorrect" | "record_outdated" | "privacy" | "other";
+  address: string;
+  report_id?: string | null;
+  record_id?: string | null;
+  details: string;
+}
+
+export async function submitCorrection(input: CorrectionInput): Promise<{ reference: string }> {
+  let r: Response;
+  try {
+    r = await fetch(`${API_BASE}/corrections`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(input),
+    });
+  } catch {
+    throw new ApiError("The correction service could not be reached. Please try again later.", 0);
+  }
+  if (r.status === 429) throw new ApiError("Too many requests from this connection. Try again in a minute.", 429);
+  if (!r.ok) throw new ApiError("Please check the form: an address and a short description are required.", r.status);
+  return (await r.json()) as { reference: string };
+}

@@ -132,6 +132,148 @@ _ORDINAL_WORDS = {
     "TWELFTH": "12",
 }
 _ORDINAL_RE = re.compile(r"^(\d+)(ST|ND|RD|TH)$")
+
+# Spelled-out street numbers ("West Seventeenth Street", "One Hundred Twenty-Fifth St").
+_UNIT_CARDINAL = {
+    "ONE": 1,
+    "TWO": 2,
+    "THREE": 3,
+    "FOUR": 4,
+    "FIVE": 5,
+    "SIX": 6,
+    "SEVEN": 7,
+    "EIGHT": 8,
+    "NINE": 9,
+}
+_TEEN_CARDINAL = {
+    "TEN": 10,
+    "ELEVEN": 11,
+    "TWELVE": 12,
+    "THIRTEEN": 13,
+    "FOURTEEN": 14,
+    "FIFTEEN": 15,
+    "SIXTEEN": 16,
+    "SEVENTEEN": 17,
+    "EIGHTEEN": 18,
+    "NINETEEN": 19,
+}
+_TENS_CARDINAL = {
+    "TWENTY": 20,
+    "THIRTY": 30,
+    "FORTY": 40,
+    "FIFTY": 50,
+    "SIXTY": 60,
+    "SEVENTY": 70,
+    "EIGHTY": 80,
+    "NINETY": 90,
+}
+_UNIT_ORDINAL = {
+    "FIRST": 1,
+    "SECOND": 2,
+    "THIRD": 3,
+    "FOURTH": 4,
+    "FIFTH": 5,
+    "SIXTH": 6,
+    "SEVENTH": 7,
+    "EIGHTH": 8,
+    "NINTH": 9,
+}
+_TEEN_ORDINAL = {
+    "TENTH": 10,
+    "ELEVENTH": 11,
+    "TWELFTH": 12,
+    "THIRTEENTH": 13,
+    "FOURTEENTH": 14,
+    "FIFTEENTH": 15,
+    "SIXTEENTH": 16,
+    "SEVENTEENTH": 17,
+    "EIGHTEENTH": 18,
+    "NINETEENTH": 19,
+}
+_TENS_ORDINAL = {
+    "TWENTIETH": 20,
+    "THIRTIETH": 30,
+    "FORTIETH": 40,
+    "FIFTIETH": 50,
+    "SIXTIETH": 60,
+    "SEVENTIETH": 70,
+    "EIGHTIETH": 80,
+    "NINETIETH": 90,
+}
+_NUMBER_WORDS = (
+    set(_UNIT_CARDINAL)
+    | set(_TEEN_CARDINAL)
+    | set(_TENS_CARDINAL)
+    | set(_UNIT_ORDINAL)
+    | set(_TEEN_ORDINAL)
+    | set(_TENS_ORDINAL)
+    | {"HUNDRED", "HUNDREDTH", "AND"}
+)
+
+
+def _ordinal_suffix(n: int) -> str:
+    if 10 <= n % 100 <= 20:
+        return "TH"
+    return {1: "ST", 2: "ND", 3: "RD"}.get(n % 10, "TH")
+
+
+def _parse_spelled_ordinal(words: list[str]) -> int | None:
+    """Value of a spelled ordinal such as ["ONE", "HUNDRED", "TWENTY", "FIFTH"] (1-199).
+
+    Returns None unless the words form one well-formed ordinal number, so ordinary
+    street names ("FIVE TOWNS", "SEVEN OAKS") are never changed.
+    """
+    i, total = 0, 0
+    if len(words) >= 2 and words[0] in ("ONE", "A") and words[1] in ("HUNDRED", "HUNDREDTH"):
+        if words[1] == "HUNDREDTH":
+            return 100 if len(words) == 2 else None
+        total, i = 100, 2
+        if i < len(words) and words[i] == "AND":
+            i += 1
+    rest = words[i:]
+    if len(rest) == 1:
+        w = rest[0]
+        for table in (_UNIT_ORDINAL, _TEEN_ORDINAL, _TENS_ORDINAL):
+            if w in table:
+                return total + table[w]
+        return None
+    if len(rest) == 2 and rest[0] in _TENS_CARDINAL and rest[1] in _UNIT_ORDINAL:
+        return total + _TENS_CARDINAL[rest[0]] + _UNIT_ORDINAL[rest[1]]
+    return None
+
+
+def numeric_ordinals(text: str) -> str:
+    """Rewrite spelled-out ordinal street numbers as numerals with a suffix.
+
+    "220 West Seventeenth Street" -> "220 West 17TH Street";
+    "Twenty-First Ave" -> "21ST Ave". Everything else is left exactly as typed.
+    """
+    if not text:
+        return text
+    words = text.replace("-", " - ").split()
+    out: list[str] = []
+    i = 0
+    while i < len(words):
+        best = None
+        # Longest run of number words (hyphens allowed between them) that parses.
+        j, run = i, []
+        while j < len(words) and (words[j].upper() in _NUMBER_WORDS or (words[j] == "-" and run)):
+            if words[j] != "-":
+                run.append(words[j].upper())
+                n = _parse_spelled_ordinal(run)
+                if n is not None:
+                    best = (j + 1, n)
+            j += 1
+        if best:
+            end, n = best
+            out.append(f"{n}{_ordinal_suffix(n)}")
+            i = end
+        else:
+            out.append(words[i])
+            i += 1
+    return re.sub(r"\s*-\s*", "-", " ".join(out))
+
+
 _HOUSE_RE = re.compile(r"^\s*(\d+[A-Z]?(?:-\d+[A-Z]?)?)\s+(.+)$", re.IGNORECASE)
 _ZIP_RE = re.compile(r"\b(\d{5})(?:-\d{4})?\b")
 
@@ -161,7 +303,7 @@ def normalize_street(value: str | None) -> str | None:
     """Canonical street form: upper case, expanded suffixes/directions, numeric ordinals."""
     if not value:
         return None
-    text = value.upper().replace(".", " ").replace(",", " ")
+    text = numeric_ordinals(value).upper().replace(".", " ").replace(",", " ")
     tokens = [t for t in re.split(r"\s+", text) if t]
     out: list[str] = []
     for i, tok in enumerate(tokens):

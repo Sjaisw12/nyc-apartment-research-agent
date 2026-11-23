@@ -37,6 +37,7 @@ from .normalize import (
     MAX_INPUT_CHARS,
     ParsedAddress,
     normalize_street,
+    numeric_ordinals,
     parse_address,
 )
 
@@ -66,7 +67,7 @@ def _result(
 
 
 def _street_text(parsed: ParsedAddress) -> str:
-    return f"{parsed.house_number} {parsed.street}"
+    return f"{parsed.house_number} {numeric_ordinals(parsed.street)}"
 
 
 def resolve_address(

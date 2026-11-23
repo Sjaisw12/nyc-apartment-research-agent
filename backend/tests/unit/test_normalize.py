@@ -3,6 +3,7 @@ import pytest
 from nyc_apartment_agent.resolver.normalize import (
     edit_distance,
     normalize_street,
+    numeric_ordinals,
     parse_address,
 )
 
@@ -72,3 +73,27 @@ def test_edit_distance():
     assert edit_distance("2 STRET", "2 STREET") == 1
     assert edit_distance("BROADWAY", "BROADWAY") == 0
     assert edit_distance("ABCDEFGH", "ZZZZZZZZ", limit=2) == 3
+
+
+@pytest.mark.parametrize(
+    ("typed", "expected"),
+    [
+        ("West Seventeenth Street", "WEST 17 STREET"),
+        ("W. 17th St", "WEST 17 STREET"),
+        ("Twenty-First Avenue", "21 AVENUE"),
+        ("twenty first ave", "21 AVENUE"),
+        ("One Hundred Twenty-Fifth Street", "125 STREET"),
+        ("East One Hundredth St", "EAST 100 STREET"),
+        ("Fifth Avenue", "5 AVENUE"),
+        ("Seven Oaks Lane", "SEVEN OAKS LANE"),
+        ("Five Towns Rd", "FIVE TOWNS ROAD"),
+    ],
+)
+def test_spelled_out_street_numbers(typed, expected):
+    assert normalize_street(typed) == expected
+
+
+def test_numeric_ordinals_keeps_other_text_as_typed():
+    assert numeric_ordinals("West Seventeenth Street") == "West 17TH Street"
+    assert numeric_ordinals("Adam Clayton Powell Jr Blvd") == "Adam Clayton Powell Jr Blvd"
+    assert numeric_ordinals("Wilkes-Barre Ave") == "Wilkes-Barre Ave"

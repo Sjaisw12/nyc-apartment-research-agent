@@ -31,3 +31,6 @@ out/
 
 # Raw source evidence (unredacted); kept out of git on purpose
 .evidence/
+
+# Local correction requests (may contain user text)
+backend/var/

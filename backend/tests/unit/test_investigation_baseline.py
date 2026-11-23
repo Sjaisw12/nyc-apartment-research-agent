@@ -225,3 +225,44 @@ def test_report_is_deterministic():
     b = build_baseline_report(collect_demo(DEMO_ADDRESSES["west_17_220"]))
     strip = lambda r: json.dumps([(f.id, f.statement, f.evidence_ids) for f in r.findings])  # noqa: E731
     assert strip(a) == strip(b)
+
+
+def test_demo_miss_is_not_reported_as_an_outage():
+    """An address outside the recordings is a demo limitation, not a GeoSearch outage."""
+    from nyc_apartment_agent.config import Settings
+    from nyc_apartment_agent.investigation.agent import investigate
+
+    r = investigate(
+        "542 Senator Street",
+        use_llm=False,
+        settings=Settings(_env_file=None, data_mode="demo"),
+    )
+    assert r.resolution.outcome == "source_unavailable"
+    assert r.resolution.in_demo_dataset is False
+    assert "not in the offline demo dataset" in r.resolution.explanation
+    assert "could not be reached" not in r.resolution.explanation
+
+
+# ---- Building Attention Summary on the recorded buildings ---------------------------------
+
+
+def test_attention_summary_on_recorded_buildings(reports):
+    labels = {k: r.attention.label for k, r in reports.items()}
+    assert labels == {
+        "west_farms_1134": "priority_follow_up",
+        "acp_1845": "priority_follow_up",
+        "west_farms_1217": "insufficient_information",  # tax lot only
+        "west_17_220": "some_items_to_check",
+        "fifth_ave_350": "some_items_to_check",
+    }
+    a = reports["west_farms_1134"].attention
+    hpd = next(p for p in a.points if p.kind == "housing_violations")
+    assert "111 open violations" in hpd.text and "40 in Class C" in hpd.text
+    for r in reports.values():
+        assert verify_report(r).passed
+        counted = {
+            i for p in r.attention.points if p.kind != "other_buildings" for i in p.evidence_ids
+        }
+        # Ground truth: DOB complaint 2411142 is BIN 2117584's, never counted for 1134.
+        assert not any("2411142" in i for i in counted)
+        assert "Building Attention Summary" in render_markdown(r)

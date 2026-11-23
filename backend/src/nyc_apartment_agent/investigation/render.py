@@ -48,6 +48,20 @@ def render_markdown(report: ResearchReport) -> str:
             + "; ".join(f"{o.label} (BBL {o.bbl}, BIN {o.bin or 'unverified'})" for o in r.options)
         )
     out.append("")
+    a = report.attention
+    if a is not None:
+        out.append(f"## Building Attention Summary: {a.label_text}")
+        out.append("")
+        out.append(f"**{a.headline}** {a.label_meaning}")
+        out.append("")
+        for p in a.points:
+            tag = {"priority": "Priority", "check": "To check", "info": "Note"}[p.level]
+            out.append(f"- **{p.heading}** ({tag}): {p.text}" + (f" *{p.ask}*" if p.ask else ""))
+        out.append("")
+        out.append(f"**Data coverage:** {a.coverage.label}. {a.coverage.detail}")
+        out.append("")
+        out.append(f"_{a.disclaimer}_")
+        out.append("")
     if report.stats:
         out.append("| Measure | Value | Note |")
         out.append("|---|---|---|")

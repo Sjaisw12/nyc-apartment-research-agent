@@ -69,6 +69,8 @@ class Settings(BaseSettings):
     # Comma-separated origins allowed to call the API from a browser.
     cors_origins: str = "http://localhost:3000,http://127.0.0.1:3000"
     investigate_rate_per_minute: int = Field(default=20, ge=1, le=10_000)
+    # Correction requests from the public site (append-only JSONL, no accounts, no IPs).
+    corrections_path: str = "var/corrections.jsonl"
 
     user_agent: str = (
         "nyc-apartment-research-agent/0.1 "

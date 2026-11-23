@@ -180,8 +180,64 @@ def verify_report(report: ResearchReport) -> Verification:
                     finding_id=None, problem=f"timeline cites unknown {t.evidence_id}"
                 )
             )
+    for p in check_attention(report, index):
+        v.issues.append(VerificationIssue(finding_id=None, problem=p))
     v.passed = not v.issues
     return v
+
+
+def check_attention(report: ResearchReport, index: dict[str, EvidenceItem]) -> list[str]:
+    """Recompute every number in the Building Attention Summary from the evidence.
+
+    Each point's facts are recounted; the evidence it cites must exist and be attributed
+    to the requested building (or lot); every number in its text must equal one of its
+    facts; and the wording is scanned like any finding.
+    """
+    a = report.attention
+    if a is None:
+        return []
+    problems: list[str] = []
+    allowed = (
+        {"this_building"}
+        if report.resolution.level == "building"
+        else {
+            "lot_level",
+            "unattributed_on_lot",
+        }
+    )
+    texts = [a.headline, a.label_meaning, *a.reasons]
+    for p in a.points:
+        values: set[str] = set()
+        for af in p.facts:
+            matched = [e for e in index.values() if _match(e, af.fact.where)]
+            if len(matched) != af.fact.value:
+                problems.append(
+                    f"attention {p.id}: {af.name} says {af.fact.value:g}, "
+                    f"evidence gives {len(matched)}"
+                )
+            if {e.id for e in matched} != set(af.evidence_ids):
+                problems.append(f"attention {p.id}: {af.name} cites different records")
+            if set(af.fact.where.get("attribution", [])) - allowed:
+                problems.append(f"attention {p.id}: {af.name} counts records of other buildings")
+            values.add(f"{af.fact.value:g}")
+        unknown = [i for i in p.evidence_ids if i not in index]
+        if unknown:
+            problems.append(f"attention {p.id}: cites unknown evidence {unknown[0]}")
+        if p.kind != "other_buildings":
+            wrong = [
+                i for i in p.evidence_ids if i in index and index[i].attribution not in allowed
+            ]
+            if wrong:
+                problems.append(f"attention {p.id}: cites records of another building")
+        scrubbed = re.sub(r"last (12 months|3 years)|Class 1", " ", p.text)
+        stray = {n for n in _numbers(scrubbed) if n not in values}
+        if stray:
+            problems.append(f"attention {p.id}: unsupported number(s) {sorted(stray)}")
+        texts += [p.text, p.ask or ""]
+    for t in texts:
+        for w in wording_problems(t):
+            problems.append(f"attention wording: {w}: {t[:80]}")
+    return problems
 
 
 # ---- agent sentences ------------------------------------------------------------------

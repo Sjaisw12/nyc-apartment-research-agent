@@ -10,12 +10,17 @@ Endpoints
 Every response carries an X-Request-ID header so a result can be traced in the logs.
 """
 
+import datetime as dt
+import json
 import logging
+import re
 import threading
 import time
 import uuid
 from collections import OrderedDict, deque
 from collections.abc import Callable, Iterator
+from enum import StrEnum
+from pathlib import Path
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, HTTPException, Request
@@ -33,6 +38,7 @@ from ..investigation.baseline import demo_examples
 from ..investigation.llm import llm_status
 from ..investigation.render import render_markdown
 from ..investigation.schema import ResearchReport
+from ..records.redaction import redact_text_detailed
 from ..resolver import Outcome, ResolutionResult, resolve_address
 from ..resolver.normalize import MAX_INPUT_CHARS
 from ..sources.clients import geosearch_client, socrata_client
@@ -81,6 +87,29 @@ class _ReportCache:
     def get(self, rid: str) -> ResearchReport | None:
         with self._lock:
             return self._items.get(rid)
+
+
+_EMAIL = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
+_PHONE = re.compile(r"(?<!\d)(?:\+?1[\s.-]?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}(?!\d)")
+
+
+class CorrectionKind(StrEnum):
+    WRONG_BUILDING = "wrong_building"
+    RECORD_INCORRECT = "record_incorrect"
+    RECORD_OUTDATED = "record_outdated"
+    PRIVACY = "privacy"
+    OTHER = "other"
+
+
+class CorrectionRequest(BaseModel):
+    """A public correction request. No account, name or contact details are collected."""
+
+    model_config = ConfigDict(extra="forbid")
+    kind: CorrectionKind
+    address: AddressText
+    report_id: Annotated[str, StringConstraints(pattern=r"^[0-9a-f]{6,32}$")] | None = None
+    record_id: Annotated[str, StringConstraints(max_length=80)] | None = None
+    details: Annotated[str, StringConstraints(strip_whitespace=True, min_length=5, max_length=1500)]
 
 
 class _RateLimiter:
@@ -230,6 +259,46 @@ def create_app(
         report = investigate(body.address, selected=selected, use_llm=body.use_llm)
         cache.put(report)
         return report
+
+    corrections_limiter = _RateLimiter(5)
+    corrections_lock = threading.Lock()
+
+    @app.post("/corrections", status_code=202)
+    def submit_correction(body: CorrectionRequest, request: Request):
+        """Store a correction request for manual review. Free text is redacted first
+        (apartment and floor detail, email addresses, phone numbers), and the client IP is
+        never stored."""
+        client = request.client.host if request.client else "unknown"
+        if not corrections_limiter.allow(client):
+            return JSONResponse(
+                status_code=429,
+                content=ErrorResponse(
+                    error="rate_limited",
+                    message="Too many correction requests. Try again in a minute.",
+                    request_id=_request_id(request),
+                ).model_dump(),
+                headers={"Retry-After": "60"},
+            )
+        details, _ = redact_text_detailed(body.details)
+        details = _EMAIL.sub("[EMAIL REDACTED]", details or "")
+        details = _PHONE.sub("[PHONE REDACTED]", details)
+        reference = uuid.uuid4().hex[:10]
+        entry = {
+            "reference": reference,
+            "received_at": dt.datetime.now(dt.UTC).isoformat(timespec="seconds"),
+            "kind": body.kind.value,
+            "address": body.address,
+            "report_id": body.report_id,
+            "record_id": body.record_id,
+            "details": details,
+            "status": "received",
+        }
+        path = Path(settings.corrections_path)
+        with corrections_lock:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            with path.open("a", encoding="utf-8") as fh:
+                fh.write(json.dumps(entry) + "\n")
+        return {"reference": reference, "status": "received"}
 
     @app.get("/reports/{report_id}.md", response_class=PlainTextResponse)
     def report_markdown(report_id: str):

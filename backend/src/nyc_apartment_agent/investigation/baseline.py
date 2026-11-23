@@ -28,6 +28,7 @@ from ..records.models import NormalizedViolation, RetrievalStatus
 from ..records.sr311_models import NormalizedServiceRequest
 from ..resolver import Outcome
 from ..resolver.models import ResolutionLevel
+from .attention import compute_attention
 from .collect import DEMO_ADDRESSES, EvidenceBundle
 from .schema import (
     SECTION_TITLES,
@@ -1710,9 +1711,22 @@ class ReportBuilder:
                         note="Check current HPD violations, complaints and registration here.",
                     )
                 )
+        explanation = res.explanation
+        if (
+            self.b.mode == "demo"
+            and not self.b.in_demo_dataset
+            and res.outcome is Outcome.SOURCE_UNAVAILABLE
+        ):
+            # In demo mode GeoSearch is a recording: a miss means "not recorded", not an outage.
+            explanation = (
+                "This address is not in the offline demo dataset, so it could not be looked up. "
+                "Demo mode only replays recorded NYC data for a few example buildings; run the "
+                "app in live mode (DATA_MODE=live) to search any NYC address."
+            )
+            label = "Not checked: address not in the demo dataset"
         return ResolutionView(
             outcome=res.outcome.value,
-            explanation=res.explanation,
+            explanation=explanation,
             level=res.resolution_level.value if res.resolution_level else None,
             confidence=conf,
             confidence_label=label,
@@ -1852,6 +1866,7 @@ class ReportBuilder:
                 external_requests=self.b.external_requests,
             ),
         )
+        report.attention = compute_attention(report)
         return report
 
     def headline(self, rv: ResolutionView) -> str:

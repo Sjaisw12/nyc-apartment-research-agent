@@ -276,6 +276,81 @@ class RunInfo(BaseModel):
     limits: dict = Field(default_factory=dict)
 
 
+ATTENTION_RULES = [
+    "Only records filed for this building count. Records for other buildings on the same "
+    "tax lot are shown separately and never counted.",
+    "Priority follow-up: at least one open HPD Class C violation (HPD's 'immediately "
+    "hazardous' category), or a summons DOB still lists as unresolved that DOB marks "
+    "hazardous or Class 1.",
+    "Some items to check: open Class A or B HPD violations, HPD complaints in the last 12 "
+    "months, DOB complaints in the last 3 years, unresolved summonses, or order events "
+    "(always treated as historical).",
+    "Insufficient information: only the tax lot was verified, or a key source (HPD "
+    "violations, HPD complaints, DOB complaints, DOB/ECB summonses) could not be checked, "
+    "or was only partly retrieved when nothing else was found.",
+    "No priority items found in checked data: none of the above in sources that were "
+    "checked completely. It is not a safety rating.",
+    "Complaints are reports from residents or others, not proof of a problem. Record counts "
+    "alone never raise the label, and no neighbourhood, demographic or personal data is used.",
+]
+
+ATTENTION_DISCLAIMER = (
+    "Automated evidence summary built from fixed rules, not an AI judgment. It is not an "
+    "inspection, a safety rating, legal advice or a prediction, and it does not tell you "
+    "whether to rent."
+)
+
+
+class AttentionFact(BaseModel):
+    name: str
+    fact: FactCheck
+    evidence_ids: list[str] = Field(default_factory=list)
+
+
+class AttentionPoint(BaseModel):
+    id: str
+    kind: str
+    level: str  # priority | check | info
+    heading: str
+    text: str
+    ask: str | None = None
+    section: str | None = None  # report section to jump to
+    facts: list[AttentionFact] = Field(default_factory=list)
+    evidence_ids: list[str] = Field(default_factory=list)
+    finding_ids: list[str] = Field(default_factory=list)
+
+
+class CoverageSource(BaseModel):
+    source: str
+    name: str
+    state: str  # complete | partial | unavailable | not_applicable | not_checked
+    note: str
+
+
+class DataCoverage(BaseModel):
+    level: str  # complete | partial | limited
+    label: str
+    detail: str
+    sources: list[CoverageSource] = Field(default_factory=list)
+    oldest_data_as_of: str | None = None
+    newest_data_as_of: str | None = None
+
+
+class AttentionSummary(BaseModel):
+    label: str
+    label_text: str
+    label_meaning: str
+    headline: str
+    reasons: list[str] = Field(default_factory=list)
+    points: list[AttentionPoint] = Field(default_factory=list)
+    coverage: DataCoverage
+    next_steps: list[str] = Field(default_factory=list)
+    verify_links: list[OfficialLink] = Field(default_factory=list)
+    rules: list[str] = Field(default_factory=lambda: list(ATTENTION_RULES))
+    generated_by: str = "automated_evidence_summary"
+    disclaimer: str = ATTENTION_DISCLAIMER
+
+
 class ResearchReport(BaseModel):
     schema_version: str = SCHEMA_VERSION
     report_id: str
@@ -294,6 +369,7 @@ class ResearchReport(BaseModel):
     timeline: list[TimelineEvent] = Field(default_factory=list)
     sources: list[SourceStatus] = Field(default_factory=list)
     questions_to_ask: list[str] = Field(default_factory=list)
+    attention: AttentionSummary | None = None
     limitations: list[str] = Field(default_factory=list)
     agent: AgentAnalysis | None = None
     verification: Verification = Field(default_factory=Verification)

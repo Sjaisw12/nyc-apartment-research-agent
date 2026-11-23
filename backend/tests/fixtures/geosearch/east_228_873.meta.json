@@ -1,0 +1,13 @@
+{
+  "attempts": 1,
+  "body_sha256": "97c21cc99d597c3196e697201d122f433af1c0aa19e96a9259dddeeee809c178",
+  "elapsed_seconds": 0.101,
+  "fetched_at": "2026-10-21T06:05:40.407621+00:00",
+  "headers": {
+    "date": "Wed, 21 Oct 2026 06:05:40 GMT",
+    "etag": "W/\"1585-OIPD3pu6e33T8rQoVUITUSXXnSk\""
+  },
+  "source": "geosearch",
+  "status_code": 200,
+  "url": "https://geosearch.planninglabs.nyc/v2/search?text=873+East+228+Street+Bronx&size=5"
+}

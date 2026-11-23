@@ -1,0 +1,13 @@
+{
+  "attempts": 1,
+  "body_sha256": "86afa3113b07f03e0bd2006c80ca27a28988f983c06dee05efaf773388969b0a",
+  "elapsed_seconds": 0.107,
+  "fetched_at": "2026-10-21T06:05:40.627299+00:00",
+  "headers": {
+    "date": "Wed, 21 Oct 2026 06:05:40 GMT",
+    "etag": "W/\"14d6-AQW/gxgpvHC8POCRhIJLW+jzGR0\""
+  },
+  "source": "geosearch",
+  "status_code": 200,
+  "url": "https://geosearch.planninglabs.nyc/v2/search?text=100+Broadway&size=5"
+}

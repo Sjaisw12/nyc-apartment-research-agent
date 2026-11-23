@@ -1,0 +1,1733 @@
+{
+ "generated_by": "backend/scripts/task5_validation_part_e.py",
+ "window": "created_date >= 2020-01-01T00:00:00",
+ "note": "A new live query is independent validation, not a replacement for the recording. Counts here are aggregates; no 311 key is written.",
+ "addresses": [
+  {
+   "address_key": "west_farms_1134",
+   "resolved_bbl": "2027540005",
+   "independent_lot_family": [
+    "2027540005"
+   ],
+   "adapter_lot_family": [
+    "2027540005"
+   ],
+   "independent_truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "independent_answer_stable": true,
+   "independent_header_after_adapter": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "unchanged_across_adapter_run": true,
+   "independent": {
+    "retained_total": 89,
+    "retained_by_agency": {
+     "DEP": 6,
+     "DHS": 1,
+     "DOHMH": 2,
+     "DOT": 2,
+     "DPR": 1,
+     "DSNY": 1,
+     "NYPD": 76
+    },
+    "excluded": {
+     "HPD": 309,
+     "DOB": 1
+    },
+    "null_agency_rows": 0,
+    "by_agency_month": {
+     "NYPD": {
+      "2021-04": 2,
+      "2020-02": 1,
+      "2022-01": 1,
+      "2025-11": 1,
+      "2025-08": 3,
+      "2022-05": 3,
+      "2026-06": 1,
+      "2021-11": 1,
+      "2023-11": 2,
+      "2020-01": 1,
+      "2020-11": 1,
+      "2020-09": 12,
+      "2020-03": 1,
+      "2020-05": 2,
+      "2025-03": 1,
+      "2025-06": 2,
+      "2020-07": 7,
+      "2020-10": 8,
+      "2021-01": 1,
+      "2024-08": 2,
+      "2023-06": 1,
+      "2022-11": 1,
+      "2024-09": 1,
+      "2022-09": 4,
+      "2024-05": 2,
+      "2022-06": 1,
+      "2022-07": 1,
+      "2021-03": 1,
+      "2022-08": 1,
+      "2020-08": 5,
+      "2025-04": 1,
+      "2024-07": 4
+     },
+     "HPD": {
+      "2023-11": 6,
+      "2020-03": 10,
+      "2022-06": 5,
+      "2025-01": 1,
+      "2025-05": 7,
+      "2023-03": 10,
+      "2025-03": 6,
+      "2022-09": 8,
+      "2023-09": 1,
+      "2021-03": 1,
+      "2020-01": 19,
+      "2025-02": 1,
+      "2021-02": 5,
+      "2025-11": 17,
+      "2023-12": 5,
+      "2026-08": 2,
+      "2026-03": 9,
+      "2022-01": 2,
+      "2024-08": 6,
+      "2022-08": 2,
+      "2022-12": 5,
+      "2021-12": 2,
+      "2022-11": 22,
+      "2025-12": 1,
+      "2025-08": 1,
+      "2021-10": 3,
+      "2025-07": 14,
+      "2026-09": 1,
+      "2021-11": 3,
+      "2021-01": 4,
+      "2020-08": 4,
+      "2026-05": 5,
+      "2024-04": 2,
+      "2024-01": 1,
+      "2026-07": 3,
+      "2020-12": 4,
+      "2026-10": 4,
+      "2023-02": 4,
+      "2022-03": 6,
+      "2025-10": 10,
+      "2026-01": 6,
+      "2020-11": 1,
+      "2024-11": 3,
+      "2026-04": 7,
+      "2022-07": 3,
+      "2024-10": 1,
+      "2020-09": 2,
+      "2024-12": 7,
+      "2025-06": 4,
+      "2023-06": 2,
+      "2024-09": 5,
+      "2022-05": 14,
+      "2020-04": 16,
+      "2020-02": 5,
+      "2022-10": 6,
+      "2021-09": 3,
+      "2026-02": 2
+     },
+     "DOT": {
+      "2021-06": 1,
+      "2020-03": 1
+     },
+     "DOHMH": {
+      "2024-09": 2
+     },
+     "DEP": {
+      "2020-08": 1,
+      "2020-05": 1,
+      "2022-07": 1,
+      "2022-11": 2,
+      "2021-09": 1
+     },
+     "DPR": {
+      "2020-06": 1
+     },
+     "DHS": {
+      "2026-06": 1
+     },
+     "DOB": {
+      "2024-09": 1
+     },
+     "DSNY": {
+      "2024-10": 1
+     }
+    }
+   },
+   "live_adapter": {
+    "status": "records_found",
+    "accepted_data_version": "Fri, 23 Oct 2026 01:38:29 GMT",
+    "data_versions_seen": [
+     "Fri, 23 Oct 2026 01:38:29 GMT"
+    ],
+    "retained_total": 89,
+    "retained_by_agency": {
+     "DEP": 6,
+     "DHS": 1,
+     "DOHMH": 2,
+     "DOT": 2,
+     "DPR": 1,
+     "DSNY": 1,
+     "NYPD": 76
+    },
+    "excluded_established": true,
+    "excluded_counts": {
+     "DOB": 1,
+     "HPD": 309
+    },
+    "excluded_counts_observed": {
+     "DOB": 1,
+     "HPD": 309
+    },
+    "excluded_not_established_reason": null,
+    "null_agency": {
+     "established": true,
+     "observed": {
+      "null_agency": 0
+     },
+     "reason": null
+    },
+    "agency_month_differences": []
+   },
+   "recording": {
+    "status": "incomplete_pagination",
+    "data_versions_seen": [
+     "Fri, 23 Oct 2026 01:38:29 GMT",
+     "Thu, 22 Oct 2026 01:37:36 GMT"
+    ],
+    "accepted_data_version": null,
+    "retained_total": 89,
+    "retained_by_agency": {
+     "DEP": 6,
+     "DHS": 1,
+     "DOHMH": 2,
+     "DOT": 2,
+     "DPR": 1,
+     "DSNY": 1,
+     "NYPD": 76
+    },
+    "excluded_counts_observed": {
+     "DOB": 1,
+     "HPD": 309
+    },
+    "agency_month_differences": []
+   },
+   "hpd_cross_match": {
+    "hpd_routed_311_rows": 309,
+    "matched_on_lot_family": 294,
+    "matched_hpd_row_without_bbl": 0,
+    "matched_on_another_lot": 0,
+    "not_found_in_hpd_complaints": 15,
+    "matched_on_lot_by_hpd_bin": {
+     "2006185": 294
+    }
+   }
+  },
+  {
+   "address_key": "west_17_220",
+   "resolved_bbl": "1007660055",
+   "independent_lot_family": [
+    "1007660055"
+   ],
+   "adapter_lot_family": [
+    "1007660055"
+   ],
+   "independent_truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "independent_answer_stable": true,
+   "independent_header_after_adapter": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "unchanged_across_adapter_run": true,
+   "independent": {
+    "retained_total": 89,
+    "retained_by_agency": {
+     "DCWP": 1,
+     "DEP": 11,
+     "DHS": 2,
+     "DOHMH": 5,
+     "DOT": 1,
+     "DPR": 2,
+     "DSNY": 45,
+     "EDC": 3,
+     "NYPD": 19
+    },
+    "excluded": {
+     "HPD": 47,
+     "DOB": 29
+    },
+    "null_agency_rows": 0,
+    "by_agency_month": {
+     "DSNY": {
+      "2025-04": 1,
+      "2022-03": 1,
+      "2022-02": 1,
+      "2021-03": 4,
+      "2020-04": 4,
+      "2021-05": 3,
+      "2022-01": 2,
+      "2020-09": 1,
+      "2020-06": 2,
+      "2021-12": 3,
+      "2021-04": 2,
+      "2021-07": 1,
+      "2026-09": 1,
+      "2020-11": 2,
+      "2026-04": 2,
+      "2025-09": 2,
+      "2020-12": 3,
+      "2021-01": 3,
+      "2021-10": 1,
+      "2020-03": 1,
+      "2021-06": 2,
+      "2021-02": 1,
+      "2021-09": 2
+     },
+     "DOB": {
+      "2026-06": 2,
+      "2025-08": 4,
+      "2026-10": 3,
+      "2025-09": 1,
+      "2025-07": 5,
+      "2025-06": 2,
+      "2025-04": 10,
+      "2026-07": 2
+     },
+     "DEP": {
+      "2022-01": 1,
+      "2026-07": 3,
+      "2026-01": 1,
+      "2026-08": 1,
+      "2026-10": 1,
+      "2021-12": 1,
+      "2026-09": 1,
+      "2026-06": 2
+     },
+     "DOHMH": {
+      "2026-09": 1,
+      "2020-03": 1,
+      "2025-04": 2,
+      "2023-04": 1
+     },
+     "NYPD": {
+      "2025-11": 1,
+      "2025-08": 1,
+      "2026-06": 1,
+      "2021-11": 1,
+      "2020-09": 1,
+      "2020-10": 2,
+      "2026-07": 2,
+      "2025-05": 1,
+      "2026-10": 2,
+      "2025-07": 4,
+      "2026-08": 1,
+      "2020-08": 2
+     },
+     "HPD": {
+      "2026-08": 1,
+      "2026-03": 1,
+      "2022-01": 6,
+      "2025-12": 2,
+      "2025-08": 1,
+      "2025-04": 1,
+      "2025-09": 5,
+      "2026-07": 1,
+      "2026-10": 22,
+      "2026-01": 4,
+      "2026-06": 2,
+      "2026-02": 1
+     },
+     "DOT": {
+      "2022-01": 1
+     },
+     "EDC": {
+      "2021-02": 1,
+      "2021-03": 2
+     },
+     "DPR": {
+      "2024-05": 1,
+      "2022-08": 1
+     },
+     "DHS": {
+      "2021-04": 1,
+      "2024-09": 1
+     },
+     "DCWP": {
+      "2025-07": 1
+     }
+    }
+   },
+   "live_adapter": {
+    "status": "records_found",
+    "accepted_data_version": "Fri, 23 Oct 2026 01:38:29 GMT",
+    "data_versions_seen": [
+     "Fri, 23 Oct 2026 01:38:29 GMT"
+    ],
+    "retained_total": 89,
+    "retained_by_agency": {
+     "DCWP": 1,
+     "DEP": 11,
+     "DHS": 2,
+     "DOHMH": 5,
+     "DOT": 1,
+     "DPR": 2,
+     "DSNY": 45,
+     "EDC": 3,
+     "NYPD": 19
+    },
+    "excluded_established": true,
+    "excluded_counts": {
+     "DOB": 29,
+     "HPD": 47
+    },
+    "excluded_counts_observed": {
+     "DOB": 29,
+     "HPD": 47
+    },
+    "excluded_not_established_reason": null,
+    "null_agency": {
+     "established": true,
+     "observed": {
+      "null_agency": 0
+     },
+     "reason": null
+    },
+    "agency_month_differences": []
+   },
+   "recording": {
+    "status": "records_found",
+    "data_versions_seen": [
+     "Fri, 23 Oct 2026 01:38:29 GMT"
+    ],
+    "accepted_data_version": "Fri, 23 Oct 2026 01:38:29 GMT",
+    "retained_total": 89,
+    "retained_by_agency": {
+     "DCWP": 1,
+     "DEP": 11,
+     "DHS": 2,
+     "DOHMH": 5,
+     "DOT": 1,
+     "DPR": 2,
+     "DSNY": 45,
+     "EDC": 3,
+     "NYPD": 19
+    },
+    "excluded_counts_observed": {
+     "DOB": 26,
+     "HPD": 47
+    },
+    "agency_month_differences": []
+   },
+   "hpd_cross_match": {
+    "hpd_routed_311_rows": 47,
+    "matched_on_lot_family": 17,
+    "matched_hpd_row_without_bbl": 29,
+    "matched_on_another_lot": 0,
+    "not_found_in_hpd_complaints": 1,
+    "matched_on_lot_by_hpd_bin": {
+     "1081543": 11,
+     "1081544": 1,
+     "1081546": 5
+    }
+   }
+  },
+  {
+   "address_key": "west_farms_1217",
+   "resolved_bbl": "2029930031",
+   "independent_lot_family": [
+    "2029930031"
+   ],
+   "adapter_lot_family": [
+    "2029930031"
+   ],
+   "independent_truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "independent_answer_stable": true,
+   "independent_header_after_adapter": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "unchanged_across_adapter_run": true,
+   "independent": {
+    "retained_total": 32,
+    "retained_by_agency": {
+     "DEP": 4,
+     "DOHMH": 1,
+     "DOT": 2,
+     "DSNY": 2,
+     "NYPD": 22,
+     "TLC": 1
+    },
+    "excluded": {
+     "HPD": 44,
+     "DOB": 1
+    },
+    "null_agency_rows": 0,
+    "by_agency_month": {
+     "HPD": {
+      "2025-01": 2,
+      "2023-03": 2,
+      "2021-03": 1,
+      "2020-01": 2,
+      "2023-01": 3,
+      "2025-02": 3,
+      "2021-02": 4,
+      "2025-11": 1,
+      "2022-02": 2,
+      "2023-12": 1,
+      "2022-01": 6,
+      "2022-12": 1,
+      "2022-11": 2,
+      "2021-11": 1,
+      "2021-01": 3,
+      "2020-12": 3,
+      "2026-01": 2,
+      "2024-11": 2,
+      "2024-12": 1,
+      "2024-09": 1,
+      "2026-06": 1
+     },
+     "NYPD": {
+      "2024-10": 1,
+      "2021-06": 1,
+      "2026-06": 1,
+      "2026-04": 1,
+      "2023-10": 2,
+      "2020-05": 2,
+      "2020-04": 1,
+      "2023-04": 1,
+      "2022-11": 2,
+      "2023-08": 2,
+      "2022-12": 2,
+      "2021-07": 1,
+      "2024-01": 2,
+      "2024-07": 2,
+      "2021-04": 1
+     },
+     "DSNY": {
+      "2026-02": 1,
+      "2021-06": 1
+     },
+     "DOB": {
+      "2025-10": 1
+     },
+     "DOT": {
+      "2023-08": 1,
+      "2025-06": 1
+     },
+     "DEP": {
+      "2022-10": 2,
+      "2020-07": 1,
+      "2020-09": 1
+     },
+     "TLC": {
+      "2026-04": 1
+     },
+     "DOHMH": {
+      "2022-12": 1
+     }
+    }
+   },
+   "live_adapter": {
+    "status": "records_found",
+    "accepted_data_version": "Fri, 23 Oct 2026 01:38:29 GMT",
+    "data_versions_seen": [
+     "Fri, 23 Oct 2026 01:38:29 GMT"
+    ],
+    "retained_total": 32,
+    "retained_by_agency": {
+     "DEP": 4,
+     "DOHMH": 1,
+     "DOT": 2,
+     "DSNY": 2,
+     "NYPD": 22,
+     "TLC": 1
+    },
+    "excluded_established": true,
+    "excluded_counts": {
+     "DOB": 1,
+     "HPD": 44
+    },
+    "excluded_counts_observed": {
+     "DOB": 1,
+     "HPD": 44
+    },
+    "excluded_not_established_reason": null,
+    "null_agency": {
+     "established": true,
+     "observed": {
+      "null_agency": 0
+     },
+     "reason": null
+    },
+    "agency_month_differences": []
+   },
+   "recording": {
+    "status": "records_found",
+    "data_versions_seen": [
+     "Fri, 23 Oct 2026 01:38:29 GMT"
+    ],
+    "accepted_data_version": "Fri, 23 Oct 2026 01:38:29 GMT",
+    "retained_total": 32,
+    "retained_by_agency": {
+     "DEP": 4,
+     "DOHMH": 1,
+     "DOT": 2,
+     "DSNY": 2,
+     "NYPD": 22,
+     "TLC": 1
+    },
+    "excluded_counts_observed": {
+     "DOB": 1,
+     "HPD": 44
+    },
+    "agency_month_differences": []
+   },
+   "hpd_cross_match": {
+    "hpd_routed_311_rows": 44,
+    "matched_on_lot_family": 44,
+    "matched_hpd_row_without_bbl": 0,
+    "matched_on_another_lot": 0,
+    "not_found_in_hpd_complaints": 0,
+    "matched_on_lot_by_hpd_bin": {
+     "2128717": 44
+    }
+   }
+  },
+  {
+   "address_key": "fifth_ave_350",
+   "resolved_bbl": "1008350041",
+   "independent_lot_family": [
+    "1008350041"
+   ],
+   "adapter_lot_family": [
+    "1008350041"
+   ],
+   "independent_truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "independent_answer_stable": true,
+   "independent_header_after_adapter": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "unchanged_across_adapter_run": true,
+   "independent": {
+    "retained_total": 485,
+    "retained_by_agency": {
+     "DCA": 3,
+     "DCWP": 32,
+     "DEP": 22,
+     "DHS": 10,
+     "DOHMH": 39,
+     "DOT": 13,
+     "DPR": 2,
+     "DSNY": 15,
+     "EDC": 14,
+     "NYPD": 278,
+     "OSE": 2,
+     "TLC": 55
+    },
+    "excluded": {
+     "HPD": 8,
+     "DOB": 11
+    },
+    "null_agency_rows": 0,
+    "by_agency_month": {
+     "DSNY": {
+      "2023-09": 1,
+      "2025-04": 1,
+      "2026-08": 1,
+      "2021-12": 1,
+      "2026-09": 1,
+      "2025-09": 2,
+      "2023-08": 1,
+      "2025-07": 1,
+      "2023-06": 1,
+      "2023-05": 1,
+      "2025-08": 3,
+      "2025-02": 1
+     },
+     "TLC": {
+      "2023-10": 1,
+      "2025-08": 1,
+      "2020-01": 1,
+      "2023-04": 4,
+      "2023-08": 1,
+      "2024-12": 1,
+      "2026-03": 2,
+      "2024-08": 5,
+      "2024-09": 1,
+      "2026-10": 1,
+      "2022-01": 2,
+      "2022-10": 3,
+      "2022-06": 2,
+      "2026-07": 2,
+      "2025-07": 1,
+      "2023-06": 1,
+      "2024-05": 1,
+      "2022-09": 2,
+      "2023-01": 1,
+      "2024-04": 2,
+      "2026-04": 2,
+      "2025-12": 1,
+      "2025-03": 1,
+      "2024-03": 1,
+      "2022-05": 3,
+      "2023-05": 1,
+      "2023-12": 1,
+      "2024-06": 3,
+      "2022-04": 1,
+      "2026-02": 1,
+      "2021-10": 2,
+      "2024-11": 3
+     },
+     "DOT": {
+      "2021-12": 2,
+      "2025-01": 1,
+      "2020-05": 1,
+      "2020-01": 2,
+      "2026-05": 1,
+      "2020-11": 1,
+      "2026-01": 1,
+      "2020-03": 1,
+      "2025-09": 1,
+      "2022-11": 1,
+      "2021-08": 1
+     },
+     "DEP": {
+      "2024-06": 1,
+      "2026-07": 1,
+      "2020-02": 1,
+      "2025-02": 1,
+      "2026-01": 1,
+      "2021-10": 1,
+      "2022-04": 1,
+      "2026-08": 1,
+      "2025-03": 1,
+      "2024-10": 1,
+      "2022-10": 1,
+      "2021-03": 1,
+      "2020-03": 1,
+      "2020-10": 1,
+      "2021-02": 1,
+      "2022-11": 1,
+      "2021-04": 1,
+      "2025-01": 1,
+      "2024-04": 2,
+      "2024-02": 2
+     },
+     "NYPD": {
+      "2023-07": 3,
+      "2024-10": 14,
+      "2023-02": 1,
+      "2025-11": 3,
+      "2022-03": 1,
+      "2025-08": 4,
+      "2026-06": 7,
+      "2022-05": 2,
+      "2026-09": 6,
+      "2026-04": 6,
+      "2023-12": 1,
+      "2026-03": 6,
+      "2025-01": 29,
+      "2023-10": 1,
+      "2020-01": 1,
+      "2024-02": 1,
+      "2020-11": 1,
+      "2021-08": 1,
+      "2020-03": 1,
+      "2022-04": 6,
+      "2025-10": 4,
+      "2023-01": 6,
+      "2025-03": 11,
+      "2025-06": 10,
+      "2026-02": 1,
+      "2024-08": 9,
+      "2021-05": 1,
+      "2026-07": 9,
+      "2023-06": 1,
+      "2024-12": 1,
+      "2024-06": 6,
+      "2025-05": 4,
+      "2022-11": 1,
+      "2024-09": 3,
+      "2026-10": 13,
+      "2022-09": 2,
+      "2024-05": 8,
+      "2022-06": 1,
+      "2023-08": 1,
+      "2025-07": 4,
+      "2022-07": 2,
+      "2021-07": 13,
+      "2021-03": 2,
+      "2022-08": 1,
+      "2026-08": 6,
+      "2024-01": 1,
+      "2020-08": 1,
+      "2026-05": 11,
+      "2021-10": 1,
+      "2025-04": 12,
+      "2025-02": 5,
+      "2024-07": 5,
+      "2023-03": 1,
+      "2025-12": 20,
+      "2025-09": 4,
+      "2021-04": 2
+     },
+     "DOB": {
+      "2022-08": 1,
+      "2023-06": 1,
+      "2024-03": 1,
+      "2023-01": 4,
+      "2022-10": 1,
+      "2022-05": 1,
+      "2023-07": 1,
+      "2026-08": 1
+     },
+     "DOHMH": {
+      "2026-09": 1,
+      "2026-02": 1,
+      "2024-07": 1,
+      "2026-03": 2,
+      "2020-01": 2,
+      "2025-12": 1,
+      "2023-02": 1,
+      "2024-11": 1,
+      "2023-08": 2,
+      "2022-01": 1,
+      "2023-10": 1,
+      "2026-01": 1,
+      "2023-07": 1,
+      "2025-06": 2,
+      "2024-05": 1,
+      "2021-02": 1,
+      "2023-12": 1,
+      "2026-07": 5,
+      "2022-02": 1,
+      "2021-08": 1,
+      "2021-12": 1,
+      "2020-07": 1,
+      "2025-01": 1,
+      "2022-12": 4,
+      "2025-09": 2,
+      "2025-08": 2
+     },
+     "DCWP": {
+      "2025-10": 1,
+      "2026-05": 1,
+      "2026-03": 2,
+      "2022-07": 1,
+      "2023-11": 1,
+      "2026-10": 2,
+      "2026-07": 2,
+      "2022-10": 1,
+      "2024-07": 1,
+      "2025-03": 1,
+      "2026-08": 1,
+      "2020-12": 1,
+      "2026-09": 3,
+      "2022-01": 1,
+      "2024-10": 1,
+      "2023-12": 2,
+      "2023-02": 1,
+      "2023-04": 1,
+      "2025-05": 1,
+      "2025-12": 2,
+      "2025-11": 2,
+      "2026-01": 1,
+      "2022-12": 1,
+      "2025-07": 1
+     },
+     "DCA": {
+      "2020-06": 1,
+      "2020-07": 2
+     },
+     "DHS": {
+      "2025-07": 1,
+      "2021-10": 1,
+      "2024-05": 1,
+      "2025-03": 1,
+      "2026-06": 3,
+      "2025-06": 1,
+      "2026-10": 2
+     },
+     "EDC": {
+      "2021-06": 1,
+      "2020-12": 1,
+      "2021-02": 1,
+      "2026-06": 1,
+      "2022-03": 1,
+      "2021-05": 1,
+      "2020-11": 1,
+      "2021-01": 6,
+      "2021-03": 1
+     },
+     "DPR": {
+      "2020-06": 1,
+      "2026-05": 1
+     },
+     "HPD": {
+      "2021-12": 1,
+      "2023-04": 1,
+      "2026-01": 1,
+      "2021-06": 5
+     },
+     "OSE": {
+      "2020-08": 1,
+      "2021-04": 1
+     }
+    }
+   },
+   "live_adapter": {
+    "status": "records_found",
+    "accepted_data_version": "Fri, 23 Oct 2026 01:38:29 GMT",
+    "data_versions_seen": [
+     "Fri, 23 Oct 2026 01:38:29 GMT"
+    ],
+    "retained_total": 485,
+    "retained_by_agency": {
+     "DCA": 3,
+     "DCWP": 32,
+     "DEP": 22,
+     "DHS": 10,
+     "DOHMH": 39,
+     "DOT": 13,
+     "DPR": 2,
+     "DSNY": 15,
+     "EDC": 14,
+     "NYPD": 278,
+     "OSE": 2,
+     "TLC": 55
+    },
+    "excluded_established": true,
+    "excluded_counts": {
+     "DOB": 11,
+     "HPD": 8
+    },
+    "excluded_counts_observed": {
+     "DOB": 11,
+     "HPD": 8
+    },
+    "excluded_not_established_reason": null,
+    "null_agency": {
+     "established": true,
+     "observed": {
+      "null_agency": 0
+     },
+     "reason": null
+    },
+    "agency_month_differences": []
+   },
+   "recording": {
+    "status": "records_found",
+    "data_versions_seen": [
+     "Fri, 23 Oct 2026 01:38:29 GMT"
+    ],
+    "accepted_data_version": "Fri, 23 Oct 2026 01:38:29 GMT",
+    "retained_total": 485,
+    "retained_by_agency": {
+     "DCA": 3,
+     "DCWP": 32,
+     "DEP": 22,
+     "DHS": 10,
+     "DOHMH": 39,
+     "DOT": 13,
+     "DPR": 2,
+     "DSNY": 15,
+     "EDC": 14,
+     "NYPD": 278,
+     "OSE": 2,
+     "TLC": 55
+    },
+    "excluded_counts_observed": {
+     "DOB": 11,
+     "HPD": 8
+    },
+    "agency_month_differences": []
+   },
+   "hpd_cross_match": {
+    "hpd_routed_311_rows": 8,
+    "matched_on_lot_family": 8,
+    "matched_hpd_row_without_bbl": 0,
+    "matched_on_another_lot": 0,
+    "not_found_in_hpd_complaints": 0,
+    "matched_on_lot_by_hpd_bin": {
+     "1015862": 8
+    }
+   }
+  },
+  {
+   "address_key": "acp_1845",
+   "resolved_bbl": "1018227502",
+   "independent_lot_family": [
+    "1018220001",
+    "1018227502"
+   ],
+   "adapter_lot_family": [
+    "1018220001",
+    "1018227502"
+   ],
+   "independent_truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "independent_answer_stable": true,
+   "independent_header_after_adapter": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "unchanged_across_adapter_run": true,
+   "independent": {
+    "retained_total": 250,
+    "retained_by_agency": {
+     "DEP": 18,
+     "DOHMH": 10,
+     "DOT": 12,
+     "DPR": 3,
+     "DSNY": 11,
+     "EDC": 1,
+     "NYPD": 175,
+     "TLC": 20
+    },
+    "excluded": {
+     "HPD": 173,
+     "DOB": 12
+    },
+    "null_agency_rows": 0,
+    "by_agency_month": {
+     "HPD": {
+      "2022-06": 1,
+      "2025-01": 1,
+      "2022-09": 1,
+      "2026-08": 2,
+      "2022-01": 10,
+      "2025-09": 3,
+      "2021-11": 5,
+      "2026-10": 5,
+      "2020-10": 4,
+      "2026-01": 4,
+      "2022-04": 10,
+      "2020-11": 1,
+      "2026-04": 5,
+      "2022-05": 2,
+      "2020-06": 2,
+      "2026-06": 9,
+      "2021-06": 1,
+      "2026-02": 8,
+      "2023-11": 1,
+      "2023-03": 3,
+      "2024-05": 2,
+      "2021-02": 1,
+      "2021-07": 4,
+      "2024-08": 1,
+      "2022-08": 1,
+      "2021-12": 3,
+      "2025-12": 1,
+      "2023-05": 2,
+      "2021-10": 5,
+      "2021-08": 1,
+      "2026-09": 10,
+      "2020-08": 11,
+      "2026-05": 1,
+      "2024-04": 3,
+      "2026-07": 3,
+      "2020-12": 8,
+      "2022-03": 8,
+      "2023-04": 8,
+      "2025-10": 14,
+      "2022-07": 3,
+      "2024-12": 1,
+      "2022-10": 4
+     },
+     "NYPD": {
+      "2024-10": 9,
+      "2022-10": 4,
+      "2021-06": 4,
+      "2022-05": 1,
+      "2021-11": 5,
+      "2025-01": 6,
+      "2023-10": 2,
+      "2024-02": 2,
+      "2020-11": 1,
+      "2022-04": 2,
+      "2020-05": 1,
+      "2023-01": 6,
+      "2025-03": 1,
+      "2020-06": 1,
+      "2025-06": 3,
+      "2021-01": 6,
+      "2024-08": 3,
+      "2021-05": 2,
+      "2024-11": 3,
+      "2024-09": 3,
+      "2022-09": 4,
+      "2024-05": 4,
+      "2022-06": 4,
+      "2023-08": 2,
+      "2022-07": 4,
+      "2023-09": 3,
+      "2021-10": 4,
+      "2023-05": 2,
+      "2023-07": 3,
+      "2022-01": 5,
+      "2023-02": 3,
+      "2022-03": 2,
+      "2026-09": 3,
+      "2023-11": 1,
+      "2022-02": 2,
+      "2021-09": 3,
+      "2020-07": 6,
+      "2026-02": 1,
+      "2023-04": 5,
+      "2024-03": 7,
+      "2026-07": 5,
+      "2023-06": 4,
+      "2024-06": 2,
+      "2022-11": 3,
+      "2022-12": 1,
+      "2021-03": 6,
+      "2024-01": 3,
+      "2020-08": 1,
+      "2024-04": 1,
+      "2025-02": 1,
+      "2024-07": 5,
+      "2023-03": 2,
+      "2021-04": 8
+     },
+     "DOB": {
+      "2021-02": 1,
+      "2021-03": 1,
+      "2026-01": 3,
+      "2026-07": 1,
+      "2020-10": 2,
+      "2020-07": 1,
+      "2021-04": 1,
+      "2022-11": 1,
+      "2026-05": 1
+     },
+     "DEP": {
+      "2026-07": 1,
+      "2020-06": 1,
+      "2024-11": 1,
+      "2020-03": 1,
+      "2021-09": 1,
+      "2020-07": 2,
+      "2025-06": 1,
+      "2020-12": 1,
+      "2022-08": 2,
+      "2020-08": 1,
+      "2022-02": 1,
+      "2024-12": 1,
+      "2023-08": 1,
+      "2020-10": 1,
+      "2020-04": 2
+     },
+     "TLC": {
+      "2023-08": 1,
+      "2025-06": 1,
+      "2022-01": 2,
+      "2024-04": 1,
+      "2023-10": 1,
+      "2024-09": 1,
+      "2020-10": 1,
+      "2025-01": 3,
+      "2022-09": 1,
+      "2023-01": 3,
+      "2023-09": 1,
+      "2021-03": 2,
+      "2021-10": 1,
+      "2024-11": 1
+     },
+     "DSNY": {
+      "2021-07": 1,
+      "2023-10": 1,
+      "2022-11": 1,
+      "2022-03": 1,
+      "2021-10": 1,
+      "2025-03": 5,
+      "2022-12": 1
+     },
+     "DOHMH": {
+      "2022-08": 1,
+      "2026-06": 2,
+      "2022-02": 1,
+      "2021-12": 1,
+      "2021-04": 1,
+      "2022-07": 1,
+      "2021-07": 1,
+      "2021-08": 1,
+      "2020-07": 1
+     },
+     "DOT": {
+      "2020-12": 4,
+      "2022-02": 7,
+      "2023-09": 1
+     },
+     "DPR": {
+      "2021-09": 1,
+      "2025-07": 1,
+      "2024-06": 1
+     },
+     "EDC": {
+      "2023-10": 1
+     }
+    }
+   },
+   "live_adapter": {
+    "status": "records_found",
+    "accepted_data_version": "Fri, 23 Oct 2026 01:38:29 GMT",
+    "data_versions_seen": [
+     "Fri, 23 Oct 2026 01:38:29 GMT"
+    ],
+    "retained_total": 250,
+    "retained_by_agency": {
+     "DEP": 18,
+     "DOHMH": 10,
+     "DOT": 12,
+     "DPR": 3,
+     "DSNY": 11,
+     "EDC": 1,
+     "NYPD": 175,
+     "TLC": 20
+    },
+    "excluded_established": true,
+    "excluded_counts": {
+     "DOB": 12,
+     "HPD": 173
+    },
+    "excluded_counts_observed": {
+     "DOB": 12,
+     "HPD": 173
+    },
+    "excluded_not_established_reason": null,
+    "null_agency": {
+     "established": true,
+     "observed": {
+      "null_agency": 0
+     },
+     "reason": null
+    },
+    "agency_month_differences": []
+   },
+   "recording": {
+    "status": "incomplete_pagination",
+    "data_versions_seen": [
+     "Fri, 23 Oct 2026 01:38:29 GMT",
+     "Thu, 22 Oct 2026 01:37:36 GMT"
+    ],
+    "accepted_data_version": null,
+    "retained_total": 250,
+    "retained_by_agency": {
+     "DEP": 18,
+     "DOHMH": 10,
+     "DOT": 12,
+     "DPR": 3,
+     "DSNY": 11,
+     "EDC": 1,
+     "NYPD": 175,
+     "TLC": 20
+    },
+    "excluded_counts_observed": {
+     "DOB": 12,
+     "HPD": 173
+    },
+    "agency_month_differences": []
+   },
+   "hpd_cross_match": {
+    "hpd_routed_311_rows": 173,
+    "matched_on_lot_family": 173,
+    "matched_hpd_row_without_bbl": 0,
+    "matched_on_another_lot": 0,
+    "not_found_in_hpd_complaints": 0,
+    "matched_on_lot_by_hpd_bin": {
+     "1054974": 138,
+     "1055002": 35
+    }
+   }
+  }
+ ],
+ "query_log": [
+  {
+   "dataset": "5zhs-2jue",
+   "label": "footprints lot family",
+   "params": {
+    "$select": "base_bbl, mappluto_bbl",
+    "$where": "base_bbl='2027540005' OR mappluto_bbl='2027540005'",
+    "$limit": 5000
+   },
+   "rows": 2,
+   "truth_header": "Mon, 19 Oct 2026 18:36:49 GMT",
+   "seconds": 0.8,
+   "at": "2026-10-23T20:19:57+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 by agency and month",
+   "params": {
+    "$select": "agency, date_trunc_ym(created_date) AS ym, count(*) AS n",
+    "$where": "bbl in ('2027540005') AND created_date >= '2020-01-01T00:00:00'",
+    "$group": "agency, ym",
+    "$limit": 50000
+   },
+   "rows": 101,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.4,
+   "at": "2026-10-23T20:19:58+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 by agency and month",
+   "params": {
+    "$select": "agency, date_trunc_ym(created_date) AS ym, count(*) AS n",
+    "$where": "bbl in ('2027540005') AND created_date >= '2020-01-01T00:00:00'",
+    "$group": "agency, ym",
+    "$limit": 50000
+   },
+   "rows": 101,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.2,
+   "at": "2026-10-23T20:19:58+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 by agency and month",
+   "params": {
+    "$select": "agency, date_trunc_ym(created_date) AS ym, count(*) AS n",
+    "$where": "bbl in ('2027540005') AND created_date >= '2020-01-01T00:00:00'",
+    "$group": "agency, ym",
+    "$limit": 50000
+   },
+   "rows": 101,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.2,
+   "at": "2026-10-23T20:20:01+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 by agency and month",
+   "params": {
+    "$select": "agency, date_trunc_ym(created_date) AS ym, count(*) AS n",
+    "$where": "bbl in ('2027540005') AND created_date >= '2020-01-01T00:00:00'",
+    "$group": "agency, ym",
+    "$limit": 50000
+   },
+   "rows": 101,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.2,
+   "at": "2026-10-23T20:20:02+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 HPD-routed keys (not logged)",
+   "params": {
+    "$select": "unique_key",
+    "$where": "bbl in ('2027540005') AND created_date >= '2020-01-01T00:00:00' AND agency='HPD'",
+    "$limit": 50000
+   },
+   "rows": 309,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.3,
+   "at": "2026-10-23T20:20:02+00:00"
+  },
+  {
+   "dataset": "ygpa-z7cr",
+   "label": "HPD complaints keys and BINs on the lot family (keys not logged)",
+   "params": {
+    "$select": "unique_key, bin",
+    "$where": "bbl in ('2027540005') AND unique_key IS NOT NULL",
+    "$limit": 50000
+   },
+   "rows": 752,
+   "truth_header": "Fri, 23 Oct 2026 14:15:43 GMT",
+   "seconds": 0.6,
+   "at": "2026-10-23T20:20:02+00:00"
+  },
+  {
+   "dataset": "ygpa-z7cr",
+   "label": "HPD complaints key lookup (keys not logged)",
+   "params": {
+    "$select": "unique_key, bbl",
+    "$limit": 50000
+   },
+   "rows": 0,
+   "truth_header": "Fri, 23 Oct 2026 14:15:43 GMT",
+   "seconds": 0.3,
+   "at": "2026-10-23T20:20:03+00:00"
+  },
+  {
+   "dataset": "5zhs-2jue",
+   "label": "footprints lot family",
+   "params": {
+    "$select": "base_bbl, mappluto_bbl",
+    "$where": "base_bbl='1007660055' OR mappluto_bbl='1007660055'",
+    "$limit": 5000
+   },
+   "rows": 8,
+   "truth_header": "Mon, 19 Oct 2026 18:36:49 GMT",
+   "seconds": 0.2,
+   "at": "2026-10-23T20:20:03+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 by agency and month",
+   "params": {
+    "$select": "agency, date_trunc_ym(created_date) AS ym, count(*) AS n",
+    "$where": "bbl in ('1007660055') AND created_date >= '2020-01-01T00:00:00'",
+    "$group": "agency, ym",
+    "$limit": 50000
+   },
+   "rows": 75,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.8,
+   "at": "2026-10-23T20:20:04+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 by agency and month",
+   "params": {
+    "$select": "agency, date_trunc_ym(created_date) AS ym, count(*) AS n",
+    "$where": "bbl in ('1007660055') AND created_date >= '2020-01-01T00:00:00'",
+    "$group": "agency, ym",
+    "$limit": 50000
+   },
+   "rows": 75,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.5,
+   "at": "2026-10-23T20:20:04+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 by agency and month",
+   "params": {
+    "$select": "agency, date_trunc_ym(created_date) AS ym, count(*) AS n",
+    "$where": "bbl in ('1007660055') AND created_date >= '2020-01-01T00:00:00'",
+    "$group": "agency, ym",
+    "$limit": 50000
+   },
+   "rows": 75,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.2,
+   "at": "2026-10-23T20:20:08+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 by agency and month",
+   "params": {
+    "$select": "agency, date_trunc_ym(created_date) AS ym, count(*) AS n",
+    "$where": "bbl in ('1007660055') AND created_date >= '2020-01-01T00:00:00'",
+    "$group": "agency, ym",
+    "$limit": 50000
+   },
+   "rows": 75,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.2,
+   "at": "2026-10-23T20:20:08+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 HPD-routed keys (not logged)",
+   "params": {
+    "$select": "unique_key",
+    "$where": "bbl in ('1007660055') AND created_date >= '2020-01-01T00:00:00' AND agency='HPD'",
+    "$limit": 50000
+   },
+   "rows": 47,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.2,
+   "at": "2026-10-23T20:20:08+00:00"
+  },
+  {
+   "dataset": "ygpa-z7cr",
+   "label": "HPD complaints keys and BINs on the lot family (keys not logged)",
+   "params": {
+    "$select": "unique_key, bin",
+    "$where": "bbl in ('1007660055') AND unique_key IS NOT NULL",
+    "$limit": 50000
+   },
+   "rows": 17,
+   "truth_header": "Fri, 23 Oct 2026 14:15:43 GMT",
+   "seconds": 0.2,
+   "at": "2026-10-23T20:20:08+00:00"
+  },
+  {
+   "dataset": "ygpa-z7cr",
+   "label": "HPD complaints key lookup (keys not logged)",
+   "params": {
+    "$select": "unique_key, bbl",
+    "$limit": 50000
+   },
+   "rows": 29,
+   "truth_header": "Fri, 23 Oct 2026 14:15:43 GMT",
+   "seconds": 0.4,
+   "at": "2026-10-23T20:20:09+00:00"
+  },
+  {
+   "dataset": "5zhs-2jue",
+   "label": "footprints lot family",
+   "params": {
+    "$select": "base_bbl, mappluto_bbl",
+    "$where": "base_bbl='2029930031' OR mappluto_bbl='2029930031'",
+    "$limit": 5000
+   },
+   "rows": 1,
+   "truth_header": "Mon, 19 Oct 2026 18:36:49 GMT",
+   "seconds": 0.4,
+   "at": "2026-10-23T20:20:09+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 by agency and month",
+   "params": {
+    "$select": "agency, date_trunc_ym(created_date) AS ym, count(*) AS n",
+    "$where": "bbl in ('2029930031') AND created_date >= '2020-01-01T00:00:00'",
+    "$group": "agency, ym",
+    "$limit": 50000
+   },
+   "rows": 46,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.3,
+   "at": "2026-10-23T20:20:10+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 by agency and month",
+   "params": {
+    "$select": "agency, date_trunc_ym(created_date) AS ym, count(*) AS n",
+    "$where": "bbl in ('2029930031') AND created_date >= '2020-01-01T00:00:00'",
+    "$group": "agency, ym",
+    "$limit": 50000
+   },
+   "rows": 46,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.4,
+   "at": "2026-10-23T20:20:10+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 by agency and month",
+   "params": {
+    "$select": "agency, date_trunc_ym(created_date) AS ym, count(*) AS n",
+    "$where": "bbl in ('2029930031') AND created_date >= '2020-01-01T00:00:00'",
+    "$group": "agency, ym",
+    "$limit": 50000
+   },
+   "rows": 46,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.2,
+   "at": "2026-10-23T20:20:13+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 by agency and month",
+   "params": {
+    "$select": "agency, date_trunc_ym(created_date) AS ym, count(*) AS n",
+    "$where": "bbl in ('2029930031') AND created_date >= '2020-01-01T00:00:00'",
+    "$group": "agency, ym",
+    "$limit": 50000
+   },
+   "rows": 46,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.2,
+   "at": "2026-10-23T20:20:13+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 HPD-routed keys (not logged)",
+   "params": {
+    "$select": "unique_key",
+    "$where": "bbl in ('2029930031') AND created_date >= '2020-01-01T00:00:00' AND agency='HPD'",
+    "$limit": 50000
+   },
+   "rows": 44,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.3,
+   "at": "2026-10-23T20:20:14+00:00"
+  },
+  {
+   "dataset": "ygpa-z7cr",
+   "label": "HPD complaints keys and BINs on the lot family (keys not logged)",
+   "params": {
+    "$select": "unique_key, bin",
+    "$where": "bbl in ('2029930031') AND unique_key IS NOT NULL",
+    "$limit": 50000
+   },
+   "rows": 46,
+   "truth_header": "Fri, 23 Oct 2026 14:15:43 GMT",
+   "seconds": 0.2,
+   "at": "2026-10-23T20:20:14+00:00"
+  },
+  {
+   "dataset": "5zhs-2jue",
+   "label": "footprints lot family",
+   "params": {
+    "$select": "base_bbl, mappluto_bbl",
+    "$where": "base_bbl='1008350041' OR mappluto_bbl='1008350041'",
+    "$limit": 5000
+   },
+   "rows": 1,
+   "truth_header": "Mon, 19 Oct 2026 18:36:49 GMT",
+   "seconds": 0.2,
+   "at": "2026-10-23T20:20:14+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 by agency and month",
+   "params": {
+    "$select": "agency, date_trunc_ym(created_date) AS ym, count(*) AS n",
+    "$where": "bbl in ('1008350041') AND created_date >= '2020-01-01T00:00:00'",
+    "$group": "agency, ym",
+    "$limit": 50000
+   },
+   "rows": 215,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.5,
+   "at": "2026-10-23T20:20:15+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 by agency and month",
+   "params": {
+    "$select": "agency, date_trunc_ym(created_date) AS ym, count(*) AS n",
+    "$where": "bbl in ('1008350041') AND created_date >= '2020-01-01T00:00:00'",
+    "$group": "agency, ym",
+    "$limit": 50000
+   },
+   "rows": 215,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.3,
+   "at": "2026-10-23T20:20:15+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 by agency and month",
+   "params": {
+    "$select": "agency, date_trunc_ym(created_date) AS ym, count(*) AS n",
+    "$where": "bbl in ('1008350041') AND created_date >= '2020-01-01T00:00:00'",
+    "$group": "agency, ym",
+    "$limit": 50000
+   },
+   "rows": 215,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.2,
+   "at": "2026-10-23T20:20:18+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 by agency and month",
+   "params": {
+    "$select": "agency, date_trunc_ym(created_date) AS ym, count(*) AS n",
+    "$where": "bbl in ('1008350041') AND created_date >= '2020-01-01T00:00:00'",
+    "$group": "agency, ym",
+    "$limit": 50000
+   },
+   "rows": 215,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.2,
+   "at": "2026-10-23T20:20:18+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 HPD-routed keys (not logged)",
+   "params": {
+    "$select": "unique_key",
+    "$where": "bbl in ('1008350041') AND created_date >= '2020-01-01T00:00:00' AND agency='HPD'",
+    "$limit": 50000
+   },
+   "rows": 8,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.2,
+   "at": "2026-10-23T20:20:19+00:00"
+  },
+  {
+   "dataset": "ygpa-z7cr",
+   "label": "HPD complaints keys and BINs on the lot family (keys not logged)",
+   "params": {
+    "$select": "unique_key, bin",
+    "$where": "bbl in ('1008350041') AND unique_key IS NOT NULL",
+    "$limit": 50000
+   },
+   "rows": 10,
+   "truth_header": "Fri, 23 Oct 2026 14:15:43 GMT",
+   "seconds": 0.2,
+   "at": "2026-10-23T20:20:19+00:00"
+  },
+  {
+   "dataset": "5zhs-2jue",
+   "label": "footprints lot family",
+   "params": {
+    "$select": "base_bbl, mappluto_bbl",
+    "$where": "base_bbl='1018227502' OR mappluto_bbl='1018227502'",
+    "$limit": 5000
+   },
+   "rows": 2,
+   "truth_header": "Mon, 19 Oct 2026 18:36:49 GMT",
+   "seconds": 0.2,
+   "at": "2026-10-23T20:20:19+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 by agency and month",
+   "params": {
+    "$select": "agency, date_trunc_ym(created_date) AS ym, count(*) AS n",
+    "$where": "bbl in ('1018220001', '1018227502') AND created_date >= '2020-01-01T00:00:00'",
+    "$group": "agency, ym",
+    "$limit": 50000
+   },
+   "rows": 156,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.6,
+   "at": "2026-10-23T20:20:20+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 by agency and month",
+   "params": {
+    "$select": "agency, date_trunc_ym(created_date) AS ym, count(*) AS n",
+    "$where": "bbl in ('1018220001', '1018227502') AND created_date >= '2020-01-01T00:00:00'",
+    "$group": "agency, ym",
+    "$limit": 50000
+   },
+   "rows": 156,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.3,
+   "at": "2026-10-23T20:20:20+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 by agency and month",
+   "params": {
+    "$select": "agency, date_trunc_ym(created_date) AS ym, count(*) AS n",
+    "$where": "bbl in ('1018220001', '1018227502') AND created_date >= '2020-01-01T00:00:00'",
+    "$group": "agency, ym",
+    "$limit": 50000
+   },
+   "rows": 156,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.2,
+   "at": "2026-10-23T20:20:23+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 by agency and month",
+   "params": {
+    "$select": "agency, date_trunc_ym(created_date) AS ym, count(*) AS n",
+    "$where": "bbl in ('1018220001', '1018227502') AND created_date >= '2020-01-01T00:00:00'",
+    "$group": "agency, ym",
+    "$limit": 50000
+   },
+   "rows": 156,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.3,
+   "at": "2026-10-23T20:20:23+00:00"
+  },
+  {
+   "dataset": "erm2-nwe9",
+   "label": "311 HPD-routed keys (not logged)",
+   "params": {
+    "$select": "unique_key",
+    "$where": "bbl in ('1018220001', '1018227502') AND created_date >= '2020-01-01T00:00:00' AND agency='HPD'",
+    "$limit": 50000
+   },
+   "rows": 173,
+   "truth_header": "Fri, 23 Oct 2026 01:38:29 GMT",
+   "seconds": 0.3,
+   "at": "2026-10-23T20:20:23+00:00"
+  },
+  {
+   "dataset": "ygpa-z7cr",
+   "label": "HPD complaints keys and BINs on the lot family (keys not logged)",
+   "params": {
+    "$select": "unique_key, bin",
+    "$where": "bbl in ('1018220001', '1018227502') AND unique_key IS NOT NULL",
+    "$limit": 50000
+   },
+   "rows": 1959,
+   "truth_header": "Fri, 23 Oct 2026 14:15:43 GMT",
+   "seconds": 1.9,
+   "at": "2026-10-23T20:20:25+00:00"
+  }
+ ]
+}

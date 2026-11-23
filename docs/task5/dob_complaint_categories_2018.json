@@ -1,0 +1,516 @@
+{
+ "source_url": "https://data.cityofnewyork.us/api/views/eabe-havv/files/dc709ed2-7af1-429c-92c9-71ec3a4c23fa",
+ "source_title": "Complaint Category Description (NYC Department of Buildings)",
+ "obtained": "downloaded from source_url (NYC Open Data, file attached to dataset eabe-havv) in the cloud environment on 2026-10-23",
+ "sha256": "e8751c6c1119f3424bdcc274b989459a226db3a3726f6ce817135baf8fa0974d",
+ "bytes": 270917,
+ "pdf_metadata": {
+  "Title": "Complaint Category Description",
+  "CreationDate": "Fri Dec 28 19:49:33 2018 UTC",
+  "ModDate": "Thu Jan  3 13:44:51 2019 UTC",
+  "Pages": "4"
+ },
+ "revision_marks": [
+  "12/18"
+ ],
+ "code_count": 97,
+ "codes": {
+  "01": {
+   "description": "Accident – Construction/Plumbing",
+   "priority": "A"
+  },
+  "03": {
+   "description": "Adjacent Buildings - Not Protected",
+   "priority": "A"
+  },
+  "04": {
+   "description": "After Hours Work – Illegal",
+   "priority": "B"
+  },
+  "05": {
+   "description": "Permit – None (Building/PA/Demo etc.)",
+   "priority": "B"
+  },
+  "06": {
+   "description": "Construction – Change Grade/Change Watercourse",
+   "priority": "B"
+  },
+  "09": {
+   "description": "Debris – Excessive",
+   "priority": "B"
+  },
+  "10": {
+   "description": "Debris/Building -Falling or In Danger of Falling",
+   "priority": "A"
+  },
+  "12": {
+   "description": "Demolition-Unsafe/Illegal/Mechanical Demo",
+   "priority": "A"
+  },
+  "13": {
+   "description": "Elevator In (FDNY) Readiness-None",
+   "priority": "A"
+  },
+  "14": {
+   "description": "Excavation - Undermining Adjacent Building",
+   "priority": "A"
+  },
+  "15": {
+   "description": "Fence - None/Inadequate/Illegal",
+   "priority": "B"
+  },
+  "16": {
+   "description": "Inadequate Support/Shoring",
+   "priority": "A"
+  },
+  "18": {
+   "description": "Material Storage – Unsafe",
+   "priority": "A"
+  },
+  "1A": {
+   "description": "Illegal Conversion Commercial Building/Space to Dwelling Units",
+   "priority": "B"
+  },
+  "1B": {
+   "description": "Illegal Tree Removal/Topo. Change In SNAD",
+   "priority": "B"
+  },
+  "1D": {
+   "description": "Con Edison Referral",
+   "priority": "B"
+  },
+  "1E": {
+   "description": "Suspended (Hanging) Scaffolds- No Permit/License/Dangerous/Accident",
+   "priority": "A"
+  },
+  "1G": {
+   "description": "Stalled Construction Site",
+   "priority": "B"
+  },
+  "1K": {
+   "description": "Bowstring Truss Tracking Complaint",
+   "priority": "D"
+  },
+  "1Z": {
+   "description": "Enforcement Work Order (DOB)",
+   "priority": "D"
+  },
+  "20": {
+   "description": "Landmark Building – Illegal Work",
+   "priority": "A"
+  },
+  "21": {
+   "description": "Safety Net/Guardrail-Damaged/Inadequate/None (over 6 Story/75 ft.)",
+   "priority": "B"
+  },
+  "23": {
+   "description": "Sidewalk Shed/Supported Scaffold/Inadequate/Defective/None/No Permit/No Cert",
+   "priority": "B"
+  },
+  "29": {
+   "description": "Building – Vacant, Open and Unguarded",
+   "priority": "C"
+  },
+  "2A": {
+   "description": "Posted Notice or Order Removed/Tampered With",
+   "priority": "B"
+  },
+  "2B": {
+   "description": "Failure to Comply with Vacate Order",
+   "priority": "A"
+  },
+  "2C": {
+   "description": "Smoking Ban – Smoking on Construction Site",
+   "priority": "B"
+  },
+  "2D": {
+   "description": "Smoking Signs – ‘No Smoking Signs’ Not Observed on Construction Site",
+   "priority": "B"
+  },
+  "2E": {
+   "description": "Demolition Notification Received",
+   "priority": "A"
+  },
+  "2F": {
+   "description": "Building Under Structural Monitoring",
+   "priority": "D"
+  },
+  "2G": {
+   "description": "Advertising Sign/Billboard/Posters/Flexible Fabric – Illegal",
+   "priority": "C"
+  },
+  "2H": {
+   "description": "Second Avenue Subway Construction",
+   "priority": "D"
+  },
+  "2J": {
+   "description": "Sandy: Building Destroyed",
+   "priority": "D"
+  },
+  "2K": {
+   "description": "Structurally Compromised Building (LL33/08)",
+   "priority": "D"
+  },
+  "2L": {
+   "description": "Façade (LL11/98) – Unsafe Notification",
+   "priority": "D"
+  },
+  "2M": {
+   "description": "Monopole Tracking Complaint",
+   "priority": "D"
+  },
+  "30": {
+   "description": "Building Shaking/Vibrating/Structural Stability Affected",
+   "priority": "A"
+  },
+  "31": {
+   "description": "Certificate of Occupancy – None/Illegal/Contrary to Co",
+   "priority": "C"
+  },
+  "35": {
+   "description": "Curb Cut/Driveway/Carport – Illegal",
+   "priority": "D"
+  },
+  "37": {
+   "description": "Egress – Locked/Blocked/Improper/No Secondary Means",
+   "priority": "A"
+  },
+  "3A": {
+   "description": "Unlicensed/Illegal/Improper Electrical Work In Progress",
+   "priority": "B"
+  },
+  "45": {
+   "description": "Illegal Conversion",
+   "priority": "B"
+  },
+  "49": {
+   "description": "Storefront or Business Sign/Awning/Marquee/Canopy – Illegal",
+   "priority": "C"
+  },
+  "4A": {
+   "description": "Illegal Hotel Rooms In Residential Buildings",
+   "priority": "B"
+  },
+  "4B": {
+   "description": "SEP – Professional Certification Compliance Audit",
+   "priority": "B"
+  },
+  "4C": {
+   "description": "Excavation Tracking Complaint",
+   "priority": "D"
+  },
+  "4D": {
+   "description": "Interior Demo Tracking Complaint",
+   "priority": "D"
+  },
+  "4F": {
+   "description": "SST Tracking Complaint",
+   "priority": "D"
+  },
+  "4G": {
+   "description": "Illegal Conversion No Access Follow-Up",
+   "priority": "B"
+  },
+  "4J": {
+   "description": "M.A.R.C.H. Program (Interagency)",
+   "priority": "D"
+  },
+  "4K": {
+   "description": "CSC – DM Tracking Complaint",
+   "priority": "D"
+  },
+  "4L": {
+   "description": "CSC – High-Rise Tracking Complaint",
+   "priority": "D"
+  },
+  "4M": {
+   "description": "CSC – Low-Rise Tracking Complaint",
+   "priority": "D"
+  },
+  "4N": {
+   "description": "Retaining Wall Tracking Complaint",
+   "priority": "D"
+  },
+  "4P": {
+   "description": "Legal/Padlock Tracking Complaint",
+   "priority": "D"
+  },
+  "4W": {
+   "description": "Woodside Settlement Project",
+   "priority": "C"
+  },
+  "50": {
+   "description": "Sign Falling - Danger/Sign Erection or Display In Progress – Illegal",
+   "priority": "A"
+  },
+  "52": {
+   "description": "Sprinkler System – Inadequate",
+   "priority": "B"
+  },
+  "53": {
+   "description": "Vent/Exhaust – Illegal/Improper",
+   "priority": "D"
+  },
+  "54": {
+   "description": "Wall/Retaining Wall – Bulging/Cracked",
+   "priority": "B"
+  },
+  "55": {
+   "description": "Zoning – Non-conforming",
+   "priority": "D"
+  },
+  "56": {
+   "description": "Boiler – Fumes/Smoke/Carbon Monoxide",
+   "priority": "A"
+  },
+  "58": {
+   "description": "Boiler – Defective/Non-operative/No Permit",
+   "priority": "B"
+  },
+  "59": {
+   "description": "Electrical Wiring – Defective/Exposed, In Progress",
+   "priority": "B"
+  },
+  "5A": {
+   "description": "Request for Joint FDNY/DOB Inspection",
+   "priority": "B"
+  },
+  "5B": {
+   "description": "Non-Compliance with Lightweight Materials",
+   "priority": "A"
+  },
+  "5C": {
+   "description": "Structural Stability Impacted – New Building Under Construction",
+   "priority": "A"
+  },
+  "5E": {
+   "description": "Amusement Ride Accident/Incident",
+   "priority": "A"
+  },
+  "5F": {
+   "description": "Compliance Inspection",
+   "priority": "B"
+  },
+  "5G": {
+   "description": "Unlicensed/Illegal/Improper Work In Progress",
+   "priority": "B"
+  },
+  "62": {
+   "description": "Elevator-Danger Condition/Shaft Open/Unguarded",
+   "priority": "A"
+  },
+  "63": {
+   "description": "Elevator-Danger Condition/Shaft Open/Unguarded",
+   "priority": "B"
+  },
+  "65": {
+   "description": "Gas Hook-Up/Piping – Illegal or Defective",
+   "priority": "A"
+  },
+  "66": {
+   "description": "Plumbing Work – Illegal/No Permit(Also Sprinkler/Standpipe)",
+   "priority": "B"
+  },
+  "67": {
+   "description": "Crane – No Permit/License/Cert/Unsafe/Illegal",
+   "priority": "A"
+  },
+  "6A": {
+   "description": "Vesting Inspection",
+   "priority": "C"
+  },
+  "71": {
+   "description": "SRO – Illegal Work/No Permit/Change In Occupancy Use",
+   "priority": "B"
+  },
+  "73": {
+   "description": "Failure to Maintain",
+   "priority": "C"
+  },
+  "74": {
+   "description": "Illegal Commercial/Manufacturing Use In Residential Zone",
+   "priority": "C"
+  },
+  "75": {
+   "description": "Adult Establishment",
+   "priority": "B"
+  },
+  "76": {
+   "description": "Unlicensed/Illegal/Improper Plumbing Work In Progress",
+   "priority": "A"
+  },
+  "77": {
+   "description": "Contrary To Ll58/87 (Handicap Access)",
+   "priority": "C"
+  },
+  "78": {
+   "description": "Privately Owned Public Space/Non-Compliance",
+   "priority": "B"
+  },
+  "79": {
+   "description": "Lights from Parking Lot Shining on Building",
+   "priority": "C"
+  },
+  "80": {
+   "description": "Elevator Not Inspected/Illegal/No Permit",
+   "priority": "D"
+  },
+  "81": {
+   "description": "Elevator – Accident",
+   "priority": "A"
+  },
+  "82": {
+   "description": "Boiler – Accident/Explosion",
+   "priority": "A"
+  },
+  "83": {
+   "description": "Construction – Contrary/Beyond Approved Plans/Permits",
+   "priority": "B"
+  },
+  "85": {
+   "description": "Failure to Retain Water/Improper Drainage (LL103/89)",
+   "priority": "C"
+  },
+  "86": {
+   "description": "Work Contrary to Stop Work Order",
+   "priority": "A"
+  },
+  "88": {
+   "description": "Safety Net/Guard Rail-Dam/Inadequate/None(6fl.75ft. or less)",
+   "priority": "B"
+  },
+  "89": {
+   "description": "Accident – Cranes/Derricks/Suspension",
+   "priority": "A"
+  },
+  "90": {
+   "description": "Unlicensed/Illegal Activity",
+   "priority": "C"
+  },
+  "91": {
+   "description": "Site Conditions Endangering Workers",
+   "priority": "A"
+  },
+  "92": {
+   "description": "Illegal Conversion of Manufacturing/Industrial Space",
+   "priority": "B"
+  },
+  "93": {
+   "description": "Request for Retaining Wall Safety Inspection",
+   "priority": "B"
+  },
+  "94": {
+   "description": "Plumbing-Defective/Leaking/Not Maintained",
+   "priority": "C"
+  }
+ },
+ "coverage": {
+  "counts": "docs/task5/step1_measurements.json (2026-10-23 04:39Z); no new snapshot",
+  "codes_in_use": 197,
+  "rows": 3145939,
+  "codes_in_use_not_listed": 100,
+  "rows_with_codes_not_listed": 477755,
+  "not_listed": {
+   "02": 255,
+   "07": 152,
+   "08": 79,
+   "11": 908,
+   "17": 82,
+   "19": 29,
+   "1C": 163,
+   "1F": 7,
+   "1H": 1,
+   "1J": 20,
+   "1L": 12237,
+   "1N": 8,
+   "1U": 5045,
+   "1V": 370,
+   "1W": 247,
+   "1X": 32541,
+   "1Y": 7190,
+   "22": 221,
+   "24": 625,
+   "25": 70,
+   "26": 119,
+   "27": 2920,
+   "28": 2423,
+   "2N": 8993,
+   "2P": 299,
+   "2Q": 5,
+   "2R": 74,
+   "2S": 149,
+   "2T": 54,
+   "2U": 252,
+   "2V": 264,
+   "2W": 38,
+   "2X": 3,
+   "2Y": 1274,
+   "32": 14604,
+   "33": 3931,
+   "34": 23,
+   "36": 7743,
+   "38": 858,
+   "39": 4182,
+   "3B": 10,
+   "3C": 3,
+   "3D": 7,
+   "3E": 6,
+   "3G": 308,
+   "3H": 17,
+   "40": 2123,
+   "41": 3547,
+   "42": 1859,
+   "43": 13793,
+   "44": 196,
+   "46": 2430,
+   "47": 265,
+   "48": 26670,
+   "4E": 3,
+   "4H": 165,
+   "4Q": 2,
+   "4S": 11698,
+   "4X": 897,
+   "51": 614,
+   "57": 370,
+   "5D": 20,
+   "5H": 6947,
+   "5J": 57,
+   "60": 30,
+   "61": 23,
+   "64": 372,
+   "68": 79,
+   "69": 62,
+   "6B": 1305,
+   "6C": 1882,
+   "6D": 1084,
+   "6M": 39739,
+   "6S": 69471,
+   "6V": 19533,
+   "6W": 508,
+   "6X": 4971,
+   "6Y": 3449,
+   "6Z": 3708,
+   "70": 510,
+   "72": 1244,
+   "7F": 15940,
+   "7G": 33105,
+   "7J": 36233,
+   "7K": 10872,
+   "7L": 14,
+   "7N": 3,
+   "7P": 190,
+   "7Q": 383,
+   "7R": 11477,
+   "7S": 112,
+   "84": 5034,
+   "87": 355,
+   "8A": 31320,
+   "8P": 243,
+   "95": 1213,
+   "96": 32,
+   "97": 247,
+   "98": 216,
+   "99": 2331
+  }
+ }
+}

@@ -1,0 +1,22 @@
+# Render Blueprint for the backend API (free instance type; no paid resources).
+# Render: New > Blueprint > pick this repository. The frontend deploys to Vercel.
+services:
+  - type: web
+    name: stoop-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /health
+    autoDeploy: false
+    envVars:
+      - key: DATA_MODE
+        value: demo # "live" queries NYC Open Data; demo replays the recorded cassettes
+      - key: LLM_ENABLED
+        value: "0"
+      - key: CORS_ORIGINS
+        sync: false # e.g. https://<your-project>.vercel.app
+      - key: SOCRATA_APP_TOKEN
+        sync: false # optional, live mode only
+      - key: ANTHROPIC_API_KEY
+        sync: false # optional, only with LLM_ENABLED=1

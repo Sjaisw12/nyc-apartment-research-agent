@@ -1,0 +1,283 @@
+{
+  "bbox": [
+    -74.011102,
+    40.707978,
+    -73.9652,
+    40.710194
+  ],
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          -73.9652,
+          40.710194
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "accuracy": "point",
+        "addendum": {
+          "pad": {
+            "bbl": "3021310001",
+            "bin": "3324734",
+            "version": "26c"
+          }
+        },
+        "borough": "Brooklyn",
+        "borough_gid": "whosonfirst:borough:421205765",
+        "confidence": 0.8,
+        "country": "United States",
+        "country_a": "USA",
+        "country_code": "US",
+        "country_gid": "whosonfirst:country:85633793",
+        "county": "Kings County",
+        "county_a": "BK",
+        "county_gid": "whosonfirst:county:102082361",
+        "gid": "nycpad:venue:1007757",
+        "housenumber": "100",
+        "id": "1007757",
+        "label": "100 B'WAY, Brooklyn, NY, USA",
+        "layer": "venue",
+        "locality": "New York",
+        "locality_a": "NYC",
+        "locality_gid": "whosonfirst:locality:85977539",
+        "match_type": "fallback",
+        "name": "100 B'WAY",
+        "neighbourhood": "Williamsburg",
+        "neighbourhood_gid": "whosonfirst:neighbourhood:85857853",
+        "postalcode": "11249",
+        "region": "New York",
+        "region_a": "NY",
+        "region_gid": "whosonfirst:region:85688543",
+        "source": "nycpad",
+        "source_id": "1007757",
+        "street": "B'WAY"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -73.9652,
+          40.710194
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "accuracy": "point",
+        "addendum": {
+          "pad": {
+            "bbl": "3021310001",
+            "bin": "3324734",
+            "version": "26c"
+          }
+        },
+        "borough": "Brooklyn",
+        "borough_gid": "whosonfirst:borough:421205765",
+        "confidence": 0.8,
+        "country": "United States",
+        "country_a": "USA",
+        "country_code": "US",
+        "country_gid": "whosonfirst:country:85633793",
+        "county": "Kings County",
+        "county_a": "BK",
+        "county_gid": "whosonfirst:county:102082361",
+        "gid": "nycpad:venue:1007758",
+        "housenumber": "100",
+        "id": "1007758",
+        "label": "100 BROADWAY, Brooklyn, NY, USA",
+        "layer": "venue",
+        "locality": "New York",
+        "locality_a": "NYC",
+        "locality_gid": "whosonfirst:locality:85977539",
+        "match_type": "fallback",
+        "name": "100 BROADWAY",
+        "neighbourhood": "Williamsburg",
+        "neighbourhood_gid": "whosonfirst:neighbourhood:85857853",
+        "postalcode": "11249",
+        "region": "New York",
+        "region_a": "NY",
+        "region_gid": "whosonfirst:region:85688543",
+        "source": "nycpad",
+        "source_id": "1007758",
+        "street": "BROADWAY"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -74.011102,
+          40.707978
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "accuracy": "point",
+        "addendum": {
+          "pad": {
+            "bbl": "1000460003",
+            "bin": "1001024",
+            "version": "26c"
+          }
+        },
+        "borough": "Manhattan",
+        "borough_gid": "whosonfirst:borough:421205771",
+        "confidence": 0.8,
+        "country": "United States",
+        "country_a": "USA",
+        "country_code": "US",
+        "country_gid": "whosonfirst:country:85633793",
+        "county": "New York County",
+        "county_gid": "whosonfirst:county:102081863",
+        "gid": "nycpad:venue:4118",
+        "housenumber": "100",
+        "id": "4118",
+        "label": "100 B'WAY, New York, NY, USA",
+        "layer": "venue",
+        "locality": "New York",
+        "locality_a": "NYC",
+        "locality_gid": "whosonfirst:locality:85977539",
+        "match_type": "fallback",
+        "name": "100 B'WAY",
+        "neighbourhood": "Financial District",
+        "neighbourhood_gid": "whosonfirst:neighbourhood:85865711",
+        "postalcode": "10005",
+        "region": "New York",
+        "region_a": "NY",
+        "region_gid": "whosonfirst:region:85688543",
+        "source": "nycpad",
+        "source_id": "4118",
+        "street": "B'WAY"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -74.011102,
+          40.707978
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "accuracy": "point",
+        "addendum": {
+          "pad": {
+            "bbl": "1000460003",
+            "bin": "1001024",
+            "version": "26c"
+          }
+        },
+        "borough": "Manhattan",
+        "borough_gid": "whosonfirst:borough:421205771",
+        "confidence": 0.8,
+        "country": "United States",
+        "country_a": "USA",
+        "country_code": "US",
+        "country_gid": "whosonfirst:country:85633793",
+        "county": "New York County",
+        "county_gid": "whosonfirst:county:102081863",
+        "gid": "nycpad:venue:4119",
+        "housenumber": "100",
+        "id": "4119",
+        "label": "100 BROADWAY, New York, NY, USA",
+        "layer": "venue",
+        "locality": "New York",
+        "locality_a": "NYC",
+        "locality_gid": "whosonfirst:locality:85977539",
+        "match_type": "fallback",
+        "name": "100 BROADWAY",
+        "neighbourhood": "Financial District",
+        "neighbourhood_gid": "whosonfirst:neighbourhood:85865711",
+        "postalcode": "10005",
+        "region": "New York",
+        "region_a": "NY",
+        "region_gid": "whosonfirst:region:85688543",
+        "source": "nycpad",
+        "source_id": "4119",
+        "street": "BROADWAY"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -73.9652,
+          40.710194
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "accuracy": "point",
+        "addendum": {
+          "pad": {
+            "bbl": "3021310001",
+            "bin": "3324734",
+            "version": "26c"
+          }
+        },
+        "borough": "Brooklyn",
+        "borough_gid": "whosonfirst:borough:421205765",
+        "confidence": 0.8,
+        "country": "United States",
+        "country_a": "USA",
+        "country_code": "US",
+        "country_gid": "whosonfirst:country:85633793",
+        "county": "Kings County",
+        "county_a": "BK",
+        "county_gid": "whosonfirst:county:102082361",
+        "gid": "nycpad:venue:1007759",
+        "housenumber": "100",
+        "id": "1007759",
+        "label": "100 BWAY EAST, Brooklyn, NY, USA",
+        "layer": "venue",
+        "locality": "New York",
+        "locality_a": "NYC",
+        "locality_gid": "whosonfirst:locality:85977539",
+        "match_type": "fallback",
+        "name": "100 BWAY EAST",
+        "neighbourhood": "Williamsburg",
+        "neighbourhood_gid": "whosonfirst:neighbourhood:85857853",
+        "postalcode": "11249",
+        "region": "New York",
+        "region_a": "NY",
+        "region_gid": "whosonfirst:region:85688543",
+        "source": "nycpad",
+        "source_id": "1007759",
+        "street": "BWAY EAST"
+      },
+      "type": "Feature"
+    }
+  ],
+  "geocoding": {
+    "attribution": "http://geosearch.planninglabs.nyc/attribution",
+    "engine": {
+      "author": "Mapzen",
+      "name": "Pelias",
+      "version": "1.0"
+    },
+    "query": {
+      "lang": {
+        "defaulted": true,
+        "iso6391": "en",
+        "iso6393": "eng",
+        "name": "English",
+        "via": "default"
+      },
+      "parsed_text": {
+        "housenumber": "100",
+        "street": "Broadway",
+        "subject": "100 Broadway"
+      },
+      "parser": "pelias",
+      "private": false,
+      "querySize": 20,
+      "size": 5,
+      "text": "100 Broadway"
+    },
+    "timestamp": 1792562740621,
+    "version": "0.2"
+  },
+  "type": "FeatureCollection"
+}

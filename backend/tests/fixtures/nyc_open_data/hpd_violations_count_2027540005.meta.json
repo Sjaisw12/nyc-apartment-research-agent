@@ -1,0 +1,19 @@
+{
+  "attempts": 1,
+  "body_sha256": "6d4dd315977a5719826176713412418ed066bfd7d9c89a43fa0b5adfce1a6151",
+  "elapsed_seconds": 7.616,
+  "fetched_at": "2026-10-21T06:05:48.327354+00:00",
+  "headers": {
+    "date": "Wed, 21 Oct 2026 06:05:48 GMT",
+    "etag": "\"Zm94dHJvdC4xNTY5MF80XzM0MjVvcnlOY3I1c3lVQUFvRXZ2WmdiMFh0Qk56TlU--gziijiIJFXFS0-e5iDvP2OBjEec_Ic---gzip\"",
+    "last-modified": "Tue, 20 Oct 2026 14:55:26 GMT",
+    "x-socrata-requestid": "2d7b0620b7d6bd267e74c66f45db13be",
+    "x-soda2-data-out-of-date": "false",
+    "x-soda2-fields": "[\"n\"]",
+    "x-soda2-truth-last-modified": "Tue, 20 Oct 2026 14:55:26 GMT",
+    "x-soda2-types": "[\"number\"]"
+  },
+  "source": "nyc_open_data",
+  "status_code": 200,
+  "url": "https://data.cityofnewyork.us/resource/wvxf-dwi5.json?%24select=count%28%2A%29+AS+n&%24where=bbl%3D%272027540005%27"
+}

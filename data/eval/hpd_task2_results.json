@@ -1,0 +1,745 @@
+{
+ "recorded_at": "2026-10-21T23:06:19.557863+00:00",
+ "addresses": {
+  "west_farms_1134": {
+   "address": "1134 West Farms Rd, Bronx, NY 10459",
+   "resolver": {
+    "outcome": "verified",
+    "resolution_level": "building",
+    "bbl": "2027540005",
+    "bin": "2006185",
+    "permitted_join_keys": [
+     "bbl",
+     "bin"
+    ]
+   },
+   "status": "records_found",
+   "status_detail": "912 problem rows in 539 complaints; matches the source count",
+   "source_count": 912,
+   "problems": 912,
+   "complaints": 539,
+   "pages": [
+    0,
+    500,
+    412
+   ],
+   "data_as_of": "Wed, 21 Oct 2026 14:10:13 GMT",
+   "summary": {
+    "data_as_of": "Wed, 21 Oct 2026 14:10:13 GMT",
+    "join_scope": "building",
+    "building_specific_claims_allowed": true,
+    "total_problems": 912,
+    "total_complaints": 539,
+    "problems_by_attribution": {
+     "this_building": {
+      "problems": 912,
+      "open": 0,
+      "closed": 912,
+      "status_unknown": 0,
+      "duplicate_reports": 196,
+      "not_flagged_duplicate": 716,
+      "by_type": {
+       "EMERGENCY": 673,
+       "NON EMERGENCY": 226,
+       "HAZARDOUS": 2,
+       "IMMEDIATE EMERGENCY": 11
+      },
+      "by_major_category": {
+       "HEATING": 221,
+       "GENERAL": 75,
+       "ELECTRIC": 34,
+       "PAINT/PLASTER": 98,
+       "PLUMBING": 89,
+       "NONCONST": 29,
+       "APPLIANCE": 26,
+       "UNSANITARY CONDITION": 66,
+       "HEAT/HOT WATER": 177,
+       "WATER LEAK": 26,
+       "SAFETY": 18,
+       "DOOR/WINDOW": 42,
+       "FLOORING/STAIRS": 11
+      },
+      "by_outcome": {
+       "restored_per_contact": 80,
+       "duplicate_of_building_wide": 196,
+       "no_violation_found": 216,
+       "violations_issued": 192,
+       "violations_previously_issued": 14,
+       "no_access": 162,
+       "corrected_per_contact": 35,
+       "inspection_not_completed": 17
+      },
+      "received_last_12_months": 69,
+      "received_last_36_months": 148
+     }
+    },
+    "complaints_by_attribution": {
+     "this_building": {
+      "complaints": 539,
+      "open": 0,
+      "closed": 539,
+      "status_unknown": 0,
+      "with_duplicate_problems": 191,
+      "hpd_reported_violations_issued": 96,
+      "received_last_12_months": 29,
+      "received_last_36_months": 66
+     }
+    },
+    "classification": {
+     "problems_with_text": 912,
+     "classified": 912,
+     "other": 0,
+     "no_text": 0,
+     "coverage": 1.0,
+     "other_texts": []
+    },
+    "conflict_counts": {
+     "duplicate_id_different_content": 0,
+     "lot_identifier_conflict": 0,
+     "status_fields_disagree": 0,
+     "mixed_attribution_complaints": 0
+    },
+    "quality_flag_counts": {
+     "date_order": 9
+    },
+    "location_scope_counts": {
+     "building_wide": 221,
+     "common_area": 27,
+     "unit": 664
+    },
+    "privacy": {
+     "rows": 912,
+     "rows_with_unit_fields_masked": 912,
+     "rows_with_text_redacted": 0,
+     "rows_with_any_redaction": 912,
+     "text_replacements_by_kind": {},
+     "rows_redacted_this_run": 0,
+     "rows_redacted_upstream": 912
+    },
+    "withheld_field_counts": {
+     "complaint_anonymous_flag": 836,
+     "unique_key": 752
+    }
+   }
+  },
+  "west_17_220": {
+   "address": "220 West 17th Street, Manhattan",
+   "resolver": {
+    "outcome": "verified",
+    "resolution_level": "building",
+    "bbl": "1007660055",
+    "bin": "1081543",
+    "permitted_join_keys": [
+     "bbl",
+     "bin"
+    ]
+   },
+   "status": "records_found",
+   "status_detail": "105 problem rows in 79 complaints; matches the source count",
+   "source_count": 105,
+   "problems": 105,
+   "complaints": 79,
+   "pages": [
+    0,
+    105
+   ],
+   "data_as_of": "Wed, 21 Oct 2026 14:10:13 GMT",
+   "summary": {
+    "data_as_of": "Wed, 21 Oct 2026 14:10:13 GMT",
+    "join_scope": "building",
+    "building_specific_claims_allowed": true,
+    "total_problems": 105,
+    "total_complaints": 79,
+    "problems_by_attribution": {
+     "unattributed_on_lot": {
+      "problems": 84,
+      "open": 14,
+      "closed": 70,
+      "status_unknown": 0,
+      "duplicate_reports": 13,
+      "not_flagged_duplicate": 71,
+      "by_type": {
+       "EMERGENCY": 63,
+       "HAZARDOUS": 1,
+       "IMMEDIATE EMERGENCY": 6,
+       "NON EMERGENCY": 14
+      },
+      "by_major_category": {
+       "PLUMBING": 14,
+       "PAINT/PLASTER": 4,
+       "GENERAL": 6,
+       "HEAT/HOT WATER": 48,
+       "WATER LEAK": 2,
+       "UNSANITARY CONDITION": 2,
+       "DOOR/WINDOW": 3,
+       "FLOORING/STAIRS": 2,
+       "ELECTRIC": 2,
+       "APPLIANCE": 1
+      },
+      "by_outcome": {
+       "no_violation_found": 31,
+       "restored_per_contact": 6,
+       "no_access": 4,
+       "corrected_per_contact": 8,
+       "inspection_not_completed": 1,
+       "duplicate_of_building_wide": 13,
+       "violations_issued": 10,
+       "violations_previously_issued": 1,
+       "open_owner_notified": 10
+      },
+      "received_last_12_months": 56,
+      "received_last_36_months": 66
+     },
+     "this_building": {
+      "problems": 13,
+      "open": 7,
+      "closed": 6,
+      "status_unknown": 0,
+      "duplicate_reports": 1,
+      "not_flagged_duplicate": 12,
+      "by_type": {
+       "NON EMERGENCY": 4,
+       "EMERGENCY": 8,
+       "IMMEDIATE EMERGENCY": 1
+      },
+      "by_major_category": {
+       "DOOR/WINDOW": 1,
+       "ELECTRIC": 1,
+       "HEAT/HOT WATER": 7,
+       "PLUMBING": 2,
+       "GENERAL": 2
+      },
+      "by_outcome": {
+       "no_violation_found": 3,
+       "violations_issued": 1,
+       "restored_per_contact": 1,
+       "corrected_per_contact": 1,
+       "open_owner_notified": 6,
+       "duplicate_of_building_wide": 1
+      },
+      "received_last_12_months": 10,
+      "received_last_36_months": 11
+     },
+     "other_building_on_lot": {
+      "problems": 8,
+      "open": 1,
+      "closed": 7,
+      "status_unknown": 0,
+      "duplicate_reports": 1,
+      "not_flagged_duplicate": 7,
+      "by_type": {
+       "EMERGENCY": 7,
+       "NON EMERGENCY": 1
+      },
+      "by_major_category": {
+       "HEAT/HOT WATER": 7,
+       "UNSANITARY CONDITION": 1
+      },
+      "by_outcome": {
+       "no_access": 3,
+       "corrected_per_contact": 1,
+       "restored_per_contact": 1,
+       "duplicate_of_building_wide": 1,
+       "open_owner_notified": 1,
+       "no_violation_found": 1
+      },
+      "received_last_12_months": 6,
+      "received_last_36_months": 8
+     }
+    },
+    "complaints_by_attribution": {
+     "unattributed_on_lot": {
+      "complaints": 61,
+      "open": 13,
+      "closed": 48,
+      "status_unknown": 0,
+      "with_duplicate_problems": 12,
+      "hpd_reported_violations_issued": 7,
+      "received_last_12_months": 43,
+      "received_last_36_months": 52
+     },
+     "this_building": {
+      "complaints": 10,
+      "open": 5,
+      "closed": 5,
+      "status_unknown": 0,
+      "with_duplicate_problems": 1,
+      "hpd_reported_violations_issued": 1,
+      "received_last_12_months": 8,
+      "received_last_36_months": 9
+     },
+     "other_building_on_lot": {
+      "complaints": 8,
+      "open": 1,
+      "closed": 7,
+      "status_unknown": 0,
+      "with_duplicate_problems": 1,
+      "hpd_reported_violations_issued": 0,
+      "received_last_12_months": 6,
+      "received_last_36_months": 8
+     }
+    },
+    "classification": {
+     "problems_with_text": 105,
+     "classified": 105,
+     "other": 0,
+     "no_text": 0,
+     "coverage": 1.0,
+     "other_texts": []
+    },
+    "conflict_counts": {
+     "duplicate_id_different_content": 0,
+     "lot_identifier_conflict": 0,
+     "status_fields_disagree": 0,
+     "mixed_attribution_complaints": 0
+    },
+    "quality_flag_counts": {
+     "bbl_missing": 84,
+     "bin_missing": 84
+    },
+    "location_scope_counts": {
+     "building_wide": 62,
+     "common_area": 3,
+     "unit": 40
+    },
+    "privacy": {
+     "rows": 105,
+     "rows_with_unit_fields_masked": 105,
+     "rows_with_text_redacted": 0,
+     "rows_with_any_redaction": 105,
+     "text_replacements_by_kind": {},
+     "rows_redacted_this_run": 0,
+     "rows_redacted_upstream": 105
+    },
+    "withheld_field_counts": {
+     "complaint_anonymous_flag": 97,
+     "unique_key": 90
+    }
+   }
+  },
+  "west_farms_1217": {
+   "address": "1217 West Farms Road, Bronx",
+   "resolver": {
+    "outcome": "verified",
+    "resolution_level": "tax_lot",
+    "bbl": "2029930031",
+    "bin": null,
+    "permitted_join_keys": [
+     "bbl"
+    ]
+   },
+   "status": "records_found",
+   "status_detail": "51 problem rows in 48 complaints; matches the source count",
+   "source_count": 51,
+   "problems": 51,
+   "complaints": 48,
+   "pages": [
+    0,
+    51
+   ],
+   "data_as_of": "Wed, 21 Oct 2026 14:10:13 GMT",
+   "summary": {
+    "data_as_of": "Wed, 21 Oct 2026 14:10:13 GMT",
+    "join_scope": "tax_lot",
+    "building_specific_claims_allowed": false,
+    "total_problems": 51,
+    "total_complaints": 48,
+    "problems_by_attribution": {
+     "lot_level": {
+      "problems": 51,
+      "open": 0,
+      "closed": 51,
+      "status_unknown": 0,
+      "duplicate_reports": 3,
+      "not_flagged_duplicate": 48,
+      "by_type": {
+       "EMERGENCY": 45,
+       "NON EMERGENCY": 5,
+       "IMMEDIATE EMERGENCY": 1
+      },
+      "by_major_category": {
+       "HEAT/HOT WATER": 41,
+       "ELECTRIC": 1,
+       "DOOR/WINDOW": 1,
+       "PLUMBING": 3,
+       "GENERAL": 4,
+       "WATER LEAK": 1
+      },
+      "by_outcome": {
+       "restored_per_contact": 7,
+       "corrected_per_contact": 10,
+       "no_violation_found": 25,
+       "duplicate_of_building_wide": 3,
+       "no_access": 4,
+       "inspection_not_completed": 1,
+       "violations_issued": 1
+      },
+      "received_last_12_months": 4,
+      "received_last_36_months": 14
+     }
+    },
+    "complaints_by_attribution": {
+     "lot_level": {
+      "complaints": 48,
+      "open": 0,
+      "closed": 48,
+      "status_unknown": 0,
+      "with_duplicate_problems": 3,
+      "hpd_reported_violations_issued": 1,
+      "received_last_12_months": 4,
+      "received_last_36_months": 14
+     }
+    },
+    "classification": {
+     "problems_with_text": 51,
+     "classified": 51,
+     "other": 0,
+     "no_text": 0,
+     "coverage": 1.0,
+     "other_texts": []
+    },
+    "conflict_counts": {
+     "duplicate_id_different_content": 0,
+     "lot_identifier_conflict": 0,
+     "status_fields_disagree": 0,
+     "mixed_attribution_complaints": 0
+    },
+    "quality_flag_counts": {},
+    "location_scope_counts": {
+     "building_wide": 13,
+     "unit": 38
+    },
+    "privacy": {
+     "rows": 51,
+     "rows_with_unit_fields_masked": 51,
+     "rows_with_text_redacted": 0,
+     "rows_with_any_redaction": 51,
+     "text_replacements_by_kind": {},
+     "rows_redacted_this_run": 0,
+     "rows_redacted_upstream": 51
+    },
+    "withheld_field_counts": {
+     "complaint_anonymous_flag": 51,
+     "unique_key": 46
+    }
+   }
+  },
+  "fifth_ave_350": {
+   "address": "350 5th Avenue, New York, NY 10118",
+   "resolver": {
+    "outcome": "verified",
+    "resolution_level": "building",
+    "bbl": "1008350041",
+    "bin": "1015862",
+    "permitted_join_keys": [
+     "bbl",
+     "bin"
+    ]
+   },
+   "status": "records_found",
+   "status_detail": "10 problem rows in 6 complaints; matches the source count",
+   "source_count": 10,
+   "problems": 10,
+   "complaints": 6,
+   "pages": [
+    0,
+    10
+   ],
+   "data_as_of": "Wed, 21 Oct 2026 14:10:13 GMT",
+   "summary": {
+    "data_as_of": "Wed, 21 Oct 2026 14:10:13 GMT",
+    "join_scope": "building",
+    "building_specific_claims_allowed": true,
+    "total_problems": 10,
+    "total_complaints": 6,
+    "problems_by_attribution": {
+     "unattributed_on_lot": {
+      "problems": 1,
+      "open": 0,
+      "closed": 1,
+      "status_unknown": 0,
+      "duplicate_reports": 0,
+      "not_flagged_duplicate": 1,
+      "by_type": {
+       "EMERGENCY": 1
+      },
+      "by_major_category": {
+       "HEATING": 1
+      },
+      "by_outcome": {
+       "corrected_per_contact": 1
+      },
+      "received_last_12_months": 0,
+      "received_last_36_months": 0
+     },
+     "this_building": {
+      "problems": 9,
+      "open": 0,
+      "closed": 9,
+      "status_unknown": 0,
+      "duplicate_reports": 0,
+      "not_flagged_duplicate": 9,
+      "by_type": {
+       "EMERGENCY": 4,
+       "IMMEDIATE EMERGENCY": 4,
+       "NON EMERGENCY": 1
+      },
+      "by_major_category": {
+       "WATER LEAK": 1,
+       "SAFETY": 1,
+       "GENERAL": 1,
+       "PLUMBING": 1,
+       "UNSANITARY CONDITION": 1,
+       "ELECTRIC": 2,
+       "HEAT/HOT WATER": 2
+      },
+      "by_outcome": {
+       "no_violation_found": 8,
+       "no_access": 1
+      },
+      "received_last_12_months": 1,
+      "received_last_36_months": 1
+     }
+    },
+    "complaints_by_attribution": {
+     "unattributed_on_lot": {
+      "complaints": 1,
+      "open": 0,
+      "closed": 1,
+      "status_unknown": 0,
+      "with_duplicate_problems": 0,
+      "hpd_reported_violations_issued": 0,
+      "received_last_12_months": 0,
+      "received_last_36_months": 0
+     },
+     "this_building": {
+      "complaints": 5,
+      "open": 0,
+      "closed": 5,
+      "status_unknown": 0,
+      "with_duplicate_problems": 0,
+      "hpd_reported_violations_issued": 0,
+      "received_last_12_months": 1,
+      "received_last_36_months": 1
+     }
+    },
+    "classification": {
+     "problems_with_text": 10,
+     "classified": 10,
+     "other": 0,
+     "no_text": 0,
+     "coverage": 1.0,
+     "other_texts": []
+    },
+    "conflict_counts": {
+     "duplicate_id_different_content": 0,
+     "lot_identifier_conflict": 1,
+     "status_fields_disagree": 0,
+     "mixed_attribution_complaints": 0
+    },
+    "quality_flag_counts": {
+     "lot_identifier_conflict": 1,
+     "lot_parts_missing": 1
+    },
+    "location_scope_counts": {
+     "building_wide": 7,
+     "common_area": 1,
+     "unit": 2
+    },
+    "privacy": {
+     "rows": 10,
+     "rows_with_unit_fields_masked": 10,
+     "rows_with_text_redacted": 0,
+     "rows_with_any_redaction": 10,
+     "text_replacements_by_kind": {},
+     "rows_redacted_this_run": 0,
+     "rows_redacted_upstream": 10
+    },
+    "withheld_field_counts": {
+     "complaint_anonymous_flag": 10,
+     "unique_key": 10
+    }
+   }
+  },
+  "acp_1845": {
+   "address": "1845 Adam Clayton Powell Jr Blvd, Manhattan",
+   "resolver": {
+    "outcome": "verified",
+    "resolution_level": "building",
+    "bbl": "1018227502",
+    "bin": "1054974",
+    "permitted_join_keys": [
+     "bbl",
+     "bin"
+    ]
+   },
+   "status": "records_found",
+   "status_detail": "2653 problem rows in 1124 complaints; matches the source count",
+   "source_count": 2653,
+   "problems": 2653,
+   "complaints": 1124,
+   "pages": [
+    0,
+    500,
+    500,
+    500,
+    500,
+    500,
+    153
+   ],
+   "data_as_of": "Wed, 21 Oct 2026 14:10:13 GMT",
+   "summary": {
+    "data_as_of": "Wed, 21 Oct 2026 14:10:13 GMT",
+    "join_scope": "building",
+    "building_specific_claims_allowed": true,
+    "total_problems": 2653,
+    "total_complaints": 1124,
+    "problems_by_attribution": {
+     "this_building": {
+      "problems": 1717,
+      "open": 2,
+      "closed": 1715,
+      "status_unknown": 0,
+      "duplicate_reports": 256,
+      "not_flagged_duplicate": 1461,
+      "by_type": {
+       "EMERGENCY": 985,
+       "HAZARDOUS": 17,
+       "IMMEDIATE EMERGENCY": 68,
+       "NON EMERGENCY": 647
+      },
+      "by_major_category": {
+       "HEATING": 351,
+       "PLUMBING": 260,
+       "GENERAL": 203,
+       "ELECTRIC": 154,
+       "NONCONST": 88,
+       "PAINT/PLASTER": 239,
+       "CONSTRUCTION": 2,
+       "APPLIANCE": 24,
+       "UNSANITARY CONDITION": 113,
+       "WATER LEAK": 50,
+       "FLOORING/STAIRS": 62,
+       "SAFETY": 62,
+       "DOOR/WINDOW": 54,
+       "HEAT/HOT WATER": 49,
+       "OUTSIDE BUILDING": 5,
+       "ELEVATOR": 1
+      },
+      "by_outcome": {
+       "restored_per_contact": 38,
+       "duplicate_of_building_wide": 256,
+       "violations_issued": 391,
+       "corrected_per_contact": 54,
+       "no_violation_found": 708,
+       "no_access": 218,
+       "violations_previously_issued": 42,
+       "inspection_not_completed": 8,
+       "open_owner_notified": 2
+      },
+      "received_last_12_months": 35,
+      "received_last_36_months": 79
+     },
+     "other_building_on_lot": {
+      "problems": 936,
+      "open": 0,
+      "closed": 936,
+      "status_unknown": 0,
+      "duplicate_reports": 120,
+      "not_flagged_duplicate": 816,
+      "by_type": {
+       "EMERGENCY": 535,
+       "HAZARDOUS": 41,
+       "NON EMERGENCY": 337,
+       "IMMEDIATE EMERGENCY": 23
+      },
+      "by_major_category": {
+       "PLUMBING": 170,
+       "HEATING": 169,
+       "APPLIANCE": 20,
+       "GENERAL": 148,
+       "PAINT/PLASTER": 160,
+       "NONCONST": 46,
+       "ELECTRIC": 90,
+       "CONSTRUCTION": 4,
+       "DOOR/WINDOW": 24,
+       "WATER LEAK": 16,
+       "HEAT/HOT WATER": 42,
+       "FLOORING/STAIRS": 31,
+       "UNSANITARY CONDITION": 16
+      },
+      "by_outcome": {
+       "no_violation_found": 390,
+       "restored_per_contact": 24,
+       "duplicate_of_building_wide": 120,
+       "no_access": 119,
+       "corrected_per_contact": 38,
+       "violations_issued": 220,
+       "violations_previously_issued": 20,
+       "inspection_not_completed": 5
+      },
+      "received_last_12_months": 23,
+      "received_last_36_months": 30
+     }
+    },
+    "complaints_by_attribution": {
+     "this_building": {
+      "complaints": 747,
+      "open": 1,
+      "closed": 746,
+      "status_unknown": 0,
+      "with_duplicate_problems": 249,
+      "hpd_reported_violations_issued": 192,
+      "received_last_12_months": 15,
+      "received_last_36_months": 31
+     },
+     "other_building_on_lot": {
+      "complaints": 377,
+      "open": 0,
+      "closed": 377,
+      "status_unknown": 0,
+      "with_duplicate_problems": 117,
+      "hpd_reported_violations_issued": 91,
+      "received_last_12_months": 15,
+      "received_last_36_months": 20
+     }
+    },
+    "classification": {
+     "problems_with_text": 2653,
+     "classified": 2653,
+     "other": 0,
+     "no_text": 0,
+     "coverage": 1.0,
+     "other_texts": []
+    },
+    "conflict_counts": {
+     "duplicate_id_different_content": 0,
+     "lot_identifier_conflict": 0,
+     "status_fields_disagree": 0,
+     "mixed_attribution_complaints": 0
+    },
+    "quality_flag_counts": {
+     "date_order": 24
+    },
+    "location_scope_counts": {
+     "building_wide": 387,
+     "common_area": 147,
+     "unit": 2119
+    },
+    "privacy": {
+     "rows": 2653,
+     "rows_with_unit_fields_masked": 2653,
+     "rows_with_text_redacted": 0,
+     "rows_with_any_redaction": 2653,
+     "text_replacements_by_kind": {},
+     "rows_redacted_this_run": 0,
+     "rows_redacted_upstream": 2653
+    },
+    "withheld_field_counts": {
+     "complaint_anonymous_flag": 2359,
+     "unique_key": 1959
+    }
+   }
+  }
+ }
+}

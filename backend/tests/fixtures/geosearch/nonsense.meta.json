@@ -1,0 +1,13 @@
+{
+  "attempts": 1,
+  "body_sha256": "577187aa7001cc1a0d4913e9537b2edb13e419ae166b776e621376415037f442",
+  "elapsed_seconds": 0.055,
+  "fetched_at": "2026-10-21T06:05:40.683004+00:00",
+  "headers": {
+    "date": "Wed, 21 Oct 2026 06:05:40 GMT",
+    "etag": "W/\"313-oCc4KcTaao8wbZyEUpnq2OEfXaY\""
+  },
+  "source": "geosearch",
+  "status_code": 200,
+  "url": "https://geosearch.planninglabs.nyc/v2/search?text=zzqx+qqzz+nowhere&size=5"
+}

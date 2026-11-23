@@ -1,0 +1,3719 @@
+{
+ "status": "PROPOSED, not approved",
+ "sources": {
+  "dob_pdf_2021": {
+   "source_url": "https://www.nyc.gov/assets/buildings/pdf/bis_complaint_disposition_codes.pdf",
+   "obtained": "copy downloaded from source_url by Sanyam and supplied through the project on 2026-10-23 (nyc.gov is blocked from the cloud environment)",
+   "sha256": "7ee93140b24d56fec2bacddc3c5f6037ab3b377c7d112440c2a322f3efc636ba",
+   "pdf_metadata": {
+    "Title": "BIS Complaint Disposition Codes",
+    "Author": "Department of Buildings",
+    "CreationDate": "Thu Sep  2 16:10:49 2021 UTC",
+    "ModDate": "Thu Sep  2 16:20:34 2021 UTC",
+    "Pages": "6"
+   },
+   "revision_marks": [
+    "09/21",
+    "9/21"
+   ]
+  },
+  "ref_6v9u_ndjg_2017": {
+   "dataset": "https://data.cityofnewyork.us/d/6v9u-ndjg",
+   "note": "metadata says last updated 2017; data version header 8 Mar 2018"
+  },
+  "counts": "docs/task5/step1_measurements.json (2026-10-23 04:39Z); no new snapshot"
+ },
+ "dob_disposition": [
+  {
+   "code": "A1",
+   "definition": "Buildings Violation(s) Served",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Buildings Violation(s) Served",
+   "definition_2017_table": "BUILDINGS VIOLATION(S) SERVED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "violation_served",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 151072,
+   "rows_by_status": {
+    "CLOSED": 151072
+   }
+  },
+  {
+   "code": "A2",
+   "definition": "Criminal Court Summons Served",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Criminal Court Summons Served",
+   "definition_2017_table": "CRIMINAL COURT SUMMONS SERVED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "violation_served",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 346,
+   "rows_by_status": {
+    "CLOSED": 346
+   }
+  },
+  {
+   "code": "A3",
+   "definition": "Full Stop Work Order Served",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Full Stop Work Order Served",
+   "definition_2017_table": "FULL STOP WORK ORDER SERVED F",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "order_event",
+   "order_event": "stop_work_full_issued",
+   "order_action": "served",
+   "rows_in_use": 10556,
+   "rows_by_status": {
+    "CLOSED": 10556
+   }
+  },
+  {
+   "code": "A4",
+   "definition": "Buildings Violation(s) and Criminal Court Summons Served",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Buildings Violation(s) and Criminal Court Summons Served",
+   "definition_2017_table": "BUILDINGS VIOLATION(S) & CRIMINAL COURT SUMMONS SERVED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "violation_served",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 246,
+   "rows_by_status": {
+    "CLOSED": 246
+   }
+  },
+  {
+   "code": "A5",
+   "definition": "BUILDINGS VIOLATION(S) & CRIMINAL COURT SUMMONS SERVED",
+   "definition_source": "ref_6v9u_ndjg_2017",
+   "definition_2021_pdf": null,
+   "definition_2017_table": "BUILDINGS VIOLATION(S) & CRIMINAL COURT SUMMONS SERVED",
+   "wording_comparison": null,
+   "outcome": "violation_served",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 55,
+   "rows_by_status": {
+    "CLOSED": 55
+   }
+  },
+  {
+   "code": "A6",
+   "definition": "Vacant/Open/Unguarded Structure – Violation(s) Issued",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Vacant/Open/Unguarded Structure – Violation(s) Issued",
+   "definition_2017_table": "VACANT/OPEN/UNGUARDED STRUCTURE - VIOLATION(S) ISSUED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "violation_issued",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 7616,
+   "rows_by_status": {
+    "CLOSED": 7616
+   }
+  },
+  {
+   "code": "A7",
+   "definition": "Complaint Accepted by Padlock Unit",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Accepted by Padlock Unit",
+   "definition_2017_table": "COMPLAINT ACCEPTED BY PADLOCK UNIT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 3394,
+   "rows_by_status": {
+    "CLOSED": 3394
+   }
+  },
+  {
+   "code": "A8",
+   "definition": "OATH Violation Served",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "OATH Violation Served",
+   "definition_2017_table": "ECB VIOLATION SERVED",
+   "wording_comparison": "ecb_renamed_oath",
+   "outcome": "violation_served",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 351464,
+   "rows_by_status": {
+    "CLOSED": 351464
+   }
+  },
+  {
+   "code": "A9",
+   "definition": "OATH and DOB Violations Served",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "OATH and DOB Violations Served",
+   "definition_2017_table": "ECB & BUILDINGS VIOLATIONS SERVED",
+   "wording_comparison": "wording_differs",
+   "outcome": "violation_served",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 141640,
+   "rows_by_status": {
+    "CLOSED": 141640
+   }
+  },
+  {
+   "code": "AA",
+   "definition": "HRP: Request for Corrective Action Issued",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "HRP: Request for Corrective Action Issued",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "corrective_action_requested",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 3692,
+   "rows_by_status": {
+    "CLOSED": 3692
+   }
+  },
+  {
+   "code": "AB",
+   "definition": "HRP: Request for Corrective Action Issued – Corrected",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "HRP: Request for Corrective Action Issued – Corrected",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "corrective_action_corrected",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 6283,
+   "rows_by_status": {
+    "CLOSED": 6283
+   }
+  },
+  {
+   "code": "AC",
+   "definition": "HRP: Request for Corrective Action Issued – Not Corrected",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "HRP: Request for Corrective Action Issued – Not Corrected",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "corrective_action_not_corrected",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 46,
+   "rows_by_status": {
+    "CLOSED": 46
+   }
+  },
+  {
+   "code": "AD",
+   "definition": null,
+   "definition_source": null,
+   "definition_2021_pdf": null,
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 393,
+   "rows_by_status": {
+    "CLOSED": 393
+   }
+  },
+  {
+   "code": "AE",
+   "definition": null,
+   "definition_source": null,
+   "definition_2021_pdf": null,
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 798,
+   "rows_by_status": {
+    "CLOSED": 798
+   }
+  },
+  {
+   "code": "AF",
+   "definition": null,
+   "definition_source": null,
+   "definition_2021_pdf": null,
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 3744,
+   "rows_by_status": {
+    "CLOSED": 3744
+   }
+  },
+  {
+   "code": "AG",
+   "definition": null,
+   "definition_source": null,
+   "definition_2021_pdf": null,
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 860,
+   "rows_by_status": {
+    "CLOSED": 860
+   }
+  },
+  {
+   "code": "AH",
+   "definition": null,
+   "definition_source": null,
+   "definition_2021_pdf": null,
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 254,
+   "rows_by_status": {
+    "CLOSED": 254
+   }
+  },
+  {
+   "code": "AI",
+   "definition": null,
+   "definition_source": null,
+   "definition_2021_pdf": null,
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 381,
+   "rows_by_status": {
+    "CLOSED": 381
+   }
+  },
+  {
+   "code": "AJ",
+   "definition": null,
+   "definition_source": null,
+   "definition_2021_pdf": null,
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 17,
+   "rows_by_status": {
+    "CLOSED": 17
+   }
+  },
+  {
+   "code": "B1",
+   "definition": "Buildings Violation(s) Prepared and Attempt to Serve will be Made",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Buildings Violation(s) Prepared and Attempt to Serve will be Made",
+   "definition_2017_table": "BUILDINGS VIOLATION(S) PREPARED & ATTEMPT TO SERVE WILL BE MADE",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "violation_prepared_not_served",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 70919,
+   "rows_by_status": {
+    "CLOSED": 70919
+   }
+  },
+  {
+   "code": "B2",
+   "definition": "OATH Summons Prepared and Attempt to Serve will be Made",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "OATH Summons Prepared and Attempt to Serve will be Made",
+   "definition_2017_table": "ECB VIOLATION(S) PREPARED & ATTEMPT TO SERVE WILL BE MADE",
+   "wording_comparison": "wording_differs",
+   "outcome": "violation_prepared_not_served",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 3688,
+   "rows_by_status": {
+    "CLOSED": 3688
+   }
+  },
+  {
+   "code": "C1",
+   "definition": "Inspector Unable to Gain Access – 1st Attempt Made",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Inspector Unable to Gain Access – 1st Attempt Made",
+   "definition_2017_table": "INSPECTOR UNABLE TO GAIN ACCESS - 1ST ATTEMPT",
+   "wording_comparison": "wording_differs",
+   "outcome": "no_access",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 6416,
+   "rows_by_status": {
+    "ACTIVE": 5924,
+    "CLOSED": 492
+   }
+  },
+  {
+   "code": "C2",
+   "definition": "Inspector Unable to Gain Access – 2nd Final Attempt",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Inspector Unable to Gain Access – 2nd Final Attempt",
+   "definition_2017_table": "INSPECTOR UNABLE TO GAIN ACCESS - 2ND ATTEMPT",
+   "wording_comparison": "wording_differs",
+   "outcome": "no_access",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 440620,
+   "rows_by_status": {
+    "CLOSED": 440620
+   }
+  },
+  {
+   "code": "C3",
+   "definition": "Access Denied – 1st Attempt",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Access Denied – 1st Attempt",
+   "definition_2017_table": "ACCESS DENIED - 1ST ATTEMPT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "no_access",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1358,
+   "rows_by_status": {
+    "ACTIVE": 1344,
+    "CLOSED": 14
+   }
+  },
+  {
+   "code": "C4",
+   "definition": "Access Denied – 2nd Attempt",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Access Denied – 2nd Attempt",
+   "definition_2017_table": "ACCESS DENIED - 2ND ATTEMPT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "no_access",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 54861,
+   "rows_by_status": {
+    "CLOSED": 54861
+   }
+  },
+  {
+   "code": "C5",
+   "definition": "AW: No Access – 1st Attempt",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "AW: No Access – 1st Attempt",
+   "definition_2017_table": "AW: NO ACCESS - 1ST ATTEMPT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "no_access",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 258,
+   "rows_by_status": {
+    "ACTIVE": 238,
+    "CLOSED": 20
+   }
+  },
+  {
+   "code": "C6",
+   "definition": "AW: Access Denied – 1st Attempt",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "AW: Access Denied – 1st Attempt",
+   "definition_2017_table": "AW: ACCESS DENIED - 1ST ATTEMPT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "no_access",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 145,
+   "rows_by_status": {
+    "ACTIVE": 141,
+    "CLOSED": 4
+   }
+  },
+  {
+   "code": "C7",
+   "definition": "AW: No Access – 2nd Attempt",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "AW: No Access – 2nd Attempt",
+   "definition_2017_table": "AW: NO ACCESS - 2ND ATTEMPT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "no_access",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 5359,
+   "rows_by_status": {
+    "CLOSED": 5359
+   }
+  },
+  {
+   "code": "C8",
+   "definition": "AW: Access Denied – 2nd Attempt",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "AW: Access Denied – 2nd Attempt",
+   "definition_2017_table": "AW: ACCESS DENIED - 2ND ATTEMPT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "no_access",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1874,
+   "rows_by_status": {
+    "CLOSED": 1874
+   }
+  },
+  {
+   "code": "D0",
+   "definition": null,
+   "definition_source": null,
+   "definition_2021_pdf": null,
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 5,
+   "rows_by_status": {
+    "ACTIVE": 5
+   }
+  },
+  {
+   "code": "D1",
+   "definition": "Complaint Assigned to Construction Enforcement",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to Construction Enforcement",
+   "definition_2017_table": "COMPLAINT ASSIGNED TO CONSTRUCTION UNIT",
+   "wording_comparison": "wording_differs",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 65,
+   "rows_by_status": {
+    "ACTIVE": 49,
+    "CLOSED": 16
+   }
+  },
+  {
+   "code": "D2",
+   "definition": "Complaint Assigned to Plumbing Unit",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to Plumbing Unit",
+   "definition_2017_table": "COMPLAINT ASSIGNED TO PLUMBING UNIT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 4,
+   "rows_by_status": {
+    "ACTIVE": 2,
+    "CLOSED": 2
+   }
+  },
+  {
+   "code": "D3",
+   "definition": "Complaint Assigned to Elevator Unit",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to Elevator Unit",
+   "definition_2017_table": "COMPLAINT ASSIGNED TO ELEVATOR UNIT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 16,
+   "rows_by_status": {
+    "ACTIVE": 14,
+    "CLOSED": 2
+   }
+  },
+  {
+   "code": "D4",
+   "definition": "Complaint Assigned to Construction Safety Compliance Unit",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to Construction Safety Compliance Unit",
+   "definition_2017_table": "COMPLAINT ASSIGNED TO BEST SQUAD",
+   "wording_comparison": "wording_differs",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "D5",
+   "definition": "Complaint Assigned to Emergency Response Team",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to Emergency Response Team",
+   "definition_2017_table": "COMPLAINT ASSIGNED TO EMERGENCY RESPONSE TEAM",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 9,
+   "rows_by_status": {
+    "ACTIVE": 6,
+    "CLOSED": 3
+   }
+  },
+  {
+   "code": "D6",
+   "definition": "Complaint Assigned to Boiler Unit",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to Boiler Unit",
+   "definition_2017_table": "COMPLAINT ASSIGNED TO BOILER UNIT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 127,
+   "rows_by_status": {
+    "ACTIVE": 125,
+    "CLOSED": 2
+   }
+  },
+  {
+   "code": "D7",
+   "definition": "Complaint Assigned to Cranes and Derricks Unit",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to Cranes and Derricks Unit",
+   "definition_2017_table": "COMPLAINT ASSIGNED TO CRANES AND DERRICKS UNIT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "D8",
+   "definition": "COMPLAINT ASSIGNED TO EXECUTIVE INSPECTIONS",
+   "definition_source": "ref_6v9u_ndjg_2017",
+   "definition_2021_pdf": null,
+   "definition_2017_table": "COMPLAINT ASSIGNED TO EXECUTIVE INSPECTIONS",
+   "wording_comparison": null,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 9,
+   "rows_by_status": {
+    "ACTIVE": 3,
+    "CLOSED": 6
+   }
+  },
+  {
+   "code": "D9",
+   "definition": "Complaint Assigned to Electrical Unit",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to Electrical Unit",
+   "definition_2017_table": "COMPLAINT ASSIGNED TO ELECTRICAL UNIT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 2,
+   "rows_by_status": {
+    "ACTIVE": 1,
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "E1",
+   "definition": "Complaint Assigned to Building Marshal’s Office",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to Building Marshal’s Office",
+   "definition_2017_table": "COMPLAINT ASSIGNED TO BUILDING MARSHAL'S OFFICE",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 27,
+   "rows_by_status": {
+    "ACTIVE": 12,
+    "CLOSED": 15
+   }
+  },
+  {
+   "code": "E2",
+   "definition": "Complaint Assigned to Legal Affairs/Padlock Unit",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to Legal Affairs/Padlock Unit",
+   "definition_2017_table": "COMPLAINT ASSIGNED TO LEGAL AFFAIRS/PADLOCK UNIT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 3,
+   "rows_by_status": {
+    "CLOSED": 3
+   }
+  },
+  {
+   "code": "E3",
+   "definition": "Complaint Assigned to Borough Office for Final Inspection",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to Borough Office for Final Inspection",
+   "definition_2017_table": "COMPLAINT ASSIGNED TO BORO OFFICE FOR FINAL INSPECTION",
+   "wording_comparison": "wording_differs",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "E4",
+   "definition": "Complaint Assigned to LL58/87 Unit (Handicap Access)",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to LL58/87 Unit (Handicap Access)",
+   "definition_2017_table": "COMPLAINT ASSIGNED TO LL58/87 UNIT (HANDICAP ACCESS)",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "E5",
+   "definition": "Complaint Assigned to Center for Re-evaluation",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to Center for Re-evaluation",
+   "definition_2017_table": "COMPLAINT ASSIGNED TO CENTER FOR RE-EVALUATION",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "E6",
+   "definition": "Complaint Assigned to Special Operations Unit",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to Special Operations Unit",
+   "definition_2017_table": "COMPLAINT ASSIGNED TO SPECIAL OPERATIONS UNIT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 80,
+   "rows_by_status": {
+    "ACTIVE": 80
+   }
+  },
+  {
+   "code": "E7",
+   "definition": "COMPLAINT ASSIGNED TO SCAFFOLD SAFETY TEAM",
+   "definition_source": "ref_6v9u_ndjg_2017",
+   "definition_2021_pdf": null,
+   "definition_2017_table": "COMPLAINT ASSIGNED TO SCAFFOLD SAFETY TEAM",
+   "wording_comparison": null,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "E8",
+   "definition": "COMPLAINT ASSIGNED TO EXCAVATION INSPECTION & AUDITS TEAM",
+   "definition_source": "ref_6v9u_ndjg_2017",
+   "definition_2021_pdf": null,
+   "definition_2017_table": "COMPLAINT ASSIGNED TO EXCAVATION INSPECTION & AUDITS TEAM",
+   "wording_comparison": null,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "E9",
+   "definition": "Complaint Assigned to Stalled Sites Unit",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to Stalled Sites Unit",
+   "definition_2017_table": "COMPLAINT ASSIGNED TO STALLED SITES UNIT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "EA",
+   "definition": "COMPLAINT ASSIGNED TO INTERIOR DEMOLITION UNIT",
+   "definition_source": "ref_6v9u_ndjg_2017",
+   "definition_2021_pdf": null,
+   "definition_2017_table": "COMPLAINT ASSIGNED TO INTERIOR DEMOLITION UNIT",
+   "wording_comparison": null,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "EB",
+   "definition": "Complaint Assigned to Façade Inspection Safety Program",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to Façade Inspection Safety Program",
+   "definition_2017_table": "COMPLAINT ASSIGNED TO FACADE INSPECTION SAFETY PROGRAM",
+   "wording_comparison": "wording_differs",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "ACTIVE": 1
+   }
+  },
+  {
+   "code": "EC",
+   "definition": "Complaint Assigned to Structurally Compromised Buildings Unit",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to Structurally Compromised Buildings Unit",
+   "definition_2017_table": "COMPLAINT ASSIGNED TO STRUCT COMPROMISED BUILDINGS UNIT",
+   "wording_comparison": "wording_differs",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "ED",
+   "definition": "Complaint Assigned Retaining Wall Unit",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned Retaining Wall Unit",
+   "definition_2017_table": "COMPLAINT ASSIGNED TO RETAINING WALLS UNIT",
+   "wording_comparison": "wording_differs",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "EE",
+   "definition": "COMPLAINT REASSIGNED FOR REVIEW",
+   "definition_source": "ref_6v9u_ndjg_2017",
+   "definition_2021_pdf": null,
+   "definition_2017_table": "COMPLAINT REASSIGNED FOR REVIEW",
+   "wording_comparison": null,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 3,
+   "rows_by_status": {
+    "ACTIVE": 2,
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "EF",
+   "definition": "Complaint Assigned to the Mayor's Office of Special Enforcement",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to the Mayor's Office of Special Enforcement",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 140,
+   "rows_by_status": {
+    "ACTIVE": 140
+   }
+  },
+  {
+   "code": "EG",
+   "definition": "Complaint Assigned to the Quality of Life Unit",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to the Quality of Life Unit",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 39,
+   "rows_by_status": {
+    "ACTIVE": 33,
+    "CLOSED": 6
+   }
+  },
+  {
+   "code": "EH",
+   "definition": "Complaint Assigned to the Concrete Enforcement Unit",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to the Concrete Enforcement Unit",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "EI",
+   "definition": null,
+   "definition_source": null,
+   "definition_2021_pdf": null,
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "EJ",
+   "definition": "Complaint Assigned to Construction Safety Enforcement (CSE)",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to Construction Safety Enforcement (CSE)",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 17,
+   "rows_by_status": {
+    "CLOSED": 17
+   }
+  },
+  {
+   "code": "EK",
+   "definition": "Complaint Assigned to the Real-Time Enforcement Unit",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to the Real-Time Enforcement Unit",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 20,
+   "rows_by_status": {
+    "ACTIVE": 12,
+    "CLOSED": 8
+   }
+  },
+  {
+   "code": "EZ",
+   "definition": "Complaint Assigned to the Department of Investigation (DOI)",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Assigned to the Department of Investigation (DOI)",
+   "definition_2017_table": "COMPLAINT ASSIGNED TO DEPT. OF INVESTIGATION",
+   "wording_comparison": "wording_differs",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "F1",
+   "definition": "Complaint Referred to Department of Environmental Protection(DEP)",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Referred to Department of Environmental Protection(DEP)",
+   "definition_2017_table": "COMPLAINT REFERRED TO DEPARTMENT OF ENVIRONMENTAL PROTECTION(DEP)",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "referred",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 4231,
+   "rows_by_status": {
+    "CLOSED": 4231
+   }
+  },
+  {
+   "code": "F2",
+   "definition": "Complaint Referred to NYS Division of Housing and Community Renewal (DHCR)",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Referred to NYS Division of Housing and Community Renewal (DHCR)",
+   "definition_2017_table": "COMPLAINT REFERRED TO NYS DIV. OF HOUSING & COMMUNITY RENEWAL (DHCR)",
+   "wording_comparison": "wording_differs",
+   "outcome": "referred",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 149,
+   "rows_by_status": {
+    "CLOSED": 149
+   }
+  },
+  {
+   "code": "F3",
+   "definition": "Complaint Referred to NYC Department of Health and Mental Hygiene (DOHMH)",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Referred to NYC Department of Health and Mental Hygiene (DOHMH)",
+   "definition_2017_table": "COMPLAINT REFERRED TO DEPARTMENT OF HEALTH",
+   "wording_comparison": "wording_differs",
+   "outcome": "referred",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1469,
+   "rows_by_status": {
+    "CLOSED": 1469
+   }
+  },
+  {
+   "code": "F4",
+   "definition": "COMPLAINT REFERRED FOR REVIEW",
+   "definition_source": "ref_6v9u_ndjg_2017",
+   "definition_2021_pdf": null,
+   "definition_2017_table": "COMPLAINT REFERRED FOR REVIEW",
+   "wording_comparison": null,
+   "outcome": "referred",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 2,
+   "rows_by_status": {
+    "CLOSED": 2
+   }
+  },
+  {
+   "code": "F5",
+   "definition": "Complaint Referred to Department of Sanitation (DOS)",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Referred to Department of Sanitation (DOS)",
+   "definition_2017_table": "COMPLAINT REFERRED TO DEPARTMENT OF SANITATION (DOS)",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "referred",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1177,
+   "rows_by_status": {
+    "CLOSED": 1177
+   }
+  },
+  {
+   "code": "F6",
+   "definition": "Complaint Referred to Department of Transportation (DOT)",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Referred to Department of Transportation (DOT)",
+   "definition_2017_table": "COMPLAINT REFERRED TO DEPARTMENT OF TRANSPORTATION (DOT)",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "referred",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 10686,
+   "rows_by_status": {
+    "CLOSED": 10686
+   }
+  },
+  {
+   "code": "F7",
+   "definition": "Complaint Referred to NYS Office of Real Properties Services",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Referred to NYS Office of Real Properties Services",
+   "definition_2017_table": "COMPLAINT REFERRED TO NYS OFFICE OF REAL PROPERTIES SERVICES",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "referred",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 122,
+   "rows_by_status": {
+    "CLOSED": 122
+   }
+  },
+  {
+   "code": "F8",
+   "definition": "Complaint Referred to Housing Preservation and Development (HPD)",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Referred to Housing Preservation and Development (HPD)",
+   "definition_2017_table": "COMPLAINT REFERRED TO HOUSING PRESERVATION AND DEVELOPMENT (HPD)",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "referred",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 7007,
+   "rows_by_status": {
+    "CLOSED": 7007
+   }
+  },
+  {
+   "code": "F9",
+   "definition": "Complaint Referred to Housing and Urban Development (HUD) Federal",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Referred to Housing and Urban Development (HUD) Federal",
+   "definition_2017_table": "COMPLAINT REFERRED TO HOUSING AND URBAN DEVELOPMENT - FEDERAL (HUD)",
+   "wording_comparison": "wording_differs",
+   "outcome": "referred",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 43,
+   "rows_by_status": {
+    "CLOSED": 43
+   }
+  },
+  {
+   "code": "G1",
+   "definition": "Complaint Referred to Inspector General's Office (IGO)",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Referred to Inspector General's Office (IGO)",
+   "definition_2017_table": "COMPLAINT REFERRED TO INSPECTOR GENERAL'S OFFICE (IGO)",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "referred",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 22,
+   "rows_by_status": {
+    "CLOSED": 22
+   }
+  },
+  {
+   "code": "G2",
+   "definition": "Complaint Referred to Department of Parks and Recreation (DPR)",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Referred to Department of Parks and Recreation (DPR)",
+   "definition_2017_table": "COMPLAINT REFERRED TO DEPARTMENT OF PARKS AND RECREATION",
+   "wording_comparison": "wording_differs",
+   "outcome": "referred",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1016,
+   "rows_by_status": {
+    "CLOSED": 1016
+   }
+  },
+  {
+   "code": "G3",
+   "definition": "Complaint Referred to Taxi and Limousine Commission (TLC)",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Referred to Taxi and Limousine Commission (TLC)",
+   "definition_2017_table": "COMPLAINT REFERRED TO TAXI AND LIMOUSINE COMMISSION (TLC)",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "referred",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 5,
+   "rows_by_status": {
+    "CLOSED": 5
+   }
+  },
+  {
+   "code": "G4",
+   "definition": "Complaint Referred to Department of Consumer Affairs (DCA)",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Referred to Department of Consumer Affairs (DCA)",
+   "definition_2017_table": "COMPLAINT REFERRED TO DEPARTMENT OF CONSUMER AFFAIRS",
+   "wording_comparison": "wording_differs",
+   "outcome": "referred",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1386,
+   "rows_by_status": {
+    "CLOSED": 1386
+   }
+  },
+  {
+   "code": "G5",
+   "definition": "Complaint Referred to New York Police Department (NYPD)",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Referred to New York Police Department (NYPD)",
+   "definition_2017_table": "COMPLAINT REFERRED TO NEW YORK POLICE DEPARTMENT",
+   "wording_comparison": "wording_differs",
+   "outcome": "referred",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 2958,
+   "rows_by_status": {
+    "CLOSED": 2958
+   }
+  },
+  {
+   "code": "G6",
+   "definition": "Complaint Referred to Fire Department of New York (FDNY)",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Referred to Fire Department of New York (FDNY)",
+   "definition_2017_table": "COMPLAINT REFERRED TO FIRE DEPARTMENT OF NEW YORK (FDNY)",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "referred",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1088,
+   "rows_by_status": {
+    "CLOSED": 1088
+   }
+  },
+  {
+   "code": "G7",
+   "definition": "Complaint Referred to Mayor's Office of Special Enforcement (MOSE)",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Referred to Mayor's Office of Special Enforcement (MOSE)",
+   "definition_2017_table": "COMPLAINT REFERRED TO MAYOR'S OFFICE OF SPECIAL ENFORCEMENT",
+   "wording_comparison": "wording_differs",
+   "outcome": "referred",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "G8",
+   "definition": "Complaint Referred to NYC Housing Authority (NYCHA)",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Referred to NYC Housing Authority (NYCHA)",
+   "definition_2017_table": "COMPLAINT REFERRED TO NYC HOUSING AUTHORITY (NYCHA)",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "referred",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 7779,
+   "rows_by_status": {
+    "CLOSED": 7779
+   }
+  },
+  {
+   "code": "G9",
+   "definition": "Complaint Referred to Department of Citywide Administrative Services (DCAS)",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Referred to Department of Citywide Administrative Services (DCAS)",
+   "definition_2017_table": "COMPLAINT REFERRED TO DEPT CITYWIDE ADMINISTRATIVE SERVICES",
+   "wording_comparison": "wording_differs",
+   "outcome": "referred",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 131,
+   "rows_by_status": {
+    "CLOSED": 131
+   }
+  },
+  {
+   "code": "H1",
+   "definition": "Please See Complaint Number",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Please See Complaint Number",
+   "definition_2017_table": "PLEASE SEE COMPLAINT NUMBER",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 223229,
+   "rows_by_status": {
+    "CLOSED": 223229
+   }
+  },
+  {
+   "code": "H2",
+   "definition": "Previously Inspected Complaint – Pre-BIS Complaint Number",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Previously Inspected Complaint – Pre-BIS Complaint Number",
+   "definition_2017_table": "PREVIOUSLY INSPECTED COMPLAINT - PRE-BIS COMPLAINT NUMBER",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 86,
+   "rows_by_status": {
+    "CLOSED": 86
+   }
+  },
+  {
+   "code": "H3",
+   "definition": "Building Violation Issued for Failure to Obey Stop Work Order",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Building Violation Issued for Failure to Obey Stop Work Order",
+   "definition_2017_table": "BUILDING VIOLATION ISSUED FOR FAILURE TO OBEY STOP WORK ORDER",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "violation_issued",
+   "order_event": "stop_work_noncompliance",
+   "order_action": "noncompliance_violation",
+   "rows_in_use": 7196,
+   "rows_by_status": {
+    "CLOSED": 7196
+   }
+  },
+  {
+   "code": "H4",
+   "definition": "Criminal Court Summons Served Due to Failure to Obey SWO",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Criminal Court Summons Served Due to Failure to Obey SWO",
+   "definition_2017_table": "CRIMINAL COURT SUMMONS SERVED DUE TO FAILURE TO OBEY SWO",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "violation_served",
+   "order_event": "stop_work_noncompliance",
+   "order_action": "noncompliance_violation",
+   "rows_in_use": 26,
+   "rows_by_status": {
+    "CLOSED": 26
+   }
+  },
+  {
+   "code": "H5",
+   "definition": "Stop All Work/No TCAO (Temporary Certificate of Approval and Operation)",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Stop All Work/No TCAO (Temporary Certificate of Approval and Operation)",
+   "definition_2017_table": "STOP ALL WORK / NO TCAO ISSUED",
+   "wording_comparison": "wording_differs",
+   "outcome": "order_event",
+   "order_event": "stop_all_work_no_tcao",
+   "order_action": "not_stated",
+   "rows_in_use": 44,
+   "rows_by_status": {
+    "CLOSED": 44
+   }
+  },
+  {
+   "code": "H6",
+   "definition": null,
+   "definition_source": null,
+   "definition_2021_pdf": null,
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 48,
+   "rows_by_status": {
+    "CLOSED": 48
+   }
+  },
+  {
+   "code": "H7",
+   "definition": null,
+   "definition_source": null,
+   "definition_2021_pdf": null,
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1679,
+   "rows_by_status": {
+    "CLOSED": 1679
+   }
+  },
+  {
+   "code": "H8",
+   "definition": null,
+   "definition_source": null,
+   "definition_2021_pdf": null,
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 504,
+   "rows_by_status": {
+    "CLOSED": 504
+   }
+  },
+  {
+   "code": "I1",
+   "definition": "Complaint Unsubstantiated Based on Department Records",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Unsubstantiated Based on Department Records",
+   "definition_2017_table": "COMPLAINT UNSUBSTANTIATED BASED ON DEPARTMENT RECORDS",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "unsubstantiated",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 82367,
+   "rows_by_status": {
+    "CLOSED": 82367
+   }
+  },
+  {
+   "code": "I2",
+   "definition": "No Violation Warranted for Complaint at Time of Inspection",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "No Violation Warranted for Complaint at Time of Inspection",
+   "definition_2017_table": "NO VIOLATION WARRANTED FOR COMPLAINT AT TIME OF INSPECTION",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "no_violation",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1229070,
+   "rows_by_status": {
+    "ACTIVE": 1,
+    "CLOSED": 1229069
+   }
+  },
+  {
+   "code": "I3",
+   "definition": "Compliance Inspection Performed",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Compliance Inspection Performed",
+   "definition_2017_table": "COMPLIANCE INSPECTION PERFORMED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "inspection_completed",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 12348,
+   "rows_by_status": {
+    "CLOSED": 12348
+   }
+  },
+  {
+   "code": "J1",
+   "definition": "Follow-Up Inspection to be Scheduled Upon Further Research",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Follow-Up Inspection to be Scheduled Upon Further Research",
+   "definition_2017_table": "FOLLOW-UP INSPECTION TO BE SCHEDULED UPON FURTHER RESEARCH",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 171,
+   "rows_by_status": {
+    "ACTIVE": 131,
+    "CLOSED": 40
+   }
+  },
+  {
+   "code": "J2",
+   "definition": "Complaint Resolved by Periodic Inspection",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Complaint Resolved by Periodic Inspection",
+   "definition_2017_table": "COMPLAINT RESOLVED BY PERIODIC INSPECTION",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 10199,
+   "rows_by_status": {
+    "CLOSED": 10199
+   }
+  },
+  {
+   "code": "J3",
+   "definition": "Reviewed – Inspection to Be Scheduled",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Reviewed – Inspection to Be Scheduled",
+   "definition_2017_table": "REVIEWED - INSPECTION TO BE SCHEDULED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 2438,
+   "rows_by_status": {
+    "CLOSED": 2438
+   }
+  },
+  {
+   "code": "J4",
+   "definition": "Follow-Up Inspection Scheduled for Hazardous Condition",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Follow-Up Inspection Scheduled for Hazardous Condition",
+   "definition_2017_table": "FOLLOW-UP INSPECTION SCHEDULED FOR HAZARDOUS CONDITION",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "J5",
+   "definition": "Sign Field Inspection Conducted – Findings Under Review",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Sign Field Inspection Conducted – Findings Under Review",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "inspection_findings_under_review",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 51,
+   "rows_by_status": {
+    "ACTIVE": 51
+   }
+  },
+  {
+   "code": "J6",
+   "definition": "Sign Moratorium 2019",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Sign Moratorium 2019",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1874,
+   "rows_by_status": {
+    "ACTIVE": 1105,
+    "CLOSED": 769
+   }
+  },
+  {
+   "code": "K1",
+   "definition": "Insufficient Information/Unable to Locate Address",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Insufficient Information/Unable to Locate Address",
+   "definition_2017_table": "INSUFFICIENT INFORMATION/UNABLE TO LOCATE ADDRESS",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 13529,
+   "rows_by_status": {
+    "CLOSED": 13529
+   }
+  },
+  {
+   "code": "K2",
+   "definition": "Address Invalid - Pending Buildings Verification",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Address Invalid - Pending Buildings Verification",
+   "definition_2017_table": "ADDRESS INVALID - PENDING BUILDINGS VERIFICATION",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1012,
+   "rows_by_status": {
+    "CLOSED": 1012
+   }
+  },
+  {
+   "code": "K3",
+   "definition": "Cranes and Derricks – No Address – See Comments",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Cranes and Derricks – No Address – See Comments",
+   "definition_2017_table": "CRANES & DERRICKS - NO ADDRESS - SEE COMMENTS",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 4,
+   "rows_by_status": {
+    "CLOSED": 4
+   }
+  },
+  {
+   "code": "K4",
+   "definition": "Cranes and Derricks – Stop Work Order (SWO) – No Associated Address",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Cranes and Derricks – Stop Work Order (SWO) – No Associated Address",
+   "definition_2017_table": "CRANES & DERRICKS - STOP WORK ORDER - NO ASSOCIATED ADDRESS P",
+   "wording_comparison": "wording_differs",
+   "outcome": "order_event",
+   "order_event": "stop_work_crane_no_address_recorded",
+   "order_action": "not_stated",
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "K5",
+   "definition": "Letter of Deficiency Issued",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Letter of Deficiency Issued",
+   "definition_2017_table": "LETTER OF DEFICIENCY ISSUED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "K6",
+   "definition": "Letter of Deficiency Issued with Partial SWO",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Letter of Deficiency Issued with Partial SWO",
+   "definition_2017_table": "LETTER OF DEFICIENCY ISSUED WITH PARTIAL SWO",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "order_event",
+   "order_event": "stop_work_partial_issued",
+   "order_action": "issued",
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "K7",
+   "definition": "Notification of Correction Received",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Notification of Correction Received",
+   "definition_2017_table": "NOTIFICATION OF CORRECTION RECEIVED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "K8",
+   "definition": "Correction Verified by DOB",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Correction Verified by DOB",
+   "definition_2017_table": "CORRECTION VERIFIED BY DOB",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 164,
+   "rows_by_status": {
+    "CLOSED": 164
+   }
+  },
+  {
+   "code": "L1",
+   "definition": "Partial Stop Work Order",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Partial Stop Work Order",
+   "definition_2017_table": "PARTIAL STOP WORK ORDER P",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "order_event",
+   "order_event": "stop_work_partial_recorded",
+   "order_action": "not_stated",
+   "rows_in_use": 6786,
+   "rows_by_status": {
+    "CLOSED": 6786
+   }
+  },
+  {
+   "code": "L2",
+   "definition": "Stop Work Order Fully Rescinded",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Stop Work Order Fully Rescinded",
+   "definition_2017_table": "STOP WORK ORDER FULLY RESCINDED N",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "order_event",
+   "order_event": "stop_work_rescinded_full",
+   "order_action": "rescinded",
+   "rows_in_use": 162973,
+   "rows_by_status": {
+    "CLOSED": 162973
+   }
+  },
+  {
+   "code": "L3",
+   "definition": "Stop Work Order Partially Rescinded",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Stop Work Order Partially Rescinded",
+   "definition_2017_table": "STOP WORK ORDER PARTIALLY RESCINDED P",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "order_event",
+   "order_event": "stop_work_rescinded_partial",
+   "order_action": "rescinded",
+   "rows_in_use": 1004,
+   "rows_by_status": {
+    "CLOSED": 1004
+   }
+  },
+  {
+   "code": "L4",
+   "definition": null,
+   "definition_source": null,
+   "definition_2021_pdf": null,
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 201,
+   "rows_by_status": {
+    "CLOSED": 201
+   }
+  },
+  {
+   "code": "M1",
+   "definition": "Bicycle Access Plan: Elevator Use Acceptable",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Bicycle Access Plan: Elevator Use Acceptable",
+   "definition_2017_table": "BICYCLE ACCESS PLAN: ELEVATOR USE ACCEPTABLE",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 7,
+   "rows_by_status": {
+    "CLOSED": 7
+   }
+  },
+  {
+   "code": "M2",
+   "definition": "Bicycle Access Plan: Elevator Use Not Acceptable",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Bicycle Access Plan: Elevator Use Not Acceptable",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "M3",
+   "definition": "Bicycle Access Plan: Alternate Use Parking Requirement Met",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Bicycle Access Plan: Alternate Use Parking Requirement Met",
+   "definition_2017_table": "BICYCLE ACCESS PLAN: ALTERNATE USE PARKING REQUIREMENT MET",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 3,
+   "rows_by_status": {
+    "CLOSED": 3
+   }
+  },
+  {
+   "code": "M4",
+   "definition": "Bicycle Access Plan: Alternate Use Parking Requirement Not Met",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Bicycle Access Plan: Alternate Use Parking Requirement Not Met",
+   "definition_2017_table": "BICYCLE ACCESS PLAN: ALTERNATE USE PARKING REQUIREMENT NOT MET",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 3,
+   "rows_by_status": {
+    "CLOSED": 3
+   }
+  },
+  {
+   "code": "MA",
+   "definition": "MARCH: No Enforcement Action Taken",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "MARCH: No Enforcement Action Taken",
+   "definition_2017_table": "MARCH: NO ENFORCEMENT ACTION TAKEN",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "no_violation",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1705,
+   "rows_by_status": {
+    "CLOSED": 1705
+   }
+  },
+  {
+   "code": "MB",
+   "definition": "MARCH: Failure to Maintain Building/OATH Notice of Violation Issued",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "MARCH: Failure to Maintain Building/OATH Notice of Violation Issued",
+   "definition_2017_table": "MARCH: FAILURE TO MAINTAIN BLDG/ECB NOV ISSUED",
+   "wording_comparison": "wording_differs",
+   "outcome": "violation_issued",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 222,
+   "rows_by_status": {
+    "CLOSED": 222
+   }
+  },
+  {
+   "code": "MC",
+   "definition": "MARCH: Contrary to Approved Plans/OATH Notice of Violation Issued",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "MARCH: Contrary to Approved Plans/OATH Notice of Violation Issued",
+   "definition_2017_table": "MARCH: CONTRARY TO APPROVED PLANS/ECB NOV ISSUED",
+   "wording_comparison": "ecb_renamed_oath",
+   "outcome": "violation_issued",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 73,
+   "rows_by_status": {
+    "CLOSED": 73
+   }
+  },
+  {
+   "code": "MD",
+   "definition": "MARCH: Exit Passage Obstructed/OATH Notice of Violation Issued",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "MARCH: Exit Passage Obstructed/OATH Notice of Violation Issued",
+   "definition_2017_table": "MARCH: EXIT PASSAGE OBSTRUCTED/ECB NOV ISSUED",
+   "wording_comparison": "ecb_renamed_oath",
+   "outcome": "violation_issued",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 71,
+   "rows_by_status": {
+    "CLOSED": 71
+   }
+  },
+  {
+   "code": "ME",
+   "definition": "MARCH: Exit Passage Obstructed/OATH Notice of Violation & Full Vacate Issued",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "MARCH: Exit Passage Obstructed/OATH Notice of Violation & Full Vacate Issued",
+   "definition_2017_table": "MARCH: EXIT PASSAGE OBSTRUCTED/ECB NOV & FULL VACATE ISSUED F",
+   "wording_comparison": "ecb_renamed_oath",
+   "outcome": "violation_issued",
+   "order_event": "vacate_full_issued",
+   "order_action": "issued",
+   "rows_in_use": 17,
+   "rows_by_status": {
+    "CLOSED": 17
+   }
+  },
+  {
+   "code": "MF",
+   "definition": "MARCH: Exit Passage Obstructed/OATH Notice of Violation & Partial Vacate Issued",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "MARCH: Exit Passage Obstructed/OATH Notice of Violation & Partial Vacate Issued",
+   "definition_2017_table": "MARCH: EXIT PASSAGE OBSTRUCTED/ECB NOV & PARTIAL VACATE ISSUED P",
+   "wording_comparison": "ecb_renamed_oath",
+   "outcome": "violation_issued",
+   "order_event": "vacate_partial_issued",
+   "order_action": "issued",
+   "rows_in_use": 40,
+   "rows_by_status": {
+    "CLOSED": 40
+   }
+  },
+  {
+   "code": "MG",
+   "definition": "MARCH: Occupancy Contrary to C of O/NONE/OATH Notice of Violation Issued",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "MARCH: Occupancy Contrary to C of O/NONE/OATH Notice of Violation Issued",
+   "definition_2017_table": "MARCH: OCCUPANCY CONTRARY TO C OF O/NONE/ECB NOV ISSUED",
+   "wording_comparison": "ecb_renamed_oath",
+   "outcome": "violation_issued",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 410,
+   "rows_by_status": {
+    "CLOSED": 410
+   }
+  },
+  {
+   "code": "MH",
+   "definition": "MARCH: No PA Permit/OATH Notice of Violation & Full Vacate Issued",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "MARCH: No PA Permit/OATH Notice of Violation & Full Vacate Issued",
+   "definition_2017_table": "MARCH: NO PA PERMIT/ECB NOV & FULL VACATE ISSUED F",
+   "wording_comparison": "ecb_renamed_oath",
+   "outcome": "violation_issued",
+   "order_event": "vacate_full_issued",
+   "order_action": "issued",
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "MI",
+   "definition": "MARCH: No PA Permit/OATH Notice of Violation & Partial Vacate Issued",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "MARCH: No PA Permit/OATH Notice of Violation & Partial Vacate Issued",
+   "definition_2017_table": "MARCH: NO PA PERMIT/ECB NOV & PARTIAL VACATE ISSUED P",
+   "wording_comparison": "ecb_renamed_oath",
+   "outcome": "violation_issued",
+   "order_event": "vacate_partial_issued",
+   "order_action": "issued",
+   "rows_in_use": 16,
+   "rows_by_status": {
+    "CLOSED": 16
+   }
+  },
+  {
+   "code": "MJ",
+   "definition": "MARCH: Work Without a Permit/OATH Notice of Violation Issued",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "MARCH: Work Without a Permit/OATH Notice of Violation Issued",
+   "definition_2017_table": "MARCH: WORK WITHOUT PERMIT/ECB NOV ISSUED",
+   "wording_comparison": "wording_differs",
+   "outcome": "violation_issued",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 135,
+   "rows_by_status": {
+    "CLOSED": 135
+   }
+  },
+  {
+   "code": "MK",
+   "definition": "MARCH: No PA Permit/OATH Notice of Violation Issued",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "MARCH: No PA Permit/OATH Notice of Violation Issued",
+   "definition_2017_table": "MARCH: NO PA PERMIT/ECB NOV ISSUED",
+   "wording_comparison": "ecb_renamed_oath",
+   "outcome": "violation_issued",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 212,
+   "rows_by_status": {
+    "CLOSED": 212
+   }
+  },
+  {
+   "code": "N1",
+   "definition": null,
+   "definition_source": null,
+   "definition_2021_pdf": null,
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 2131,
+   "rows_by_status": {
+    "CLOSED": 2131
+   }
+  },
+  {
+   "code": "N2",
+   "definition": null,
+   "definition_source": null,
+   "definition_2021_pdf": null,
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1078,
+   "rows_by_status": {
+    "CLOSED": 1078
+   }
+  },
+  {
+   "code": "N3",
+   "definition": null,
+   "definition_source": null,
+   "definition_2021_pdf": null,
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 170,
+   "rows_by_status": {
+    "CLOSED": 170
+   }
+  },
+  {
+   "code": "ND",
+   "definition": "Notice of Deficiency Issued",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Notice of Deficiency Issued",
+   "definition_2017_table": "NOTICE OF DEFICIENCY ISSUED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 6079,
+   "rows_by_status": {
+    "CLOSED": 6079
+   }
+  },
+  {
+   "code": "P1",
+   "definition": "Job Vested",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Job Vested",
+   "definition_2017_table": "JOB VESTED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 83,
+   "rows_by_status": {
+    "CLOSED": 83
+   }
+  },
+  {
+   "code": "P2",
+   "definition": "Follow Up Inspection Required Pending Adoption",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Follow Up Inspection Required Pending Adoption",
+   "definition_2017_table": "FOLLOW UP INSPECTION REQUIRED PENDING ADOPTION",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "assigned_or_pending",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "P3",
+   "definition": "Closure/Padlock Order Issued",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Closure/Padlock Order Issued",
+   "definition_2017_table": "CLOSURE/PADLOCK ORDER ISSUED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "order_event",
+   "order_event": "padlock_issued",
+   "order_action": "issued",
+   "rows_in_use": 97,
+   "rows_by_status": {
+    "CLOSED": 97
+   }
+  },
+  {
+   "code": "P4",
+   "definition": "Closure/Padlock Order Issued Rescinded",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Closure/Padlock Order Issued Rescinded",
+   "definition_2017_table": "CLOSURE/PADLOCK ORDER RESCINDED",
+   "wording_comparison": "wording_differs",
+   "outcome": "order_event",
+   "order_event": "padlock_rescinded",
+   "order_action": "rescinded",
+   "rows_in_use": 303,
+   "rows_by_status": {
+    "CLOSED": 303
+   }
+  },
+  {
+   "code": "P5",
+   "definition": "Potential Ordinary Plumbing Work",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Potential Ordinary Plumbing Work",
+   "definition_2017_table": "POTENTIAL ORDINARY PLUMBING WORK",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 114,
+   "rows_by_status": {
+    "CLOSED": 114
+   }
+  },
+  {
+   "code": "P6",
+   "definition": "Initial Notification Accepted",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Initial Notification Accepted",
+   "definition_2017_table": "INITIAL NOTIFICATION ACCEPTED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 17424,
+   "rows_by_status": {
+    "CLOSED": 17424
+   }
+  },
+  {
+   "code": "Q1",
+   "definition": "Compromised Structure: Owner Prof. Report Required",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Compromised Structure: Owner Prof. Report Required",
+   "definition_2017_table": "COMPROMISED STRUCTURE: OWNER PROF REPORT REQUIRED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "Q2",
+   "definition": "Compromised Structure: Owner Prof. Report Received",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Compromised Structure: Owner Prof. Report Received",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "Q3",
+   "definition": "Compromised Structure: Report Deadline Passed – Penalties Apply",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Compromised Structure: Report Deadline Passed – Penalties Apply",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "Q4",
+   "definition": "Compromised Structure: Condition Remedied",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Compromised Structure: Condition Remedied",
+   "definition_2017_table": "COMPROMISED STRUCTURE: CONDITION REMEDIED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "Q5",
+   "definition": "Compromised Structure: Report Deadline Passed, Civil Penalties Due",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Compromised Structure: Report Deadline Passed, Civil Penalties Due",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "Q6",
+   "definition": null,
+   "definition_source": null,
+   "definition_2021_pdf": null,
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 43,
+   "rows_by_status": {
+    "ACTIVE": 43
+   }
+  },
+  {
+   "code": "Q7",
+   "definition": null,
+   "definition_source": null,
+   "definition_2021_pdf": null,
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 199,
+   "rows_by_status": {
+    "CLOSED": 199
+   }
+  },
+  {
+   "code": "R1",
+   "definition": "Inspection: No Immediate Action/No Follow-Up Required",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Inspection: No Immediate Action/No Follow-Up Required",
+   "definition_2017_table": "INSPECTION - NO IMMEDIATE ACTION/NO FOLLOW-UP REQUIRED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "no_violation",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "R2",
+   "definition": "Inspection: No Immediate Action/Weekly Inspection",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Inspection: No Immediate Action/Weekly Inspection",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "R3",
+   "definition": "Inspection: No Immediate Action/Monthly Inspection",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Inspection: No Immediate Action/Monthly Inspection",
+   "definition_2017_table": "INSPECTION - NO IMMEDIATE ACTION/MONTHLY INSPECTION",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "R4",
+   "definition": "Inspection: Engineering Assessment Required",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Inspection: Engineering Assessment Required",
+   "definition_2017_table": "INSPECTION - ENGINEERING ASSESSMENT REQUIRED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "R5",
+   "definition": "Inspection: Class 1 OATH Written/Order to Correct",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Inspection: Class 1 OATH Written/Order to Correct",
+   "definition_2017_table": "INSPECTION - CLASS 1 ECB(S) WRITTEN/ORDER TO CORRECT",
+   "wording_comparison": "wording_differs",
+   "outcome": "violation_issued",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 16,
+   "rows_by_status": {
+    "CLOSED": 16
+   }
+  },
+  {
+   "code": "R6",
+   "definition": "Engineering: No Immediate Action/No Follow-up Required",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Engineering: No Immediate Action/No Follow-up Required",
+   "definition_2017_table": "ENGINEERING - NO IMMEDIATE ACTION/NO FOLLOW-UP REQUIRED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "no_violation",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 11,
+   "rows_by_status": {
+    "CLOSED": 11
+   }
+  },
+  {
+   "code": "R7",
+   "definition": "Engineering: No Immediate Action/Weekly Assessment",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Engineering: No Immediate Action/Weekly Assessment",
+   "definition_2017_table": "ENGINEERING - NO IMMEDIATE ACTION/WEEKLY ASSESSMENT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "R8",
+   "definition": "Engineering: No Immediate Action/Monthly Assessment",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Engineering: No Immediate Action/Monthly Assessment",
+   "definition_2017_table": "ENGINEERING - NO IMMEDIATE ACTION/MONTHLY ASSESSMENT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "R9",
+   "definition": "Building at Risk Program – No Immediate Danger",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Building at Risk Program – No Immediate Danger",
+   "definition_2017_table": "BUILDING AT RISK PROGRAM - NO IMMEDIATE DANGER",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 60,
+   "rows_by_status": {
+    "CLOSED": 60
+   }
+  },
+  {
+   "code": "RA",
+   "definition": "Commissioner's Order: Issued to Owner",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Commissioner's Order: Issued to Owner",
+   "definition_2017_table": "COMMISSIONER'S ORDER - ISSUED TO OWNER",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 15,
+   "rows_by_status": {
+    "ACTIVE": 4,
+    "CLOSED": 11
+   }
+  },
+  {
+   "code": "RB",
+   "definition": "Commissioner's Order: Owner Remediation Plans Accepted",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Commissioner's Order: Owner Remediation Plans Accepted",
+   "definition_2017_table": "COMMISSIONER'S ORDER - OWNER REMEDIATION PLANS ACCEPTED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RC",
+   "definition": "Commissioner's Order: Owner Remediation In Progress",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Commissioner's Order: Owner Remediation In Progress",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RD",
+   "definition": "Commissioner's Order: Daily Monitoring",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Commissioner's Order: Daily Monitoring",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RE",
+   "definition": "Commissioner's Order: Weekly Monitoring",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Commissioner's Order: Weekly Monitoring",
+   "definition_2017_table": "COMMISSIONER'S ORDER - WEEKLY MONITORING",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RF",
+   "definition": "Commissioner's Order: Monthly Monitoring",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Commissioner's Order: Monthly Monitoring",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RG",
+   "definition": "Commissioner's Order: Owner Remediation Completed",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Commissioner's Order: Owner Remediation Completed",
+   "definition_2017_table": "COMMISSIONER'S ORDER - OWNER REMEDIATION COMPLETED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "RH",
+   "definition": "Emergency Declaration – Issued",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Emergency Declaration – Issued",
+   "definition_2017_table": "EMERGENCY DECLARATION - ISSUED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 4,
+   "rows_by_status": {
+    "CLOSED": 4
+   }
+  },
+  {
+   "code": "RI",
+   "definition": "Immediate Emergency Declaration – Issued",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Immediate Emergency Declaration – Issued",
+   "definition_2017_table": "IMMEDIATE EMERGENCY DECLARATION - ISSUED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 3,
+   "rows_by_status": {
+    "CLOSED": 3
+   }
+  },
+  {
+   "code": "RJ",
+   "definition": "Immediate/Emergency Declaration – Action Completed",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Immediate/Emergency Declaration – Action Completed",
+   "definition_2017_table": "IMMEDIATE/EMERGENCY DECLARATION - ACTION COMPLETED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RK",
+   "definition": "Unsafe Building: Violation Issued",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Unsafe Building: Violation Issued",
+   "definition_2017_table": "UNSAFE BUILDING - VIOLATION ISSUED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "violation_issued",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RL",
+   "definition": "Unsafe Building: Action Completed",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Unsafe Building: Action Completed",
+   "definition_2017_table": "UNSAFE BUILDING - ACTION COMPLETED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RM",
+   "definition": "Structural Monitoring: Owner Professional Report Required",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Structural Monitoring: Owner Professional Report Required",
+   "definition_2017_table": "STRUCTURAL MONITORING: OWNER PROFESSIONAL REPORT REQUIRED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RN",
+   "definition": "Structural Monitoring: Owner Professional Report Deadline Passed",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Structural Monitoring: Owner Professional Report Deadline Passed",
+   "definition_2017_table": "STRUCTURAL MONITORING: OWNER PROFESSIONAL REPORT DEADLINE PASSED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RT",
+   "definition": "COMPROMISED STRUCTURE: ACTION COMPLETED",
+   "definition_source": "ref_6v9u_ndjg_2017",
+   "definition_2021_pdf": null,
+   "definition_2017_table": "COMPROMISED STRUCTURE: ACTION COMPLETED",
+   "wording_comparison": null,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RU",
+   "definition": "LL11 Unsafe – Initiated",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "LL11 Unsafe – Initiated",
+   "definition_2017_table": "LL11 UNSAFE - INITIATED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1157,
+   "rows_by_status": {
+    "ACTIVE": 1146,
+    "CLOSED": 11
+   }
+  },
+  {
+   "code": "RV",
+   "definition": "LL11 Unsafe – Action Completed",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "LL11 Unsafe – Action Completed",
+   "definition_2017_table": "LL11 UNSAFE - ACTION COMPLETED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 37,
+   "rows_by_status": {
+    "ACTIVE": 3,
+    "CLOSED": 34
+   }
+  },
+  {
+   "code": "RW",
+   "definition": "Immediate/Emergency Declaration – Previously Issued/Underway",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Immediate/Emergency Declaration – Previously Issued/Underway",
+   "definition_2017_table": "IMMEDIATE/EMERGENCY DEC - PREVIOUSLY ISSUED/UNDERWAY",
+   "wording_comparison": "wording_differs",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "RX",
+   "definition": "Unsafe Building – Precept Previously Issued/Underway",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Unsafe Building – Precept Previously Issued/Underway",
+   "definition_2017_table": "UNSAFE BUILDING - PRECEPT PREVIOUSLY ISSUED/UNDERWAY",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RY",
+   "definition": "Façade Report – Previously Issued/Underway",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Façade Report – Previously Issued/Underway",
+   "definition_2017_table": "FACADE REPORT - PREVIOUSLY ISSUED/UNDERWAY",
+   "wording_comparison": "wording_differs",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "RZ",
+   "definition": "VACATE - PREVIOUSLY ISSUED/UNDERWAY",
+   "definition_source": "ref_6v9u_ndjg_2017",
+   "definition_2021_pdf": null,
+   "definition_2017_table": "VACATE - PREVIOUSLY ISSUED/UNDERWAY",
+   "wording_comparison": null,
+   "outcome": "order_event",
+   "order_event": "vacate_previously_issued",
+   "order_action": "previously_issued",
+   "rows_in_use": 2,
+   "rows_by_status": {
+    "CLOSED": 2
+   }
+  },
+  {
+   "code": "S0",
+   "definition": "All Work Completed",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "All Work Completed",
+   "definition_2017_table": "STALLED: ALL WORK COMPLETED",
+   "wording_comparison": "wording_differs",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 330,
+   "rows_by_status": {
+    "CLOSED": 330
+   }
+  },
+  {
+   "code": "S1",
+   "definition": "Stalled: Excavation – No Immediate Threat",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Stalled: Excavation – No Immediate Threat",
+   "definition_2017_table": "STALLED: EXCAVATION - NO IMMEDIATE THREAT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 10,
+   "rows_by_status": {
+    "ACTIVE": 8,
+    "CLOSED": 2
+   }
+  },
+  {
+   "code": "S2",
+   "definition": "Stalled: Excavation Deteriorating – No Immediate Threat",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Stalled: Excavation Deteriorating – No Immediate Threat",
+   "definition_2017_table": "STALLED: EXCAVATION DETERIORATING - NO IMMEDIATE THREAT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 4,
+   "rows_by_status": {
+    "ACTIVE": 4
+   }
+  },
+  {
+   "code": "S3",
+   "definition": "Stalled: Excavation – Unsafe",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Stalled: Excavation – Unsafe",
+   "definition_2017_table": "STALLED: EXCAVATION - UNSAFE",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "S4",
+   "definition": "Stalled: Superstructure – No Immediate Threat",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Stalled: Superstructure – No Immediate Threat",
+   "definition_2017_table": "STALLED: SUPERSTRUCTURE - NO IMMEDIATE THREAT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 27,
+   "rows_by_status": {
+    "ACTIVE": 21,
+    "CLOSED": 6
+   }
+  },
+  {
+   "code": "S5",
+   "definition": "Stalled: Superstructure Deteriorating – No Immediate Threat",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Stalled: Superstructure Deteriorating – No Immediate Threat",
+   "definition_2017_table": "STALLED: SUPERSTRUCTURE DETERIORATING - NO IMMEDIATE THREAT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 10,
+   "rows_by_status": {
+    "ACTIVE": 8,
+    "CLOSED": 2
+   }
+  },
+  {
+   "code": "S6",
+   "definition": "Stalled: Superstructure – Unsafe",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Stalled: Superstructure – Unsafe",
+   "definition_2017_table": "STALLED: SUPERSTRUCTURE - UNSAFE",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "ACTIVE": 1
+   }
+  },
+  {
+   "code": "S7",
+   "definition": "Stalled: No Immediate Threat – Graded and Fenced",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Stalled: No Immediate Threat – Graded and Fenced",
+   "definition_2017_table": "STALLED: NO IMMEDIATE THREAT - GRADED & FENCED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 121,
+   "rows_by_status": {
+    "ACTIVE": 105,
+    "CLOSED": 16
+   }
+  },
+  {
+   "code": "S8",
+   "definition": "Stalled: Construction In-Progress",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Stalled: Construction In-Progress",
+   "definition_2017_table": "STALLED: CONSTRUCTION IN PROGRESS",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1001,
+   "rows_by_status": {
+    "CLOSED": 1001
+   }
+  },
+  {
+   "code": "S9",
+   "definition": "Stalled: Emergency Declaration Filed",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Stalled: Emergency Declaration Filed",
+   "definition_2017_table": "STALLED: EMERGENCY DECLARATION FILED",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "U1",
+   "definition": "CSC: Unable to Gain Access",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "CSC: Unable to Gain Access",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "no_access",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 4,
+   "rows_by_status": {
+    "CLOSED": 4
+   }
+  },
+  {
+   "code": "U2",
+   "definition": "CSC: Construction Safety in Compliance",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "CSC: Construction Safety in Compliance",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "no_violation",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 10,
+   "rows_by_status": {
+    "CLOSED": 10
+   }
+  },
+  {
+   "code": "U3",
+   "definition": "CSC: Violation Issued (No OATH Requirements) – On Action Complaint",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "CSC: Violation Issued (No OATH Requirements) – On Action Complaint",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "violation_issued",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 7,
+   "rows_by_status": {
+    "CLOSED": 7
+   }
+  },
+  {
+   "code": "U4",
+   "definition": "CSC: Full Stop Work Order Issued – On Action Complaint",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "CSC: Full Stop Work Order Issued – On Action Complaint",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "order_event",
+   "order_event": "stop_work_full_issued",
+   "order_action": "issued",
+   "rows_in_use": 5,
+   "rows_by_status": {
+    "CLOSED": 5
+   }
+  },
+  {
+   "code": "U5",
+   "definition": "CSC: Partial SWO Issued – On Action Complaint",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "CSC: Partial SWO Issued – On Action Complaint",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "order_event",
+   "order_event": "stop_work_partial_issued",
+   "order_action": "issued",
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "U6",
+   "definition": "CSC: Violation Issued (No OATH Requirements) – On Closed Site",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "CSC: Violation Issued (No OATH Requirements) – On Closed Site",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "violation_issued",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "UA",
+   "definition": "CSC: Released from Site Safety Requirements – Complaint Closed",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "CSC: Released from Site Safety Requirements – Complaint Closed",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 16,
+   "rows_by_status": {
+    "CLOSED": 16
+   }
+  },
+  {
+   "code": "UB",
+   "definition": "CSC: Demo Signed Off – Complaint Closed",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "CSC: Demo Signed Off – Complaint Closed",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 19,
+   "rows_by_status": {
+    "CLOSED": 19
+   }
+  },
+  {
+   "code": "V1",
+   "definition": "PASS Inspection",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "PASS Inspection",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "inspection_passed",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 5,
+   "rows_by_status": {
+    "CLOSED": 5
+   }
+  },
+  {
+   "code": "V2",
+   "definition": "FAIL Inspection",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "FAIL Inspection",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "inspection_failed",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 2,
+   "rows_by_status": {
+    "CLOSED": 2
+   }
+  },
+  {
+   "code": "V3",
+   "definition": "Stop Work Order Violation Served (Non-Compliant After-Hours Work)",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Stop Work Order Violation Served (Non-Compliant After-Hours Work)",
+   "definition_2017_table": "STOP WORK ORDER VIOLATION SERVED FOR NON-COMPLIANT AFTER HOURS WORK",
+   "wording_comparison": "wording_differs",
+   "outcome": "violation_served",
+   "order_event": "stop_work_noncompliance",
+   "order_action": "noncompliance_violation",
+   "rows_in_use": 1658,
+   "rows_by_status": {
+    "CLOSED": 1658
+   }
+  },
+  {
+   "code": "W1",
+   "definition": "Violation Served for Disobeying a Vacate Order",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Violation Served for Disobeying a Vacate Order",
+   "definition_2017_table": "VIOLATION SERVED FOR DISOBEYING VACATE ORDER",
+   "wording_comparison": "wording_differs",
+   "outcome": "violation_served",
+   "order_event": "vacate_noncompliance",
+   "order_action": "noncompliance_violation",
+   "rows_in_use": 2591,
+   "rows_by_status": {
+    "CLOSED": 2591
+   }
+  },
+  {
+   "code": "WA",
+   "definition": "Weather Related: No Action Necessary",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Weather Related: No Action Necessary",
+   "definition_2017_table": "WEATHER RELATED: NO ACTION NECESSARY",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "no_violation",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 148,
+   "rows_by_status": {
+    "CLOSED": 148
+   }
+  },
+  {
+   "code": "WB",
+   "definition": "Weather Related: No Access",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Weather Related: No Access",
+   "definition_2017_table": "WEATHER RELATED: NO ACCESS",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "no_access",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 191,
+   "rows_by_status": {
+    "CLOSED": 191
+   }
+  },
+  {
+   "code": "WC",
+   "definition": "Weather Related: NOD Issued/Unsafe/Red Tag Remains/Engineering Evaluation Required",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Weather Related: NOD Issued/Unsafe/Red Tag Remains/Engineering Evaluation Required",
+   "definition_2017_table": "WEATHER RLT: NOD ISSUED/UNSAFE/RED TAG REMAINS/ENG.EVALUATION REQUIRED",
+   "wording_comparison": "wording_differs",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "WD",
+   "definition": "Weather Related: NOD Issued/Restricted/Yellow Tag Remains/Engineering Evaluation Required",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Weather Related: NOD Issued/Restricted/Yellow Tag Remains/Engineering Evaluation Required",
+   "definition_2017_table": "WEATHER RLT: NOD ISSUED/RESTRICTED/YLW TAG REMAINS/ENG.EVALUATION REQD",
+   "wording_comparison": "wording_differs",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 1,
+   "rows_by_status": {
+    "CLOSED": 1
+   }
+  },
+  {
+   "code": "WE",
+   "definition": "Weather Related: NOD Issued/ Downgraded to Yellow/Restricted/Engineering Evaluation Required",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Weather Related: NOD Issued/ Downgraded to Yellow/Restricted/Engineering Evaluation Required",
+   "definition_2017_table": "WEATHER RLT: NOD ISSUED/DWNGRD TO YLW/RESTRICTED/ENG.EVALUATION REQUIRED",
+   "wording_comparison": "wording_differs",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "WF",
+   "definition": "Weather Related: No Further Action Necessary/Downgraded to Green",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Weather Related: No Further Action Necessary/Downgraded to Green",
+   "definition_2017_table": "WEATHER RELATED: NO FURTHER ACTION NECESSARY/DOWNGRADED TO GREEN",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "no_violation",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 60,
+   "rows_by_status": {
+    "CLOSED": 60
+   }
+  },
+  {
+   "code": "WG",
+   "definition": "Weather Related: Green Tag Rescinded/No Occupancy Restrictions",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Weather Related: Green Tag Rescinded/No Occupancy Restrictions",
+   "definition_2017_table": "WEATHER RELATED: GREEN TAG RESCINDED/NO OCCUPANCY RESTRICTIONS",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 24,
+   "rows_by_status": {
+    "CLOSED": 24
+   }
+  },
+  {
+   "code": "WH",
+   "definition": "Weather Related: Green Tag Rescinded/Structurally Sound/Utilities Unresolved",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Weather Related: Green Tag Rescinded/Structurally Sound/Utilities Unresolved",
+   "definition_2017_table": "WEATHER RLT: GREEN TAG RESCINDED/STRUCTURALLY SOUND/UTILITIES UNRESOLVED",
+   "wording_comparison": "wording_differs",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "WI",
+   "definition": "Weather Related: No Action Warranted by DOB/Refer to other Agency/Call 311",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Weather Related: No Action Warranted by DOB/Refer to other Agency/Call 311",
+   "definition_2017_table": "WEATHER RLT: NO ACTION WARRANTED BY DOB/REFER TO OTHER AGENCY/CALL 311",
+   "wording_comparison": "wording_differs",
+   "outcome": "referred",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "WJ",
+   "definition": "Weather Related: Enforcement Order to be Issued/See Referenced Complaint",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Weather Related: Enforcement Order to be Issued/See Referenced Complaint",
+   "definition_2017_table": "WEATHER RELATED: ENFORCEMENT ORDER TO BE ISSUED/SEE REFERENCED COMPLAINT",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 4,
+   "rows_by_status": {
+    "CLOSED": 4
+   }
+  },
+  {
+   "code": "X1",
+   "definition": "Compliance Inspection Completed – No Enforcement Action Required",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Compliance Inspection Completed – No Enforcement Action Required",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "no_violation",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 924,
+   "rows_by_status": {
+    "ACTIVE": 863,
+    "CLOSED": 61
+   }
+  },
+  {
+   "code": "X2",
+   "definition": "Work Does Not Conform to Regulations Governing TPP – OATH Summons Issued",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Work Does Not Conform to Regulations Governing TPP – OATH Summons Issued",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "violation_issued",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 35,
+   "rows_by_status": {
+    "ACTIVE": 33,
+    "CLOSED": 2
+   }
+  },
+  {
+   "code": "X3",
+   "definition": "All Work Substantially Conforms to Plans",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "All Work Substantially Conforms to Plans",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "X7",
+   "definition": "POPS Unauthorized Partial Closure – OATH Summons Issued",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "POPS Unauthorized Partial Closure – OATH Summons Issued",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "violation_issued",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "X8",
+   "definition": "POPS Unauthorized Full Closure – OATH Summons Issued",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "POPS Unauthorized Full Closure – OATH Summons Issued",
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "violation_issued",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "XX",
+   "definition": "Administrative Closure",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Administrative Closure",
+   "definition_2017_table": "ADMINISTRATIVE CLOSURE NN",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "other_recorded",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 0,
+   "rows_by_status": {}
+  },
+  {
+   "code": "Y1",
+   "definition": "Full Vacate Order Served",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Full Vacate Order Served",
+   "definition_2017_table": "FULL VACATE ORDER ISSUED F",
+   "wording_comparison": "wording_differs",
+   "outcome": "order_event",
+   "order_event": "vacate_full_issued",
+   "order_action": "served",
+   "rows_in_use": 2802,
+   "rows_by_status": {
+    "CLOSED": 2802
+   }
+  },
+  {
+   "code": "Y2",
+   "definition": "Vacate Order Fully Rescinded",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Vacate Order Fully Rescinded",
+   "definition_2017_table": "VACATE ORDER FULLY RESCINDED N",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "order_event",
+   "order_event": "vacate_rescinded_full",
+   "order_action": "rescinded",
+   "rows_in_use": 18679,
+   "rows_by_status": {
+    "CLOSED": 18679
+   }
+  },
+  {
+   "code": "Y3",
+   "definition": "Partial Vacate Order Served",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Partial Vacate Order Served",
+   "definition_2017_table": "PARTIAL VACATE ORDER ISSUED P",
+   "wording_comparison": "wording_differs",
+   "outcome": "order_event",
+   "order_event": "vacate_partial_issued",
+   "order_action": "served",
+   "rows_in_use": 10108,
+   "rows_by_status": {
+    "CLOSED": 10108
+   }
+  },
+  {
+   "code": "Y4",
+   "definition": "Vacate Order Partially Rescinded",
+   "definition_source": "dob_pdf_2021",
+   "definition_2021_pdf": "Vacate Order Partially Rescinded",
+   "definition_2017_table": "VACATE ORDER PARTIALLY RESCINDED P",
+   "wording_comparison": "same_after_normalization",
+   "outcome": "order_event",
+   "order_event": "vacate_rescinded_partial",
+   "order_action": "rescinded",
+   "rows_in_use": 294,
+   "rows_by_status": {
+    "CLOSED": 294
+   }
+  },
+  {
+   "code": "Y5",
+   "definition": null,
+   "definition_source": null,
+   "definition_2021_pdf": null,
+   "definition_2017_table": null,
+   "wording_comparison": null,
+   "outcome": "unknown_code",
+   "order_event": null,
+   "order_action": null,
+   "rows_in_use": 260,
+   "rows_by_status": {
+    "CLOSED": 260
+   }
+  }
+ ],
+ "dob_summary": {
+  "complaints_total": 3145939,
+  "active_with_final_disposition": 897,
+  "active_with_final_disposition_by_code": {
+   "I2": 1,
+   "X1": 863,
+   "X2": 33
+  },
+  "closed_with_no_disposition": 1,
+  "active_with_no_disposition": 9442,
+  "codes_in_use": 160,
+  "codes_in_use_not_in_2017_table": 39,
+  "rows_with_codes_not_in_2017_table": 25956,
+  "resolved_by_2021_pdf": {
+   "codes": 20,
+   "rows": 13190,
+   "list": [
+    "AA",
+    "AB",
+    "AC",
+    "EF",
+    "EG",
+    "EJ",
+    "EK",
+    "J5",
+    "J6",
+    "U1",
+    "U2",
+    "U3",
+    "U4",
+    "U5",
+    "UA",
+    "UB",
+    "V1",
+    "V2",
+    "X1",
+    "X2"
+   ]
+  },
+  "still_unknown": {
+   "codes": 19,
+   "rows": 12766,
+   "list": [
+    "AD",
+    "AE",
+    "AF",
+    "AG",
+    "AH",
+    "AI",
+    "AJ",
+    "D0",
+    "EI",
+    "H6",
+    "H7",
+    "H8",
+    "L4",
+    "N1",
+    "N2",
+    "N3",
+    "Q6",
+    "Q7",
+    "Y5"
+   ]
+  },
+  "rows_by_outcome": {
+   "violation_served": 649098,
+   "order_event": 213655,
+   "violation_issued": 16067,
+   "assigned_or_pending": 7577,
+   "corrective_action_requested": 3692,
+   "corrective_action_corrected": 6283,
+   "corrective_action_not_corrected": 46,
+   "unknown_code": 12766,
+   "violation_prepared_not_served": 74607,
+   "no_access": 511086,
+   "referred": 39271,
+   "other_recorded": 275647,
+   "unsubstantiated": 82367,
+   "no_violation": 1231928,
+   "inspection_completed": 12348,
+   "inspection_findings_under_review": 51,
+   "inspection_passed": 5,
+   "inspection_failed": 2,
+   "none": 9443
+  }
+ },
+ "dob_definition_comparison": {
+  "in_2017_table_not_in_2021_pdf": {
+   "A5": {
+    "definition_2017_table": "BUILDINGS VIOLATION(S) & CRIMINAL COURT SUMMONS SERVED",
+    "rows_in_use": 55
+   },
+   "D8": {
+    "definition_2017_table": "COMPLAINT ASSIGNED TO EXECUTIVE INSPECTIONS",
+    "rows_in_use": 9
+   },
+   "E7": {
+    "definition_2017_table": "COMPLAINT ASSIGNED TO SCAFFOLD SAFETY TEAM",
+    "rows_in_use": 0
+   },
+   "E8": {
+    "definition_2017_table": "COMPLAINT ASSIGNED TO EXCAVATION INSPECTION & AUDITS TEAM",
+    "rows_in_use": 0
+   },
+   "EA": {
+    "definition_2017_table": "COMPLAINT ASSIGNED TO INTERIOR DEMOLITION UNIT",
+    "rows_in_use": 0
+   },
+   "EE": {
+    "definition_2017_table": "COMPLAINT REASSIGNED FOR REVIEW",
+    "rows_in_use": 3
+   },
+   "F4": {
+    "definition_2017_table": "COMPLAINT REFERRED FOR REVIEW",
+    "rows_in_use": 2
+   },
+   "RT": {
+    "definition_2017_table": "COMPROMISED STRUCTURE: ACTION COMPLETED",
+    "rows_in_use": 0
+   },
+   "RZ": {
+    "definition_2017_table": "VACATE - PREVIOUSLY ISSUED/UNDERWAY",
+    "rows_in_use": 2
+   }
+  },
+  "in_2021_pdf_not_in_2017_table": [
+   "AA",
+   "AB",
+   "AC",
+   "EF",
+   "EG",
+   "EH",
+   "EJ",
+   "EK",
+   "J5",
+   "J6",
+   "M2",
+   "Q2",
+   "Q3",
+   "Q5",
+   "R2",
+   "RC",
+   "RD",
+   "RF",
+   "U1",
+   "U2",
+   "U3",
+   "U4",
+   "U5",
+   "U6",
+   "UA",
+   "UB",
+   "V1",
+   "V2",
+   "X1",
+   "X2",
+   "X3",
+   "X7",
+   "X8"
+  ],
+  "in_both_wording_differs": [
+   {
+    "code": "A9",
+    "definition_2017_table": "ECB & BUILDINGS VIOLATIONS SERVED",
+    "definition_2021_pdf": "OATH and DOB Violations Served"
+   },
+   {
+    "code": "B2",
+    "definition_2017_table": "ECB VIOLATION(S) PREPARED & ATTEMPT TO SERVE WILL BE MADE",
+    "definition_2021_pdf": "OATH Summons Prepared and Attempt to Serve will be Made"
+   },
+   {
+    "code": "C1",
+    "definition_2017_table": "INSPECTOR UNABLE TO GAIN ACCESS - 1ST ATTEMPT",
+    "definition_2021_pdf": "Inspector Unable to Gain Access – 1st Attempt Made"
+   },
+   {
+    "code": "C2",
+    "definition_2017_table": "INSPECTOR UNABLE TO GAIN ACCESS - 2ND ATTEMPT",
+    "definition_2021_pdf": "Inspector Unable to Gain Access – 2nd Final Attempt"
+   },
+   {
+    "code": "D1",
+    "definition_2017_table": "COMPLAINT ASSIGNED TO CONSTRUCTION UNIT",
+    "definition_2021_pdf": "Complaint Assigned to Construction Enforcement"
+   },
+   {
+    "code": "D4",
+    "definition_2017_table": "COMPLAINT ASSIGNED TO BEST SQUAD",
+    "definition_2021_pdf": "Complaint Assigned to Construction Safety Compliance Unit"
+   },
+   {
+    "code": "E3",
+    "definition_2017_table": "COMPLAINT ASSIGNED TO BORO OFFICE FOR FINAL INSPECTION",
+    "definition_2021_pdf": "Complaint Assigned to Borough Office for Final Inspection"
+   },
+   {
+    "code": "EB",
+    "definition_2017_table": "COMPLAINT ASSIGNED TO FACADE INSPECTION SAFETY PROGRAM",
+    "definition_2021_pdf": "Complaint Assigned to Façade Inspection Safety Program"
+   },
+   {
+    "code": "EC",
+    "definition_2017_table": "COMPLAINT ASSIGNED TO STRUCT COMPROMISED BUILDINGS UNIT",
+    "definition_2021_pdf": "Complaint Assigned to Structurally Compromised Buildings Unit"
+   },
+   {
+    "code": "ED",
+    "definition_2017_table": "COMPLAINT ASSIGNED TO RETAINING WALLS UNIT",
+    "definition_2021_pdf": "Complaint Assigned Retaining Wall Unit"
+   },
+   {
+    "code": "EZ",
+    "definition_2017_table": "COMPLAINT ASSIGNED TO DEPT. OF INVESTIGATION",
+    "definition_2021_pdf": "Complaint Assigned to the Department of Investigation (DOI)"
+   },
+   {
+    "code": "F2",
+    "definition_2017_table": "COMPLAINT REFERRED TO NYS DIV. OF HOUSING & COMMUNITY RENEWAL (DHCR)",
+    "definition_2021_pdf": "Complaint Referred to NYS Division of Housing and Community Renewal (DHCR)"
+   },
+   {
+    "code": "F3",
+    "definition_2017_table": "COMPLAINT REFERRED TO DEPARTMENT OF HEALTH",
+    "definition_2021_pdf": "Complaint Referred to NYC Department of Health and Mental Hygiene (DOHMH)"
+   },
+   {
+    "code": "F9",
+    "definition_2017_table": "COMPLAINT REFERRED TO HOUSING AND URBAN DEVELOPMENT - FEDERAL (HUD)",
+    "definition_2021_pdf": "Complaint Referred to Housing and Urban Development (HUD) Federal"
+   },
+   {
+    "code": "G2",
+    "definition_2017_table": "COMPLAINT REFERRED TO DEPARTMENT OF PARKS AND RECREATION",
+    "definition_2021_pdf": "Complaint Referred to Department of Parks and Recreation (DPR)"
+   },
+   {
+    "code": "G4",
+    "definition_2017_table": "COMPLAINT REFERRED TO DEPARTMENT OF CONSUMER AFFAIRS",
+    "definition_2021_pdf": "Complaint Referred to Department of Consumer Affairs (DCA)"
+   },
+   {
+    "code": "G5",
+    "definition_2017_table": "COMPLAINT REFERRED TO NEW YORK POLICE DEPARTMENT",
+    "definition_2021_pdf": "Complaint Referred to New York Police Department (NYPD)"
+   },
+   {
+    "code": "G7",
+    "definition_2017_table": "COMPLAINT REFERRED TO MAYOR'S OFFICE OF SPECIAL ENFORCEMENT",
+    "definition_2021_pdf": "Complaint Referred to Mayor's Office of Special Enforcement (MOSE)"
+   },
+   {
+    "code": "G9",
+    "definition_2017_table": "COMPLAINT REFERRED TO DEPT CITYWIDE ADMINISTRATIVE SERVICES",
+    "definition_2021_pdf": "Complaint Referred to Department of Citywide Administrative Services (DCAS)"
+   },
+   {
+    "code": "H5",
+    "definition_2017_table": "STOP ALL WORK / NO TCAO ISSUED",
+    "definition_2021_pdf": "Stop All Work/No TCAO (Temporary Certificate of Approval and Operation)"
+   },
+   {
+    "code": "K4",
+    "definition_2017_table": "CRANES & DERRICKS - STOP WORK ORDER - NO ASSOCIATED ADDRESS P",
+    "definition_2021_pdf": "Cranes and Derricks – Stop Work Order (SWO) – No Associated Address"
+   },
+   {
+    "code": "MB",
+    "definition_2017_table": "MARCH: FAILURE TO MAINTAIN BLDG/ECB NOV ISSUED",
+    "definition_2021_pdf": "MARCH: Failure to Maintain Building/OATH Notice of Violation Issued"
+   },
+   {
+    "code": "MJ",
+    "definition_2017_table": "MARCH: WORK WITHOUT PERMIT/ECB NOV ISSUED",
+    "definition_2021_pdf": "MARCH: Work Without a Permit/OATH Notice of Violation Issued"
+   },
+   {
+    "code": "P4",
+    "definition_2017_table": "CLOSURE/PADLOCK ORDER RESCINDED",
+    "definition_2021_pdf": "Closure/Padlock Order Issued Rescinded"
+   },
+   {
+    "code": "R5",
+    "definition_2017_table": "INSPECTION - CLASS 1 ECB(S) WRITTEN/ORDER TO CORRECT",
+    "definition_2021_pdf": "Inspection: Class 1 OATH Written/Order to Correct"
+   },
+   {
+    "code": "RW",
+    "definition_2017_table": "IMMEDIATE/EMERGENCY DEC - PREVIOUSLY ISSUED/UNDERWAY",
+    "definition_2021_pdf": "Immediate/Emergency Declaration – Previously Issued/Underway"
+   },
+   {
+    "code": "RY",
+    "definition_2017_table": "FACADE REPORT - PREVIOUSLY ISSUED/UNDERWAY",
+    "definition_2021_pdf": "Façade Report – Previously Issued/Underway"
+   },
+   {
+    "code": "S0",
+    "definition_2017_table": "STALLED: ALL WORK COMPLETED",
+    "definition_2021_pdf": "All Work Completed"
+   },
+   {
+    "code": "V3",
+    "definition_2017_table": "STOP WORK ORDER VIOLATION SERVED FOR NON-COMPLIANT AFTER HOURS WORK",
+    "definition_2021_pdf": "Stop Work Order Violation Served (Non-Compliant After-Hours Work)"
+   },
+   {
+    "code": "W1",
+    "definition_2017_table": "VIOLATION SERVED FOR DISOBEYING VACATE ORDER",
+    "definition_2021_pdf": "Violation Served for Disobeying a Vacate Order"
+   },
+   {
+    "code": "WC",
+    "definition_2017_table": "WEATHER RLT: NOD ISSUED/UNSAFE/RED TAG REMAINS/ENG.EVALUATION REQUIRED",
+    "definition_2021_pdf": "Weather Related: NOD Issued/Unsafe/Red Tag Remains/Engineering Evaluation Required"
+   },
+   {
+    "code": "WD",
+    "definition_2017_table": "WEATHER RLT: NOD ISSUED/RESTRICTED/YLW TAG REMAINS/ENG.EVALUATION REQD",
+    "definition_2021_pdf": "Weather Related: NOD Issued/Restricted/Yellow Tag Remains/Engineering Evaluation Required"
+   },
+   {
+    "code": "WE",
+    "definition_2017_table": "WEATHER RLT: NOD ISSUED/DWNGRD TO YLW/RESTRICTED/ENG.EVALUATION REQUIRED",
+    "definition_2021_pdf": "Weather Related: NOD Issued/ Downgraded to Yellow/Restricted/Engineering Evaluation Required"
+   },
+   {
+    "code": "WH",
+    "definition_2017_table": "WEATHER RLT: GREEN TAG RESCINDED/STRUCTURALLY SOUND/UTILITIES UNRESOLVED",
+    "definition_2021_pdf": "Weather Related: Green Tag Rescinded/Structurally Sound/Utilities Unresolved"
+   },
+   {
+    "code": "WI",
+    "definition_2017_table": "WEATHER RLT: NO ACTION WARRANTED BY DOB/REFER TO OTHER AGENCY/CALL 311",
+    "definition_2021_pdf": "Weather Related: No Action Warranted by DOB/Refer to other Agency/Call 311"
+   },
+   {
+    "code": "Y1",
+    "definition_2017_table": "FULL VACATE ORDER ISSUED F",
+    "definition_2021_pdf": "Full Vacate Order Served"
+   },
+   {
+    "code": "Y3",
+    "definition_2017_table": "PARTIAL VACATE ORDER ISSUED P",
+    "definition_2021_pdf": "Partial Vacate Order Served"
+   }
+  ],
+  "in_both_ecb_renamed_oath": [
+   "A8",
+   "MC",
+   "MD",
+   "ME",
+   "MF",
+   "MG",
+   "MH",
+   "MI",
+   "MK"
+  ],
+  "in_both_same_after_normalization": 105,
+  "in_2021_pdf_not_in_use": [
+   "D4",
+   "D7",
+   "E3",
+   "E4",
+   "E5",
+   "E9",
+   "EC",
+   "ED",
+   "EH",
+   "EZ",
+   "G7",
+   "J4",
+   "K5",
+   "K6",
+   "M2",
+   "P2",
+   "Q1",
+   "Q2",
+   "Q3",
+   "Q5",
+   "R1",
+   "R2",
+   "R3",
+   "R4",
+   "R7",
+   "R8",
+   "RB",
+   "RC",
+   "RD",
+   "RE",
+   "RF",
+   "RJ",
+   "RK",
+   "RL",
+   "RM",
+   "RN",
+   "RX",
+   "RY",
+   "S9",
+   "U6",
+   "WC",
+   "WE",
+   "WH",
+   "WI",
+   "X3",
+   "X7",
+   "X8",
+   "XX"
+  ]
+ },
+ "ecb_adjudication": [
+  {
+   "hearing_status": "IN VIOLATION",
+   "adjudication": "upheld",
+   "rows": 683127
+  },
+  {
+   "hearing_status": "DISMISSED",
+   "adjudication": "dismissed",
+   "rows": 299625
+  },
+  {
+   "hearing_status": "WRITTEN OFF",
+   "adjudication": "other",
+   "rows": 246116
+  },
+  {
+   "hearing_status": "CURED/IN-VIO",
+   "adjudication": "upheld",
+   "rows": 215187
+  },
+  {
+   "hearing_status": "DEFAULT",
+   "adjudication": "upheld_by_default",
+   "rows": 165027
+  },
+  {
+   "hearing_status": "STIPULATION/IN-VIO",
+   "adjudication": "upheld",
+   "rows": 92246
+  },
+  {
+   "hearing_status": "POP/IN-VIO",
+   "adjudication": "upheld",
+   "rows": 57993
+  },
+  {
+   "hearing_status": "ADMIT/IN-VIO",
+   "adjudication": "upheld",
+   "rows": 38205
+  },
+  {
+   "hearing_status": "PENDING",
+   "adjudication": "pending",
+   "rows": 23600
+  },
+  {
+   "hearing_status": "None",
+   "adjudication": "unknown",
+   "rows": 20451
+  }
+ ],
+ "ecb_status_x_hearing": [
+  {
+   "ecb_violation_status": "ACTIVE",
+   "hearing_status": "ADMIT/IN-VIO",
+   "n": 10104
+  },
+  {
+   "ecb_violation_status": "ACTIVE",
+   "hearing_status": "DEFAULT",
+   "n": 59268
+  },
+  {
+   "ecb_violation_status": "ACTIVE",
+   "hearing_status": "IN VIOLATION",
+   "n": 101154
+  },
+  {
+   "ecb_violation_status": "ACTIVE",
+   "hearing_status": "PENDING",
+   "n": 23128
+  },
+  {
+   "ecb_violation_status": "ACTIVE",
+   "hearing_status": "POP/IN-VIO",
+   "n": 14215
+  },
+  {
+   "ecb_violation_status": "ACTIVE",
+   "hearing_status": "STIPULATION/IN-VIO",
+   "n": 14278
+  },
+  {
+   "ecb_violation_status": "ACTIVE",
+   "hearing_status": "WRITTEN OFF",
+   "n": 58959
+  },
+  {
+   "ecb_violation_status": "ACTIVE",
+   "hearing_status": null,
+   "n": 91
+  },
+  {
+   "ecb_violation_status": "RESOLVE",
+   "hearing_status": "ADMIT/IN-VIO",
+   "n": 28101
+  },
+  {
+   "ecb_violation_status": "RESOLVE",
+   "hearing_status": "CURED/IN-VIO",
+   "n": 215187
+  },
+  {
+   "ecb_violation_status": "RESOLVE",
+   "hearing_status": "DEFAULT",
+   "n": 105759
+  },
+  {
+   "ecb_violation_status": "RESOLVE",
+   "hearing_status": "DISMISSED",
+   "n": 299625
+  },
+  {
+   "ecb_violation_status": "RESOLVE",
+   "hearing_status": "IN VIOLATION",
+   "n": 581973
+  },
+  {
+   "ecb_violation_status": "RESOLVE",
+   "hearing_status": "PENDING",
+   "n": 472
+  },
+  {
+   "ecb_violation_status": "RESOLVE",
+   "hearing_status": "POP/IN-VIO",
+   "n": 43778
+  },
+  {
+   "ecb_violation_status": "RESOLVE",
+   "hearing_status": "STIPULATION/IN-VIO",
+   "n": 77968
+  },
+  {
+   "ecb_violation_status": "RESOLVE",
+   "hearing_status": "WRITTEN OFF",
+   "n": 187155
+  },
+  {
+   "ecb_violation_status": "RESOLVE",
+   "hearing_status": null,
+   "n": 20359
+  },
+  {
+   "ecb_violation_status": "Unknown",
+   "hearing_status": "WRITTEN OFF",
+   "n": 2
+  },
+  {
+   "ecb_violation_status": "Unknown",
+   "hearing_status": null,
+   "n": 1
+  }
+ ],
+ "ecb_disagreement": {
+  "active_but_dismissed": 0,
+  "resolve_but_pending": 472
+ },
+ "ecb_certification_status": {
+  "CERTIFICATE ACCEPTED": 1006515,
+  "CERTIFICATE DISAPPROVED": 2692,
+  "CERTIFICATE PENDING": 985,
+  "COMPLIANCE-INSP/DOC": 58221,
+  "CURE ACCEPTED": 215177,
+  "N/A - DISMISSED": 278124,
+  "NO COMPLIANCE RECORDED": 167621,
+  "REINSPECTION SHOWS STILL IN VIOLATION": 34,
+  "REINSPECTION SHOWS VIOLATION GOOD": 657,
+  "None": 111551
+ },
+ "ecb_severity": {
+  "CLASS - 1": 496420,
+  "CLASS - 2": 621813,
+  "CLASS - 3": 55391,
+  "Hazardous": 205452,
+  "Non-Hazardous": 458994,
+  "Unknown": 3507
+ }
+}

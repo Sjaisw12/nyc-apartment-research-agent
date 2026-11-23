@@ -1,0 +1,347 @@
+{
+ "recorded_at": "2026-10-23T04:51:59+00:00",
+ "page_size": 1000,
+ "sanitizing": "- 311 (erm2-nwe9): `unique_key` -> [WITHHELD], as in every committed fixture (the\n  global fixture scan requires it), plus a separate `fixture_row_ref` FX000001...,\n  numbered in fetch order and not derived from the key, so a later replay test can\n  restore distinct keys in memory; the address as typed, street names, cross and\n  intersection streets, landmark, coordinates, location and channel -> [WITHHELD];\n  every timestamp keeps its date and loses its time; unit and floor detail in\n  `resolution_description` is redacted.\n- ECB (6bgk-3dad): respondent name and address fields and `violation_description`\n  -> [WITHHELD] (free text can name people; Amendment 2).\n- DOB complaints (eabe-havv): no personal fields; unchanged.",
+ "addresses": {
+  "west_farms_1134": {
+   "bbl": "2027540005",
+   "resolved_bin": "2006185",
+   "join_scope": "building",
+   "footprints_bins": [
+    "2006185",
+    "2117584"
+   ],
+   "hpd_bins": [
+    "2006185"
+   ],
+   "search_bins": [
+    "2006185",
+    "2117584"
+   ],
+   "candidate_lots": [
+    "2027540005"
+   ],
+   "dob_complaints": {
+    "where": "bin in ('2006185', '2117584')",
+    "source_count": 12,
+    "rows_fetched": 12,
+    "complete": true,
+    "incomplete_reasons": [],
+    "data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+    "truth_headers": [
+     "Thu, 22 Oct 2026 16:12:18 GMT",
+     "Thu, 22 Oct 2026 16:12:18 GMT"
+    ]
+   },
+   "ecb": {
+    "where": "(boro='2' AND block='02754' AND lot in ('0005', '00005')) OR bin='2006185'",
+    "source_count": 3,
+    "rows_fetched": 3,
+    "complete": true,
+    "incomplete_reasons": [],
+    "data_as_of": "Thu, 22 Oct 2026 17:04:42 GMT",
+    "truth_headers": [
+     "Thu, 22 Oct 2026 17:04:42 GMT",
+     "Thu, 22 Oct 2026 17:04:42 GMT"
+    ]
+   },
+   "sr311": {
+    "where": "bbl in ('2027540005') AND created_date >= '2020-01-01T00:00:00' AND agency not in ('HPD', 'DOB')",
+    "source_count": 89,
+    "rows_fetched": 89,
+    "complete": false,
+    "incomplete_reasons": [
+     "dataset_changed_during_retrieval"
+    ],
+    "data_as_of": null,
+    "truth_headers": [
+     "Thu, 22 Oct 2026 01:37:36 GMT",
+     "Fri, 23 Oct 2026 01:38:29 GMT"
+    ]
+   },
+   "sr311_excluded_source_counts": {
+    "counts": {
+     "DOB": 1,
+     "HPD": 309
+    },
+    "truth_header": "Thu, 22 Oct 2026 01:37:36 GMT",
+    "note": "a separate count query; not retrieved rows"
+   }
+  },
+  "west_17_220": {
+   "bbl": "1007660055",
+   "resolved_bin": "1081543",
+   "join_scope": "building",
+   "footprints_bins": [
+    "1081542",
+    "1081543",
+    "1081544",
+    "1081545",
+    "1081546",
+    "1081547",
+    "1081548",
+    "1081549"
+   ],
+   "hpd_bins": [
+    "1081542",
+    "1081543",
+    "1081544",
+    "1081545",
+    "1081546",
+    "1081547",
+    "1081548",
+    "1081549"
+   ],
+   "search_bins": [
+    "1081542",
+    "1081543",
+    "1081544",
+    "1081545",
+    "1081546",
+    "1081547",
+    "1081548",
+    "1081549"
+   ],
+   "candidate_lots": [
+    "1007660055"
+   ],
+   "dob_complaints": {
+    "where": "bin in ('1081542', '1081543', '1081544', '1081545', '1081546', '1081547', '1081548', '1081549')",
+    "source_count": 46,
+    "rows_fetched": 46,
+    "complete": true,
+    "incomplete_reasons": [],
+    "data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+    "truth_headers": [
+     "Thu, 22 Oct 2026 16:12:18 GMT",
+     "Thu, 22 Oct 2026 16:12:18 GMT"
+    ]
+   },
+   "ecb": {
+    "where": "(boro='1' AND block='00766' AND lot in ('0055', '00055')) OR bin='1081543'",
+    "source_count": 4,
+    "rows_fetched": 4,
+    "complete": true,
+    "incomplete_reasons": [],
+    "data_as_of": "Thu, 22 Oct 2026 17:04:42 GMT",
+    "truth_headers": [
+     "Thu, 22 Oct 2026 17:04:42 GMT",
+     "Thu, 22 Oct 2026 17:04:42 GMT"
+    ]
+   },
+   "sr311": {
+    "where": "bbl in ('1007660055') AND created_date >= '2020-01-01T00:00:00' AND agency not in ('HPD', 'DOB')",
+    "source_count": 89,
+    "rows_fetched": 89,
+    "complete": true,
+    "incomplete_reasons": [],
+    "data_as_of": "Fri, 23 Oct 2026 01:38:29 GMT",
+    "truth_headers": [
+     "Fri, 23 Oct 2026 01:38:29 GMT",
+     "Fri, 23 Oct 2026 01:38:29 GMT"
+    ]
+   },
+   "sr311_excluded_source_counts": {
+    "counts": {
+     "DOB": 26,
+     "HPD": 47
+    },
+    "truth_header": "Thu, 22 Oct 2026 01:37:36 GMT",
+    "note": "a separate count query; not retrieved rows"
+   }
+  },
+  "west_farms_1217": {
+   "bbl": "2029930031",
+   "resolved_bin": null,
+   "join_scope": "tax_lot",
+   "footprints_bins": [
+    "2128717"
+   ],
+   "hpd_bins": [
+    "2128717"
+   ],
+   "search_bins": [
+    "2128717"
+   ],
+   "candidate_lots": [
+    "2029930031"
+   ],
+   "dob_complaints": {
+    "status": "unsupported_join",
+    "reason": "tax-lot scope"
+   },
+   "ecb": {
+    "where": "(boro='2' AND block='02993' AND lot in ('0031', '00031'))",
+    "source_count": 12,
+    "rows_fetched": 12,
+    "complete": true,
+    "incomplete_reasons": [],
+    "data_as_of": "Thu, 22 Oct 2026 17:04:42 GMT",
+    "truth_headers": [
+     "Thu, 22 Oct 2026 17:04:42 GMT",
+     "Thu, 22 Oct 2026 17:04:42 GMT"
+    ]
+   },
+   "sr311": {
+    "where": "bbl in ('2029930031') AND created_date >= '2020-01-01T00:00:00' AND agency not in ('HPD', 'DOB')",
+    "source_count": 32,
+    "rows_fetched": 32,
+    "complete": true,
+    "incomplete_reasons": [],
+    "data_as_of": "Fri, 23 Oct 2026 01:38:29 GMT",
+    "truth_headers": [
+     "Fri, 23 Oct 2026 01:38:29 GMT",
+     "Fri, 23 Oct 2026 01:38:29 GMT"
+    ]
+   },
+   "sr311_excluded_source_counts": {
+    "counts": {
+     "DOB": 1,
+     "HPD": 44
+    },
+    "truth_header": "Thu, 22 Oct 2026 01:37:36 GMT",
+    "note": "a separate count query; not retrieved rows"
+   }
+  },
+  "fifth_ave_350": {
+   "bbl": "1008350041",
+   "resolved_bin": "1015862",
+   "join_scope": "building",
+   "footprints_bins": [
+    "1015862"
+   ],
+   "hpd_bins": [
+    "1015862"
+   ],
+   "search_bins": [
+    "1015862"
+   ],
+   "candidate_lots": [
+    "1008350041"
+   ],
+   "dob_complaints": {
+    "where": "bin in ('1015862')",
+    "source_count": 141,
+    "rows_fetched": 141,
+    "complete": true,
+    "incomplete_reasons": [],
+    "data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+    "truth_headers": [
+     "Thu, 22 Oct 2026 16:12:18 GMT",
+     "Thu, 22 Oct 2026 16:12:18 GMT"
+    ]
+   },
+   "ecb": {
+    "where": "(boro='1' AND block='00835' AND lot in ('0041', '00041')) OR bin='1015862'",
+    "source_count": 241,
+    "rows_fetched": 241,
+    "complete": true,
+    "incomplete_reasons": [],
+    "data_as_of": "Thu, 22 Oct 2026 17:04:42 GMT",
+    "truth_headers": [
+     "Thu, 22 Oct 2026 17:04:42 GMT",
+     "Thu, 22 Oct 2026 17:04:42 GMT"
+    ]
+   },
+   "sr311": {
+    "where": "bbl in ('1008350041') AND created_date >= '2020-01-01T00:00:00' AND agency not in ('HPD', 'DOB')",
+    "source_count": 485,
+    "rows_fetched": 485,
+    "complete": true,
+    "incomplete_reasons": [],
+    "data_as_of": "Fri, 23 Oct 2026 01:38:29 GMT",
+    "truth_headers": [
+     "Fri, 23 Oct 2026 01:38:29 GMT",
+     "Fri, 23 Oct 2026 01:38:29 GMT"
+    ]
+   },
+   "sr311_excluded_source_counts": {
+    "counts": {
+     "DOB": 11,
+     "HPD": 8
+    },
+    "truth_header": "Thu, 22 Oct 2026 01:37:36 GMT",
+    "note": "a separate count query; not retrieved rows"
+   }
+  },
+  "acp_1845": {
+   "bbl": "1018227502",
+   "resolved_bin": "1054974",
+   "join_scope": "building",
+   "footprints_bins": [
+    "1054974",
+    "1055002"
+   ],
+   "hpd_bins": [
+    "1054974",
+    "1055002"
+   ],
+   "search_bins": [
+    "1054974",
+    "1055002"
+   ],
+   "candidate_lots": [
+    "1018220001",
+    "1018227502"
+   ],
+   "dob_complaints": {
+    "where": "bin in ('1054974', '1055002')",
+    "source_count": 231,
+    "rows_fetched": 231,
+    "complete": true,
+    "incomplete_reasons": [],
+    "data_as_of": "Thu, 22 Oct 2026 16:12:18 GMT",
+    "truth_headers": [
+     "Thu, 22 Oct 2026 16:12:18 GMT",
+     "Thu, 22 Oct 2026 16:12:18 GMT"
+    ]
+   },
+   "ecb": {
+    "where": "(boro='1' AND block='01822' AND lot in ('0001', '00001')) OR (boro='1' AND block='01822' AND lot in ('7502', '07502')) OR bin='1054974'",
+    "source_count": 52,
+    "rows_fetched": 52,
+    "complete": true,
+    "incomplete_reasons": [],
+    "data_as_of": "Thu, 22 Oct 2026 17:04:42 GMT",
+    "truth_headers": [
+     "Thu, 22 Oct 2026 17:04:42 GMT",
+     "Thu, 22 Oct 2026 17:04:42 GMT"
+    ]
+   },
+   "sr311": {
+    "where": "bbl in ('1018220001', '1018227502') AND created_date >= '2020-01-01T00:00:00' AND agency not in ('HPD', 'DOB')",
+    "source_count": 250,
+    "rows_fetched": 250,
+    "complete": false,
+    "incomplete_reasons": [
+     "dataset_changed_during_retrieval"
+    ],
+    "data_as_of": null,
+    "truth_headers": [
+     "Thu, 22 Oct 2026 01:37:36 GMT",
+     "Fri, 23 Oct 2026 01:38:29 GMT"
+    ]
+   },
+   "sr311_excluded_source_counts": {
+    "counts": {
+     "DOB": 12,
+     "HPD": 173
+    },
+    "truth_header": "Thu, 22 Oct 2026 01:37:36 GMT",
+    "note": "a separate count query; not retrieved rows"
+   }
+  }
+ },
+ "sanitized_rows_per_url": {
+  "https://data.cityofnewyork.us/resource/6bgk-3dad.json?%24where=%28boro%3D%271%27+AND+block%3D%2700766%27+AND+lot+in+%28%270055%27%2C+%2700055%27%29%29+OR+bin%3D%271081543%27&%24order=isn_dob_bis_extract&%24limit=4&%24offset=0": 4,
+  "https://data.cityofnewyork.us/resource/6bgk-3dad.json?%24where=%28boro%3D%271%27+AND+block%3D%2700835%27+AND+lot+in+%28%270041%27%2C+%2700041%27%29%29+OR+bin%3D%271015862%27&%24order=isn_dob_bis_extract&%24limit=241&%24offset=0": 241,
+  "https://data.cityofnewyork.us/resource/6bgk-3dad.json?%24where=%28boro%3D%271%27+AND+block%3D%2701822%27+AND+lot+in+%28%270001%27%2C+%2700001%27%29%29+OR+%28boro%3D%271%27+AND+block%3D%2701822%27+AND+lot+in+%28%277502%27%2C+%2707502%27%29%29+OR+bin%3D%271054974%27&%24order=isn_dob_bis_extract&%24limit=52&%24offset=0": 52,
+  "https://data.cityofnewyork.us/resource/6bgk-3dad.json?%24where=%28boro%3D%272%27+AND+block%3D%2702754%27+AND+lot+in+%28%270005%27%2C+%2700005%27%29%29+OR+bin%3D%272006185%27&%24order=isn_dob_bis_extract&%24limit=3&%24offset=0": 3,
+  "https://data.cityofnewyork.us/resource/6bgk-3dad.json?%24where=%28boro%3D%272%27+AND+block%3D%2702993%27+AND+lot+in+%28%270031%27%2C+%2700031%27%29%29&%24order=isn_dob_bis_extract&%24limit=12&%24offset=0": 12,
+  "https://data.cityofnewyork.us/resource/erm2-nwe9.json?%24where=bbl+in+%28%271007660055%27%29+AND+created_date+%3E%3D+%272020-01-01T00%3A00%3A00%27+AND+agency+not+in+%28%27HPD%27%2C+%27DOB%27%29&%24order=unique_key&%24limit=89&%24offset=0": 89,
+  "https://data.cityofnewyork.us/resource/erm2-nwe9.json?%24where=bbl+in+%28%271008350041%27%29+AND+created_date+%3E%3D+%272020-01-01T00%3A00%3A00%27+AND+agency+not+in+%28%27HPD%27%2C+%27DOB%27%29&%24order=unique_key&%24limit=485&%24offset=0": 485,
+  "https://data.cityofnewyork.us/resource/erm2-nwe9.json?%24where=bbl+in+%28%271018220001%27%2C+%271018227502%27%29+AND+created_date+%3E%3D+%272020-01-01T00%3A00%3A00%27+AND+agency+not+in+%28%27HPD%27%2C+%27DOB%27%29&%24order=unique_key&%24limit=250&%24offset=0": 250,
+  "https://data.cityofnewyork.us/resource/erm2-nwe9.json?%24where=bbl+in+%28%272027540005%27%29+AND+created_date+%3E%3D+%272020-01-01T00%3A00%3A00%27+AND+agency+not+in+%28%27HPD%27%2C+%27DOB%27%29&%24order=unique_key&%24limit=89&%24offset=0": 89,
+  "https://data.cityofnewyork.us/resource/erm2-nwe9.json?%24where=bbl+in+%28%272029930031%27%29+AND+created_date+%3E%3D+%272020-01-01T00%3A00%3A00%27+AND+agency+not+in+%28%27HPD%27%2C+%27DOB%27%29&%24order=unique_key&%24limit=32&%24offset=0": 32
+ }
+}

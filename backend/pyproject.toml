@@ -1,0 +1,46 @@
+[project]
+name = "nyc-apartment-agent"
+version = "0.1.0"
+description = "Evidence-grounded research on NYC apartment buildings from official city records."
+license = "MIT"
+requires-python = ">=3.12"
+dependencies = [
+    "alembic>=1.13",
+    "anthropic>=0.40",
+    "fastapi>=0.115",
+    "httpx>=0.27",
+    "langgraph>=0.2",
+    "psycopg[binary]>=3.2",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.3",
+    "sqlalchemy>=2.0",
+    "uvicorn>=0.30",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.2",
+    "ruff>=0.6",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/nyc_apartment_agent"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "live: calls the real NYC APIs over the network (opt in with RUN_LIVE_TESTS=1)",
+    "db: needs PostgreSQL 16 (TEST_DATABASE_ADMIN_URL; REQUIRE_DB_TESTS=1 makes it mandatory)",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S"]
+ignore = ["S101"]  # assert is fine in tests
